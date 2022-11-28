@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace Ecommerce.DataLayer.DTOs.Baby
 {
-    public class AddBodysuitDTO
+    public class AddBabyItemDTO
     {
         public int Price { get; set; }
 
-        public BodysuitsSizeType BodysuitsSizeType { get; set; }
-
+        public BabySizeType BabySize { get; set; }
+        
         public string Description { get; set; }
         
         public string Title { get; set; }

@@ -1,17 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ecommerce.DataLayer.Models.Baby.Bodysuits
+namespace Ecommerce.DataLayer.Models.Baby
 {
-    public class BodysuitPicture
+    public class BabyPicture
     {
-     
+
         public Guid PictureId { get; set; }
-     
-        public Guid BodysuitId { get; set; }
 
-        public Bodysuit Bodysuit { get; set; }
+        public Guid BabyId { get; set; }
 
+        public BabyClass Baby { get; set; }
         public string FileName { get; set; }
         public string ContentType { get; set; }
         public string FilePath { get; set; }

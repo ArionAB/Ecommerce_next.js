@@ -16,25 +16,17 @@ namespace Ecommerce.Controllers
             _babyService = babyService;
         }
 
-        [HttpPost("/Baby/Bodysuit/Add")]
-
-        public async Task<IActionResult> AddBodySuit([FromForm] AddBodysuitDTO bodysuitsDTO)
+        [HttpPost("/Baby/Add")]
+        
+        public async Task<IActionResult> AddBabyItem([FromForm] AddBabyItemDTO babyitemDTO)
         {
-            var response = await _babyService.Addbodysuit(bodysuitsDTO);
+            var response = await _babyService.AddBabyItem(babyitemDTO);
             if (response.Success) return Ok(response);
 
             else return BadRequest(response);
         }
 
-        [HttpPost("/Baby/Coverall/Add")]
-
-        public async Task<IActionResult> AddCoverall([FromForm] AddCoverallsDTO coverallsDTO)
-        {
-            var response = await _babyService.AddCoverall(coverallsDTO);
-            if (response.Success) return Ok(response);
-
-            else return BadRequest(response);
-        }
+      
 
     }
 }

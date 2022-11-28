@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Ecommerce.DataLayer.DTOs.Baby;
 using Ecommerce.DataLayer.Models.Baby;
-using Ecommerce.DataLayer.Models.Baby.Bodysuits;
 using System.Linq;
 
 namespace Ecommerce.DataLayer.Models.Profiles
@@ -11,8 +10,8 @@ namespace Ecommerce.DataLayer.Models.Profiles
 
         public BabyProfile()
         {
-            CreateMap<AddBodysuitDTO, Bodysuit>()
-                .ForMember(x => x.BodysuitPictures, opt => opt.MapFrom(src => src.Pictures != null ? src.Pictures.Select(x => new BodysuitPicture
+            CreateMap<AddBabyItemDTO, BabyClass>()
+                .ForMember(x => x.BabyPictures, opt => opt.MapFrom(src => src.Pictures != null ? src.Pictures.Select(x => new BabyPicture
                 {
                     FileName = x.FileName,
                     ContentType = x.ContentType,
@@ -32,7 +31,7 @@ namespace Ecommerce.DataLayer.Models.Profiles
              
             //CreateMap<BodysuitsPictureDTO, BodysuitsPicture>().ForMember(x => x.PictureId, opt => opt.MapFrom(src => src.PictureId));
             //CreateMap<AddBodysuitDTO, Bodysuits
-            CreateMap<Bodysuit, BodysuitsDTO>();
+            CreateMap<BabyClass, BabyDTO>();
             
         }
     }

@@ -1,13 +1,14 @@
 ﻿using Ecommerce.DataLayer.Utils;
+using Microsoft.AspNetCore.Http;
 using System;
 
 namespace Ecommerce.DataLayer.DTOs.Baby
 {
-    public class CoverallsDTO
+    public class BabyDTO
     {
-        public Guid ConverallsId { get; set; }
+        public Guid BodysuitsId { get; set; }
 
-        public CoverallsSizeType CoverallsSizeType { get; set; }
+        public BabySizeType BabySize { get; set; }
 
         public int Price { get; set; }
 
@@ -15,6 +16,8 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public string Title { get; set; }
 
-        public CategoryType CategoryType { get; set; }
+      
+
+        
     }
 }

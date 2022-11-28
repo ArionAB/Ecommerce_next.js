@@ -7,16 +7,9 @@
         
     }
 
-    public enum BodysuitsSizeType
-    {
-        ZeroToThree = 1,
-        ThreeToSix = 2,
-        SixToNine = 3,
-        NineToTwelve = 4,
-        TwelveToEighteen= 5,
-    }
 
-    public enum CoverallsSizeType
+
+    public enum BabySizeType
     {
         ZeroToThree = 1,
         ThreeToSix = 2,

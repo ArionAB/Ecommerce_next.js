@@ -3,21 +3,23 @@ using System;
 using Ecommerce.DataLayer.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ecommerce.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221128115334_updatedBaby")]
+    partial class updatedBaby
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.9");
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabyClass", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.Bodysuits.Baby", b =>
                 {
                     b.Property<Guid>("BabyId")
                         .ValueGeneratedOnAdd()
@@ -40,10 +42,10 @@ namespace Ecommerce.Migrations
 
                     b.HasKey("BabyId");
 
-                    b.ToTable("Baby");
+                    b.ToTable("Bodysuits");
                 });
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabyPicture", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.Bodysuits.BabyPicture", b =>
                 {
                     b.Property<Guid>("PictureId")
                         .ValueGeneratedOnAdd()
@@ -65,7 +67,7 @@ namespace Ecommerce.Migrations
 
                     b.HasIndex("BabyId");
 
-                    b.ToTable("BabyPictures");
+                    b.ToTable("BodyPictures");
                 });
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.BaseUser", b =>
@@ -110,9 +112,9 @@ namespace Ecommerce.Migrations
                     b.HasDiscriminator().HasValue(1);
                 });
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabyPicture", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.Bodysuits.BabyPicture", b =>
                 {
-                    b.HasOne("Ecommerce.DataLayer.Models.Baby.BabyClass", "Baby")
+                    b.HasOne("Ecommerce.DataLayer.Models.Baby.Bodysuits.Baby", "Baby")
                         .WithMany("BabyPictures")
                         .HasForeignKey("BabyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -121,7 +123,7 @@ namespace Ecommerce.Migrations
                     b.Navigation("Baby");
                 });
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabyClass", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.Bodysuits.Baby", b =>
                 {
                     b.Navigation("BabyPictures");
                 });

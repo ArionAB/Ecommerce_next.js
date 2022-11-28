@@ -7,8 +7,8 @@ namespace Ecommerce.ServiceLayer.BabyService
 {
     public interface IBabyService
     {
-        Task<ServiceResponse<Object>> Addbodysuit(AddBodysuitDTO bodysuitsDTO);
+        Task<ServiceResponse<Object>> AddBabyItem(AddBabyItemDTO babyitemDTO);
 
-        Task<ServiceResponse<Object>> AddCoverall(AddCoverallsDTO coverallsDTO);
+       
     }
 }

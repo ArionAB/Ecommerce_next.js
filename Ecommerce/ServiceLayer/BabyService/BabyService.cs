@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Ecommerce.DataLayer.DbContexts;
 using Ecommerce.DataLayer.DTOs.Baby;
-using Ecommerce.DataLayer.Models.Baby.Bodysuits;
+using Ecommerce.DataLayer.Models.Baby;
 using Ecommerce.DataLayer.Utils;
 using Ecommerce.ServiceLayer.FileService;
 using System;
@@ -23,18 +23,18 @@ namespace Ecommerce.ServiceLayer.BabyService
             _fileService = fileService;
         }
 
-        public async Task<ServiceResponse<Object>> Addbodysuit(AddBodysuitDTO bodysuitDTO)
+        public async Task<ServiceResponse<Object>> AddBabyItem(AddBabyItemDTO babyItemDTO)
         {
            
             try
             {
-                var bodysuit = _mapper.Map<Bodysuit>(bodysuitDTO);
-                await _context.Bodysuits.AddAsync(bodysuit);
+                var baby = _mapper.Map<BabyClass>(babyItemDTO);
+                await _context.Baby.AddAsync(baby);
 
-                if (bodysuitDTO.Pictures != null && bodysuitDTO.Pictures.Count > 0)
+                if (babyItemDTO.Pictures != null && babyItemDTO.Pictures.Count > 0)
                 {
 
-                    var paths = await _fileService.UploadPictures(bodysuitDTO.Pictures, FilePaths.GetAdditionalFilesPaths(bodysuit.BodysuitsId));
+                    var paths = await _fileService.UploadPictures(babyItemDTO.Pictures, FilePaths.GetAdditionalFilesPaths(baby.BabyId));
 
                    if (!paths.Success)
                     {
@@ -42,9 +42,9 @@ namespace Ecommerce.ServiceLayer.BabyService
                     }
                    
                     //foreach (var file in bodysuit.Pictures)
-                        foreach (var file in bodysuit.BodysuitPictures)
+                        foreach (var file in baby.BabyPictures)
                         {
-                        file.FilePath = paths.Response[bodysuit.BodysuitPictures.ToList().IndexOf(file)];
+                        file.FilePath = paths.Response[baby.BabyPictures.ToList().IndexOf(file)];
                     }
 
                   
@@ -63,44 +63,6 @@ namespace Ecommerce.ServiceLayer.BabyService
            
         }
 
-        public async Task<ServiceResponse<Object>> AddCoverall(AddCoverallsDTO coverallDTO)
-        {
-            
-            try
-            {
-                var coverall = _mapper.Map<Bodysuit>(coverallDTO);
-                await _context.Bodysuits.AddAsync(coverall);
-
-                if (coverallDTO.Pictures != null && coverallDTO.Pictures.Count > 0)
-                {
-
-                    var paths = await _fileService.UploadPictures(coverallDTO.Pictures, FilePaths.GetAdditionalFilesPaths(coverall.BodysuitsId));
-
-                    if (!paths.Success)
-                    {
-                        return new ServiceResponse<Object> { Response = (string)null, Success = false, Message = Messages.Message_UploadPictureSuccess };
-                    }
-
-                    //foreach (var file in bodysuit.Pictures)
-                    foreach (var file in coverall.BodysuitPictures)
-                    {
-                        file.FilePath = paths.Response[coverall.BodysuitPictures.ToList().IndexOf(file)];
-                    }
-
-
-                }
-
-                //save bodysuit
-                _context.SaveChanges();
-
-                return new ServiceResponse<Object> { Response = (string)null, Success = true, Message = Messages.Message_UploadPictureSuccess };
-
-            }
-            catch (Exception e)
-            {
-                return new ServiceResponse<Object> { Response = (string)null, Success = false, Message = Messages.Message_UploadPictureError };
-            }
-
-        }
+       
     }
 }
