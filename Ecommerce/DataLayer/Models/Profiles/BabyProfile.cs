@@ -17,22 +17,14 @@ namespace Ecommerce.DataLayer.Models.Profiles
                     ContentType = x.ContentType,
 
                 }).ToList() : null));
-                //.ForMember(x => x.BodysuitsPicturesList, opt => opt.MapFrom(src => src.Pictures));
-                //.ForMember(x => x.BodysuitsPicturesList, opt => opt.MapFrom(src => src.Pictures != null ? new BodysuitsPicturesListDTO
-                //{
-                //    //BodysuitsPicturesId = (src as BodysuitsPicturesListDTO).BodysuitsPicturesId,
-                //   BodysuitsPicturesList =  src.Pictures.
-                //    {
-                //        FileName = src.Pictures.FileName,
-                //        ContentType = src.Pictures.ContentType,
-                //        FilePath = src.Pictures.FilePath
-                //    }
-                //} : null);
-             
-            //CreateMap<BodysuitsPictureDTO, BodysuitsPicture>().ForMember(x => x.PictureId, opt => opt.MapFrom(src => src.PictureId));
-            //CreateMap<AddBodysuitDTO, Bodysuits
-            CreateMap<BabyClass, BabyDTO>();
             
+            CreateMap<BabyClass, BabyDTO>();
+            CreateMap<UpdateBabyItemDTO, BabyClass>().ForPath(x => x.BabyPictures, opt => opt.MapFrom(src => src.NewAdditionalPictures.Select(x => new BabyPicture
+            {
+                FileName = x.FileName,
+                ContentType = x.ContentType,
+            }).ToList()));
+
         }
     }
 }

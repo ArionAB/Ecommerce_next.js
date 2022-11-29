@@ -45,5 +45,14 @@ namespace Ecommerce.ServiceLayer.Utils
         {
             return Guid.NewGuid().ToString("N") + Path.GetExtension(fileName);
         }
+
+        public static bool GuidIsNullOrEmpty(Guid guid)
+        {
+            if (guid == null || guid == Guid.Empty)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

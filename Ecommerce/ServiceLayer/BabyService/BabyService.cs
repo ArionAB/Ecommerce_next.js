@@ -4,7 +4,10 @@ using Ecommerce.DataLayer.DTOs.Baby;
 using Ecommerce.DataLayer.Models.Baby;
 using Ecommerce.DataLayer.Utils;
 using Ecommerce.ServiceLayer.FileService;
+using Ecommerce.ServiceLayer.Utils;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -63,6 +66,80 @@ namespace Ecommerce.ServiceLayer.BabyService
            
         }
 
-       
+        public async Task<ServiceResponse<List<BabyDTO>>> GetBabyItems()
+        {
+            try
+            {
+                var babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby).ToList();
+
+                return new ServiceResponse<List<BabyDTO>> { Response = babyItems, Success = true, Message = Messages.Message_GetBabyItemsSuccess };
+            }
+            catch (Exception e)
+            {
+                return new ServiceResponse<List<BabyDTO>> { Response = null, Success = false, Message = Messages.Message_GetBabyItemsError };
+            }
+        }
+
+        public async Task<ServiceResponse<BabyDTO>> GetBabyItem(Guid id)
+        {
+            try
+            {
+                if (GenericFunctions.GuidIsNullOrEmpty(id))
+                {
+                    return new ServiceResponse<BabyDTO> { Response = null, Success = false, Message = Messages.Message_GetBabyItemIdError };
+                }
+
+                var babyItem = _mapper.ProjectTo<BabyDTO> (_context.Baby).FirstOrDefault(b => b.BabyId == id);
+
+                return new ServiceResponse<BabyDTO> { Response = babyItem, Success = true, Message = Messages.Message_GetBabyItemSuccess };
+            }
+            catch (Exception e)
+            {
+                return new ServiceResponse<BabyDTO> { Response = null, Success = false, Message = Messages.Message_GetBabyItemError };
+            }
+        }
+
+        public async Task<ServiceResponse<BabyDTO>> UpdateBabyItem(UpdateBabyItemDTO babyitemDTO)
+        {
+            try
+            {
+                var babyItem = _context.Baby.FirstOrDefault(x => x.BabyId == babyitemDTO.BabyId);
+                //daca foloseam si include el imi adauga si pathurile existente si imi crapa la index
+
+                var simpleBabyItem = _mapper.Map<BabyDTO>(babyItem);
+
+                _mapper.Map(babyitemDTO, babyItem);
+                if (babyitemDTO.NewAdditionalPictures != null && babyitemDTO.NewAdditionalPictures.Count > 0)
+                {
+                    var paths = await _fileService.UploadPictures(babyitemDTO.NewAdditionalPictures, FilePaths.GetAdditionalFilesPaths(babyItem.BabyId));
+                    foreach (var file in (babyItem.BabyPictures))
+                    {
+                        file.FilePath = paths.Response[babyItem.BabyPictures.ToList().IndexOf(file)];
+                    }
+                }
+
+                if (babyitemDTO.DeletedAdditionalPictures != null && babyitemDTO.DeletedAdditionalPictures.Count > 0)
+                    {
+                    var pictures = _context.BabyPictures.Where(x => babyitemDTO.DeletedAdditionalPictures.Contains(x.PictureId)).ToList();
+                    _context.BabyPictures.RemoveRange(pictures);
+                    _fileService.DeleteAdditionalPictures(pictures.Select(x => x.FilePath).ToList());
+
+                }
+
+                _context.Baby.Update(babyItem);
+
+                _context.SaveChanges();
+
+                var result = _mapper.Map<BabyDTO>(babyItem);
+
+                return new ServiceResponse<BabyDTO> { Response = result, Success = true, Message = Messages.Message_UpdateBabyItemSuccess };
+
+            }
+            catch (Exception e)
+            {
+                return new ServiceResponse<BabyDTO> { Response = null, Success = false, Message = Messages.Message_UpdateBabyItemError };
+            }
+        }
+
     }
 }

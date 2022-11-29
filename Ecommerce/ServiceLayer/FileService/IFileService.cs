@@ -9,5 +9,7 @@ namespace Ecommerce.ServiceLayer.FileService
     public interface IFileService
     {
         Task<ServiceResponse<List<string>>> UploadPictures(List<IFormFile> pictures, string picturesPath);
+
+        Task<ServiceResponse<Object>> DeleteAdditionalPictures(List<string> additionalPicturesPaths);
     }
 }

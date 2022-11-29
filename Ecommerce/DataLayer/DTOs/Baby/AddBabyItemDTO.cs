@@ -1,11 +1,13 @@
 ﻿using Ecommerce.DataLayer.Utils;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
 namespace Ecommerce.DataLayer.DTOs.Baby
 {
     public class AddBabyItemDTO
     {
+      
         public int Price { get; set; }
 
         public BabySizeType BabySize { get; set; }

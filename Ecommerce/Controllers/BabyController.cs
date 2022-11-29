@@ -1,6 +1,7 @@
 ﻿using Ecommerce.DataLayer.DTOs.Baby;
 using Ecommerce.ServiceLayer.BabyService;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Ecommerce.Controllers
@@ -26,7 +27,36 @@ namespace Ecommerce.Controllers
             else return BadRequest(response);
         }
 
-      
+        [HttpGet("/Baby/GetItems")]
+        
+        public async Task<IActionResult> GetBabyItems()
+        {
+            var result = await _babyService.GetBabyItems();
+            if (result.Success) return Ok(result);
+
+            else return BadRequest(result);
+        }
+
+        [HttpGet("/Baby/GetItem")]
+
+        public async Task<IActionResult> GetBabyItem([FromQuery] Guid id)
+        {
+            var result = await _babyService.GetBabyItem(id);
+            if (result.Success) return Ok(result);
+
+            else return BadRequest(result);
+        }
+
+        [HttpPost("/Baby/Update")]
+        
+        public async Task<IActionResult> UpdateBabyItem([FromForm]UpdateBabyItemDTO babyitemDTO)
+
+        {
+            var result = await _babyService.UpdateBabyItem(babyitemDTO);
+            if (result.Success) return Ok(result);
+
+            else return BadRequest(result);
+        }
 
     }
 }

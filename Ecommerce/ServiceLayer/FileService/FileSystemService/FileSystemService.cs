@@ -76,6 +76,24 @@ namespace Ecommerce.ServiceLayer.FileService.FileSystemService
             }
         }
 
+        public async Task<ServiceResponse<object>> DeleteAdditionalPictures(List<string> additionalPicturesPaths)
+        {
+            try
+            {
+                foreach(var path in additionalPicturesPaths)
+                {
+                    var deletePath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", path);
+
+                    File.Delete(deletePath);
+                }
+                return new ServiceResponse<object> { Response = null, Success = true };
+            }
+            catch (Exception e)
+            {
+                return new ServiceResponse<object> { Response = null, Success = false };
+            }
+        }
+
     }
     
     
