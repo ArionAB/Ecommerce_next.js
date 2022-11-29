@@ -10,7 +10,8 @@
 
 
     public enum BabySizeType
-    {
+    {   
+        All = 0,
         ZeroToThree = 1,
         ThreeToSix = 2,
         SixToNine = 3,
@@ -21,9 +22,13 @@
 
     public enum CategoryType
     {
-        Bodysuit = 1,
-        Coverall = 2
+        All = 1,
+        Bodysuit = 2,
+        Coverall = 3
+            
     }
+
+  
 
 
     

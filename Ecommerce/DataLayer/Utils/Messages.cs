@@ -27,5 +27,8 @@
         public static Message Message_UpdateBabyItemSuccess = new Message { Text = "Baby Item a fost actualizat!", MessageType = MessageType.Success };
         public static Message Message_UpdateBabyItemError = new Message { Text = "Baby Item actualizare eroare!", MessageType = MessageType.Error };
 
+        public static Message Message_GetPaginatedBabyItemsError = new Message { Text = "Eroare filtrare baby items", MessageType = MessageType.Error };
+
+
     }
 }

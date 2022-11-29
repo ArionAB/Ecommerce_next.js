@@ -16,6 +16,8 @@ namespace Ecommerce.ServiceLayer.BabyService
 
         Task<ServiceResponse<BabyDTO>> UpdateBabyItem(UpdateBabyItemDTO babyitemDTO);
 
+        Task<ServiceResponse<PaginatedBabyItemsDTO>> GetPaginatedBabyItems(BabyFiltersDTO filters);
+
 
 
 

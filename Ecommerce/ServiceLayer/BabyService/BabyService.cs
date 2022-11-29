@@ -28,7 +28,7 @@ namespace Ecommerce.ServiceLayer.BabyService
 
         public async Task<ServiceResponse<Object>> AddBabyItem(AddBabyItemDTO babyItemDTO)
         {
-           
+
             try
             {
                 var baby = _mapper.Map<BabyClass>(babyItemDTO);
@@ -39,22 +39,22 @@ namespace Ecommerce.ServiceLayer.BabyService
 
                     var paths = await _fileService.UploadPictures(babyItemDTO.Pictures, FilePaths.GetAdditionalFilesPaths(baby.BabyId));
 
-                   if (!paths.Success)
+                    if (!paths.Success)
                     {
                         return new ServiceResponse<Object> { Response = (string)null, Success = false, Message = Messages.Message_UploadPictureSuccess };
                     }
-                   
+
                     //foreach (var file in bodysuit.Pictures)
-                        foreach (var file in baby.BabyPictures)
-                        {
+                    foreach (var file in baby.BabyPictures)
+                    {
                         file.FilePath = paths.Response[baby.BabyPictures.ToList().IndexOf(file)];
                     }
 
-                  
+
                 }
-                
-               //save bodysuit
-                 _context.SaveChanges();
+
+                //save bodysuit
+                _context.SaveChanges();
 
                 return new ServiceResponse<Object> { Response = (string)null, Success = true, Message = Messages.Message_UploadPictureSuccess };
 
@@ -63,7 +63,7 @@ namespace Ecommerce.ServiceLayer.BabyService
             {
                 return new ServiceResponse<Object> { Response = (string)null, Success = false, Message = Messages.Message_UploadPictureError };
             }
-           
+
         }
 
         public async Task<ServiceResponse<List<BabyDTO>>> GetBabyItems()
@@ -89,7 +89,7 @@ namespace Ecommerce.ServiceLayer.BabyService
                     return new ServiceResponse<BabyDTO> { Response = null, Success = false, Message = Messages.Message_GetBabyItemIdError };
                 }
 
-                var babyItem = _mapper.ProjectTo<BabyDTO> (_context.Baby).FirstOrDefault(b => b.BabyId == id);
+                var babyItem = _mapper.ProjectTo<BabyDTO>(_context.Baby).FirstOrDefault(b => b.BabyId == id);
 
                 return new ServiceResponse<BabyDTO> { Response = babyItem, Success = true, Message = Messages.Message_GetBabyItemSuccess };
             }
@@ -119,7 +119,7 @@ namespace Ecommerce.ServiceLayer.BabyService
                 }
 
                 if (babyitemDTO.DeletedAdditionalPictures != null && babyitemDTO.DeletedAdditionalPictures.Count > 0)
-                    {
+                {
                     var pictures = _context.BabyPictures.Where(x => babyitemDTO.DeletedAdditionalPictures.Contains(x.PictureId)).ToList();
                     _context.BabyPictures.RemoveRange(pictures);
                     _fileService.DeleteAdditionalPictures(pictures.Select(x => x.FilePath).ToList());
@@ -141,5 +141,87 @@ namespace Ecommerce.ServiceLayer.BabyService
             }
         }
 
+        private List<BabyDTO> getBabyItemsFiltered(BabyFiltersDTO filter)
+        {
+            //var babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby).ToList();
+            var babyItems = new List<BabyDTO>();
+
+            switch (filter.Category)
+            {
+                case CategoryType.All:
+                    babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby
+                        .Where(x => filter.MinPrice <= x.Price)
+                        .Where(x => filter.MaxPrice >= x.Price)
+                        .Where(x => filter.BabySize != 0 ? x.BabySize == filter.BabySize : true)
+                        .Take(filter.PageSize)).ToList();
+
+                    return babyItems;
+
+                case CategoryType.Bodysuit:
+                    babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby.Where(x => x.CategoryType == CategoryType.Bodysuit)
+                       .Where(x => filter.MinPrice <= x.Price)
+                        .Where(x => filter.MaxPrice >= x.Price)
+                        .Where(x => filter.BabySize != 0 ? x.BabySize == filter.BabySize : true)
+                        .Take(filter.PageSize)).ToList();
+
+                    return babyItems;
+
+                case CategoryType.Coverall:
+                    babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby.Where(x => x.CategoryType == CategoryType.Coverall)
+                     .Where(x => filter.MinPrice <= x.Price)
+                        .Where(x => filter.MaxPrice >= x.Price)
+                        .Where(x => filter.BabySize != 0 ? x.BabySize == filter.BabySize : true)
+                        .Take(filter.PageSize)).ToList();
+
+
+                    return babyItems;
+           
+            }
+
+            return babyItems;
+           
+            
+        }
+
+        public async Task<ServiceResponse<PaginatedBabyItemsDTO>> GetPaginatedBabyItems(BabyFiltersDTO filters)
+        {
+            try
+            {
+                var babyItems = getBabyItemsFiltered(filters);
+
+                var totalRecords = _context.Baby
+                     //.Where(x => filters.Category != 0 ? x.CategoryType == filters.Category : true)
+                     //.Where(x => filters.BabySize != 0 ? x.BabySize == filters.BabySize : true)
+                     //.Where(x => filters.MinPrice >= x.Price ? true : false)
+                     //.Where(x => filters.MaxPrice <= x.Price ? true : false).Count();
+                     .Where(x => filters.MinPrice <= x.Price)
+                        .Where(x => filters.MaxPrice >= x.Price)
+                        .Where(x => filters.BabySize != 0 ? x.BabySize == filters.BabySize : true).Count();
+
+                var totalPages = totalRecords / filters.PageSize;
+                if (totalRecords == filters.PageSize) totalPages--;
+
+                var response = new PaginatedBabyItemsDTO
+                {
+                    BabyItems = babyItems,
+                    TotalPages = totalPages,
+                    CurrentPageNumber = filters.PageNumber,
+                };
+
+                return new ServiceResponse<PaginatedBabyItemsDTO> { Response = response, Success = true };
+            }
+            catch(Exception e)
+            {
+                return new ServiceResponse<PaginatedBabyItemsDTO> { Response = null, Success = false, Message = Messages.Message_GetPaginatedBabyItemsError };
+            }
+        }
+
+
+
+
+
+
+
     }
+    
 }

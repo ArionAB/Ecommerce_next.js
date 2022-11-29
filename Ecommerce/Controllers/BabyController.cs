@@ -58,5 +58,16 @@ namespace Ecommerce.Controllers
             else return BadRequest(result);
         }
 
+        [HttpGet("/Baby/GetPaginatedItems")]
+
+        public async Task<IActionResult> GetPaginatedBabyItems([FromQuery] BabyFiltersDTO filters)
+        {
+            var result = await _babyService.GetPaginatedBabyItems(filters);
+            if (result.Success) return Ok(result);
+
+            else return BadRequest(result);
+        }
     }
+
+    
 }
