@@ -143,7 +143,7 @@ namespace Ecommerce.ServiceLayer.BabyService
 
         private List<BabyDTO> getBabyItemsFiltered(BabyFiltersDTO filter)
         {
-            //var babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby).ToList();
+            
             var babyItems = new List<BabyDTO>();
 
             switch (filter.Category)
@@ -152,25 +152,28 @@ namespace Ecommerce.ServiceLayer.BabyService
                     babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby
                         .Where(x => filter.MinPrice <= x.Price)
                         .Where(x => filter.MaxPrice >= x.Price)
-                        .Where(x => filter.BabySize != 0 ? x.BabySize == filter.BabySize : true)
+                        .Where(x => filter.BabySize == null || filter.BabySize.Count == 0 || filter.BabySize.Contains(x.BabySize))
+                        //.Where(x => filter.BabySize != 0 ? x.BabySize == filter.BabySize : true)
                         .Take(filter.PageSize)).ToList();
+
+
 
                     return babyItems;
 
                 case CategoryType.Bodysuit:
                     babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby.Where(x => x.CategoryType == CategoryType.Bodysuit)
-                       .Where(x => filter.MinPrice <= x.Price)
+                        .Where(x => filter.MinPrice <= x.Price)
                         .Where(x => filter.MaxPrice >= x.Price)
-                        .Where(x => filter.BabySize != 0 ? x.BabySize == filter.BabySize : true)
+                        .Where(x => filter.BabySize == null || filter.BabySize.Count == 0 || filter.BabySize.Contains(x.BabySize))
                         .Take(filter.PageSize)).ToList();
 
                     return babyItems;
 
                 case CategoryType.Coverall:
                     babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby.Where(x => x.CategoryType == CategoryType.Coverall)
-                     .Where(x => filter.MinPrice <= x.Price)
+                        .Where(x => filter.MinPrice <= x.Price)
                         .Where(x => filter.MaxPrice >= x.Price)
-                        .Where(x => filter.BabySize != 0 ? x.BabySize == filter.BabySize : true)
+                        .Where(x => filter.BabySize == null || filter.BabySize.Count == 0 || filter.BabySize.Contains(x.BabySize))
                         .Take(filter.PageSize)).ToList();
 
 
@@ -190,13 +193,10 @@ namespace Ecommerce.ServiceLayer.BabyService
                 var babyItems = getBabyItemsFiltered(filters);
 
                 var totalRecords = _context.Baby
-                     //.Where(x => filters.Category != 0 ? x.CategoryType == filters.Category : true)
-                     //.Where(x => filters.BabySize != 0 ? x.BabySize == filters.BabySize : true)
-                     //.Where(x => filters.MinPrice >= x.Price ? true : false)
-                     //.Where(x => filters.MaxPrice <= x.Price ? true : false).Count();
+                    
                      .Where(x => filters.MinPrice <= x.Price)
-                        .Where(x => filters.MaxPrice >= x.Price)
-                        .Where(x => filters.BabySize != 0 ? x.BabySize == filters.BabySize : true).Count();
+                     .Where(x => filters.MaxPrice >= x.Price)
+                     .Where(x => filters.BabySize == null || filters.BabySize.Count == 0 || filters.BabySize.Contains(x.BabySize)).Count();
 
                 var totalPages = totalRecords / filters.PageSize;
                 if (totalRecords == filters.PageSize) totalPages--;

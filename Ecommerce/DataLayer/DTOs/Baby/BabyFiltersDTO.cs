@@ -1,4 +1,5 @@
 ﻿using Ecommerce.DataLayer.Utils;
+using System.Collections.Generic;
 
 namespace Ecommerce.DataLayer.DTOs.Baby
 {
@@ -8,7 +9,7 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public int PageSize { get; set; }
 
-        public BabySizeType BabySize { get; set; }
+        public List<BabySizeType> BabySize { get; set; }
 
         public int MinPrice { get; set; }
 
