@@ -20,6 +20,8 @@ namespace Ecommerce.DataLayer.DbContexts
         public DbSet<BabyClass> Baby { get; set; }
         public DbSet<BabyPicture> BabyPictures { get; set; }
 
+        public DbSet<BabySize> BabySizes { get; set; }
+
 
        
 
@@ -31,17 +33,22 @@ namespace Ecommerce.DataLayer.DbContexts
             modelBuilder.Entity<BaseUser>().HasDiscriminator(x => x.UserType)
                 .HasValue<AdminUser>(UserType.Admin)
                 .HasValue<RegularUser>(UserType.User);
-
+            
 
             modelBuilder.Entity<BabyPicture>().HasKey(x => x.PictureId);
-            
+
+            modelBuilder.Entity<BabySize>().HasKey(x => x.BabySizeId);
+
             modelBuilder.Entity<BabyClass>().HasKey(x => x.BabyId);
             
             modelBuilder.Entity<BabyClass>().HasMany(x => x.BabyPictures).WithOne(x => x.Baby).HasForeignKey(x => x.BabyId);
+            modelBuilder.Entity<BabyClass>().HasMany(x => x.BabySizes).WithOne(x => x.Baby).HasForeignKey(x => x.BabyId);
 
-            
 
-            
+
+
+
+
 
 
 

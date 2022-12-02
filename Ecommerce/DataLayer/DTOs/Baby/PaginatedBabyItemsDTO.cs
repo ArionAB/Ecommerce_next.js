@@ -9,6 +9,8 @@ namespace Ecommerce.DataLayer.DTOs.Baby
         public int TotalPages { get; set; }
         
         public int CurrentPageNumber { get; set; }
+
+        public int TotalItems { get; set; }
         
     }
 }

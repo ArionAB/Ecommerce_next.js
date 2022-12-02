@@ -8,7 +8,7 @@ namespace Ecommerce.DataLayer.DTOs.Baby
     {
         public Guid BabyId { get; set; }
 
-        public BabySizeType BabySize { get; set; }
+        //public BabySizeType BabySize { get; set; }
 
         public int Price { get; set; }
 
@@ -17,6 +17,12 @@ namespace Ecommerce.DataLayer.DTOs.Baby
         public string Title { get; set; }
 
         public CategoryType CategoryType { get; set; }
+
+        //public int Quantity { get; set; }
+
+        public int TotalItems { get; set; }
+
+        public int TotalSize { get; set; }
 
 
 

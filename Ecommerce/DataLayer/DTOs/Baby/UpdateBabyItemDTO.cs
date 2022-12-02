@@ -23,6 +23,8 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public List<Guid> DeletedAdditionalPictures { get; set; }
 
+        public int Quantity { get; set; }
+
 
     }
 }

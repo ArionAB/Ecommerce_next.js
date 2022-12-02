@@ -8,12 +8,7 @@ namespace Ecommerce.DataLayer.Models.Baby
     {
         public Guid BabyId { get; set; }
 
-
-
-
-
-        public BabySizeType BabySize { get; set; }
-
+        //public BabySizeType BabySize { get; set; }
 
         public int Price { get; set; }
 
@@ -23,7 +18,16 @@ namespace Ecommerce.DataLayer.Models.Baby
 
         public ICollection<BabyPicture> BabyPictures { get; set; }
 
+        public ICollection<BabySize> BabySizes { get; set; }
+
         public CategoryType CategoryType { get; set; }
+
+        //public int Quantity { get; set; }
+
+
+
+
+
 
     }
 }
