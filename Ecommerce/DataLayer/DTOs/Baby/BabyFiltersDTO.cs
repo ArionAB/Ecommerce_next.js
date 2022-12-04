@@ -9,7 +9,9 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public int PageSize { get; set; }
 
-        public List<BabySizeType> BabySize { get; set; }
+        public List<int> BabySize { get; set; }
+
+        //public int BabySize { get; set; }
 
         public int MinPrice { get; set; }
 

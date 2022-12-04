@@ -1,6 +1,7 @@
 ﻿using Ecommerce.DataLayer.Utils;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 
 namespace Ecommerce.DataLayer.DTOs.Baby
 {
@@ -24,6 +25,10 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public int TotalSize { get; set; }
 
+        public List<BabySizeDTO> BabySizes  { get; set; }
+        public List<BabyPictureDTO> BabyPictures { get; set; }
+
+        
 
 
 

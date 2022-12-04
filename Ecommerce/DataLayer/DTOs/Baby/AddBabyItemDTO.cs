@@ -20,6 +20,6 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public CategoryType CategoryType  { get; set; }
 
-        public int Quantity { get; set; }
+        //public int Quantity { get; set; }
     }
 }

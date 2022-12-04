@@ -42,7 +42,11 @@ namespace Ecommerce
             });
          
             services.AddAutoMapper(typeof(Startup));
+
+
+
             services.AddCors();
+         
             services.AddControllers();
        
             services.AddScoped<IUserService, UserService>();
@@ -62,6 +66,13 @@ namespace Ecommerce
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ecommerce v1"));
             }
+
+            app.UseCors(x => x
+            .SetIsOriginAllowed(origin => true)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            .WithExposedHeaders("Content-Disposition"));
 
             app.UseHttpsRedirection();
 

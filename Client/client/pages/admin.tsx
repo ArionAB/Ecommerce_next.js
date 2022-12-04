@@ -10,6 +10,8 @@ import {
 import React, { useState } from "react";
 import { AddItemForm } from "../src/Components/admin-page/AddItemForm";
 import { TabsPanel } from "../src/Components/admin-page/Tabs";
+import { BabySizeItems } from "../src/Components/selectItems/BabySizeItems";
+import { CategoryItems } from "../src/Components/selectItems/CategoryItems";
 
 const Admin = () => {
   const [currentTab, setCurrentTab] = useState<number>(0);
@@ -32,8 +34,11 @@ const Admin = () => {
             label="Item"
             onChange={handleChange}
           >
-            <MenuItem value={2}>Bodysuit</MenuItem>
-            <MenuItem value={3}>Coverall</MenuItem>
+            {CategoryItems.map((item) => (
+              <MenuItem key={item.value} value={item.value}>
+                {item.label}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       )}

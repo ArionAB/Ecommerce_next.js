@@ -23,12 +23,29 @@ namespace Ecommerce.DataLayer.Models.Profiles
                  Quantity = x.Quantity
              }).ToList() : null));
 
-            CreateMap<BabyClass, BabyDTO>();
-            CreateMap<UpdateBabyItemDTO, BabyClass>().ForPath(x => x.BabyPictures, opt => opt.MapFrom(src => src.NewAdditionalPictures.Select(x => new BabyPicture
+            CreateMap<BabyClass, BabyDTO>().ForMember(x => x.BabySizes, opt => opt.MapFrom(src => src.BabySizes.Select(x => new BabySizeDTO
             {
-                FileName = x.FileName,
-                ContentType = x.ContentType,
-            }).ToList()));
+                BabySizeId = x.BabySizeId,
+                Size = x.Size,
+                Quantity = x.Quantity
+            }).ToList()))
+                .ForMember(x => x.TotalItems, opt => opt.MapFrom(src => src.BabySizes.Sum(x => x.Quantity)))
+                .ForMember(x => x.TotalSize, opt => opt.MapFrom(src => src.BabySizes.Count()))
+                .ForMember(x => x.BabyPictures, opt => opt.MapFrom(src => src.BabyPictures.Select(x => new BabyPictureDTO
+                {
+                    PictureId = x.PictureId,
+                    FileName = x.FileName,
+                    ContentType = x.ContentType,
+                    FilePath = x.FilePath
+                }).ToList()));
+
+            //CreateMap<BabySize, BabyDTO>().ForMember(x => x.BabySizes, opt => opt.MapFrom(src => src.Size).FirstOrDefault())
+            //.ForMember(x => x.BabySizes, opt => opt.MapFrom(src => src.BabySizes.Select(x => x.Size).FirstOrDefault()));
+
+            CreateMap<BabySize, BabyDTO>();
+              
+                
+
 
         }
     }

@@ -12,7 +12,7 @@ import {
   Checkbox,
   Paper,
 } from "@mui/material";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { useAppDispatch } from "../../Store";
 
 import { AddBabyItemModel } from "../../Store/Models/Baby/AddBabyItem";
@@ -24,12 +24,15 @@ export const AddItemForm: FC<{ categoryType: string }> = ({ categoryType }) => {
   const [formValues, setFormValues] = useState<AddBabyItemModel>({
     title: "",
     description: "",
-    babySize: [],
     categoryType: categoryType,
-    quantity: [],
+    babySize: [],
     price: "",
     pictures: [],
   });
+
+  useEffect(() => {
+    setFormValues((prev) => ({ ...prev, categoryType: categoryType }));
+  }, [categoryType]);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -44,7 +47,8 @@ export const AddItemForm: FC<{ categoryType: string }> = ({ categoryType }) => {
     setFormValues({ ...formValues, pictures: newFiles });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     dispatch(
       addBabyItem({
         data: formValues,
@@ -52,7 +56,7 @@ export const AddItemForm: FC<{ categoryType: string }> = ({ categoryType }) => {
     );
   };
 
-  const handleSizeChange = (
+  /* const handleSizeChange = (
     event: SelectChangeEvent<typeof formValues.babySize>
   ) => {
     const {
@@ -65,20 +69,20 @@ export const AddItemForm: FC<{ categoryType: string }> = ({ categoryType }) => {
       }
       // On autofill we get a stringified value.
     );
-  };
+  }; */
 
   const handleQuantityChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     size: string
   ) => {
     const { value } = event.target;
-    const newQuantity = formValues.quantity;
-    newQuantity.push({ size: size, quantity: value });
-    setFormValues({ ...formValues, quantity: newQuantity });
+    const newQuantity = formValues.babySize;
+    newQuantity.push({ size: Number(size), quantity: Number(value) });
+    setFormValues({ ...formValues, babySize: newQuantity });
   };
-  console.log(formValues);
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <Box
         sx={{
           display: "flex",
@@ -101,7 +105,7 @@ export const AddItemForm: FC<{ categoryType: string }> = ({ categoryType }) => {
           />
         </InputLabel>
 
-        <FormControl fullWidth sx={{ marginBottom: "1rem" }}>
+        {/*       <FormControl fullWidth sx={{ marginBottom: "1rem" }}>
           <InputLabel id="demo-simple-select-label">Size</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -123,7 +127,7 @@ export const AddItemForm: FC<{ categoryType: string }> = ({ categoryType }) => {
               );
             })}
           </Select>
-        </FormControl>
+        </FormControl> */}
         <Typography variant="h6">Cantitate</Typography>
         <Paper elevation={3}>
           {BabySizeItems.map((item) => {

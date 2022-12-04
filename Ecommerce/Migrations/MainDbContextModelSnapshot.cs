@@ -23,9 +23,6 @@ namespace Ecommerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("BabySize")
-                        .HasColumnType("int");
-
                     b.Property<int>("CategoryType")
                         .HasColumnType("int");
 
@@ -33,9 +30,6 @@ namespace Ecommerce.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -69,6 +63,28 @@ namespace Ecommerce.Migrations
                     b.HasIndex("BabyId");
 
                     b.ToTable("BabyPictures");
+                });
+
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabySize", b =>
+                {
+                    b.Property<Guid>("BabySizeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("BabyId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("BabySizeId");
+
+                    b.HasIndex("BabyId");
+
+                    b.ToTable("BabySizes");
                 });
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.BaseUser", b =>
@@ -124,9 +140,22 @@ namespace Ecommerce.Migrations
                     b.Navigation("Baby");
                 });
 
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabySize", b =>
+                {
+                    b.HasOne("Ecommerce.DataLayer.Models.Baby.BabyClass", "Baby")
+                        .WithMany("BabySizes")
+                        .HasForeignKey("BabyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Baby");
+                });
+
             modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabyClass", b =>
                 {
                     b.Navigation("BabyPictures");
+
+                    b.Navigation("BabySizes");
                 });
 #pragma warning restore 612, 618
         }
