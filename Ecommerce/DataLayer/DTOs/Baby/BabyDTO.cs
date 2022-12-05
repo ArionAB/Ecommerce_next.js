@@ -21,7 +21,7 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         //public int Quantity { get; set; }
 
-        public int TotalItems { get; set; }
+        public int TotalCategoryItems { get; set; }
 
         public int TotalSize { get; set; }
 

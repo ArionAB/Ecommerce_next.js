@@ -1,11 +1,12 @@
 export interface BabyItemModel {
-  id: string;
-  babySize: string;
+  babyId: string;
+  babySizes: [];
+  babyPictures: [];
   price: string;
   description: string;
   title: string;
   categoryType: string;
   quantity: string;
-  totalItems: string;
+  totalCategoryItems: string;
   totalSize: string;
 }

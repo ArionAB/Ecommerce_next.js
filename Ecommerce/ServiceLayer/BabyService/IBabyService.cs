@@ -10,7 +10,7 @@ namespace Ecommerce.ServiceLayer.BabyService
     {
         Task<ServiceResponse<Object>> AddBabyItem(AddBabyItemDTO babyitemDTO);
 
-        Task<ServiceResponse<List<BabyDTO>>> GetBabyItems();
+        Task<ServiceResponse<GetAllBabyItemsDTO>> GetBabyItems();
 
         Task<ServiceResponse<BabyDTO>> GetBabyItem(Guid id);
 

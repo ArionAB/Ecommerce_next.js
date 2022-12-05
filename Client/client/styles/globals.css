@@ -2,7 +2,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: Karla, sans-serif;
+  font-family: Karla !important;
+  background: #fcfaf9;
 }
 
 a {
@@ -17,4 +18,8 @@ a {
 .input-label {
   display: flex;
   flex-direction: column;
+}
+
+h1 {
+  font-family: Karla !important;
 }

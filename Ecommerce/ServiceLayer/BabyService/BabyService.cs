@@ -77,59 +77,54 @@ namespace Ecommerce.ServiceLayer.BabyService
 
         }
 
-        public async Task<ServiceResponse<List<BabyDTO>>> GetBabyItems()
+        public async Task<ServiceResponse<GetAllBabyItemsDTO>> GetBabyItems()
         {
             try
             {
                 var babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby).ToList();
-                //var babySizes = _mapper.ProjectTo<BabySizeDTO>(_context.BabySizes).ToList();
+             
 
 
                 var counted = new List<BabyDTO>();
+              
+                var bodysuits = 0;
+                var coveralls = 0;
 
                 {
                     foreach (var item in babyItems)
                     {
-                        var count = _context.Baby.Where(x => x.CategoryType == item.CategoryType).Count();
-                        //var totalSize = _context.Baby.Where(x => x.CategoryType == item.CategoryType && x.BabySize == item.BabySize).Count();
-                        var totalSize = _context.Baby.Where(x => x.CategoryType == item.CategoryType).Count();
-                        //var totalQuantity = _context.BabySizes.Where(x => x.BabyId == item.BabyId && x.BabySizeId != item.BabyId && x.Quantity > 0).Sum(x => x.Quantity);
-                        var totalQuantity = _context.BabySizes.Add(new BabySize { Size = "2", Quantity = 5 });
+                       
+                        bodysuits = babyItems.Where(x => x.CategoryType == CategoryType.Bodysuit).Count();
+                        coveralls = babyItems.Where(x => x.CategoryType == CategoryType.Coverall).Count();
 
-
+                      
                         counted = _mapper.ProjectTo<BabyDTO>(_context.Baby).ToList();
 
 
-                        //counted.Add(new BabyDTO
-                        //{
-                        //    BabyId = item.BabyId,
-                        //    CategoryType = item.CategoryType,
-                        //    Description = item.Description,
-                        //    Title = item.Title,
-                        //    Price = item.Price,
-
-                        //    //Quantity = item.Quantity,
-                        //    //BabySize = item.BabySize,
-                        //    TotalItems = count,
-                        //    TotalSize = totalSize,
-                        //    BabySizes = totalQuantity
-
-                        //});
+                    
                     }
 
-                    //foreach (var item in babySizes)
-                    //{
-                    //    counted = babySizes.Where(x => x.Size == item.Size).ToList();
-                    //}
+                 
                 }
+                var totalCategory = new BabyCategoriesDTO
+                {
+                    Bodysuits = bodysuits,
+                    Coveralls = coveralls,
+                };
 
+                var response = new GetAllBabyItemsDTO
+                {
+                    BabyItems = counted,
+                    TotalItemsPerCategory = totalCategory
+                 
 
+                };
 
-                return new ServiceResponse<List<BabyDTO>> { Response = counted, Success = true, Message = Messages.Message_GetBabyItemsSuccess };
+                return new ServiceResponse<GetAllBabyItemsDTO> { Response = response, Success = true, Message = Messages.Message_GetBabyItemsSuccess };
             }
             catch (Exception e)
             {
-                return new ServiceResponse<List<BabyDTO>> { Response = null, Success = false, Message = Messages.Message_GetBabyItemsError };
+                return new ServiceResponse<GetAllBabyItemsDTO> { Response = null, Success = false, Message = Messages.Message_GetBabyItemsError };
             }
         }
 
@@ -207,31 +202,18 @@ namespace Ecommerce.ServiceLayer.BabyService
                     {
 
 
-                        //foreach (var size in filter.BabySize)
-                        //{
-                        //    //babyItems.AddRange(_mapper.ProjectTo<BabyDTO>(_context.BabySizes).Where(x => x.BabySizes.Any(y => y.Size == size.ToString())).ToList());
-                        //    var babySizes = _mapper.ProjectTo<BabyDTO>(_context.BabySizes).Where(x => x.BabySizes.Any(y => y.Size == size.ToString())).ToList();
-                        //}
-                        //var babySizes = _context.BabySizes.Where(x => x.Size == filter.BabySize.ToString());
-                        //babyItems.AddRange((IEnumerable<BabyDTO>)babySizes);
-                        //if (filter.BabySize != null)
-                            //foreach(var size in filter.BabySize)
-                            //{
-                            //    {
-                            //            //babyItems.AddRange(_mapper.ProjectTo<BabyDTO>(_context.BabySizes).Where(x => x.BabySizes.Any(y => y.Size == size.ToString())).ToList());
-                            //        }
-                            //}
-                            babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby
-                            .Where(x => filter.MinPrice <= x.Price)
-                            .Where(x => filter.MaxPrice >= x.Price)
-                            //.Where(x => _context.BabySizes.Where(x => x.Size == filter.BabySize.ToString()).Contains(x.BabySize)
-                            //.Where(x => _context.BabySizes.Where(x => x.Size == filter.BabySize.ToString()).ToList().Contains(x.BabyId)
+                 
+                        babyItems = _mapper.ProjectTo<BabyDTO>(_context.BabySizes.Where(x => filter.BabySize.Contains(x.Size))
+                            .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Baby.Price : x.Baby.Price > 0)
+                            .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Baby.Price : x.Baby.Price > 0)
                             .Take(filter.PageSize)).ToList();
+                         
+                           
+                            
 
-                        //.Where(x => filter.BabySize == x.BabySizes)
+          
 
-                        //.Where(x => filter.BabySize.Contains(x.BabySize))
-                        //.Where(x => filter.BabySize[0] != 0 ? filter.BabySize.Count == 0 || filter.BabySize.Contains(x.BabySize) : true)
+             
 
 
 
@@ -243,30 +225,27 @@ namespace Ecommerce.ServiceLayer.BabyService
                     {
                         return babyItems;
                     }
-                //var babyItems = new List<BabyFiltersDto>
-                //{
-                //    var babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby
-                //    .Where(x => filter.MinPrice <= x.Price)
-                //    .Where(x => filter.MaxPrice >= x.Price)
-                //    .Where(x => filter.BabySize == null || x.BabySizes.Any(y => y.Size == filter.BabySize))
-                //    .Take(filter.PageSize)).ToList();
-                //}
+         
 
                 case CategoryType.Bodysuit:
-                    babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby.Where(x => x.CategoryType == CategoryType.Bodysuit)
-                        .Where(x => filter.MinPrice <= x.Price)
-                        .Where(x => filter.MaxPrice >= x.Price)
-                        //.Where(x => filter.BabySize[0] != 0 ? filter.BabySize.Count == 0 || filter.BabySize.Contains(x.BabySize) : true)
+                    babyItems = _mapper.ProjectTo<BabyDTO>(_context.BabySizes
+                        .Where(x => x.Baby.CategoryType == CategoryType.Bodysuit)
+                        .Where(x => filter.BabySize.Contains(x.Size))
+                        .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Baby.Price : x.Baby.Price > 0)
+                        .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Baby.Price : x.Baby.Price > 0)
                         .Take(filter.PageSize)).ToList();
 
                     return babyItems;
-
+                    
                 case CategoryType.Coverall:
-                    babyItems = _mapper.ProjectTo<BabyDTO>(_context.Baby.Where(x => x.CategoryType == CategoryType.Coverall)
-                        .Where(x => filter.MinPrice <= x.Price)
-                        .Where(x => filter.MaxPrice >= x.Price)
-                        //.Where(x => filter.BabySize[0] != 0 ? filter.BabySize.Count == 0 || filter.BabySize.Contains(x.BabySize) : true)
+                    babyItems = _mapper.ProjectTo<BabyDTO>(_context.BabySizes
+                        .Where(x => x.Baby.CategoryType == CategoryType.Coverall)
+                        .Where(x => filter.BabySize.Contains(x.Size))
+                        .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Baby.Price : x.Baby.Price > 0)
+                        .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Baby.Price : x.Baby.Price > 0)
                         .Take(filter.PageSize)).ToList();
+                                
+                                
 
 
                     return babyItems;
@@ -283,17 +262,19 @@ namespace Ecommerce.ServiceLayer.BabyService
             try
             {
                 var babyItems = getBabyItemsFiltered(filters);
-
+                var baby = _context.Baby;
                 var counted = new List<BabyDTO>();
+                
 
                 {
                     foreach (var item in babyItems)
                     {
-                        var totalItems = babyItems.Contains(item) ? babyItems.Count : 0;
+                       
+                        var totalItemsPerCategory = babyItems.Where(x => x.CategoryType == item.CategoryType).Count();
 
-
-                        var totalSize = babyItems.Contains(item) ? _context.Baby.Where(x => x.CategoryType == item.CategoryType && babyItems.Contains(item)).Count() : 0;
-                        //var totalSize = babyItems.Contains(item) ? _context.Baby.Where(x => x.CategoryType == item.CategoryType && x.BabySize == item.BabySize && babyItems.Contains(item)).Count() : 0;
+                        var totalItemsPerSize = item.BabySizes.Count();
+                      
+                      
 
 
 
@@ -306,10 +287,9 @@ namespace Ecommerce.ServiceLayer.BabyService
                             Price = item.Price,
                             BabyPictures = item.BabyPictures,
                             BabySizes = item.BabySizes,
-                            //Quantity = item.Quantity,
-                            //BabySize = item.BabySize,
-                            TotalItems = totalItems,
-                            TotalSize = totalSize
+                            TotalCategoryItems = totalItemsPerCategory,
+                            TotalSize = totalItemsPerSize
+                       
                         });
                     }
                 }

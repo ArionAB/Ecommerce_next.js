@@ -29,7 +29,8 @@ namespace Ecommerce.DataLayer.Models.Profiles
                 Size = x.Size,
                 Quantity = x.Quantity
             }).ToList()))
-                .ForMember(x => x.TotalItems, opt => opt.MapFrom(src => src.BabySizes.Sum(x => x.Quantity)))
+                .ForMember(x => x.TotalCategoryItems, opt => opt.MapFrom(src => src.BabySizes.Sum(x => x.Quantity))) //this will return all quantities
+                 //.ForMember(x => x.TotalCategoryItems, opt=> opt.MapFrom(src => src.CategoryType)
                 .ForMember(x => x.TotalSize, opt => opt.MapFrom(src => src.BabySizes.Count()))
                 .ForMember(x => x.BabyPictures, opt => opt.MapFrom(src => src.BabyPictures.Select(x => new BabyPictureDTO
                 {
@@ -42,9 +43,30 @@ namespace Ecommerce.DataLayer.Models.Profiles
             //CreateMap<BabySize, BabyDTO>().ForMember(x => x.BabySizes, opt => opt.MapFrom(src => src.Size).FirstOrDefault())
             //.ForMember(x => x.BabySizes, opt => opt.MapFrom(src => src.BabySizes.Select(x => x.Size).FirstOrDefault()));
 
-            CreateMap<BabySize, BabyDTO>();
-              
-                
+            CreateMap<BabySize, BabyDTO>().ForMember(x => x.Price, opt => opt.MapFrom(src => src.Baby.Price))
+                .ForMember(x => x.Description, opt => opt.MapFrom(src => src.Baby.Description))
+                .ForMember(x => x.Title, opt => opt.MapFrom(src => src.Baby.Description))
+                .ForMember(x => x.CategoryType, opt => opt.MapFrom(src => src.Baby.CategoryType))
+            .ForMember(x => x.TotalCategoryItems, opt => opt.MapFrom(src => src.Size.Count()))
+            .ForMember(x => x.TotalSize, opt => opt.MapFrom(src => src.Size.Count()))
+            .ForMember(x => x.BabySizes, opt => opt.MapFrom(src => src.Baby.BabySizes.Select(x => new BabySizeDTO
+            {
+                BabySizeId = x.BabySizeId,
+                Size = x.Size,
+                Quantity = x.Quantity
+            }).ToList()))
+            .ForMember(x => x.BabyPictures, opt => opt.MapFrom(src => src.Baby.BabyPictures.Select(x => new BabyPictureDTO
+            {
+                PictureId = x.PictureId,
+                FileName = x.FileName,
+                ContentType = x.ContentType,
+                FilePath = x.FilePath
+            }).ToList()));
+
+
+
+
+
 
 
         }

@@ -1,0 +1,11 @@
+@import "./_variables.scss";
+
+.babyContainer {
+  background-color: $bg-color;
+
+  h1 {
+    font-weight: 600;
+    font-size: 2rem;
+    color: $brown;
+  }
+}
