@@ -1,7 +1,7 @@
-import { babySlice } from "./babySlice";
 import { baseSlice } from "./baseSlice";
+import { productSlice } from "./productSlice";
 
 export const reducers = {
   base: baseSlice.reducer,
-  baby: babySlice.reducer,
+  product: productSlice.reducer,
 };

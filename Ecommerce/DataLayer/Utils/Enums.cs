@@ -20,12 +20,22 @@
         EighteenToTwentyFour = 6
     }
 
-    public enum CategoryType
+    public enum SubcategoryType
     {
         All = 1,
         Bodysuit = 2,
         Coverall = 3
             
+    }
+
+    public enum ProductCategoryType
+    {
+        All = 1,
+        Girls = 2,
+        Boys = 3,
+        Baby = 4,
+        Accesories = 5,
+        Footwear = 6
     }
 
   

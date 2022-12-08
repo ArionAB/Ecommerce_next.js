@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Ecommerce.DataLayer.Utils;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 
@@ -53,6 +54,38 @@ namespace Ecommerce.ServiceLayer.Utils
                 return true;
             }
             return false;
+        }
+
+        public static string ConvertValueToLabel(int value)
+        {
+            switch(value){
+                case 4:
+                    return "Baby";
+                default:
+                    return "label";
+            }
+        }
+
+        public static string ConvertBabySizeEnumToString(BabySizeType size)
+        {
+            switch (size)
+            {
+                case BabySizeType.All:
+                    return "0";
+                case BabySizeType.ZeroToThree:
+                    return "1";
+                case BabySizeType.ThreeToSix:
+                    return "2";
+                case BabySizeType.SixToNine:
+                    return "3";
+                case BabySizeType.NineToTwelve:
+                    return "4";
+                case BabySizeType.TwelveToEighteen:
+                    return "5";
+                default:
+                    return "";
+            
+            }
         }
     }
 }

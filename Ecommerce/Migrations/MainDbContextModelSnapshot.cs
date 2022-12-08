@@ -17,14 +17,11 @@ namespace Ecommerce.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.9");
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabyClass", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.ProductClass", b =>
                 {
-                    b.Property<Guid>("BabyId")
+                    b.Property<Guid>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
-
-                    b.Property<int>("CategoryType")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
@@ -32,21 +29,24 @@ namespace Ecommerce.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProductType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubcategoryType")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .HasColumnType("longtext");
 
-                    b.HasKey("BabyId");
+                    b.HasKey("ProductId");
 
-                    b.ToTable("Baby");
+                    b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabyPicture", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.ProductPicture", b =>
                 {
                     b.Property<Guid>("PictureId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("BabyId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ContentType")
@@ -58,20 +58,23 @@ namespace Ecommerce.Migrations
                     b.Property<string>("FilePath")
                         .HasColumnType("longtext");
 
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("PictureId");
 
-                    b.HasIndex("BabyId");
+                    b.HasIndex("ProductId");
 
-                    b.ToTable("BabyPictures");
+                    b.ToTable("ProductPictures");
                 });
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabySize", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.ProductSize", b =>
                 {
-                    b.Property<Guid>("BabySizeId")
+                    b.Property<Guid>("ProductSizeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("BabyId")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Quantity")
@@ -80,11 +83,11 @@ namespace Ecommerce.Migrations
                     b.Property<string>("Size")
                         .HasColumnType("longtext");
 
-                    b.HasKey("BabySizeId");
+                    b.HasKey("ProductSizeId");
 
-                    b.HasIndex("BabyId");
+                    b.HasIndex("ProductId");
 
-                    b.ToTable("BabySizes");
+                    b.ToTable("ProductSizes");
                 });
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.BaseUser", b =>
@@ -129,33 +132,33 @@ namespace Ecommerce.Migrations
                     b.HasDiscriminator().HasValue(1);
                 });
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabyPicture", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.ProductPicture", b =>
                 {
-                    b.HasOne("Ecommerce.DataLayer.Models.Baby.BabyClass", "Baby")
-                        .WithMany("BabyPictures")
-                        .HasForeignKey("BabyId")
+                    b.HasOne("Ecommerce.DataLayer.Models.Baby.ProductClass", "Product")
+                        .WithMany("ProductPictures")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Baby");
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabySize", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.ProductSize", b =>
                 {
-                    b.HasOne("Ecommerce.DataLayer.Models.Baby.BabyClass", "Baby")
-                        .WithMany("BabySizes")
-                        .HasForeignKey("BabyId")
+                    b.HasOne("Ecommerce.DataLayer.Models.Baby.ProductClass", "Product")
+                        .WithMany("ProductSizes")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Baby");
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.BabyClass", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.ProductClass", b =>
                 {
-                    b.Navigation("BabyPictures");
+                    b.Navigation("ProductPictures");
 
-                    b.Navigation("BabySizes");
+                    b.Navigation("ProductSizes");
                 });
 #pragma warning restore 612, 618
         }

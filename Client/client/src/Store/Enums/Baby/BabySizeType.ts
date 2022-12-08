@@ -5,5 +5,4 @@ export enum BabySizeType {
   SixToNine = 3,
   NineToTwelve = 4,
   TwelveToEighteen = 5,
-  EighteenToTwentyFour = 6,
 }

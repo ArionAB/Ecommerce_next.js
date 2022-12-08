@@ -11,10 +11,11 @@ import React, { useState } from "react";
 import { AddItemForm } from "../src/Components/admin-page/AddItemForm";
 import { TabsPanel } from "../src/Components/admin-page/Tabs";
 import { BabyCategoryItems } from "../src/Components/selectItems/CategoryItems";
+import { productCategoryType } from "../src/Store/Enums/productCategory";
 
 const Admin = () => {
-  const [currentTab, setCurrentTab] = useState<number>(0);
   const [item, setItem] = useState<string>("");
+  const [productType, setProductType] = useState<number>(0);
 
   const handleChange = (event: SelectChangeEvent) => {
     setItem(event.target.value as string);
@@ -22,8 +23,8 @@ const Admin = () => {
 
   return (
     <Container>
-      <TabsPanel setCurrentTab={setCurrentTab} />
-      {currentTab === 0 && (
+      <TabsPanel setProductType={setProductType} />
+      {productType === productCategoryType.Baby && (
         <FormControl fullWidth sx={{ marginBottom: "1rem" }}>
           <InputLabel id="demo-simple-select-label">Item</InputLabel>
           <Select
@@ -42,7 +43,7 @@ const Admin = () => {
         </FormControl>
       )}
 
-      <AddItemForm categoryType={item} />
+      <AddItemForm categoryType={item} productType={productType} />
     </Container>
   );
 };

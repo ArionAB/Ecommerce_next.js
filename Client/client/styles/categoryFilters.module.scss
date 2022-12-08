@@ -1,0 +1,86 @@
+@import "./_variables.scss";
+
+.categoriesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid $light-gray;
+}
+
+.thumb {
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+
+  &:hover {
+    box-shadow: 0px 0px 0px 8px rgba(224, 206, 206, 0.16);
+  }
+}
+
+.categoriesTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.categories {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: $dark-blue;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: $gray;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.number {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $gray;
+  font-size: 18px;
+  padding-bottom: 0.3rem;
+  letter-spacing: 1px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .sizeNumber {
+    color: gray;
+    justify-self: center;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputBox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  input {
+    width: 60px;
+    height: 35px;
+    border: 1px solid $light-gray;
+    padding-left: 15px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

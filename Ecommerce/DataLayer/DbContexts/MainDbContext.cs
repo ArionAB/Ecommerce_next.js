@@ -17,10 +17,10 @@ namespace Ecommerce.DataLayer.DbContexts
         public DbSet<BaseUser> Users { get; set; }
 
   
-        public DbSet<BabyClass> Baby { get; set; }
-        public DbSet<BabyPicture> BabyPictures { get; set; }
+        public DbSet<ProductClass> Product { get; set; }
+        public DbSet<ProductPicture> ProductPictures { get; set; }
 
-        public DbSet<BabySize> BabySizes { get; set; }
+        public DbSet<ProductSize> ProductSizes { get; set; }
 
 
        
@@ -35,18 +35,18 @@ namespace Ecommerce.DataLayer.DbContexts
                 .HasValue<RegularUser>(UserType.User);
             
 
-            modelBuilder.Entity<BabyPicture>().HasKey(x => x.PictureId);
+            modelBuilder.Entity<ProductPicture>().HasKey(x => x.PictureId);
 
-            modelBuilder.Entity<BabySize>().HasKey(x => x.BabySizeId);
+            modelBuilder.Entity<ProductSize>().HasKey(x => x.ProductSizeId);
 
-            modelBuilder.Entity<BabyClass>().HasKey(x => x.BabyId);
+            modelBuilder.Entity<ProductClass>().HasKey(x => x.ProductId);
             
-            modelBuilder.Entity<BabyClass>().HasMany(x => x.BabyPictures).WithOne(x => x.Baby).HasForeignKey(x => x.BabyId);
-            modelBuilder.Entity<BabyClass>().HasMany(x => x.BabySizes).WithOne(x => x.Baby).HasForeignKey(x => x.BabyId);
+            modelBuilder.Entity<ProductClass>().HasMany(x => x.ProductPictures).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
+            modelBuilder.Entity<ProductClass>().HasMany(x => x.ProductSizes).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
 
 
 
-
+            
 
 
 

@@ -1,0 +1,54 @@
+@import "./_variables.scss";
+
+.cardContainer {
+  img {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .price {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: $brown;
+    padding-left: 1rem;
+  }
+
+  .title {
+    font-size: 1rem;
+    font-weight: 400;
+    color: $dark-blue;
+    padding-left: 1rem;
+  }
+
+  @keyframes opacityDelay {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .twoButtons {
+    animation: opacityDelay 1s;
+
+    padding-top: 1.8rem;
+    display: flex;
+    justify-content: space-around;
+
+    .shop {
+      background-color: $dark-blue;
+      color: white;
+      text-transform: capitalize;
+      width: 40%;
+    }
+
+    .options {
+      background-color: $pink;
+      color: $brown;
+      text-transform: capitalize;
+      width: 50%;
+    }
+  }
+}
