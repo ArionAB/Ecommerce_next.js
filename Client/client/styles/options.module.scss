@@ -1,0 +1,50 @@
+@import "./_variables.scss";
+
+.options {
+  background-color: white;
+  max-width: 500px;
+  padding: 0.5rem 3rem;
+  // height: 500px;
+
+  .title {
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: $brown;
+    font-style: italic;
+  }
+
+  .price {
+    font-size: 1.5rem;
+  }
+
+  .selectSize {
+    display: flex;
+    margin: 1rem 0;
+  }
+
+  .qty {
+    display: flex;
+    gap: 1rem;
+
+    .selectQuantity {
+      display: flex;
+      margin: 1.5rem 0;
+      width: 40%;
+    }
+
+    .addCart {
+      width: 60%;
+      margin: 1.5rem 0;
+      background-color: $dark-blue;
+      color: white;
+    }
+  }
+}
+
+.closeBTN {
+  display: flex;
+  justify-content: flex-end;
+  // width: 5%;
+}

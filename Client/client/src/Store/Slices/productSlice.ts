@@ -2,7 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ProductItemModel } from "../Models/Product/ProductItem";
 import { ProductState } from "../Models/Product/BabyState";
 
-import { getProductItems } from "../Thunks/babyThunks";
+import {
+  getPaginatedProductItems,
+  getProduct,
+  getProductItems,
+} from "../Thunks/babyThunks";
 
 const initialState: ProductState = {
   actions: {},
@@ -13,7 +17,15 @@ const initialState: ProductState = {
       coveralls: 0,
     },
   },
+  paginatedItems: {
+    productItems: new Array<ProductItemModel>(),
+    totalItemsPerCategory: {
+      bodysuits: 0,
+      coveralls: 0,
+    },
+  },
   loadingItems: false,
+  loadingItem: false,
   filters: {
     PageNumber: 0,
     PageSize: 10,
@@ -23,6 +35,18 @@ const initialState: ProductState = {
     MaxPrice: 0,
     ProductCategory: 0,
     SubcategoryType: 0,
+  },
+  item: {
+    productId: "",
+    productSizes: [],
+    productPictures: [],
+    price: "",
+    description: "",
+    title: "",
+    categoryType: "",
+    quantity: "",
+    totalCategoryItems: "",
+    totalSize: "",
   },
 };
 
@@ -65,6 +89,26 @@ export const productSlice = createSlice({
       });
     builder.addCase(getProductItems.rejected, (state, action) => {
       state.loadingItems = false;
+    }),
+      builder.addCase(getPaginatedProductItems.pending, (state, action) => {
+        state.loadingItems = true;
+      }),
+      builder.addCase(getPaginatedProductItems.fulfilled, (state, action) => {
+        (state.paginatedItems = action.payload), (state.loadingItems = false);
+      });
+    builder.addCase(getPaginatedProductItems.rejected, (state, action) => {
+      state.loadingItems = false;
+    });
+    builder.addCase(getProduct.pending, (state, action) => {
+      state.loadingItem = true;
+    });
+    builder.addCase(getProduct.fulfilled, (state, action) => {
+      console.log(action);
+      state.item = action.payload;
+      state.loadingItem = false;
+    });
+    builder.addCase(getProduct.rejected, (state, action) => {
+      state.loadingItem = false;
     });
   },
 });

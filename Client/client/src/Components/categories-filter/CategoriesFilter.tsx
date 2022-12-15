@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { ProductSizesModel } from "../../Store/Models/Product/ProductSizesModel";
-import { useAppDispatch } from "../../Store";
+import { useAppDispatch, useAppSelector } from "../../Store";
 
 import styles from "../../../styles/categoryFilters.module.scss";
 import {
@@ -18,7 +18,7 @@ import FormGroup from "@mui/material/FormGroup";
 import { BabySizeType } from "../../Store/Enums/Baby/BabySizeType";
 import { productCategoryType } from "../../Store/Enums/productCategory";
 import { useRouter } from "next/router";
-import { ConvertProductCategoryType } from "../../Utils/Functions/ConvertEnumToNumber";
+import { selectFilters } from "../../Store/Selectors/productSelectors";
 
 export const CategoriesFilter: FC<{
   categories: { value: number; label: string }[];
@@ -50,6 +50,8 @@ export const CategoriesFilter: FC<{
 
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const filters = useAppSelector(selectFilters);
+
   useEffect(() => {
     if (priceRange) setMiddleRange(priceRange.maxPrice / 5);
   }, [priceRange]);
@@ -81,11 +83,14 @@ export const CategoriesFilter: FC<{
       [name]: !checkedSizes[name],
     });
   };
+
   const handleSubcategoryType = (value: number) => {
     dispatch(setSubcategoryType(value));
     router.push(
-      `${ConvertProductCategoryType(productCategoryType.Baby).toLowerCase()}` +
-        `/${value}`,
+      {
+        pathname: router.pathname,
+        query: { subcategoryType: value },
+      },
       undefined,
       { shallow: true }
     );
@@ -108,7 +113,23 @@ export const CategoriesFilter: FC<{
 
   useEffect(() => {
     dispatch(setMinPrice(thumbValue[0]));
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { minPrice: thumbValue[0] },
+      },
+      undefined,
+      { shallow: true }
+    );
     dispatch(setMaxPrice(thumbValue[1]));
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { minPrice: thumbValue[1] },
+      },
+      undefined,
+      { shallow: true }
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thumbValue]);

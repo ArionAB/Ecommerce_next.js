@@ -8,9 +8,13 @@ import {
   selectProductItems,
   selectLoadingItems,
   selectFilters,
+  selectPaginatedItems,
 } from "../src/Store/Selectors/productSelectors";
 import Card from "../src/Components/card/Card";
-import { getProductItems } from "../src/Store/Thunks/babyThunks";
+import {
+  getPaginatedProductItems,
+  getProductItems,
+} from "../src/Store/Thunks/babyThunks";
 import { BabySizeItems } from "../src/Components/selectItems/BabySizeItems";
 import { productCategoryType } from "../src/Store/Enums/productCategory";
 import { useRouter } from "next/router";
@@ -23,17 +27,47 @@ const Baby = () => {
   const router = useRouter();
 
   const productItems = useAppSelector(selectProductItems);
+  const paginatedItems = useAppSelector(selectPaginatedItems);
 
   const loading = useAppSelector(selectLoadingItems);
 
   const filters = useAppSelector(selectFilters);
 
   useEffect(() => {
-    dispatch(getProductItems(""));
-  }, []);
+    // dispatch(getProductItems(""));
+
+    dispatch(
+      getPaginatedProductItems({
+        filters: {
+          PageNumber: router.query.PageNumber ?? "1",
+          PageSize: router.query.PageSize ?? "10",
+          MaxPrice:
+            router.query.MaxPrice === "" ? "200" : router.query.MaxPrice,
+          MinPrice: router.query.MinPrice === "" ? "1" : router.query.MinPrice,
+          ProductCategory:
+            router.query.ProductCategory === "0"
+              ? "4"
+              : router.query.ProductCategory,
+          ProductSize: router.query.ProductSize ?? [],
+          SubcategoryType:
+            router.query.SubcategoryType === "0"
+              ? "1"
+              : router.query.SubcategoryType,
+          SearchText: router.query.SearchText ?? "",
+        },
+      })
+    );
+  }, [router.query]);
 
   useEffect(() => {
-    router.push(`baby/` + `/?ProductCategory=4`, undefined, { shallow: true });
+    router.push({
+      pathname: "/baby",
+      query: {
+        ...filters,
+      },
+    });
+
+    //eslint-disable-next-line
   }, [filters]);
 
   return (
@@ -42,14 +76,14 @@ const Baby = () => {
       <Box className={styles.categoryWrapper}>
         <CategoriesFilter
           categories={BabyCategoryItems}
-          numberOfItems={productItems.totalItemsPerCategory}
+          numberOfItems={paginatedItems.totalItemsPerCategory}
           sizes={BabySizeItems}
-          numberOfSizes={productItems.totalSizes}
-          priceRange={productItems.priceRange}
+          numberOfSizes={paginatedItems.totalSizes}
+          priceRange={paginatedItems.priceRange}
           productType={productCategoryType.Baby}
         />
         <Grid container rowGap={2}>
-          {productItems.productItems?.map((card, index) => (
+          {paginatedItems.productItems?.map((card, index) => (
             <Grid
               key={card.productId}
               item

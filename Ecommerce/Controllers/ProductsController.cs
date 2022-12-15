@@ -58,9 +58,9 @@ namespace Ecommerce.Controllers
             else return BadRequest(result);
         }
 
-        [HttpGet("/Product/GetPaginatedItems")]
+        [HttpPost("/Product/GetPaginatedItems")]
 
-        public async Task<IActionResult> GetPaginatedProductItems([FromQuery] ProductFiltersDTO filters)
+        public async Task<IActionResult> GetPaginatedProductItems([FromForm] ProductFiltersDTO filters)
         {
             var result = await _productService.GetPaginatedProductItems(filters);
             if (result.Success) return Ok(result);

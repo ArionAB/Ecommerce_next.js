@@ -1,0 +1,54 @@
+@import "_variables.scss";
+
+.container {
+  display: flex;
+  gap: 3rem;
+
+  .thumbImage {
+    cursor: pointer;
+  }
+
+  .details {
+    width: 100%;
+    max-width: 600px;
+
+    .title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: $brown;
+      font-style: italic;
+    }
+
+    .price {
+      font-size: 1.5rem;
+    }
+
+    .selectSize {
+      display: flex;
+      margin: 1rem 0;
+    }
+
+    .qty {
+      display: flex;
+      gap: 1rem;
+
+      .selectQuantity {
+        display: flex;
+        margin: 1.5rem 0;
+        width: 40%;
+      }
+
+      .addCart {
+        width: 60%;
+        margin: 1.5rem 0;
+        background-color: $dark-blue;
+        color: white;
+      }
+    }
+
+    .description {
+      color: $dark-blue;
+      font-size: 1.1rem;
+    }
+  }
+}

@@ -18,7 +18,6 @@ export const ConvertBabySizeType = (enumValue: any) => {
 };
 
 export const ConvertProductCategoryType = (enumValue: number) => {
-  console.log(enumValue);
   switch (enumValue) {
     case 1:
       return "All";
@@ -34,5 +33,20 @@ export const ConvertProductCategoryType = (enumValue: number) => {
       return "Footwear";
     default:
       return "All";
+  }
+};
+
+export const ConvertSizeToLabel = (enumValue: number) => {
+  switch (enumValue) {
+    case 1:
+      return "0-3 M";
+    case 2:
+      return "3-6 M";
+    case 3:
+      return "6-9 M";
+    case 4:
+      return "9-12 M";
+    case 5:
+      return "12-18 M";
   }
 };

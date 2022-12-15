@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Ecommerce.DataLayer.DTOs.Product;
+using System.Collections.Generic;
 
 namespace Ecommerce.DataLayer.DTOs.Baby
 {
@@ -11,6 +12,17 @@ namespace Ecommerce.DataLayer.DTOs.Baby
         public int CurrentPageNumber { get; set; }
 
         public int TotalItems { get; set; }
-        
+
+        public ProductSizesEnumDTO TotalSizes { get; set; }
+
+        public ProductPriceDTO PriceRange { get; set; }
+
+        public BabyCategoriesDTO TotalItemsPerCategory { get; set; }
+
+
+
+
+       
+
     }
 }
