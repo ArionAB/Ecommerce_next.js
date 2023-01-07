@@ -18,6 +18,8 @@ namespace Ecommerce.ServiceLayer.BabyService
 
         Task<ServiceResponse<PaginatedProductItemsDTO>> GetPaginatedProductItems(ProductFiltersDTO filters);
 
+        Task<ServiceResponse<Object>> DeleteProduct(Guid id);
+
 
 
 

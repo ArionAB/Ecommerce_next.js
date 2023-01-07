@@ -65,6 +65,20 @@ namespace Ecommerce.DataLayer.Models.Profiles
                 FilePath = x.FilePath
             }).ToList()));
 
+            CreateMap<UpdateProductItemDTO, ProductClass>()
+                    .ForMember(x => x.ProductPictures, opt => opt.MapFrom(src => src.NewAdditionalPictures != null ? src.NewAdditionalPictures.Select(x => new ProductPicture
+                    {
+                        FileName = x.FileName,
+                        ContentType = x.ContentType,
+
+                    }).ToList() : null))
+            .ForMember(x => x.ProductSizes, opt => opt.MapFrom(src => src.ProductSize != null ? src.ProductSize.Select(x => new ProductSize
+            {
+                Size = x.Size,
+                Quantity = x.Quantity
+            }).ToList() : null))
+            .ForMember(x => x.ProductType, opt => opt.MapFrom(src => src.ProductCategory));
+
 
 
 

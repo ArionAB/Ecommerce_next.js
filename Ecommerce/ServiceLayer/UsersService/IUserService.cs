@@ -10,5 +10,11 @@ namespace Ecommerce.ServiceLayer.UsersService
         Task<ServiceResponse<Object>> RegisterUser(RegisterUserDTO model, string origin);
 
         Task<ServiceResponse<Object>> RegisterAdmin(RegisterAdminDTO model, string origin);
+
+        Task<ServiceResponse<BaseUserDTO>> Authenticate(AuthenticateDTO model, string ipAddress);
+
+        Task<ServiceResponse<BaseUserDTO>> RefreshToken(string token, string ipAddress);
+
+        Task<ServiceResponse<Object>> RevokeToken(string token, string ipAddress);
     }
 }

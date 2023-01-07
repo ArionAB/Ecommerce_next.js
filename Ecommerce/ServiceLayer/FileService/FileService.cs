@@ -26,6 +26,12 @@ namespace Ecommerce.ServiceLayer.FileService
         {
             return await _fileService.DeleteAdditionalPictures(additionalPicturesPaths);
         }
+
+        public async Task<ServiceResponse<object>> DeleteFile(string filePath)
+        {
+           return await _fileService.DeleteFile(filePath);
+           
+        }
     }
     }
 

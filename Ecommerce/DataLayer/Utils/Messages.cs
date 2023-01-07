@@ -29,6 +29,22 @@
 
         public static Message Message_GetPaginatedBabyItemsError = new Message { Text = "Eroare filtrare baby items", MessageType = MessageType.Error };
 
+        public static Message Message_AuthenticateUserSuccess = new Message { Text = "User autentificat cu success!", MessageType = MessageType.Success };
+        public static Message Message_AuthenticateUserError = new Message { Text = "Eroare autentificare!", MessageType = MessageType.Error };
+
+        public static Message Message_LoggedInError = new Message { Text = "Utilizatorul nu a putut fi logat. Verificați informațiile introduse.", MessageType = MessageType.Error };
+
+        public static Message Message_RefreshedTokenSuccess = new Message { Text = "Token-ul a fost actualizat.", MessageType = MessageType.Success };
+        public static Message Message_RefreshedTokenError = new Message { Text = "Token-ul nu a putut fii actualizat.", MessageType = MessageType.Error };
+
+        public static Message Message_RevokeTokenSuccess = new Message { Text = "Token-ul a fost revocat.", MessageType = MessageType.Success };
+        public static Message Message_RevokeTokenError = new Message { Text = "Token-ul nu a putut fii revocat.", MessageType = MessageType.Error };
+        
+
+        public static Message Message_DeleteProductGeneralError = new Message { Text = "Eroare stergere produs.", MessageType = MessageType.Error };
+        public static Message Message_DeleteProductIdError = new Message { Text = "Id-ul produsului inexistent.", MessageType = MessageType.Error };
+        public static Message Message_DeleteProductError = new Message { Text = "Produsul nu a fost gasit in baza de date.", MessageType = MessageType.Error };
+        public static Message Message_DeleteProductSuccess = new Message { Text = "Produsul a fost sters din baza de date.", MessageType = MessageType.Success };
 
     }
 }

@@ -73,3 +73,4 @@ C:\Users\Arion\Desktop\WebAPP\Ecommerce\Ecommerce\bin\Debug\net5.0\Serilog.Setti
 C:\Users\Arion\Desktop\WebAPP\Ecommerce\Ecommerce\bin\Debug\net5.0\Serilog.Sinks.Console.dll
 C:\Users\Arion\Desktop\WebAPP\Ecommerce\Ecommerce\bin\Debug\net5.0\Serilog.Sinks.Debug.dll
 C:\Users\Arion\Desktop\WebAPP\Ecommerce\Ecommerce\bin\Debug\net5.0\Serilog.Sinks.File.dll
+C:\Users\Arion\Desktop\WebAPP\Ecommerce\Ecommerce\bin\Debug\net5.0\Microsoft.IdentityModel.Abstractions.dll

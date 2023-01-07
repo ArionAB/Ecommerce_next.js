@@ -1,5 +1,6 @@
 ﻿using Ecommerce.DataLayer.Utils;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.DataLayer.Models.User
@@ -18,6 +19,13 @@ namespace Ecommerce.DataLayer.Models.User
         public string Password { get; set; }
 
         public UserType UserType { get; set; }
+
+        public List<RefreshToken> RefreshTokens { get; set; }
+
+        public bool OwnsToken(string token)
+        {
+            return this.RefreshTokens?.Find(x => x.Token == token) != null;
+        }
 
     }
 }

@@ -154,6 +154,53 @@ namespace Ecommerce.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.User.BaseUser", b =>
+                {
+                    b.OwnsMany("Ecommerce.DataLayer.Utils.RefreshToken", "RefreshTokens", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("char(36)");
+
+                            b1.Property<Guid>("AccountUserId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<DateTime>("Created")
+                                .HasColumnType("datetime(6)");
+
+                            b1.Property<string>("CreatedByIp")
+                                .HasColumnType("longtext");
+
+                            b1.Property<DateTime>("Expires")
+                                .HasColumnType("datetime(6)");
+
+                            b1.Property<string>("ReplacedByToken")
+                                .HasColumnType("longtext");
+
+                            b1.Property<DateTime?>("Revoked")
+                                .HasColumnType("datetime(6)");
+
+                            b1.Property<string>("RevokedByIp")
+                                .HasColumnType("longtext");
+
+                            b1.Property<string>("Token")
+                                .HasColumnType("longtext");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("AccountUserId");
+
+                            b1.ToTable("Users_RefreshTokens");
+
+                            b1.WithOwner("Account")
+                                .HasForeignKey("AccountUserId");
+
+                            b1.Navigation("Account");
+                        });
+
+                    b.Navigation("RefreshTokens");
+                });
+
             modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.ProductClass", b =>
                 {
                     b.Navigation("ProductPictures");

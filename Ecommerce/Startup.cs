@@ -1,4 +1,6 @@
 using Ecommerce.DataLayer.DbContexts;
+using Ecommerce.DataLayer.Utils;
+using Ecommerce.Middleware;
 using Ecommerce.ServiceLayer.BabyService;
 using Ecommerce.ServiceLayer.FileService;
 using Ecommerce.ServiceLayer.FileService.FileSystemService;
@@ -50,13 +52,19 @@ namespace Ecommerce
 
             services.AddCors();
          
-            services.AddControllers();
+        
        
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IFileSystemService, FileSystemService>();
             services.AddScoped<IFileService, FileService>();
+           
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+
+
+            services.AddControllers();
 
         }
 
@@ -82,7 +90,7 @@ namespace Ecommerce
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseMiddleware<JwtMiddleware>();
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions()
             {
@@ -94,6 +102,8 @@ namespace Ecommerce
             {
                 endpoints.MapControllers();
             });
+
+         
         }
     }
 }

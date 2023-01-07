@@ -11,5 +11,8 @@ namespace Ecommerce.ServiceLayer.FileService.FileSystemService
         Task<ServiceResponse<List<string>>> UploadPictures(List<IFormFile> pictures, string directoryPath);
 
         Task<ServiceResponse<Object>> DeleteAdditionalPictures(List<string> additionalPicturesPaths);
+
+        Task<ServiceResponse<Object>> DeleteFile(string filePath);
+
     }
 }

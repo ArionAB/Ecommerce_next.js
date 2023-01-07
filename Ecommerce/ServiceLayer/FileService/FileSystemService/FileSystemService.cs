@@ -10,34 +10,7 @@ namespace Ecommerce.ServiceLayer.FileService.FileSystemService
 {
     public class FileSystemService : IFileSystemService
     {
-        //public async Task<ServiceResponse<string>> UploadPictures(IFormFile file, string directoryPath)
-
-        //{
-        //    try
-        //    {
-        //        string fileName = GenericFunctions.GetFileNameHashed(file.FileName);
-
-        //        string dirPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", directoryPath);
-        //        Directory.CreateDirectory(dirPath);
-
-        //        var uploadPath = Path.Combine(dirPath, fileName);
-
-        //        var stream = new FileStream(uploadPath, FileMode.Create);
-
-        //        file.CopyTo(stream);
-
-        //        stream.Close();
-
-        //        var response = Path.Combine(directoryPath, fileName);
-
-        //        return new ServiceResponse<string> { Response = response, Success = true };
-        //    }
-
-        //    catch (Exception e)
-        //    {
-        //        return new ServiceResponse<string> { Response = e.Message, Success = false };
-        //    }
-        //}
+        
         
         public async Task<ServiceResponse<List<string>>> UploadPictures(List<IFormFile> pictures, string directoryPath)
 
@@ -91,6 +64,22 @@ namespace Ecommerce.ServiceLayer.FileService.FileSystemService
             catch (Exception e)
             {
                 return new ServiceResponse<object> { Response = null, Success = false };
+            }
+        }
+
+        public async Task<ServiceResponse<object>> DeleteFile(string filePath)
+        {
+            try
+            {
+                var deletePath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", filePath);
+
+                File.Delete(deletePath);
+                return new ServiceResponse<object> { Response = true, Success = true };
+            }
+            catch (Exception e)
+            {
+            
+                return new ServiceResponse<object> { Success = false };
             }
         }
 

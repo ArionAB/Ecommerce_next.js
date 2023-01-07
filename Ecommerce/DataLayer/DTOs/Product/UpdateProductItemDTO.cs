@@ -11,7 +11,7 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public string Price { get; set; }
 
-        public string BabySize { get; set; }
+        public List<ProductSizeDTO> ProductSize { get; set; }
 
         public string Description { get; set; }
 
@@ -25,7 +25,7 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public List<Guid> DeletedAdditionalPictures { get; set; }
 
-        public int Quantity { get; set; }
+       
 
 
     }

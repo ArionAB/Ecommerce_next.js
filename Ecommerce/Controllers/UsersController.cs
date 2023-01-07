@@ -1,5 +1,8 @@
 ﻿using Ecommerce.DataLayer.DTOs.User;
+using Ecommerce.DataLayer.Utils;
 using Ecommerce.ServiceLayer.UsersService;
+using Ecommerce.ServiceLayer.Utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -25,7 +28,7 @@ namespace Ecommerce.Controllers
             else
                 return BadRequest(result);
         }
-
+        
         [HttpPost("/Users/RegisterAdmin")]
 
         public async Task<IActionResult> RegisterAdmin(RegisterAdminDTO model)
@@ -36,6 +39,82 @@ namespace Ecommerce.Controllers
             else
                 return BadRequest(result);
         }
-    
+        [HttpPost("/Users/Login")]
+
+        public async Task<IActionResult> Authenticate([FromForm] AuthenticateDTO model)
+        {
+            var authenticateUser = await _userService.Authenticate(model, ipAddress());
+            if (authenticateUser.Success)
+            {
+                setTokenCookie(authenticateUser.Response.RefreshToken);
+                return Ok(new { Response = authenticateUser.Response, Message = authenticateUser.Message, Success = authenticateUser.Success });
+            }
+            else
+            {
+                return BadRequest(new { Message = authenticateUser.Message, Error = "Eroare autentificare" });
+            }
+        }
+
+        [HttpPost("/Users/RefreshToken")]
+
+        public async Task<IActionResult> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            var response = await _userService.RefreshToken(refreshToken, ipAddress());
+            if (response.Success)
+            {
+                setTokenCookie(response.Response.RefreshToken);
+                return Ok(new { Response = response.Response, Message = response.Message, Success = response.Success });
+            }
+            else
+            {
+                return BadRequest(new { Message = response.Message, Error = "Eroare refreshToken" });
+            }
+        }
+
+        [HttpPost("/Users/RevokeToken")]
+
+        public async Task<IActionResult> RevokeToken(string tokenToReset)
+
+        {
+            // accept token from request body or cookie
+            var token = tokenToReset ?? Request.Cookies["refreshToken"];
+
+            if (string.IsNullOrEmpty(token))
+                return BadRequest(new { message = "Token is required" });
+
+            // users can revoke their own tokens and admins can revoke any tokens
+            if (!Account.OwnsToken(token) && Account.UserType != UserType.Admin)
+                return Unauthorized(new { message = "Unauthorized" });
+
+            var result = await _userService.RevokeToken(token, ipAddress());
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
+        //helper methods
+
+        private string ipAddress()
+        {
+            if (Request.Headers.ContainsKey("X-Forwarded-For"))
+                return Request.Headers["X-Forwarded-For"];
+            else
+                return HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+        }
+
+        private void setTokenCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                Secure = true,
+                HttpOnly = true,
+                Expires = GenericFunctions.GetCurrentDateTime().AddDays(7),
+                SameSite = SameSiteMode.None
+            };
+            Response.Cookies.Append("refreshToken", token, cookieOptions);
+        }
+
     }
 }

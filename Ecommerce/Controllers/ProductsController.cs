@@ -27,7 +27,7 @@ namespace Ecommerce.Controllers
             else return BadRequest(response);
         }
 
-        [HttpGet("/Product/GetItems")]
+        [HttpPost("/Product/GetItems")]
         
         public async Task<IActionResult> GetProductItems([FromForm] string SearchText)
         {
@@ -63,6 +63,16 @@ namespace Ecommerce.Controllers
         public async Task<IActionResult> GetPaginatedProductItems([FromForm] ProductFiltersDTO filters)
         {
             var result = await _productService.GetPaginatedProductItems(filters);
+            if (result.Success) return Ok(result);
+
+            else return BadRequest(result);
+        }
+
+        [HttpPost("/Product/Delete")]
+
+        public async Task<IActionResult> DeleteProduct([FromForm] Guid id)
+        {
+            var result = await _productService.DeleteProduct(id);
             if (result.Success) return Ok(result);
 
             else return BadRequest(result);

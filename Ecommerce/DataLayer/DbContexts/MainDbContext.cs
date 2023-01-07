@@ -16,7 +16,7 @@ namespace Ecommerce.DataLayer.DbContexts
         }
         public DbSet<BaseUser> Users { get; set; }
 
-  
+        //public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<ProductClass> Product { get; set; }
         public DbSet<ProductPicture> ProductPictures { get; set; }
 
@@ -43,6 +43,8 @@ namespace Ecommerce.DataLayer.DbContexts
             
             modelBuilder.Entity<ProductClass>().HasMany(x => x.ProductPictures).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
             modelBuilder.Entity<ProductClass>().HasMany(x => x.ProductSizes).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
+
+            //modelBuilder.Entity<RefreshToken>().
 
 
 
