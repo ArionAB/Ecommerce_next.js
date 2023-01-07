@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import { AddItemForm } from "../src/Components/admin-page/AddItemForm";
 import { TabsPanel } from "../src/Components/admin-page/Tabs";
-import { BabyCategoryItems } from "../src/Components/selectItems/CategoryItems";
+import { SubCategoryItems } from "../src/Components/selectItems/SubCategoryItems";
 import { productCategoryType } from "../src/Store/Enums/productCategory";
 
 const Admin = () => {
@@ -34,7 +34,7 @@ const Admin = () => {
             label="Item"
             onChange={handleChange}
           >
-            {BabyCategoryItems.map((item) => (
+            {SubCategoryItems.map((item) => (
               <MenuItem key={item.value} value={item.value}>
                 {item.label}
               </MenuItem>

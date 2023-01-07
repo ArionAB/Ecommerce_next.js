@@ -1,10 +1,27 @@
 @import "./_variables.scss";
 
 .cardContainer {
+  position: relative;
   img {
     &:hover {
       cursor: pointer;
     }
+  }
+
+  .edit {
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    color: $warning-light;
+    cursor: pointer;
+  }
+
+  .delete {
+    position: absolute;
+    right: -10px;
+    top: -20px;
+    cursor: pointer;
+    color: $error-main;
   }
 
   .price {

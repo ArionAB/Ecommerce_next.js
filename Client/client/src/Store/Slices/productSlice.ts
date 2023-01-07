@@ -33,8 +33,8 @@ const initialState: ProductState = {
     SearchText: "",
     MinPrice: 0,
     MaxPrice: 0,
-    ProductCategory: 0,
-    SubcategoryType: 0,
+    ProductCategory: 1,
+    SubcategoryType: 1,
   },
   item: {
     productId: "",
@@ -54,7 +54,7 @@ export const productSlice = createSlice({
   name: "productSlice",
   initialState: initialState,
   reducers: {
-    resetBabyState: () => initialState,
+    resetProductState: () => initialState,
     setPageNumber: (state, action) => {
       state.filters.PageNumber = action.payload;
     },
@@ -103,7 +103,6 @@ export const productSlice = createSlice({
       state.loadingItem = true;
     });
     builder.addCase(getProduct.fulfilled, (state, action) => {
-      console.log(action);
       state.item = action.payload;
       state.loadingItem = false;
     });
@@ -114,7 +113,7 @@ export const productSlice = createSlice({
 });
 
 export const {
-  resetBabyState,
+  resetProductState,
   setPageNumber,
   setPageSize,
   setProductSize,

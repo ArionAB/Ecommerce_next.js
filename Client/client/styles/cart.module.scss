@@ -1,0 +1,36 @@
+@import "_variables.scss";
+
+.yourCartBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .yourCart {
+    color: $brown;
+    font-style: italic;
+    font-size: 2.3rem;
+    font-weight: 600;
+  }
+
+  .continueLink {
+    color: $brown;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+  }
+}
+
+.cartBox {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border: 1px solid $light-gray;
+
+  .continueBTN {
+    padding: 0.75rem 1rem;
+    background-color: $pink;
+    color: $brown;
+  }
+}

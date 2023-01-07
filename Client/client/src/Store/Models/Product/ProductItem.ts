@@ -8,7 +8,8 @@ export interface ProductItemModel {
   price: string;
   description: string;
   title: string;
-  categoryType: string;
+  productCategory: number;
+  subcategoryType: string;
   quantity: string;
   totalCategoryItems: string;
   totalSize: string;

@@ -27,6 +27,7 @@ h4,
 h5,
 h6,
 p,
-span {
+span,
+button {
   font-family: Karla !important;
 }

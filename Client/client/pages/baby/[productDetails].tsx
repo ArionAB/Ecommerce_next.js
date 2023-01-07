@@ -31,7 +31,6 @@ const ProductDetails = () => {
   const { productDetails } = router.query;
   const item = useAppSelector(selectProductItem);
 
-  console.log(item);
   const imageLoader = () => {
     return `${resourceUrl}${item?.productPictures[imageIndex]?.filePath}`;
   };

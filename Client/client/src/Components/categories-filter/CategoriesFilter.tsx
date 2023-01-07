@@ -22,11 +22,11 @@ import { selectFilters } from "../../Store/Selectors/productSelectors";
 
 export const CategoriesFilter: FC<{
   categories: { value: number; label: string }[];
-  sizes: { value: string; label: string; filterLabel: string }[];
+  sizes?: { value: string; label: string; filterLabel: string }[];
   numberOfItems: any;
-  numberOfSizes: ProductSizesModel;
+  numberOfSizes?: ProductSizesModel;
   priceRange: { minPrice: number; maxPrice: number };
-  productType: productCategoryType;
+  productType?: productCategoryType;
 }> = ({
   categories,
   numberOfItems,
@@ -51,6 +51,8 @@ export const CategoriesFilter: FC<{
   const dispatch = useAppDispatch();
   const router = useRouter();
   const filters = useAppSelector(selectFilters);
+
+  console.log(priceRange);
 
   useEffect(() => {
     if (priceRange) setMiddleRange(priceRange.maxPrice / 5);
@@ -148,7 +150,7 @@ export const CategoriesFilter: FC<{
           <Typography className={styles.categories}>Cateogries</Typography>
         </Box>
         <Collapse orientation="vertical" in={open}>
-          {categories.map((category, index) => (
+          {categories?.map((category, index) => (
             <Box
               key={category.value}
               className={styles.number}
@@ -162,43 +164,46 @@ export const CategoriesFilter: FC<{
           ))}
         </Collapse>
       </Box>
-      <Box className={styles.categoriesContainer}>
-        <Box
-          onClick={() => setOpenSize(!openSize)}
-          className={styles.categoriesTitle}
-        >
-          {openSize ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-          <Typography className={styles.categories}>Size</Typography>
+      {sizes && (
+        <Box className={styles.categoriesContainer}>
+          <Box
+            onClick={() => setOpenSize(!openSize)}
+            className={styles.categoriesTitle}
+          >
+            {openSize ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+            <Typography className={styles.categories}>Size</Typography>
+          </Box>
+
+          <Collapse orientation="vertical" in={openSize}>
+            <FormGroup>
+              {sizes?.map((size) => (
+                <Box
+                  key={size.value}
+                  className={styles.number}
+                  onClick={(e) => handleSizeType(size.filterLabel)}
+                >
+                  <Box className={styles.checkbox}>
+                    <Checkbox
+                      checked={checkedSizes[size.filterLabel]}
+                      name={size.filterLabel}
+                      color="secondary"
+                    />
+                    <Typography>{size.label}</Typography>
+                  </Box>
+                  <Box component="span" className={styles.sizeNumber}>
+                    (
+                    {numberOfSizes &&
+                      numberOfSizes[
+                        size?.filterLabel as keyof typeof numberOfSizes
+                      ]}
+                    )
+                  </Box>
+                </Box>
+              ))}
+            </FormGroup>
+          </Collapse>
         </Box>
-        <Collapse orientation="vertical" in={openSize}>
-          <FormGroup>
-            {sizes.map((size) => (
-              <Box
-                key={size.value}
-                className={styles.number}
-                onClick={(e) => handleSizeType(size.filterLabel)}
-              >
-                <Box className={styles.checkbox}>
-                  <Checkbox
-                    checked={checkedSizes[size.filterLabel]}
-                    name={size.filterLabel}
-                    color="secondary"
-                  />
-                  <Typography>{size.label}</Typography>
-                </Box>
-                <Box component="span" className={styles.sizeNumber}>
-                  (
-                  {numberOfSizes &&
-                    numberOfSizes[
-                      size?.filterLabel as keyof typeof numberOfSizes
-                    ]}
-                  )
-                </Box>
-              </Box>
-            ))}
-          </FormGroup>
-        </Collapse>
-      </Box>
+      )}
       <Box className={styles.categoriesContainer}>
         <Box
           onClick={() => setOpenPrice(!openPrice)}
@@ -222,6 +227,10 @@ export const CategoriesFilter: FC<{
             marks={priceRange && marks}
             classes={{
               thumb: styles.thumb,
+              track: styles.track,
+              rail: styles.rail,
+              mark: styles.mark,
+              markLabel: styles.markLabel,
             }}
             aria-labelledby="range-slider"
             defaultValue={[0, 100]}

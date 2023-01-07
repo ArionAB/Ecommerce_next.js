@@ -20,6 +20,18 @@
   }
 }
 
+.markLabel[data-index="0"] {
+  left: 0 !important;
+}
+
+.markLabel[data-index="1"] {
+  left: 50% !important;
+}
+
+.markLabel[data-index="2"] {
+  left: 100% !important;
+}
+
 .categoriesTitle {
   display: flex;
   align-items: center;

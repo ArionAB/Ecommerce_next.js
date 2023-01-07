@@ -10,4 +10,6 @@ export interface GetAllProductItemsModel {
     minPrice: number;
     maxPrice: number;
   };
+  totalItems: number;
+  totalSearchResultItems: number;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Typography, Paper, Grid, Box } from "@mui/material";
 import { CategoriesFilter } from "../src/Components/categories-filter/CategoriesFilter";
-import { BabyCategoryItems } from "../src/Components/selectItems/CategoryItems";
+import { SubCategoryItems } from "../src/Components/selectItems/SubCategoryItems";
 import { useAppDispatch, useAppSelector } from "../src/Store";
 import styles from "../styles/baby.module.scss";
 import {
@@ -75,7 +75,7 @@ const Baby = () => {
       <Typography variant="h1">Baby Clothes</Typography>
       <Box className={styles.categoryWrapper}>
         <CategoriesFilter
-          categories={BabyCategoryItems}
+          categories={SubCategoryItems}
           numberOfItems={paginatedItems.totalItemsPerCategory}
           sizes={BabySizeItems}
           numberOfSizes={paginatedItems.totalSizes}

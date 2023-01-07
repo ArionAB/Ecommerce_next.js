@@ -49,11 +49,12 @@ export const getProductItems = createAsyncThunk<
   GetAllProductItemsModel,
   string,
   AppThunkConfig
->("/Product/GetItems", async (string, thunkApi) => {
+>("/Product/GetItems", async (SearchText, thunkApi) => {
   try {
     let form = new FormData();
-    form.append("SearchText", string);
-    let { data } = await axios.get(baseUrl + "Product/GetItems", form, {
+    form.append("SearchText", SearchText);
+
+    let { data } = await axios.post(baseUrl + "Product/GetItems", form, {
       withCredentials: true,
       headers: {
         "Content-type": "application/x-www-form-urlencoded",
@@ -124,3 +125,25 @@ export const getProduct = createAsyncThunk<
     return thunkApi.rejectWithValue(getAxiosErrorMessage(err));
   }
 });
+
+export const deleteProduct = createAsyncThunk<any, string, AppThunkConfig>(
+  "/Product/Delete",
+  async (id, thunkApi) => {
+    let form = new FormData();
+    form.append("id", id);
+    try {
+      let { data } = await axios.post(baseUrl + "Product/Delete/", form, {
+        withCredentials: true,
+
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded",
+        },
+      });
+
+      return data.response;
+    } catch (err: any) {
+      let errorMessage = getAxiosErrorMessage(err);
+      return thunkApi.rejectWithValue(getAxiosErrorMessage(err));
+    }
+  }
+);
