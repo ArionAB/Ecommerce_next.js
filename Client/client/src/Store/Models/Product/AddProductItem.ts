@@ -1,14 +1,14 @@
-export interface quantityModel {
-  size: number;
-  quantity: number;
-}
+// export interface quantityModel {
+//   size: number;
+//   quantity: number;
+// }
 
 export interface AddProductItemModel {
   price: string;
   description: string;
   title: string;
   pictures: File[];
-  subcategoryType: string;
+  fruitType: string;
   productCategory: number;
-  productSize?: quantityModel[];
+  // productSize?: quantityModel[];
 }

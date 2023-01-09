@@ -1,5 +1,11 @@
 @import "_variables.scss";
 
+.closeModal {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 1rem;
+}
+
 .container {
   display: flex;
   gap: 3rem;

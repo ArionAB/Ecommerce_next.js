@@ -10,27 +10,27 @@ import {
 import React, { FC, useState, useEffect } from "react";
 import { useAppDispatch } from "../../Store";
 import { AddProductItemModel } from "../../Store/Models/Product/AddProductItem";
-import { addProductItem } from "../../Store/Thunks/babyThunks";
+import { addProductItem } from "../../Store/Thunks/productThunks";
 import FileUploadComponent from "../fileUpload/FileUploadComponent";
 import { BabySizeItems } from "../selectItems/BabySizeItems";
 
-export const AddItemForm: FC<{ categoryType: string; productType: number }> = ({
-  categoryType,
+export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
+  fruitType,
   productType,
 }) => {
   const [textfield, setTextfield] = useState<any>([]);
   const [formValues, setFormValues] = useState<AddProductItemModel>({
     title: "",
     description: "",
-    subcategoryType: categoryType,
+    fruitType: fruitType,
     productCategory: productType,
     price: "",
     pictures: [],
   });
-
+  console.log(formValues);
   useEffect(() => {
-    setFormValues((prev) => ({ ...prev, subcategoryType: categoryType }));
-  }, [categoryType]);
+    setFormValues((prev) => ({ ...prev, fruitType: fruitType }));
+  }, [fruitType]);
 
   useEffect(() => {
     setFormValues((prev) => ({ ...prev, productCategory: productType }));
@@ -101,7 +101,7 @@ export const AddItemForm: FC<{ categoryType: string; productType: number }> = ({
           />
         </InputLabel>
 
-        <Typography variant="h6">Cantitate</Typography>
+        {/* <Typography variant="h6">Fruct</Typography>
         <Paper elevation={3}>
           {BabySizeItems.map((item, index) => {
             return (
@@ -121,7 +121,7 @@ export const AddItemForm: FC<{ categoryType: string; productType: number }> = ({
               </MenuItem>
             );
           })}
-        </Paper>
+        </Paper> */}
 
         <InputLabel className="input-label">
           <Typography variant="h6">Pret</Typography>

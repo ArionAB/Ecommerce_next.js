@@ -5,32 +5,73 @@ import { AddProductItemModel } from "../Models/Product/AddProductItem";
 import { FiltersModel } from "../Models/Product/FiltersModel";
 import { GetAllProductItemsModel } from "../Models/Product/GetAllProductItemsModel";
 import { ProductItemModel } from "../Models/Product/ProductItem";
+import { UpdateProductItemModel } from "../Models/Product/UpdateProductItemModel";
 
 const axios = require("axios").default;
 
 export const addProductItem = createAsyncThunk<
   any,
-  { data: AddProductItemModel; productSize: any },
+  { data: AddProductItemModel },
   AppThunkConfig
->("/Product/Add", async ({ data, productSize }, thunkApi) => {
+>("/Product/Add", async ({ data }, thunkApi) => {
   try {
     let form = new FormData();
     form.append("price", data.price);
 
     form.append("description", data.description);
     form.append("title", data.title);
-    form.append("subcategoryType", data.subcategoryType);
+    form.append("fruitType", data.fruitType);
     form.append("productCategory", data.productCategory.toString());
 
     data.pictures.forEach((picture: any, index) =>
       form.append(`pictures`, picture)
     );
-    productSize.forEach((size: any, index: number) => {
-      form.append(`productSize[${index}].size`, size.size);
-      form.append(`productSize[${index}].quantity`, size.quantity);
-    });
+    // productSize.forEach((size: any, index: number) => {
+    //   form.append(`productSize[${index}].size`, size.size);
+    //   form.append(`productSize[${index}].quantity`, size.quantity);
+    // });
 
     let { response } = await axios.post(baseUrl + "product/Add", form, {
+      withCredentials: true,
+      headers: {
+        // "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+
+    return response;
+  } catch (err: any) {
+    let errorMessage = getAxiosErrorMessage(err);
+    return thunkApi.rejectWithValue(getAxiosErrorMessage(err));
+  }
+});
+
+export const updateProductItem = createAsyncThunk<
+  any,
+  { data: UpdateProductItemModel; deletedImages: string[] },
+  AppThunkConfig
+>("/Product/Update", async ({ data, deletedImages }, thunkApi) => {
+  try {
+    let form = new FormData();
+    form.append("price", data.price);
+    form.append("productId", data.productId);
+    form.append("description", data.description);
+    form.append("title", data.title);
+    form.append("fruitType", data.fruitType.toString());
+    form.append("productCategory", data.productCategory.toString());
+    data.newAdditionalPictures.forEach((picture: any, index) =>
+      form.append(`newAdditionalPictures`, picture)
+    );
+    deletedImages.forEach((picture: any, index) =>
+      form.append(`deletedAdditionalPictures`, picture)
+    );
+
+    // productSize.forEach((size: any, index: number) => {
+    //   form.append(`productSize[${index}].size`, size.size);
+    //   form.append(`productSize[${index}].quantity`, size.quantity);
+    // });
+
+    let { response } = await axios.post(baseUrl + "product/update", form, {
       withCredentials: true,
       headers: {
         // "Content-Type": "application/json",

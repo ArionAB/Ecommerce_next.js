@@ -6,7 +6,7 @@ import {
   getPaginatedProductItems,
   getProduct,
   getProductItems,
-} from "../Thunks/babyThunks";
+} from "../Thunks/productThunks";
 
 const initialState: ProductState = {
   actions: {},

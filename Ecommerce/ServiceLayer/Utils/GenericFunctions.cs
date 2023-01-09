@@ -66,26 +66,40 @@ namespace Ecommerce.ServiceLayer.Utils
             }
         }
 
-        public static string ConvertBabySizeEnumToString(BabySizeType size)
+        public static string ConvertSizeTypeEnumToInt(SizeType sizeType)
         {
-            switch (size)
+            switch (sizeType)
             {
-                case BabySizeType.All:
-                    return "0";
-                case BabySizeType.ZeroToThree:
+                case SizeType.Small:
                     return "1";
-                case BabySizeType.ThreeToSix:
+                case SizeType.Big:
                     return "2";
-                case BabySizeType.SixToNine:
-                    return "3";
-                case BabySizeType.NineToTwelve:
-                    return "4";
-                case BabySizeType.TwelveToEighteen:
-                    return "5";
+         
                 default:
-                    return "";
-            
+                    return "0";
             }
         }
+
+        //public static string ConvertBabySizeEnumToString(BabySizeType size)
+        //{
+        //    switch (size)
+        //    {
+        //        case BabySizeType.All:
+        //            return "0";
+        //        case BabySizeType.ZeroToThree:
+        //            return "1";
+        //        case BabySizeType.ThreeToSix:
+        //            return "2";
+        //        case BabySizeType.SixToNine:
+        //            return "3";
+        //        case BabySizeType.NineToTwelve:
+        //            return "4";
+        //        case BabySizeType.TwelveToEighteen:
+        //            return "5";
+        //        default:
+        //            return "";
+
+        //    }
+        //}
     }
 }

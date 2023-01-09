@@ -15,14 +15,14 @@ import {
 } from "../../Store/Slices/productSlice";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
-import { BabySizeType } from "../../Store/Enums/Baby/BabySizeType";
+// import { BabySizeType } from "../../Store/Enums/Product/BabySizeType";
 import { productCategoryType } from "../../Store/Enums/productCategory";
 import { useRouter } from "next/router";
 import { selectFilters } from "../../Store/Selectors/productSelectors";
 
 export const CategoriesFilter: FC<{
   categories: { value: number; label: string }[];
-  sizes?: { value: string; label: string; filterLabel: string }[];
+  fruits?: { value: number; label: string }[];
   numberOfItems: any;
   numberOfSizes?: ProductSizesModel;
   priceRange: { minPrice: number; maxPrice: number };
@@ -30,7 +30,7 @@ export const CategoriesFilter: FC<{
 }> = ({
   categories,
   numberOfItems,
-  sizes,
+  fruits,
   numberOfSizes,
   priceRange,
   productType,
@@ -51,8 +51,6 @@ export const CategoriesFilter: FC<{
   const dispatch = useAppDispatch();
   const router = useRouter();
   const filters = useAppSelector(selectFilters);
-
-  console.log(priceRange);
 
   useEffect(() => {
     if (priceRange) setMiddleRange(priceRange.maxPrice / 5);
@@ -99,21 +97,6 @@ export const CategoriesFilter: FC<{
   };
 
   useEffect(() => {
-    let sizesArray = [];
-
-    if (checkedSizes.zeroToThree) sizesArray.push(BabySizeType.ZeroToThree);
-    if (checkedSizes.threeToSix) sizesArray.push(BabySizeType.ThreeToSix);
-    if (checkedSizes.sixToNine) sizesArray.push(BabySizeType.SixToNine);
-    if (checkedSizes.nineToTwelve) sizesArray.push(BabySizeType.NineToTwelve);
-    if (checkedSizes.twelveToEighteen)
-      sizesArray.push(BabySizeType.TwelveToEighteen);
-
-    dispatch(setProductSize(sizesArray));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkedSizes]);
-
-  useEffect(() => {
     dispatch(setMinPrice(thumbValue[0]));
     router.push(
       {
@@ -147,7 +130,7 @@ export const CategoriesFilter: FC<{
       <Box className={styles.categoriesContainer}>
         <Box onClick={() => setOpen(!open)} className={styles.categoriesTitle}>
           {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-          <Typography className={styles.categories}>Cateogries</Typography>
+          <Typography className={styles.categories}>Miere</Typography>
         </Box>
         <Collapse orientation="vertical" in={open}>
           {categories?.map((category, index) => (
@@ -157,46 +140,47 @@ export const CategoriesFilter: FC<{
               onClick={() => handleSubcategoryType(category.value)}
             >
               {category.label}
-              <Box component="span" className={styles.sizeNumber}>
+              {/* <Box component="span" className={styles.sizeNumber}>
                 ({numberOfItems[`${category.label}`.toLowerCase()]})
-              </Box>
+              </Box> */}
             </Box>
           ))}
         </Collapse>
       </Box>
-      {sizes && (
+      {fruits && (
         <Box className={styles.categoriesContainer}>
           <Box
             onClick={() => setOpenSize(!openSize)}
             className={styles.categoriesTitle}
           >
             {openSize ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-            <Typography className={styles.categories}>Size</Typography>
+            <Typography className={styles.categories}>Cu Fructe</Typography>
           </Box>
 
           <Collapse orientation="vertical" in={openSize}>
             <FormGroup>
-              {sizes?.map((size) => (
+              {fruits?.map((fruit) => (
                 <Box
-                  key={size.value}
+                  key={fruit.value}
                   className={styles.number}
-                  onClick={(e) => handleSizeType(size.filterLabel)}
+                  // onClick={(e) => handleSizeType(size.filterLabel)}
                 >
                   <Box className={styles.checkbox}>
                     <Checkbox
-                      checked={checkedSizes[size.filterLabel]}
-                      name={size.filterLabel}
+                      // checked={checkedSizes[size.filterLabel]}
+
+                      // name={size.filterLabel}
                       color="secondary"
                     />
-                    <Typography>{size.label}</Typography>
+                    <Typography>{fruit.label}</Typography>
                   </Box>
                   <Box component="span" className={styles.sizeNumber}>
-                    (
+                    {/* (
                     {numberOfSizes &&
                       numberOfSizes[
                         size?.filterLabel as keyof typeof numberOfSizes
                       ]}
-                    )
+                    ) */}
                   </Box>
                 </Box>
               ))}

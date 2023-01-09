@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ecommerce.DataLayer.DbContexts;
 using Ecommerce.DataLayer.DTOs.User;
+using Ecommerce.DataLayer.Models.Cart;
 using Ecommerce.DataLayer.Models.User;
 using Ecommerce.DataLayer.Utils;
 using Ecommerce.ServiceLayer.LogService;
@@ -55,6 +56,7 @@ namespace Ecommerce.ServiceLayer.UsersService
                 account.Password = BC.HashPassword(model.Password);
 
                 _context.Users.Add(account);
+              
 
                 _context.SaveChanges();
 
@@ -144,6 +146,15 @@ namespace Ecommerce.ServiceLayer.UsersService
                 removeOldRefreshTokens(account);
 
                 // save changes to db
+
+
+
+
+                
+
+
+
+             
                 _context.Update(account);
                 _context.SaveChanges();
 

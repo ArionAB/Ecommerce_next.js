@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Typography, Paper, Grid, Box } from "@mui/material";
 import { CategoriesFilter } from "../src/Components/categories-filter/CategoriesFilter";
-import { SubCategoryItems } from "../src/Components/selectItems/SubCategoryItems";
+import { FruitItems } from "../src/Components/selectItems/FruitItems";
 import { useAppDispatch, useAppSelector } from "../src/Store";
 import styles from "../styles/baby.module.scss";
 import {
@@ -14,12 +14,13 @@ import Card from "../src/Components/card/Card";
 import {
   getPaginatedProductItems,
   getProductItems,
-} from "../src/Store/Thunks/babyThunks";
+} from "../src/Store/Thunks/productThunks";
 import { BabySizeItems } from "../src/Components/selectItems/BabySizeItems";
 import { productCategoryType } from "../src/Store/Enums/productCategory";
 import { useRouter } from "next/router";
+import { CategoryItems } from "../src/Components/selectItems/CategoryItems";
 
-const Baby = () => {
+const Home = () => {
   const [expand, setExpand] = useState<boolean>(true);
   const [containerIndex, setContainerIndex] = useState<number>(0);
 
@@ -34,9 +35,9 @@ const Baby = () => {
   const filters = useAppSelector(selectFilters);
 
   useEffect(() => {
-    // dispatch(getProductItems(""));
+    dispatch(getProductItems(""));
 
-    dispatch(
+    /*     dispatch(
       getPaginatedProductItems({
         filters: {
           PageNumber: router.query.PageNumber ?? "1",
@@ -56,12 +57,12 @@ const Baby = () => {
           SearchText: router.query.SearchText ?? "",
         },
       })
-    );
-  }, [router.query]);
+    ); */
+  }, []);
 
   useEffect(() => {
     router.push({
-      pathname: "/baby",
+      pathname: "/home",
       query: {
         ...filters,
       },
@@ -75,15 +76,15 @@ const Baby = () => {
       <Typography variant="h1">Baby Clothes</Typography>
       <Box className={styles.categoryWrapper}>
         <CategoriesFilter
-          categories={SubCategoryItems}
-          numberOfItems={paginatedItems.totalItemsPerCategory}
-          sizes={BabySizeItems}
-          numberOfSizes={paginatedItems.totalSizes}
-          priceRange={paginatedItems.priceRange}
-          productType={productCategoryType.Baby}
+          categories={CategoryItems}
+          numberOfItems={productItems.totalItemsPerCategory}
+          fruits={FruitItems}
+          numberOfSizes={productItems.totalSizes}
+          priceRange={productItems.priceRange}
+          // productType={productCategoryType.Baby}
         />
         <Grid container rowGap={2}>
-          {paginatedItems.productItems?.map((card, index) => (
+          {productItems.productItems?.map((card, index) => (
             <Grid
               key={card.productId}
               item
@@ -119,4 +120,4 @@ const Baby = () => {
   );
 };
 
-export default Baby;
+export default Home;

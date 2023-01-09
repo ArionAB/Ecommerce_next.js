@@ -1,19 +1,10 @@
-import {
-  Container,
-  Select,
-  MenuItem,
-  Box,
-  TextField,
-  Paper,
-} from "@mui/material";
+import { Container, Select, MenuItem, Box, TextField } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import { CategoryItems } from "../selectItems/CategoryItems";
 import Typography from "@mui/material/Typography";
 import React, { useState, FC, ChangeEvent, useEffect } from "react";
-import { AddProductItemModel } from "../../Store/Models/Product/AddProductItem";
-import { BabySizeItems } from "../selectItems/BabySizeItems";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { SubCategoryItems } from "../selectItems/SubCategoryItems";
+import { FruitItems } from "../selectItems/FruitItems";
 import { ProductItemModel } from "../../Store/Models/Product/ProductItem";
 import { resourceUrl } from "../../Utils";
 import Switch from "@mui/material/Switch";
@@ -21,18 +12,23 @@ import FormGroup from "@mui/material/FormGroup/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FileUploadComponent from "../fileUpload/FileUploadComponent";
 import Button from "@mui/material/Button/Button";
+import { useAppDispatch } from "../../Store";
+import { updateProductItem } from "../../Store/Thunks/productThunks";
+import { UpdateProductItemModel } from "../../Store/Models/Product/UpdateProductItemModel";
 
 const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
-  const [textfield, setTextfield] = useState<any>([]);
-  const [formValues, setFormValues] = useState<AddProductItemModel>({
+  const [deletedImages, setDeletedImages] = useState<string[]>([]);
+  const [formValues, setFormValues] = useState<UpdateProductItemModel>({
+    productId: card.productId,
     title: "",
     description: "",
-    subcategoryType: "",
+    fruitType: Number(card.fruitType),
     productCategory: 2,
     price: "",
-    pictures: [],
+    newAdditionalPictures: [],
   });
-  const [deletedImages, setDeletedImages] = useState<string[]>([]);
+
+  const dispatch = useAppDispatch();
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -41,28 +37,12 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleQuantityChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    size: string,
-    index: number
-  ) => {
-    const { value } = event.target;
-
-    setTextfield({
-      ...textfield,
-      [index]: {
-        size: size,
-        quantity: value,
-      },
-    });
-  };
-
   const handleSelectCategory = (e: SelectChangeEvent) => {
     setFormValues({ ...formValues, productCategory: Number(e.target.value) });
   };
 
   const handleSelectSubCateogry = (e: SelectChangeEvent) => {
-    setFormValues({ ...formValues, subcategoryType: e.target.value });
+    setFormValues({ ...formValues, fruitType: Number(e.target.value) });
   };
 
   const handleDeletedImages = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,20 +56,33 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
   };
 
   const uploadPictures = (newFiles: File[]) => {
-    setFormValues({ ...formValues, pictures: newFiles });
+    setFormValues({ ...formValues, newAdditionalPictures: newFiles });
   };
 
   useEffect(() => {
     setFormValues({
+      productId: card.productId,
       title: card.title,
       description: card.description,
-      subcategoryType: card.subcategoryType,
+      fruitType: Number(card.fruitType),
       productCategory: card.productCategory,
       price: card.price,
-      pictures: [],
+      newAdditionalPictures: [],
     });
-    setTextfield(card.productSizes);
+    // setTextfield(card.productSizes);
   }, [card]);
+
+  console.log(formValues);
+  const submitUpdate = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+
+    dispatch(
+      updateProductItem({
+        data: formValues,
+        deletedImages: deletedImages,
+      })
+    );
+  };
 
   return (
     <Container maxWidth="xl">
@@ -121,11 +114,11 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
           fullWidth
           labelId="subcategory-select"
           id="subcategory-select"
-          value={formValues.subcategoryType}
+          value={formValues.fruitType.toString()}
           label="Subcategory"
           onChange={handleSelectSubCateogry}
         >
-          {SubCategoryItems.map((item) => {
+          {FruitItems.map((item) => {
             return (
               <MenuItem key={item.value} value={item.value}>
                 {item.label}
@@ -154,31 +147,6 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
             minRows={4}
             value={formValues.description || ""}
           />
-        </InputLabel>
-
-        <InputLabel sx={{ marginTop: "1rem" }}>
-          Quantity
-          <Paper elevation={3}>
-            {BabySizeItems.map((item, index) => {
-              return (
-                <MenuItem
-                  key={item.value}
-                  value={item.value}
-                  onKeyDown={(e) => e.stopPropagation()}
-                  sx={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  {item.label}
-
-                  <TextField
-                    name="quantity"
-                    type="number"
-                    onChange={(e) => handleQuantityChange(e, item.value, index)}
-                    value={textfield[index]?.quantity || ""}
-                  />
-                </MenuItem>
-              );
-            })}
-          </Paper>
         </InputLabel>
 
         <InputLabel className="input-label" sx={{ marginTop: "1rem" }}>
@@ -228,7 +196,7 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
         <FileUploadComponent onFilesChange={uploadPictures} />
         <Button
           variant="contained"
-          type="submit"
+          onClick={(e) => submitUpdate(e)}
           sx={{
             margin: "1rem",
           }}

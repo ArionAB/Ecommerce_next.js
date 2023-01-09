@@ -13,7 +13,8 @@ import EditCardModal from "../modals/EditCardModal";
 import Close from "@mui/icons-material/Close";
 import ConfirmationMessage from "../notifications/ConfirmationMessage";
 import { useAppDispatch } from "../../Store";
-import { deleteProduct } from "../../Store/Thunks/babyThunks";
+import { deleteProduct } from "../../Store/Thunks/productThunks";
+import ProductDetails from "../../../pages/miere/[productDetails]";
 
 const Card: FC<{
   card: ProductItemModel;
@@ -29,6 +30,7 @@ const Card: FC<{
   const [openConfirmationMessage, setOpenConfirmationMessage] =
     useState<boolean>(false);
   const [currentTarget, setCurrentTarget] = useState<any>(null);
+  const [openShop, setOpenShop] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
 
@@ -38,6 +40,9 @@ const Card: FC<{
 
   const handleCloseOptions = () => {
     setOpenOptions(false);
+  };
+  const handleCloseShop = () => {
+    setOpenShop(false);
   };
 
   const handleDeleteProduct = () => {
@@ -69,7 +74,7 @@ const Card: FC<{
         close={setOpenConfirmationMessage}
         deleteProduct={handleDeleteProduct}
       />
-      <Link href={`/baby/${card.productId}`}>
+      <Link href={`/miere/${card.productId}`}>
         <Image
           src={resourceUrl + imageSource}
           onMouseEnter={() => {
@@ -92,7 +97,9 @@ const Card: FC<{
       <Typography className={styles.title}>{card.title}</Typography>
       {expand && containerIndex === index && (
         <Box className={styles.twoButtons}>
-          <Button className={styles.shop}>Quick Shop</Button>
+          <Button className={styles.shop} onClick={() => setOpenShop(true)}>
+            Quick Shop
+          </Button>
           <Button
             className={styles.options}
             onClick={() => setOpenOptions(true)}
@@ -103,6 +110,9 @@ const Card: FC<{
       )}
       <Dialog open={openOptions}>
         <Options handleClose={handleCloseOptions} card={card} />
+      </Dialog>
+      <Dialog open={openShop} maxWidth="lg">
+        <ProductDetails handleClose={handleCloseShop} open={openShop} />
       </Dialog>
     </Box>
   );

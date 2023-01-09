@@ -19,14 +19,14 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public ProductCategoryType ProductCategory { get; set; }
 
-        public SubcategoryType SubcategoryType { get; set; }
+        public FruitType FruitType { get; set; }
 
 
         public int TotalCategoryItems { get; set; }
 
-        public int TotalSize { get; set; }
+        //public int TotalSize { get; set; }
 
-        public List<ProductSizeDTO> ProductSizes  { get; set; }
+        //public List<ProductSizeDTO> ProductSizes  { get; set; }
         public List<ProductPictureDTO> ProductPictures { get; set; }
 
         

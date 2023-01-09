@@ -11,13 +11,13 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public string Price { get; set; }
 
-        public List<ProductSizeDTO> ProductSize { get; set; }
+        //public List<ProductSizeDTO> ProductSize { get; set; }
 
         public string Description { get; set; }
 
         public string Title { get; set; }
 
-        public SubcategoryType SubcategoryType { get; set; }
+        public FruitType FruitType { get; set; }
 
         public ProductCategoryType ProductCategory { get; set; }
 

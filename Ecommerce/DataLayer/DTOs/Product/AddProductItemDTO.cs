@@ -10,7 +10,7 @@ namespace Ecommerce.DataLayer.DTOs.Baby
       
         public int Price { get; set; }
 
-        public List<ProductSizeDTO> ProductSize { get; set; }
+        //public List<ProductSizeDTO> ProductSize { get; set; }
         
         public string Description { get; set; }
         
@@ -18,8 +18,8 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public List<IFormFile> Pictures { get; set; }
 
-        public SubcategoryType SubcategoryType  { get; set; }
-
+        public FruitType FruitType  { get; set; }
+        
         public ProductCategoryType ProductCategory { get; set; }
 
         

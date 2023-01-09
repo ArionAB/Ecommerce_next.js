@@ -19,9 +19,9 @@ namespace Ecommerce.Controllers
 
         [HttpPost("/Product/Add")]
         
-        public async Task<IActionResult> AddBabyItem([FromForm] AddProductItemDTO babyitemDTO)
+        public async Task<IActionResult> AddItem([FromForm] AddProductItemDTO itemDTO)
         {
-            var response = await _productService.AddProductItem(babyitemDTO);
+            var response = await _productService.AddProductItem(itemDTO);
             if (response.Success) return Ok(response);
 
             else return BadRequest(response);
@@ -49,10 +49,10 @@ namespace Ecommerce.Controllers
 
         [HttpPost("/Product/Update")]
         
-        public async Task<IActionResult> UpdateProductItem([FromForm]UpdateProductItemDTO babyitemDTO)
+        public async Task<IActionResult> UpdateProductItem([FromForm]UpdateProductItemDTO itemDTO)
 
         {
-            var result = await _productService.UpdateProductItem(babyitemDTO);
+            var result = await _productService.UpdateProductItem(itemDTO);
             if (result.Success) return Ok(result);
 
             else return BadRequest(result);

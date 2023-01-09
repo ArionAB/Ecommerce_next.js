@@ -1,5 +1,6 @@
 ﻿using Ecommerce.DataLayer.Models.Baby;
-
+using Ecommerce.DataLayer.Models.Cart;
+using Ecommerce.DataLayer.Models.Product;
 using Ecommerce.DataLayer.Models.User;
 using Ecommerce.DataLayer.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -16,11 +17,17 @@ namespace Ecommerce.DataLayer.DbContexts
         }
         public DbSet<BaseUser> Users { get; set; }
 
-        //public DbSet<RefreshToken> RefreshTokens { get; set; }
+    
         public DbSet<ProductClass> Product { get; set; }
         public DbSet<ProductPicture> ProductPictures { get; set; }
 
-        public DbSet<ProductSize> ProductSizes { get; set; }
+        //public DbSet<ProductSize> ProductSizes { get; set; }
+
+        public DbSet<FruitInventory> FruitInventory { get; set; }
+
+        public DbSet<CartClass> Cart { get; set; }
+
+        public DbSet<CartProduct> CartProducts { get; set; }
 
 
        
@@ -37,18 +44,35 @@ namespace Ecommerce.DataLayer.DbContexts
 
             modelBuilder.Entity<ProductPicture>().HasKey(x => x.PictureId);
 
-            modelBuilder.Entity<ProductSize>().HasKey(x => x.ProductSizeId);
+            //modelBuilder.Entity<ProductSize>().HasKey(x => x.ProductSizeId);
 
             modelBuilder.Entity<ProductClass>().HasKey(x => x.ProductId);
             
             modelBuilder.Entity<ProductClass>().HasMany(x => x.ProductPictures).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
-            modelBuilder.Entity<ProductClass>().HasMany(x => x.ProductSizes).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
 
-            //modelBuilder.Entity<RefreshToken>().
+            modelBuilder.Entity<CartClass>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Carts)
+                .HasForeignKey(c => c.UserId);
+
+            modelBuilder.Entity<CartProduct>()
+                .HasKey(cp => new { cp.CartId, cp.ProductId });
+                .HasKey(cp => cp.CartId);
+
+
+            modelBuilder.Entity<CartProduct>()
+                .HasOne(cp => cp.Cart)
+                .WithMany(c => c.CartProducts)
+                .HasForeignKey(cp => cp.CartId);
+
+            //modelBuilder.Entity<CartProduct>()
+            //    .HasOne(cp => cp.Product)
+            //    //.WithMany(p => p.CartProducts)
+                //.HasForeignKey(cp => cp.ProductId);
 
 
 
-            
+
 
 
 

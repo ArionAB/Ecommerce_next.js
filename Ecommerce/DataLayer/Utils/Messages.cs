@@ -46,5 +46,8 @@
         public static Message Message_DeleteProductError = new Message { Text = "Produsul nu a fost gasit in baza de date.", MessageType = MessageType.Error };
         public static Message Message_DeleteProductSuccess = new Message { Text = "Produsul a fost sters din baza de date.", MessageType = MessageType.Success };
 
+        public static Message Message_AddItemToCartError = new Message { Text = "Eroare adaugare item to cart!", MessageType = MessageType.Error };
+        public static Message Message_AddItemToCartSuccess = new Message { Text = "Item adaugat in cart cu success!", MessageType = MessageType.Success };
+
     }
 }

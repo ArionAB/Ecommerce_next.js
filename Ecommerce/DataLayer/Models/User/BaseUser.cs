@@ -1,4 +1,6 @@
-﻿using Ecommerce.DataLayer.Utils;
+﻿using Ecommerce.DataLayer.Models.Baby;
+using Ecommerce.DataLayer.Models.Cart;
+using Ecommerce.DataLayer.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +23,8 @@ namespace Ecommerce.DataLayer.Models.User
         public UserType UserType { get; set; }
 
         public List<RefreshToken> RefreshTokens { get; set; }
+
+        public List<CartClass> Carts { get; set; }
 
         public bool OwnsToken(string token)
         {

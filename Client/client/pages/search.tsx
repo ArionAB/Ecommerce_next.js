@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from "../src/Store";
 import {
   getPaginatedProductItems,
   getProductItems,
-} from "../src/Store/Thunks/babyThunks";
+} from "../src/Store/Thunks/productThunks";
 import {
   selectFilters,
   selectPaginatedItems,
@@ -24,7 +24,7 @@ import { resourceUrl } from "../src/Utils";
 import TrendingFlatIcon from "@mui/icons-material/TrendingFlat";
 import { useRouter } from "next/router";
 import { CategoriesFilter } from "../src/Components/categories-filter/CategoriesFilter";
-import { BabyCategoryItems } from "../src/Components/selectItems/SubCategoryItems";
+import { BabyCategoryItems } from "../src/Components/selectItems/FruitItems";
 import Card from "../src/Components/card/Card";
 import { ProductItemModel } from "../src/Store/Models/Product/ProductItem";
 import { setSearchText } from "../src/Store/Slices/productSlice";

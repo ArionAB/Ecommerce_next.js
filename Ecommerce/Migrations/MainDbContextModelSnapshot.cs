@@ -26,13 +26,13 @@ namespace Ecommerce.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
+                    b.Property<int>("FruitType")
+                        .HasColumnType("int");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubcategoryType")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -68,26 +68,55 @@ namespace Ecommerce.Migrations
                     b.ToTable("ProductPictures");
                 });
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.ProductSize", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Cart.CartClass", b =>
                 {
-                    b.Property<Guid>("ProductSizeId")
+                    b.Property<Guid>("CartId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DateModified")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("CartId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Cart");
+                });
+
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Cart.CartProduct", b =>
+                {
+                    b.Property<Guid>("CartId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int>("SizeType")
                         .HasColumnType("int");
 
-                    b.Property<string>("Size")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("ProductSizeId");
+                    b.HasKey("CartId", "ProductId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductSizes");
+                    b.ToTable("CartProducts");
+                });
+
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Product.FruitInventory", b =>
+                {
+                    b.Property<int>("FruitType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.ToTable("FruitInventory");
                 });
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.BaseUser", b =>
@@ -143,13 +172,32 @@ namespace Ecommerce.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.ProductSize", b =>
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Cart.CartClass", b =>
                 {
+                    b.HasOne("Ecommerce.DataLayer.Models.User.BaseUser", "User")
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Cart.CartProduct", b =>
+                {
+                    b.HasOne("Ecommerce.DataLayer.Models.Cart.CartClass", "Cart")
+                        .WithMany("CartProducts")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Ecommerce.DataLayer.Models.Baby.ProductClass", "Product")
-                        .WithMany("ProductSizes")
+                        .WithMany("CartProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Cart");
 
                     b.Navigation("Product");
                 });
@@ -203,9 +251,19 @@ namespace Ecommerce.Migrations
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.Baby.ProductClass", b =>
                 {
-                    b.Navigation("ProductPictures");
+                    b.Navigation("CartProducts");
 
-                    b.Navigation("ProductSizes");
+                    b.Navigation("ProductPictures");
+                });
+
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Cart.CartClass", b =>
+                {
+                    b.Navigation("CartProducts");
+                });
+
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.User.BaseUser", b =>
+                {
+                    b.Navigation("Carts");
                 });
 #pragma warning restore 612, 618
         }

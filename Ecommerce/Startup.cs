@@ -2,6 +2,7 @@ using Ecommerce.DataLayer.DbContexts;
 using Ecommerce.DataLayer.Utils;
 using Ecommerce.Middleware;
 using Ecommerce.ServiceLayer.BabyService;
+using Ecommerce.ServiceLayer.CartService;
 using Ecommerce.ServiceLayer.FileService;
 using Ecommerce.ServiceLayer.FileService.FileSystemService;
 using Ecommerce.ServiceLayer.LogService;
@@ -23,6 +24,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static Ecommerce.ServiceLayer.CartService.CartServiceInterface;
 
 namespace Ecommerce
 {
@@ -57,6 +59,7 @@ namespace Ecommerce
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICartService, CartService>();
             services.AddScoped<IFileSystemService, FileSystemService>();
             services.AddScoped<IFileService, FileService>();
            

@@ -16,24 +16,12 @@ export const TabsPanel = ({ setProductType }: any) => {
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} aria-label="basic tabs example">
           <Tab
-            label="Baby"
-            onClick={() => handleChange(0, productCategoryType.Baby)}
+            label="Poliflora"
+            onClick={() => handleChange(0, productCategoryType.Poliflora)}
           />
           <Tab
-            label="Girls"
-            onClick={() => handleChange(1, productCategoryType.Girls)}
-          />
-          <Tab
-            label="Boys"
-            onClick={() => handleChange(2, productCategoryType.Boys)}
-          />
-          <Tab
-            label="Accesories"
-            onClick={() => handleChange(3, productCategoryType.Accesories)}
-          />
-          <Tab
-            label="Footwear"
-            onClick={() => handleChange(4, productCategoryType.Footwear)}
+            label="Salcam"
+            onClick={() => handleChange(1, productCategoryType.Salcam)}
           />
         </Tabs>
       </Box>

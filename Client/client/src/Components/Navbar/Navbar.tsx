@@ -14,8 +14,6 @@ export const Navbar = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const currentUser = useAppSelector(selectCurrentUser);
-  console.log(currentUser);
-  console.log(isLogin);
 
   return (
     <Container
@@ -27,11 +25,8 @@ export const Navbar = () => {
       }}
     >
       <Link href="/admin">Admin</Link>
-      <Link href="/baby">Baby</Link>
-      <Link href="/girls">Girls</Link>
-      <Link href="/boys">Boys</Link>
-      <Link href="/accesories">Accesories</Link>
-      <Link href="/footwear">Footwear</Link>
+      <Link href="/home">Home</Link>
+
       <Link href="/search">Search</Link>
       <Link href="/cart">Cart</Link>
       {currentUser ? (

@@ -46,7 +46,7 @@ export const loginUser = createAsyncThunk<
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    console.log("response", response);
+
     return response.data;
   } catch (err: any) {
     let errorMessage = getAxiosErrorMessage(err);

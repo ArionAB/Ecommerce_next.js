@@ -4,7 +4,7 @@
   background-color: white;
   max-width: 500px;
   padding: 0.5rem 3rem;
-  // height: 500px;
+  height: 400px;
 
   .title {
     font-weight: 600;
@@ -13,9 +13,11 @@
     text-align: center;
     color: $brown;
     font-style: italic;
+    margin-bottom: 3rem;
   }
 
   .price {
+    margin-bottom: 0.5rem;
     font-size: 1.5rem;
   }
 
@@ -40,6 +42,10 @@
       background-color: $dark-blue;
       color: white;
     }
+  }
+
+  .selectWeight {
+    width: 100%;
   }
 }
 

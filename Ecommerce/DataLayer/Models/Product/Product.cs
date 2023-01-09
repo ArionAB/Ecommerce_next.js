@@ -1,11 +1,14 @@
-﻿using Ecommerce.DataLayer.Utils;
+﻿using Ecommerce.DataLayer.Models.Cart;
+using Ecommerce.DataLayer.Utils;
 using System;
 using System.Collections.Generic;
+
 
 namespace Ecommerce.DataLayer.Models.Baby
 {
     public class ProductClass
     {
+   
         public Guid ProductId { get; set; }
 
         //public BabySizeType BabySize { get; set; }
@@ -18,11 +21,13 @@ namespace Ecommerce.DataLayer.Models.Baby
 
         public ICollection<ProductPicture> ProductPictures { get; set; }
 
-        public ICollection<ProductSize> ProductSizes { get; set; }
+        //public ICollection<ProductSize> ProductSizes { get; set; }
 
         public ProductCategoryType ProductType { get; set; }
 
-        public SubcategoryType SubcategoryType { get; set; }
+        public FruitType FruitType { get; set; }
+
+        public List<CartProduct> CartProducts { get; set; }
        
 
 

@@ -14,30 +14,19 @@ import { ProductItemModel } from "../../Store/Models/Product/ProductItem";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import { ConvertSizeToLabel } from "../../Utils/Functions/ConvertEnumToNumber";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
+import { WeightItems } from "../selectItems/WeightItems";
 
 export const Options: FC<{
   handleClose: Function;
   card: ProductItemModel;
 }> = ({ handleClose, card }) => {
-  const [sizeValue, setSizeValue] = useState<string>("");
+  const [sizeValue, setSizeValue] = useState<number>(2);
   let [maxQuantity, setMaxQuantity] = useState<number>(0);
-  const [selectedQuantity, setSelectedQuantity] = useState<string>("0");
+  const [selectedQuantity, setSelectedQuantity] = useState<string>("1");
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSizeValue(event.target.value as string);
+    setSizeValue(Number(event.target.value));
   };
-
-  useEffect(() => {
-    const filteredSize = card.productSizes.filter((prod) => {
-      return prod.size.toString() === sizeValue.toString();
-    });
-
-    if (filteredSize.length > 0) {
-      setMaxQuantity(filteredSize[0].quantity);
-    }
-
-    //eslint-disable-next-line
-  }, [sizeValue]);
 
   const getTotalQuantity = () => {
     let quantitiesArray: any[] = [];
@@ -56,6 +45,10 @@ export const Options: FC<{
     setSelectedQuantity(event.target.value as string);
   };
 
+  const handleSize = (event: SelectChangeEvent) => {
+    setSizeValue(Number(event.target.value));
+  };
+
   return (
     // <Dialog open={open}>
     <>
@@ -68,35 +61,35 @@ export const Options: FC<{
         </Typography>
 
         <Typography variant="h6" className={styles.price}>
-          {card.price}.00 lei
+          {card.price} lei
         </Typography>
-        <FormControl className={styles.selectSize}>
-          <InputLabel id="demo-simple-select-label">Size</InputLabel>
-          <Select
-            id="demo-simple-select-label"
-            value={sizeValue}
-            onChange={handleChange}
-            label="Size"
-            defaultValue="1"
-          >
-            {card.productSizes.map((size, index) => (
-              <MenuItem key={index} value={size.size}>
-                {ConvertSizeToLabel(Number(size.size))}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Box>
+          <FormControl className={styles.selectWeight}>
+            <InputLabel>Mărime</InputLabel>
+            <Select
+              value={sizeValue.toString()}
+              label="Mărime"
+              onChange={handleSize}
+            >
+              {WeightItems.map((item) => (
+                <MenuItem key={item.value} value={item.value}>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+
         <Box className={styles.qty}>
           <FormControl className={styles.selectQuantity}>
-            <InputLabel>Quantity</InputLabel>
+            <InputLabel>Cantitate</InputLabel>
             <Select
               value={selectedQuantity}
               // defaultValue="1"
-              label="Quantity"
+              label="Cantitate"
               onChange={handleQuantity}
             >
-              <MenuItem value="1">1</MenuItem>
-              {getTotalQuantity().map((item) => (
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
                 <MenuItem key={item} value={item}>
                   {item}
                 </MenuItem>

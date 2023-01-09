@@ -54,14 +54,14 @@ namespace Ecommerce.ServiceLayer.BabyService
 
                 }
 
-                foreach (var item in productDTO.ProductSize)
-                {
+                //foreach (var item in productDTO.ProductSize)
+                //{
                     
-                    if (product.ProductSizes.Where(x => x.Size == item.Size).Count() == 0)
-                    {
-                        product.ProductSizes.Add(new ProductSize { Size = item.Size, Quantity = item.Quantity });
-                    }
-                }
+                //    if (product.ProductSizes.Where(x => x.Size == item.Size).Count() == 0)
+                //    {
+                //        product.ProductSizes.Add(new ProductSize { Size = item.Size, Quantity = item.Quantity });
+                //    }
+                //}
               
             
 
@@ -88,14 +88,14 @@ namespace Ecommerce.ServiceLayer.BabyService
 
          
                        
-                       var bodysuits = productItems.Where(x => x.SubcategoryType == SubcategoryType.Bodysuit).Count();
-                       var coveralls = productItems.Where(x => x.SubcategoryType == SubcategoryType.Coverall).Count();
-                       var zeroToThree = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.ZeroToThree)).Any()).Count();
-                       var threeToSix = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.ThreeToSix)).Any()).Count();
-                       var sixToNine = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.SixToNine)).Any()).Count();
-                       var nineToTwelve = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.NineToTwelve)).Any()).Count();
-                       var twelveToEighteen = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.TwelveToEighteen)).Any()).Count();
-                       var eighteenToTwentyFour = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.EighteenToTwentyFour)).Any()).Count();
+                       //var bodysuits = productItems.Where(x => x.SubcategoryType == SubcategoryType.Bodysuit).Count();
+                       //var coveralls = productItems.Where(x => x.SubcategoryType == SubcategoryType.Coverall).Count();
+                       //var zeroToThree = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.ZeroToThree)).Any()).Count();
+                       //var threeToSix = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.ThreeToSix)).Any()).Count();
+                       //var sixToNine = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.SixToNine)).Any()).Count();
+                       //var nineToTwelve = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.NineToTwelve)).Any()).Count();
+                       //var twelveToEighteen = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.TwelveToEighteen)).Any()).Count();
+                       //var eighteenToTwentyFour = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.EighteenToTwentyFour)).Any()).Count();
                        var minPirce = productItems.Min(x => x.Price);
                        var maxPrice = productItems.Max(x => x.Price);
                        var totalSearchResultItems = productItems.Count();
@@ -109,27 +109,27 @@ namespace Ecommerce.ServiceLayer.BabyService
             
 
 
-                var totalCategory = new BabyCategoriesDTO
-                {
-                    Bodysuits = bodysuits,
-                    Coveralls = coveralls,
-                };
+                //var totalCategory = new BabyCategoriesDTO
+                //{
+                //    Bodysuits = bodysuits,
+                //    Coveralls = coveralls,
+                //};
 
-                var totalSizes = new ProductSizesEnumDTO
-                {
-                    ZeroToThree = zeroToThree,
-                    ThreeToSix = threeToSix,
-                    SixToNine = sixToNine,
-                    NineToTwelve = nineToTwelve,
-                    TwelveToEighteen = twelveToEighteen,
-                    EighteenToTwentyFour = eighteenToTwentyFour
-                };
+                //var totalSizes = new ProductSizesEnumDTO
+                //{
+                //    ZeroToThree = zeroToThree,
+                //    ThreeToSix = threeToSix,
+                //    SixToNine = sixToNine,
+                //    NineToTwelve = nineToTwelve,
+                //    TwelveToEighteen = twelveToEighteen,
+                //    EighteenToTwentyFour = eighteenToTwentyFour
+                //};
 
                 var response = new GetAllProductsDTO
                 {
                     ProductItems = productItems,
-                    TotalItemsPerCategory = totalCategory,
-                    TotalSizes = totalSizes,
+                    //TotalItemsPerCategory = totalCategory,
+                    //TotalSizes = totalSizes,
                     PriceRange = priceRange,
                     TotalSearchResultItems = totalSearchResultItems,
                     TotalItems = totalItems
@@ -251,76 +251,64 @@ namespace Ecommerce.ServiceLayer.BabyService
             
             switch(filter.ProductCategory)
             {
-                case ProductCategoryType.Baby:
-                    productItems = _mapper.ProjectTo<ProductDTO>(_context.Product).Where(x => x.ProductCategory == ProductCategoryType.Baby).ToList();
+                case ProductCategoryType.Accacia:
+                    productItems = _mapper.ProjectTo<ProductDTO>(_context.Product).Where(x => x.ProductCategory == ProductCategoryType.Accacia).ToList();
                     break;
-                case ProductCategoryType.All:
+                case ProductCategoryType.Multiflower:
                     productItems = _mapper.ProjectTo<ProductDTO>(_context.Product).ToList();
                     break;
 
             }
 
-            switch (filter.SubcategoryType)
-            {
-                case SubcategoryType.All:
+//            switch (filter.SubcategoryType)
+//            {
+//                case SubcategoryType.All:
 
-                    try
-                    {
+//                    try
+//                    {
 
+//                        //babyItems = babyItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize.Contains(x.Size)).Count() > 0)
+//                        productItems = productItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize != null ? filter.ProductSize.Contains(x.Size) : productItems.Any()).Count() > 0)
+//                        .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Price : x.Price > 0)
+//                        .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Price : x.Price > 0)
+//                       .Take(filter.PageSize).ToList();
 
+//                        return productItems;
 
-                        //babyItems = babyItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize.Contains(x.Size)).Count() > 0)
-                        productItems = productItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize != null ? filter.ProductSize.Contains(x.Size) : productItems.Any()).Count() > 0)
-                        .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Price : x.Price > 0)
-                        .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Price : x.Price > 0)
-                       .Take(filter.PageSize).ToList();
-                      
-
-
-
-
-
-
-
-
-
-
-                        return productItems;
-
-                    }
-                    catch (Exception e)
-                    {
-                        return productItems;
-                    }
+//                    }
+//                    catch (Exception e)
+//                    {
+//                        return productItems;
+//                    }
          
 
-                case SubcategoryType.Bodysuit:
-                    //babyItems = babyItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize.Contains(x.Size)).Count() > 0)
-                    productItems = productItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize != null ? filter.ProductSize.Contains(x.Size) : productItems.Any()).Count() > 0)
+//                case SubcategoryType.Bodysuit:
+//                    //babyItems = babyItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize.Contains(x.Size)).Count() > 0)
+//                    productItems = productItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize != null ? filter.ProductSize.Contains(x.Size) : productItems.Any()).Count() > 0)
 
-.Where(x => x.SubcategoryType == SubcategoryType.Bodysuit)
-                        .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Price : x.Price > 0)
-                        .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Price : x.Price > 0)
-                        .Take(filter.PageSize).ToList();
+//.Where(x => x.SubcategoryType == SubcategoryType.Bodysuit)
+//                        .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Price : x.Price > 0)
+//                        .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Price : x.Price > 0)
+//                        .Take(filter.PageSize).ToList();
 
                     
-                    return productItems;
+//                    return productItems;
                     
-                case SubcategoryType.Coverall:
-                    //babyItems = babyItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize.Contains(x.Size)).Count() > 0)
-                    productItems = productItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize != null ? filter.ProductSize.Contains(x.Size) : productItems.Any()).Count() > 0)
+//                case SubcategoryType.Coverall:
+//                    //babyItems = babyItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize.Contains(x.Size)).Count() > 0)
+//                    productItems = productItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize != null ? filter.ProductSize.Contains(x.Size) : productItems.Any()).Count() > 0)
 
-.Where(x => x.SubcategoryType == SubcategoryType.Coverall)
-                           .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Price : x.Price > 0)
-                           .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Price : x.Price > 0)
-                           .Take(filter.PageSize).ToList();
-
-
+//.Where(x => x.SubcategoryType == SubcategoryType.Coverall)
+//                           .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Price : x.Price > 0)
+//                           .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Price : x.Price > 0)
+//                           .Take(filter.PageSize).ToList();
 
 
-                    return productItems;
+
+
+//                    return productItems;
            
-            }
+//            }
 
             return productItems;
            
@@ -341,9 +329,9 @@ namespace Ecommerce.ServiceLayer.BabyService
                     foreach (var item in productItems)
                     {
                        
-                        var totalItemsPerCategory = productItems.Where(x => x.SubcategoryType == item.SubcategoryType).Count();
+                        var totalItemsPerCategory = productItems.Where(x => x.FruitType == item.FruitType).Count();
 
-                        var totalItemsPerSize = item.ProductSizes.Count();
+                        //var totalItemsPerSize = item.ProductSizes.Count();
                       
                       
 
@@ -352,28 +340,28 @@ namespace Ecommerce.ServiceLayer.BabyService
                         counted.Add(new ProductDTO
                         {
                             ProductId = item.ProductId,
-                            SubcategoryType = item.SubcategoryType,
+                            FruitType = item.FruitType,
                             ProductCategory = item.ProductCategory,
                             Description = item.Description,
                             Title = item.Title,
                             Price = item.Price,
                             ProductPictures = item.ProductPictures,
-                            ProductSizes = item.ProductSizes,
+                            //ProductSizes = item.ProductSizes,
                             TotalCategoryItems = totalItemsPerCategory,
-                            TotalSize = totalItemsPerSize
+                            //TotalSize = totalItemsPerSize
                        
                         });
                     }
                 }
 
-                var bodysuits = productItems.Where(x => x.SubcategoryType == SubcategoryType.Bodysuit).Count();
-                var coveralls = productItems.Where(x => x.SubcategoryType == SubcategoryType.Coverall).Count();
-                var zeroToThree = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.ZeroToThree)).Any()).Count();
-                var threeToSix = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.ThreeToSix)).Any()).Count();
-                var sixToNine = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.SixToNine)).Any()).Count();
-                var nineToTwelve = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.NineToTwelve)).Any()).Count();
-                var twelveToEighteen = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.TwelveToEighteen)).Any()).Count();
-                var eighteenToTwentyFour = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.EighteenToTwentyFour)).Any()).Count();
+                //var bodysuits = productItems.Where(x => x.SubcategoryType == SubcategoryType.Bodysuit).Count();
+                //var coveralls = productItems.Where(x => x.SubcategoryType == SubcategoryType.Coverall).Count();
+                //var zeroToThree = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.ZeroToThree)).Any()).Count();
+                //var threeToSix = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.ThreeToSix)).Any()).Count();
+                //var sixToNine = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.SixToNine)).Any()).Count();
+                //var nineToTwelve = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.NineToTwelve)).Any()).Count();
+                //var twelveToEighteen = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.TwelveToEighteen)).Any()).Count();
+                //var eighteenToTwentyFour = productItems.Where(x => x.ProductSizes.Where(y => y.Size == GenericFunctions.ConvertBabySizeEnumToString(BabySizeType.EighteenToTwentyFour)).Any()).Count();
 
                 var minPirce = productItems.Min(x => x.Price);
                 var maxPrice = productItems.Max(x => x.Price);
@@ -386,21 +374,21 @@ namespace Ecommerce.ServiceLayer.BabyService
 
 
 
-                var totalCategory = new BabyCategoriesDTO
-                {
-                    Bodysuits = bodysuits,
-                    Coveralls = coveralls,
-                };
+                //var totalCategory = new BabyCategoriesDTO
+                //{
+                //    Bodysuits = bodysuits,
+                //    Coveralls = coveralls,
+                //};
 
-                var totalSizes = new ProductSizesEnumDTO
-                {
-                    ZeroToThree = zeroToThree,
-                    ThreeToSix = threeToSix,
-                    SixToNine = sixToNine,
-                    NineToTwelve = nineToTwelve,
-                    TwelveToEighteen = twelveToEighteen,
-                    EighteenToTwentyFour = eighteenToTwentyFour
-                };
+                //var totalSizes = new ProductSizesEnumDTO
+                //{
+                //    ZeroToThree = zeroToThree,
+                //    ThreeToSix = threeToSix,
+                //    SixToNine = sixToNine,
+                //    NineToTwelve = nineToTwelve,
+                //    TwelveToEighteen = twelveToEighteen,
+                //    EighteenToTwentyFour = eighteenToTwentyFour
+                //};
 
                 var totalRecords = _context.Product
 
@@ -418,8 +406,8 @@ namespace Ecommerce.ServiceLayer.BabyService
                     CurrentPageNumber = filters.PageNumber,
                     TotalItems = totalRecords,
                     PriceRange = priceRange,
-                    TotalItemsPerCategory = totalCategory,
-                    TotalSizes = totalSizes
+                    //TotalItemsPerCategory = totalCategory,
+                    //TotalSizes = totalSizes
                     
                 };
 
