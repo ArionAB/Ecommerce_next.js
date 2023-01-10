@@ -28,7 +28,9 @@ namespace Ecommerce.DataLayer.Models.Baby
         public FruitType FruitType { get; set; }
 
         public List<CartProduct> CartProducts { get; set; }
-       
+
+        //public virtual ICollection<CartProduct> CartProducts { get; set; }
+
 
 
 

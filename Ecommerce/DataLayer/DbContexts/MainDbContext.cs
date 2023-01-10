@@ -29,6 +29,8 @@ namespace Ecommerce.DataLayer.DbContexts
 
         public DbSet<CartProduct> CartProducts { get; set; }
 
+  
+
 
        
 
@@ -37,6 +39,10 @@ namespace Ecommerce.DataLayer.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BaseUser>().HasKey(x => x.UserId);
+            modelBuilder.Entity<BaseUser>().HasOne(x => x.Cart).WithOne(x => x.User).HasForeignKey<CartClass>(x => x.UserId);
+
+           
+
             modelBuilder.Entity<BaseUser>().HasDiscriminator(x => x.UserType)
                 .HasValue<AdminUser>(UserType.Admin)
                 .HasValue<RegularUser>(UserType.User);
@@ -44,20 +50,16 @@ namespace Ecommerce.DataLayer.DbContexts
 
             modelBuilder.Entity<ProductPicture>().HasKey(x => x.PictureId);
 
-            //modelBuilder.Entity<ProductSize>().HasKey(x => x.ProductSizeId);
-
             modelBuilder.Entity<ProductClass>().HasKey(x => x.ProductId);
-            
             modelBuilder.Entity<ProductClass>().HasMany(x => x.ProductPictures).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
+            
 
-            modelBuilder.Entity<CartClass>()
-                .HasOne(c => c.User)
-                .WithMany(u => u.Carts)
-                .HasForeignKey(c => c.UserId);
+            
+
 
             modelBuilder.Entity<CartProduct>()
-                .HasKey(cp => new { cp.CartId, cp.ProductId });
-                .HasKey(cp => cp.CartId);
+                .HasKey(k => k.CartProductId);
+         
 
 
             modelBuilder.Entity<CartProduct>()
@@ -65,10 +67,10 @@ namespace Ecommerce.DataLayer.DbContexts
                 .WithMany(c => c.CartProducts)
                 .HasForeignKey(cp => cp.CartId);
 
-            //modelBuilder.Entity<CartProduct>()
-            //    .HasOne(cp => cp.Product)
-            //    //.WithMany(p => p.CartProducts)
-                //.HasForeignKey(cp => cp.ProductId);
+            modelBuilder.Entity<CartProduct>()
+                .HasOne(cp => cp.Product)
+                .WithMany(p => p.CartProducts)
+                .HasForeignKey(cp => cp.ProductId);
 
 
 

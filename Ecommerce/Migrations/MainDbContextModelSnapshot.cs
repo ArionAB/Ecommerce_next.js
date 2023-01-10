@@ -85,13 +85,18 @@ namespace Ecommerce.Migrations
 
                     b.HasKey("CartId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Cart");
                 });
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.Cart.CartProduct", b =>
                 {
+                    b.Property<Guid>("CartProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
                     b.Property<Guid>("CartId")
                         .HasColumnType("char(36)");
 
@@ -101,7 +106,9 @@ namespace Ecommerce.Migrations
                     b.Property<int>("SizeType")
                         .HasColumnType("int");
 
-                    b.HasKey("CartId", "ProductId");
+                    b.HasKey("CartProductId");
+
+                    b.HasIndex("CartId");
 
                     b.HasIndex("ProductId");
 
@@ -123,6 +130,9 @@ namespace Ecommerce.Migrations
                 {
                     b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CartId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -175,8 +185,8 @@ namespace Ecommerce.Migrations
             modelBuilder.Entity("Ecommerce.DataLayer.Models.Cart.CartClass", b =>
                 {
                     b.HasOne("Ecommerce.DataLayer.Models.User.BaseUser", "User")
-                        .WithMany("Carts")
-                        .HasForeignKey("UserId")
+                        .WithOne("Cart")
+                        .HasForeignKey("Ecommerce.DataLayer.Models.Cart.CartClass", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -263,7 +273,7 @@ namespace Ecommerce.Migrations
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.BaseUser", b =>
                 {
-                    b.Navigation("Carts");
+                    b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618
         }

@@ -24,7 +24,11 @@ namespace Ecommerce.DataLayer.Models.User
 
         public List<RefreshToken> RefreshTokens { get; set; }
 
-        public List<CartClass> Carts { get; set; }
+        //public List<CartClass> Carts { get; set; }
+
+        public Guid CartId { get; set; }
+
+        public CartClass Cart { get; set; }
 
         public bool OwnsToken(string token)
         {
