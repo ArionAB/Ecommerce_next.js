@@ -15,3 +15,14 @@ $error-main: #d32f2f;
 $error-dark: #c62828;
 
 $box-shadow: 0 0 12px 0 rgb(0 0 0 / 20%);
+
+@mixin pink-btn {
+  background-color: $pink;
+  color: $brown;
+}
+
+@mixin product-title {
+  font-weight: 600;
+  color: $brown;
+  font-style: italic;
+}

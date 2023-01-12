@@ -7,6 +7,9 @@ import { useAppSelector } from "../../Store";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import LogOut from "../sign-in-sign-up/LogOut";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { selectCartItems } from "../../Store/Selectors/cartSelectors";
+import styles from "../../../styles/navbar.module.scss";
 
 export const Navbar = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -14,6 +17,7 @@ export const Navbar = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const currentUser = useAppSelector(selectCurrentUser);
+  const cartItems = useAppSelector(selectCartItems);
 
   return (
     <Container
@@ -28,7 +32,12 @@ export const Navbar = () => {
       <Link href="/home">Home</Link>
 
       <Link href="/search">Search</Link>
-      <Link href="/cart">Cart</Link>
+      <Link href="/cart" className={styles.cartLink}>
+        <ShoppingCartIcon />
+        {cartItems.length && (
+          <span className={styles.cartNumber}>{cartItems?.length}</span>
+        )}
+      </Link>
       {currentUser ? (
         <Box
           aria-owns={isLogin ? "mouse-over-popover" : undefined}

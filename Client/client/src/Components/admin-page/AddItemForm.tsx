@@ -8,11 +8,12 @@ import {
   Paper,
 } from "@mui/material";
 import React, { FC, useState, useEffect } from "react";
-import { useAppDispatch } from "../../Store";
+import { useAppDispatch, useAppSelector } from "../../Store";
 import { AddProductItemModel } from "../../Store/Models/Product/AddProductItem";
+import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
 import { addProductItem } from "../../Store/Thunks/productThunks";
 import FileUploadComponent from "../fileUpload/FileUploadComponent";
-import { BabySizeItems } from "../selectItems/BabySizeItems";
+import { BabySizeItems } from "../selectItems/QuantitySizeItems";
 
 export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
   fruitType,
@@ -27,7 +28,7 @@ export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
     price: "",
     pictures: [],
   });
-  console.log(formValues);
+
   useEffect(() => {
     setFormValues((prev) => ({ ...prev, fruitType: fruitType }));
   }, [fruitType]);
@@ -35,6 +36,8 @@ export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
   useEffect(() => {
     setFormValues((prev) => ({ ...prev, productCategory: productType }));
   }, [productType]);
+
+  const currentUser = useAppSelector(selectCurrentUser);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -56,7 +59,7 @@ export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
     dispatch(
       addProductItem({
         data: formValues,
-        productSize: arrayOfObjects,
+        token: currentUser?.jwtToken,
       })
     );
   };

@@ -72,7 +72,6 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
     // setTextfield(card.productSizes);
   }, [card]);
 
-  console.log(formValues);
   const submitUpdate = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 

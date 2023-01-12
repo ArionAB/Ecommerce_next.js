@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { AddItemForm } from "../src/Components/admin-page/AddItemForm";
 import { TabsPanel } from "../src/Components/admin-page/Tabs";
 import { FruitItems } from "../src/Components/selectItems/FruitItems";
-import { productCategoryType } from "../src/Store/Enums/productCategory";
+import { productCategoryType } from "../src/Store/Enums/Product/productCategory";
 
 const Admin = () => {
   const [item, setItem] = useState<string>("");

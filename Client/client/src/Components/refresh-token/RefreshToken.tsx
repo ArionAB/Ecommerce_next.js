@@ -8,6 +8,7 @@ import {
   setIsRefreshing,
   setIsSilentRefresh,
 } from "../../Store/Slices/authenticateSlice";
+import { getCartItems } from "../../Store/Thunks/cartThunks";
 import { requestRefreshToken } from "../../Store/Thunks/userThunks";
 
 const RefreshToken: FC = () => {
@@ -32,6 +33,16 @@ const RefreshToken: FC = () => {
     },
     [dispatch, currentUser]
   );
+
+  useEffect(() => {
+    if (!currentUser) return;
+    dispatch(
+      getCartItems({
+        token: currentUser?.jwtToken,
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
 
   useEffect(() => {
     const interval = setInterval(handleTokenRefresh, 1000 * 60 * 14, true);

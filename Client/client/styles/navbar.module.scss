@@ -1,0 +1,17 @@
+@import "./_variables.scss";
+
+.cartLink {
+  position: relative;
+}
+
+.cartNumber {
+  position: absolute;
+  top: -15px;
+  left: 15px;
+  background-color: $pink;
+  color: $brown;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}

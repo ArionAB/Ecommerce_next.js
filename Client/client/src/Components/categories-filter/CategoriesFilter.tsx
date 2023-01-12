@@ -16,7 +16,7 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 // import { BabySizeType } from "../../Store/Enums/Product/BabySizeType";
-import { productCategoryType } from "../../Store/Enums/productCategory";
+import { productCategoryType } from "../../Store/Enums/Product/productCategory";
 import { useRouter } from "next/router";
 import { selectFilters } from "../../Store/Selectors/productSelectors";
 

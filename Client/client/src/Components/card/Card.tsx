@@ -112,7 +112,11 @@ const Card: FC<{
         <Options handleClose={handleCloseOptions} card={card} />
       </Dialog>
       <Dialog open={openShop} maxWidth="lg">
-        <ProductDetails handleClose={handleCloseShop} open={openShop} />
+        <ProductDetails
+          handleClose={handleCloseShop}
+          open={openShop}
+          productId={card.productId}
+        />
       </Dialog>
     </Box>
   );

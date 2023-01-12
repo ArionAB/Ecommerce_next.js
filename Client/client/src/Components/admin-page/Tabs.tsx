@@ -1,6 +1,6 @@
 import { Box, Tabs, Tab } from "@mui/material";
 import React, { useState } from "react";
-import { productCategoryType } from "../../Store/Enums/productCategory";
+import { productCategoryType } from "../../Store/Enums/Product/productCategory";
 
 export const TabsPanel = ({ setProductType }: any) => {
   const [value, setValue] = useState(0);

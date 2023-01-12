@@ -1,5 +1,5 @@
 import { FruitType } from "../../Enums/Product/FruitType";
-import { productCategoryType } from "../../Enums/productCategory";
+import { productCategoryType } from "../../Enums/Product/productCategory";
 
 export interface UpdateProductItemModel {
   productId: string;

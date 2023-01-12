@@ -11,7 +11,7 @@ const axios = require("axios").default;
 
 export const addProductItem = createAsyncThunk<
   any,
-  { data: AddProductItemModel },
+  { data: AddProductItemModel; token: string | undefined | null },
   AppThunkConfig
 >("/Product/Add", async ({ data }, thunkApi) => {
   try {

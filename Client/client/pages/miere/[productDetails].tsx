@@ -1,6 +1,7 @@
 import React, { useEffect, useState, FC } from "react";
 import { useRouter } from "next/router";
 import { getProduct } from "../../src/Store/Thunks/productThunks";
+import { addItemToCart } from "../../src/Store/Thunks/cartThunks";
 import { useAppDispatch, useAppSelector } from "../../src/Store";
 import { selectProductItem } from "../../src/Store/Selectors/productSelectors";
 import { guidRegex } from "../../src/Utils/Functions/guidRegex";
@@ -16,17 +17,19 @@ import {
 import Image from "next/image";
 import { resourceUrl } from "../../src/Utils";
 import styles from "../../styles/productDetails.module.scss";
-import { ConvertSizeToLabel } from "../../src/Utils/Functions/ConvertEnumToNumber";
-import { SelectChangeEvent } from "@mui/material/Select";
-import { Options } from "../../src/Components/modals/Options";
-import Button from "@mui/material/Button/Button";
-import { WeightItems } from "../../src/Components/selectItems/WeightItems";
-import Close from "@mui/icons-material/Close";
 
-const ProductDetails: FC<{ handleClose: Function; open: boolean }> = ({
-  handleClose,
-  open,
-}) => {
+import { SelectChangeEvent } from "@mui/material/Select";
+
+import Button from "@mui/material/Button/Button";
+import { SizeItems } from "../../src/Components/selectItems/SizeItems";
+import Close from "@mui/icons-material/Close";
+import { selectCurrentUser } from "../../src/Store/Selectors/authenticationSelectors";
+
+const ProductDetails: FC<{
+  handleClose: Function;
+  open: boolean;
+  productId: string;
+}> = ({ handleClose, open, productId }) => {
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [sizeValue, setSizeValue] = useState<string>("2");
   let [maxQuantity, setMaxQuantity] = useState<number>(0);
@@ -34,6 +37,7 @@ const ProductDetails: FC<{ handleClose: Function; open: boolean }> = ({
 
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const currentUser = useAppSelector(selectCurrentUser);
   const { productDetails } = router.query;
   const item = useAppSelector(selectProductItem);
 
@@ -42,8 +46,13 @@ const ProductDetails: FC<{ handleClose: Function; open: boolean }> = ({
   };
 
   useEffect(() => {
-    if (guidRegex(productDetails as string))
+    if (guidRegex(productDetails as string)) {
       dispatch(getProduct(productDetails as string));
+    } else {
+      dispatch(getProduct(productId as string));
+    }
+
+    //eslint-disable-next-line
   }, [productDetails]);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -65,6 +74,19 @@ const ProductDetails: FC<{ handleClose: Function; open: boolean }> = ({
 
   const handleQuantity = (event: SelectChangeEvent) => {
     setSelectedQuantity(event.target.value as string);
+  };
+
+  const handleAddItemToCart = () => {
+    dispatch(
+      addItemToCart({
+        data: {
+          productId: item?.productId,
+          quantity: parseInt(selectedQuantity),
+          sizeType: Number(sizeValue),
+        },
+        token: currentUser?.jwtToken,
+      })
+    );
   };
 
   return (
@@ -110,7 +132,7 @@ const ProductDetails: FC<{ handleClose: Function; open: boolean }> = ({
               label="Marime"
               defaultValue="1"
             >
-              {WeightItems.map((size, index) => (
+              {SizeItems.map((size, index) => (
                 <MenuItem key={index} value={size.value}>
                   {size.label}
                 </MenuItem>
@@ -133,7 +155,12 @@ const ProductDetails: FC<{ handleClose: Function; open: boolean }> = ({
                 ))}
               </Select>
             </FormControl>
-            <Button className={styles.addCart}>Add to cart</Button>
+            <Button
+              className={styles.addCart}
+              onClick={() => handleAddItemToCart()}
+            >
+              Add to cart
+            </Button>
           </Box>
 
           <Typography

@@ -42,7 +42,7 @@ export const authenticationSlice = createSlice({
         "user",
         JSON.stringify(action.payload.response.jwtToken)
       );
-      state.currentUser = action.payload;
+      state.currentUser = action.payload.response;
       state.userIsLoggingIn = false;
     });
     builder.addCase(loginUser.pending, (state, action) => {

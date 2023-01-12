@@ -39,14 +39,10 @@ export const ConvertProductCategoryType = (enumValue: number) => {
 export const ConvertSizeToLabel = (enumValue: number) => {
   switch (enumValue) {
     case 1:
-      return "0-3 M";
+      return "500g";
     case 2:
-      return "3-6 M";
-    case 3:
-      return "6-9 M";
-    case 4:
-      return "9-12 M";
-    case 5:
-      return "12-18 M";
+      return "1kg";
+    default:
+      return "500g";
   }
 };

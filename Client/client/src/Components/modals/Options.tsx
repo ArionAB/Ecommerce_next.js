@@ -14,7 +14,7 @@ import { ProductItemModel } from "../../Store/Models/Product/ProductItem";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import { ConvertSizeToLabel } from "../../Utils/Functions/ConvertEnumToNumber";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
-import { WeightItems } from "../selectItems/WeightItems";
+import { SizeItems } from "../selectItems/SizeItems";
 
 export const Options: FC<{
   handleClose: Function;
@@ -71,7 +71,7 @@ export const Options: FC<{
               label="Mărime"
               onChange={handleSize}
             >
-              {WeightItems.map((item) => (
+              {SizeItems.map((item) => (
                 <MenuItem key={item.value} value={item.value}>
                   {item.label}
                 </MenuItem>

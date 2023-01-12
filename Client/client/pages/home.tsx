@@ -11,12 +11,8 @@ import {
   selectPaginatedItems,
 } from "../src/Store/Selectors/productSelectors";
 import Card from "../src/Components/card/Card";
-import {
-  getPaginatedProductItems,
-  getProductItems,
-} from "../src/Store/Thunks/productThunks";
-import { BabySizeItems } from "../src/Components/selectItems/BabySizeItems";
-import { productCategoryType } from "../src/Store/Enums/productCategory";
+import { getProductItems } from "../src/Store/Thunks/productThunks";
+
 import { useRouter } from "next/router";
 import { CategoryItems } from "../src/Components/selectItems/CategoryItems";
 

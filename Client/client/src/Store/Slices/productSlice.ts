@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductItemModel } from "../Models/Product/ProductItem";
-import { ProductState } from "../Models/Product/BabyState";
+import { ProductState } from "../Models/Product/ProductState";
 
 import {
   getPaginatedProductItems,
