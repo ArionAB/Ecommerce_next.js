@@ -12,7 +12,7 @@ import styles from "../../../styles/options.module.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import { ProductItemModel } from "../../Store/Models/Product/ProductItem";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
-import { ConvertSizeToLabel } from "../../Utils/Functions/ConvertEnumToNumber";
+import { ConvertSizeToLabel } from "../../Utils/Functions/ConvertEnum";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
 import { SizeItems } from "../selectItems/SizeItems";
 

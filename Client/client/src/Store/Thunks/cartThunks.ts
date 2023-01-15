@@ -29,6 +29,7 @@ export const addItemToCart = createAsyncThunk<
     return response;
   } catch (err: any) {
     let errorMessage = getAxiosErrorMessage(err);
+
     return thunkApi.rejectWithValue(getAxiosErrorMessage(err));
   }
 });
@@ -61,8 +62,8 @@ export const changeQuantity = createAsyncThunk<
 >("/Cart/ChangeQuantity", async ({ data, token }, thunkApi) => {
   try {
     let form = new FormData();
-    form.append("productId", data.productId);
-    form.append("sizeType", data.sizeType.toString());
+    form.append("cartProductId", data.cartProductId);
+
     form.append("quantity", data.quantity.toString());
 
     let { response } = await axios.post(baseUrl + "cart/ChangeQuantity", form, {

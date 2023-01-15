@@ -55,7 +55,7 @@ const ProductDetails: FC<{
   const [sizeValue, setSizeValue] = useState<string>("2");
   let [maxQuantity, setMaxQuantity] = useState<number>(0);
   const [selectedQuantity, setSelectedQuantity] = useState<string>("1");
-  const [openCart, setOpenCart] = useState<boolean>(false);
+  const [openCart, setOpenCart] = useState<boolean>(true);
 
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -196,7 +196,6 @@ const ProductDetails: FC<{
             >
               Add to cart
             </Button>
-            <Button onClick={() => setOpenCart(true)}>aaaa</Button>
           </Box>
 
           <Typography

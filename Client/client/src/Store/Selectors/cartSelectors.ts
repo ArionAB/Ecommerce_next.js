@@ -8,3 +8,7 @@ export const selectCartItems = (state: RootState): ProductItemModel[] => {
 export const selectLoadingCart = (state: RootState): boolean => {
   return state.cart.loadingCart;
 };
+
+export const selectTotalPrice = (state: RootState): number => {
+  return state.cart.totalPrice;
+};

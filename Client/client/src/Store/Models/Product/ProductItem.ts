@@ -2,6 +2,7 @@ import { SizeType } from "../../Enums/SizeType";
 import { ProductPictureModel } from "./ProductPicture";
 
 export interface ProductItemModel {
+  cartProductId: string;
   productId: string;
   productPictures: ProductPictureModel[];
   price: string;

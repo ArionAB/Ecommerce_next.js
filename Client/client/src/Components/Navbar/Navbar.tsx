@@ -47,6 +47,7 @@ export const Navbar = () => {
           }}
           onMouseLeave={() => setIsLogin(false)}
           sx={{ position: "relative", cursor: "pointer" }}
+          className={styles.login}
         >
           <PersonPinIcon /> {currentUser?.username}
           {isLogin && currentUser && <LogOut />}
