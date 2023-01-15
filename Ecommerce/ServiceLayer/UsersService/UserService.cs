@@ -54,9 +54,11 @@ namespace Ecommerce.ServiceLayer.UsersService
                 account.UserType = UserType.User;
                 account.CreatedAt = GenericFunctions.GetCurrentDateTime();
                 account.Password = BC.HashPassword(model.Password);
+                account.CartId = Guid.NewGuid();
 
                 _context.Users.Add(account);
-              
+
+               
 
                 _context.SaveChanges();
 

@@ -1,5 +1,18 @@
 @import "_variables.scss";
 
+.dialogDetails {
+  div[class*="MuiDialog-container"] {
+    position: absolute;
+    right: 0;
+
+    div[class*="MuiPaper-root"] {
+      margin: 0;
+      padding: 10px;
+      width: 350px;
+    }
+  }
+}
+
 .closeModal {
   display: flex;
   justify-content: flex-end;

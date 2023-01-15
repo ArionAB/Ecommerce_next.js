@@ -91,8 +91,29 @@
   }
 
   .selectSizeBox {
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
     .selectSize {
       width: 100px;
+    }
+
+    .cost {
+      font-size: 20px;
+    }
+
+    .closeIcon {
+      color: #344660;
+      cursor: pointer;
+      background-color: #c4c3c2;
+      border-radius: 50%;
+      transition: 0.3s ease-in-out;
+
+      &:hover {
+        color: $brown;
+      }
     }
   }
 }

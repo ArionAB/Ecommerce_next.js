@@ -34,7 +34,7 @@ export const Navbar = () => {
       <Link href="/search">Search</Link>
       <Link href="/cart" className={styles.cartLink}>
         <ShoppingCartIcon />
-        {cartItems.length && (
+        {currentUser && (
           <span className={styles.cartNumber}>{cartItems?.length}</span>
         )}
       </Link>

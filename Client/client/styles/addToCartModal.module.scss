@@ -1,0 +1,14 @@
+@import "__variables.scss";
+
+.modal {
+  display: flex;
+  flex-direction: column;
+
+  .arrowCart {
+    display: flex;
+  }
+
+  .cartItemImage {
+    width: 150px;
+  }
+}

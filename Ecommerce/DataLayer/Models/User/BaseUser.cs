@@ -1,4 +1,4 @@
-﻿using Ecommerce.DataLayer.Models.Baby;
+﻿
 using Ecommerce.DataLayer.Models.Cart;
 using Ecommerce.DataLayer.Utils;
 using System;
@@ -24,7 +24,6 @@ namespace Ecommerce.DataLayer.Models.User
 
         public List<RefreshToken> RefreshTokens { get; set; }
 
-        //public List<CartClass> Carts { get; set; }
 
         public Guid CartId { get; set; }
 

@@ -9,25 +9,27 @@ namespace Ecommerce.DataLayer.DTOs.Baby
     {
         public Guid ProductId { get; set; }
 
+        public int Price { get; set; }
+        public string Description { get; set; }
+        public string Title { get; set; }
+        public ProductCategoryType ProductCategory { get; set; }
+        public FruitType FruitType { get; set; }
+        public int TotalCategoryItems { get; set; }
+        public List<ProductPictureDTO> ProductPictures { get; set; }
+
+        public SizeType SizeType { get; set; }
+        
+        public int Quantity { get; set; }
      
 
-        public int Price { get; set; }
 
-        public string Description { get; set; }
         
-        public string Title { get; set; }
-
-        public ProductCategoryType ProductCategory { get; set; }
-
-        public FruitType FruitType { get; set; }
 
 
-        public int TotalCategoryItems { get; set; }
 
-        //public int TotalSize { get; set; }
 
-        //public List<ProductSizeDTO> ProductSizes  { get; set; }
-        public List<ProductPictureDTO> ProductPictures { get; set; }
+
+    
 
         
 

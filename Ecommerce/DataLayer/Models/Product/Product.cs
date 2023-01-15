@@ -21,15 +21,15 @@ namespace Ecommerce.DataLayer.Models.Baby
 
         public ICollection<ProductPicture> ProductPictures { get; set; }
 
-        //public ICollection<ProductSize> ProductSizes { get; set; }
-
         public ProductCategoryType ProductType { get; set; }
 
         public FruitType FruitType { get; set; }
-
         public List<CartProduct> CartProducts { get; set; }
 
-        //public virtual ICollection<CartProduct> CartProducts { get; set; }
+
+
+
+
 
 
 

@@ -103,6 +103,9 @@ namespace Ecommerce.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("char(36)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<int>("SizeType")
                         .HasColumnType("int");
 

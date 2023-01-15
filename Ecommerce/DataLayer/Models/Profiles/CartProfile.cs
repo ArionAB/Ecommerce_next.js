@@ -12,10 +12,7 @@ namespace Ecommerce.DataLayer.Models.Profiles
         public CartProfile()
         {
             CreateMap<AddItemToCartDTO, CartProduct>();
-            //CreateMap<CartProduct, ProductDTO>().ForMember(x => x.Price, opt => opt.MapFrom(src => src.Product.Price));
-
-            //CreateMap<CartProductDTO, CartProduct>();
-            //CreateMap<CartDTO, CartClass>();
+       
         }
     }
 }

@@ -2,6 +2,9 @@
 using Ecommerce.DataLayer.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace Ecommerce.DataLayer.Models.Cart
 {
@@ -9,16 +12,24 @@ namespace Ecommerce.DataLayer.Models.Cart
     {
         public Guid CartProductId { get; set; }
         public Guid CartId { get; set; }
-
-        public virtual CartClass Cart { get; set; }
+        //[XmlIgnore]
+        //[IgnoreDataMember]
+        public  CartClass Cart { get; set; }
         
         public Guid ProductId { get; set; }
-
-        //public List<ProductClass> Product { get; set; }
-
-        public virtual ProductClass Product { get; set; }
-
+        
+        //[XmlIgnore]
+        //[IgnoreDataMember]
+        public  ProductClass Product { get; set; }
         public SizeType SizeType { get; set; }
+
+        public int Quantity { get; set; }
+
+        
+
+
+
+
 
 
     }

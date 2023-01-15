@@ -12,12 +12,16 @@ import {
 import styles from "../styles/cart.module.scss";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Link from "next/link";
-import { useAppSelector } from "../src/Store";
+import { useAppDispatch, useAppSelector } from "../src/Store";
 import { selectCartItems } from "../src/Store/Selectors/cartSelectors";
 import { resourceUrl } from "../src/Utils";
 import { ConvertSizeToLabel } from "../src/Utils/Functions/ConvertEnumToNumber";
 import { style } from "@mui/system";
 import { QuantitySizeItems } from "../src/Components/selectItems/QuantitySizeItems";
+import { changeQuantity, removeItem } from "../src/Store/Thunks/cartThunks";
+import Close from "@mui/icons-material/Close";
+import { SizeType } from "../src/Store/Enums/SizeType";
+import { selectCurrentUser } from "../src/Store/Selectors/authenticationSelectors";
 
 const Cart = () => {
   const [quantity, setQuantity] = useState<number>(1);
@@ -27,7 +31,10 @@ const Cart = () => {
       quantity: 1,
     },
   ]);
+
+  const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectCartItems);
+  const currentUser = useAppSelector(selectCurrentUser);
 
   const getTotalPrice = () => {
     let total = 0;
@@ -55,7 +62,33 @@ const Cart = () => {
       setSelectValues(newValues);
       // setSelectValues((prev) => [...prev, item.quantity]);
     });
+    //eslint-disable-next-line
   }, [cartItems]);
+
+  /*   const handleChangeQuantity = () => {
+    dispatch(
+      changeQuantity({
+        data: {
+          productId: item?.productId,
+          sizeType: Number(sizeValue),
+          quantity: parseInt(selectedQuantity),
+        },
+        token: currentUser?.jwtToken,
+      })
+    );
+  }; */
+
+  const handleRemoveItem = (productId: string, sizeType: SizeType) => {
+    dispatch(
+      removeItem({
+        data: {
+          productId: productId,
+          sizeType: sizeType,
+        },
+        token: currentUser?.jwtToken,
+      })
+    );
+  };
 
   return (
     <Container maxWidth="xl">
@@ -122,6 +155,7 @@ const Cart = () => {
                     </InputLabel>
                     <Select
                       id="demo-simple-select-label"
+                      // @ts-ignore
                       value={Number(selectValues[index]?.quantity) || ""}
                       onChange={(e) => handleChange(e, index)}
                       label="Nr. bucati"
@@ -134,9 +168,15 @@ const Cart = () => {
                       ))}
                     </Select>
                   </FormControl>
-                  <Typography>{`${
+                  <Typography className={styles.cost}>{`${
                     Number(item.price) * item.quantity
-                  }`}</Typography>
+                  } lei`}</Typography>
+                  <Close
+                    className={styles.closeIcon}
+                    onClick={() =>
+                      handleRemoveItem(item.productId, item.sizeType)
+                    }
+                  />
                 </Box>
               </Box>
             );

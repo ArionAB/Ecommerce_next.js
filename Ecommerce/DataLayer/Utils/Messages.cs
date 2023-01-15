@@ -49,5 +49,20 @@
         public static Message Message_AddItemToCartError = new Message { Text = "Eroare adaugare item to cart!", MessageType = MessageType.Error };
         public static Message Message_AddItemToCartSuccess = new Message { Text = "Item adaugat in cart cu success!", MessageType = MessageType.Success };
 
+        public static Message Message_GetCartItemIdError = new Message { Text = "User id invalid!", MessageType = MessageType.Error };
+        public static Message Message_GetCartItemCartError = new Message { Text = "Cart inexistent!", MessageType = MessageType.Error };
+        public static Message Message_GetCartItemProductError = new Message { Text = "Produs in cart inexistent!", MessageType = MessageType.Error };
+        public static Message Message_GetCartItemsSuccess = new Message { Text = "Cart Items au fost fetchuite!", MessageType = MessageType.Success };
+        public static Message Message_GetCartItemError = new Message { Text = "Cart items eroare request!", MessageType = MessageType.Error };
+        public static Message Message_ProductIdError = new Message { Text = "Product id invalid", MessageType = MessageType.Error };
+
+        public static Message Message_ChangedItemQtySuccess = new Message { Text = "Cantitatea modificata cu success!", MessageType = MessageType.Success };
+        public static Message Message_ChangeItemQtyError = new Message { Text = "Eroare modificare cantitate!", MessageType = MessageType.Error };
+
+        public static Message Message_RemoveCartItemError = new Message { Text = "Eroare sterge item din cart!", MessageType = MessageType.Error };
+        public static Message Message_RemoveCartItemSuccess = new Message { Text = "Item sters cu success!", MessageType = MessageType.Success };
+
+
+
     }
 }

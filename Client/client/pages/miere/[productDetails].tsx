@@ -1,4 +1,11 @@
-import React, { useEffect, useState, FC } from "react";
+import React, {
+  useEffect,
+  useState,
+  FC,
+  forwardRef,
+  ReactElement,
+  Ref,
+} from "react";
 import { useRouter } from "next/router";
 import { getProduct } from "../../src/Store/Thunks/productThunks";
 import { addItemToCart } from "../../src/Store/Thunks/cartThunks";
@@ -13,6 +20,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Slide,
+  Dialog,
 } from "@mui/material";
 import Image from "next/image";
 import { resourceUrl } from "../../src/Utils";
@@ -24,6 +33,18 @@ import Button from "@mui/material/Button/Button";
 import { SizeItems } from "../../src/Components/selectItems/SizeItems";
 import Close from "@mui/icons-material/Close";
 import { selectCurrentUser } from "../../src/Store/Selectors/authenticationSelectors";
+import { QuantitySizeItems } from "../../src/Components/selectItems/QuantitySizeItems";
+import { AddToCartModal } from "../../src/Components/cart-page/AddToCartModal";
+import { TransitionProps } from "@mui/material/transitions";
+
+const Transition = forwardRef(function Transition(
+  props: TransitionProps & {
+    children: ReactElement<any, any>;
+  },
+  ref: Ref<unknown>
+) {
+  return <Slide direction="left" ref={ref} {...props} />;
+});
 
 const ProductDetails: FC<{
   handleClose: Function;
@@ -34,6 +55,7 @@ const ProductDetails: FC<{
   const [sizeValue, setSizeValue] = useState<string>("2");
   let [maxQuantity, setMaxQuantity] = useState<number>(0);
   const [selectedQuantity, setSelectedQuantity] = useState<string>("1");
+  const [openCart, setOpenCart] = useState<boolean>(false);
 
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -86,11 +108,26 @@ const ProductDetails: FC<{
         },
         token: currentUser?.jwtToken,
       })
-    );
+    ).then(() => {
+      setOpenCart(true);
+    });
+  };
+
+  const handleCloseCart = () => {
+    setOpenCart(false);
   };
 
   return (
     <>
+      <Dialog
+        TransitionComponent={Transition}
+        onClose={handleCloseCart}
+        className={styles.dialogDetails}
+        open={openCart}
+      >
+        <AddToCartModal open={openCart} onClose={handleCloseCart} />
+      </Dialog>
+
       <Button onClick={() => handleClose()} className={styles.closeModal}>
         <Close />
       </Button>
@@ -130,7 +167,6 @@ const ProductDetails: FC<{
               value={sizeValue}
               onChange={handleChange}
               label="Marime"
-              defaultValue="1"
             >
               {SizeItems.map((size, index) => (
                 <MenuItem key={index} value={size.value}>
@@ -147,10 +183,9 @@ const ProductDetails: FC<{
                 label="Cantitate"
                 onChange={handleQuantity}
               >
-                <MenuItem value="1">1</MenuItem>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                  <MenuItem key={item} value={item}>
-                    {item}
+                {QuantitySizeItems.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.label}
                   </MenuItem>
                 ))}
               </Select>
@@ -161,6 +196,7 @@ const ProductDetails: FC<{
             >
               Add to cart
             </Button>
+            <Button onClick={() => setOpenCart(true)}>aaaa</Button>
           </Box>
 
           <Typography

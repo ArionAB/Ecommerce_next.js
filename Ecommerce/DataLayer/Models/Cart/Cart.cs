@@ -3,6 +3,7 @@ using Ecommerce.DataLayer.Models.User;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Ecommerce.DataLayer.Models.Cart
 {
