@@ -260,56 +260,7 @@ namespace Ecommerce.ServiceLayer.BabyService
 
             }
 
-//            switch (filter.SubcategoryType)
-//            {
-//                case SubcategoryType.All:
-
-//                    try
-//                    {
-
-//                        //babyItems = babyItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize.Contains(x.Size)).Count() > 0)
-//                        productItems = productItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize != null ? filter.ProductSize.Contains(x.Size) : productItems.Any()).Count() > 0)
-//                        .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Price : x.Price > 0)
-//                        .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Price : x.Price > 0)
-//                       .Take(filter.PageSize).ToList();
-
-//                        return productItems;
-
-//                    }
-//                    catch (Exception e)
-//                    {
-//                        return productItems;
-//                    }
          
-
-//                case SubcategoryType.Bodysuit:
-//                    //babyItems = babyItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize.Contains(x.Size)).Count() > 0)
-//                    productItems = productItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize != null ? filter.ProductSize.Contains(x.Size) : productItems.Any()).Count() > 0)
-
-//.Where(x => x.SubcategoryType == SubcategoryType.Bodysuit)
-//                        .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Price : x.Price > 0)
-//                        .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Price : x.Price > 0)
-//                        .Take(filter.PageSize).ToList();
-
-                    
-//                    return productItems;
-                    
-//                case SubcategoryType.Coverall:
-//                    //babyItems = babyItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize.Contains(x.Size)).Count() > 0)
-//                    productItems = productItems.Where(x => x.ProductSizes.Where(x => filter.ProductSize != null ? filter.ProductSize.Contains(x.Size) : productItems.Any()).Count() > 0)
-
-//.Where(x => x.SubcategoryType == SubcategoryType.Coverall)
-//                           .Where(x => filter.MaxPrice != 0 ? filter.MaxPrice >= x.Price : x.Price > 0)
-//                           .Where(x => filter.MinPrice != 0 ? filter.MinPrice <= x.Price : x.Price > 0)
-//                           .Take(filter.PageSize).ToList();
-
-
-
-
-//                    return productItems;
-           
-//            }
-
             return productItems;
            
             

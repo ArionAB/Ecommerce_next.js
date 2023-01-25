@@ -9,6 +9,7 @@ namespace Ecommerce.DataLayer.DTOs.Baby
     {
         public Guid ProductId { get; set; }
 
+        public Guid CartProductId { get; set; }
         public int Price { get; set; }
         public string Description { get; set; }
         public string Title { get; set; }

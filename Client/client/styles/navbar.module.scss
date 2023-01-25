@@ -18,6 +18,13 @@
 
 .login {
   display: flex;
-  align-items: center;
+  // align-items: center;
   gap: 0.5rem;
+
+  .loginBTN {
+    &:hover {
+      background-color: $pink !important;
+      color: $brown;
+    }
+  }
 }

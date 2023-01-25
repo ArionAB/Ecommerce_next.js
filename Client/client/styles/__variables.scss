@@ -26,3 +26,45 @@ $box-shadow: 0 0 12px 0 rgb(0 0 0 / 20%);
   color: $brown;
   font-style: italic;
 }
+
+@mixin textfield {
+  .textfield {
+    &:focus-within > label {
+      color: $brown;
+      font-weight: 500;
+    }
+    input,
+    ::before {
+      // border-bottom: 1px solid $brown !important;
+      border-bottom-style: solid !important;
+    }
+
+    ::after {
+      border-bottom: 2px solid $brown;
+    }
+
+    input:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+    }
+
+    label {
+      @include textfield-label;
+
+      .Mui-focused fieldset {
+        border-color: green;
+      }
+    }
+    .Mui-focused fieldset {
+      border-color: green;
+    }
+  }
+}
+
+@mixin textfield-label {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  color: $gray-subtitle;
+  // background-color: white;
+  padding-right: 5px;
+}

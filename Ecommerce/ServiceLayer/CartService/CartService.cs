@@ -39,11 +39,13 @@ namespace Ecommerce.ServiceLayer.CartService
                 }
                 var newCartItem = new CartProduct
                 {
-                    CartProductId = loggedInUserId,
+                    CartProductId = Guid.NewGuid(),
                     CartId = CartId,
                     ProductId = itemDTO.ProductId,
                     SizeType = itemDTO.SizeType,
-                    Quantity = itemDTO.Quantity
+                    Quantity = itemDTO.Quantity,
+                    UserId = loggedInUserId
+                    
                 };
                 var carts = _mapper.Map<CartProduct>(newCartItem);
                 var cartexists = await _context.Cart.FirstOrDefaultAsync(x => x.UserId == loggedInUserId);
@@ -67,7 +69,7 @@ namespace Ecommerce.ServiceLayer.CartService
 
                         break;
                     case false:
-                        var itemExists = await _context.CartProducts.FirstOrDefaultAsync(x => x.CartProductId == loggedInUserId && x.ProductId == itemDTO.ProductId && x.SizeType == itemDTO.SizeType);
+                        var itemExists = await _context.CartProducts.FirstOrDefaultAsync(x => x.CartId == CartId && x.ProductId == itemDTO.ProductId && x.SizeType == itemDTO.SizeType);
 
                         if (itemExists != null)
                         {
@@ -76,7 +78,7 @@ namespace Ecommerce.ServiceLayer.CartService
 
                             await _context.SaveChangesAsync();
 
-                            return new ServiceResponse<Object> { Response = itemExists, Success = true, Message = Messages.Message_ChangedItemQtySuccess };
+                            return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_ChangedItemQtySuccess };
 
                         }
                         else
@@ -86,7 +88,7 @@ namespace Ecommerce.ServiceLayer.CartService
 
                             _context.SaveChanges();
 
-                            return new ServiceResponse<Object> { Response = carts, Success = true, Message = Messages.Message_AddItemToCartSuccess };
+                            return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_AddItemToCartSuccess };
                         }
                        
 
@@ -96,7 +98,7 @@ namespace Ecommerce.ServiceLayer.CartService
               
 
 
-                return new ServiceResponse<Object> { Response = carts, Success = true, Message = Messages.Message_AddItemToCartSuccess };
+                return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_AddItemToCartSuccess };
 
             }
             catch (Exception e)
@@ -125,6 +127,7 @@ namespace Ecommerce.ServiceLayer.CartService
                 }
 
                 var cartItems = new List<ProductDTO>();
+    
 
                 foreach (var item in cart.CartProducts)
                 {
@@ -139,6 +142,7 @@ namespace Ecommerce.ServiceLayer.CartService
                     var productDTO = _mapper.Map<ProductDTO>(product);
                     productDTO.SizeType = item.SizeType;
                     productDTO.Quantity = item.Quantity;
+                    productDTO.CartProductId = item.CartProductId;
                     cartItems.Add(productDTO);
                 
                 }
@@ -165,14 +169,14 @@ namespace Ecommerce.ServiceLayer.CartService
         {
             try
             {
-                if (GenericFunctions.GuidIsNullOrEmpty(quantityDTO.ProductId))
+                if (GenericFunctions.GuidIsNullOrEmpty(quantityDTO.CartProductId))
                 {
                     return new ServiceResponse<Object> { Response = null, Success = false, Message = Messages.Message_ProductIdError };
                 }
 
-              
 
-                var cartItem = _context.CartProducts.FirstOrDefault(x => x.CartProductId == loggedInUserId && x.ProductId == quantityDTO.ProductId && x.SizeType == quantityDTO.SizeType);
+
+                var cartItem = _context.CartProducts.FirstOrDefault(x => x.UserId == loggedInUserId && x.CartProductId == quantityDTO.CartProductId);
 
                 if (cartItem == null)
                 {
@@ -193,7 +197,7 @@ namespace Ecommerce.ServiceLayer.CartService
          
         }
 
-        public async Task<ServiceResponse<Object>> RemoveItem(RemoveItemDTO removeItemDTO, Guid loggedInUserId)
+        public async Task<ServiceResponse<Object>> RemoveItem(RemoveItemDTO removeItemDTO, Guid loggedInUserId, Guid CartId)
         {
             try
             {
@@ -202,7 +206,7 @@ namespace Ecommerce.ServiceLayer.CartService
                     return new ServiceResponse<Object> { Response = null, Success = false, Message = Messages.Message_ProductIdError };
                 }
 
-                var cartItem = _context.CartProducts.FirstOrDefault(x => x.CartProductId == loggedInUserId && x.ProductId == removeItemDTO.ProductId && x.SizeType == removeItemDTO.SizeType);
+                var cartItem = _context.CartProducts.FirstOrDefault(x => x.CartProductId == removeItemDTO.ProductId && x.SizeType == removeItemDTO.SizeType);
 
                 if (cartItem == null)
                 {

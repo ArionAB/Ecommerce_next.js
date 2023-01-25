@@ -109,6 +109,9 @@ namespace Ecommerce.Migrations
                     b.Property<int>("SizeType")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("CartProductId");
 
                     b.HasIndex("CartId");

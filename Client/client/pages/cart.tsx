@@ -8,6 +8,7 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
+  Divider,
 } from "@mui/material";
 import styles from "../styles/cart.module.scss";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -80,6 +81,14 @@ const Cart = () => {
     );
   };
 
+  const priceWithDelivery = () => {
+    if (totalPrice < 200) {
+      return totalPrice + 15;
+    } else {
+      return totalPrice;
+    }
+  };
+
   return (
     <Container maxWidth="xl">
       <Box className={styles.yourCartBox}>
@@ -89,7 +98,7 @@ const Cart = () => {
           gutterBottom
           className={styles.yourCart}
         >
-          Your Cart
+          Coș
         </Typography>
         {isNotEmpty() ? (
           <Box className={styles.priceBox}>
@@ -98,10 +107,12 @@ const Cart = () => {
                 Total
               </Typography>
               <Typography className={styles.totalPrice}>
-                {totalPrice} lei
+                {priceWithDelivery()} lei
               </Typography>
             </Box>
-            <Button variant="contained">Către casă</Button>
+            <Link href="/checkout">
+              <Button variant="contained">Finzalizează comandă</Button>
+            </Link>
           </Box>
         ) : (
           <>
@@ -186,6 +197,27 @@ const Cart = () => {
             </Link>{" "}
           </>
         )}
+      </Box>
+      <Divider />
+      <Box className={styles.bottom}>
+        <Typography variant="subtitle2">
+          Livrare gratuită la comenzile peste 200 de lei
+        </Typography>
+        <Box>Cost livrare: {totalPrice >= 200 ? 0 : 15} lei</Box>
+        <Box className={styles.totalBox}>
+          <Typography variant="h5" className={styles.total}>
+            Total
+          </Typography>
+          <Typography className={styles.totalPrice}>
+            {priceWithDelivery()} lei
+          </Typography>
+        </Box>
+
+        <Link href="/checkout">
+          <Button variant="contained" className={styles.btn}>
+            Finzalizează comanda
+          </Button>
+        </Link>
       </Box>
     </Container>
   );

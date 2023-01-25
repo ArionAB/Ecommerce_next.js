@@ -48,9 +48,9 @@ namespace Ecommerce.Controllers
 
         [HttpPost("/Cart/RemoveItem")]
 
-        public async Task<IActionResult> RemoveItem([FromForm] RemoveItemDTO removeItemDTO, Guid loggedInUserId)
+        public async Task<IActionResult> RemoveItem([FromForm] RemoveItemDTO removeItemDTO)
         {
-            var response = await _cartService.RemoveItem(removeItemDTO, Account.UserId);
+            var response = await _cartService.RemoveItem(removeItemDTO, Account.UserId, Account.CartId);
             if (response.Success) return Ok(response);
 
             else return BadRequest(response);

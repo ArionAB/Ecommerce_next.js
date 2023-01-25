@@ -12,14 +12,12 @@ namespace Ecommerce.DataLayer.Models.Cart
     {
         public Guid CartProductId { get; set; }
         public Guid CartId { get; set; }
-        //[XmlIgnore]
-        //[IgnoreDataMember]
+ 
         public  CartClass Cart { get; set; }
         
         public Guid ProductId { get; set; }
         
-        //[XmlIgnore]
-        //[IgnoreDataMember]
+        public Guid UserId { get; set; }
         public  ProductClass Product { get; set; }
         public SizeType SizeType { get; set; }
 

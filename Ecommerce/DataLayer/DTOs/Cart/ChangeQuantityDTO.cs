@@ -5,9 +5,9 @@ namespace Ecommerce.DataLayer.DTOs.Cart
 {
     public class ChangeQuantityDTO
     {
-        public Guid ProductId { get; set; }
+        public Guid CartProductId { get; set; }
         public int Quantity { get; set; }
-        public SizeType SizeType { get; set; }
+     
 
 
         
