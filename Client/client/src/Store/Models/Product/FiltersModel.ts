@@ -1,12 +1,10 @@
-import { ProductSizesModel } from "./ProductSizesModel";
-
 export interface FiltersModel {
-  PageNumber: string | string[];
-  PageSize: string | string[];
-  ProductSize?: string[] | any;
+  PageNumber: number;
+  PageSize: number;
+
   SearchText: string | string[];
-  MinPrice: string | string[];
-  MaxPrice: string | string[];
-  ProductCategory: string | string[];
-  SubcategoryType: string | string[];
+  MinPrice: number;
+  MaxPrice: number;
+  ProductCategory: number;
+  SubcategoryType: number;
 }

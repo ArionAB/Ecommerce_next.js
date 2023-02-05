@@ -313,6 +313,25 @@ namespace Ecommerce.ServiceLayer.UsersService
                 x.Created.AddDays(_appSettings.RefreshTokenTTL) <= GenericFunctions.GetCurrentDateTime());
         }
 
+        public async Task<ServiceResponse<RegularUserDTO>> UpdateUser(Guid loggedInUserId, UpdateUserDTO model)
+        {
+            try
+            {
+                var user = _context.Users.FirstOrDefault(x => x.UserId == loggedInUserId);
+              _mapper.Map(model, user);
+
+                _context.Users.Update(user);
+                _context.SaveChanges();
+
+                var result = _mapper.Map<RegularUserDTO>(user);
+
+                return new ServiceResponse<RegularUserDTO> { Response = result, Success = true, Message = Messages.Message_AddressAddedSuccess };
+            }
+            catch(Exception e)
+            {
+                return new ServiceResponse<RegularUserDTO> { Response = null, Success = false, Message = Messages.Message_AddressAddedError };
+            }
+        }
        
     }
     

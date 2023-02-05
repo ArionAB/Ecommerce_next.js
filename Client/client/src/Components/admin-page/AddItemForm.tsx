@@ -13,7 +13,6 @@ import { AddProductItemModel } from "../../Store/Models/Product/AddProductItem";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
 import { addProductItem } from "../../Store/Thunks/productThunks";
 import FileUploadComponent from "../fileUpload/FileUploadComponent";
-import { BabySizeItems } from "../selectItems/QuantitySizeItems";
 
 export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
   fruitType,
@@ -25,7 +24,8 @@ export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
     description: "",
     fruitType: fruitType,
     productCategory: productType,
-    price: "",
+    priceKg: "",
+    priceHalf: "",
     pictures: [],
   });
 
@@ -104,31 +104,13 @@ export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
           />
         </InputLabel>
 
-        {/* <Typography variant="h6">Fruct</Typography>
-        <Paper elevation={3}>
-          {BabySizeItems.map((item, index) => {
-            return (
-              <MenuItem
-                key={item.value}
-                value={item.value}
-                onKeyDown={(e) => e.stopPropagation()}
-                sx={{ display: "flex", justifyContent: "space-between" }}
-              >
-                {item.label}
-
-                <TextField
-                  name="quantity"
-                  type="number"
-                  onChange={(e) => handleQuantityChange(e, item.value, index)}
-                />
-              </MenuItem>
-            );
-          })}
-        </Paper> */}
-
         <InputLabel className="input-label">
-          <Typography variant="h6">Pret</Typography>
-          <TextField onChange={(e) => handleChange(e)} name="price" />
+          <Typography variant="h6">Pret la KG</Typography>
+          <TextField onChange={(e) => handleChange(e)} name="priceKg" />
+        </InputLabel>
+        <InputLabel className="input-label">
+          <Typography variant="h6">Pret la 500g</Typography>
+          <TextField onChange={(e) => handleChange(e)} name="priceHalf" />
         </InputLabel>
       </Box>
       <Typography variant="h6">Poze</Typography>

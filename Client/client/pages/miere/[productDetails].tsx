@@ -36,6 +36,7 @@ import { selectCurrentUser } from "../../src/Store/Selectors/authenticationSelec
 import { QuantitySizeItems } from "../../src/Components/selectItems/QuantitySizeItems";
 import { AddToCartModal } from "../../src/Components/cart-page/AddToCartModal";
 import { TransitionProps } from "@mui/material/transitions";
+import Head from "next/head";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -119,6 +120,9 @@ const ProductDetails: FC<{
 
   return (
     <>
+      <Head>
+        <title>{item?.title}</title>
+      </Head>
       <Dialog
         TransitionComponent={Transition}
         onClose={handleCloseCart}
@@ -127,10 +131,12 @@ const ProductDetails: FC<{
       >
         <AddToCartModal open={openCart} onClose={handleCloseCart} />
       </Dialog>
+      {open && (
+        <Button onClick={() => handleClose()} className={styles.closeModal}>
+          <Close />
+        </Button>
+      )}
 
-      <Button onClick={() => handleClose()} className={styles.closeModal}>
-        <Close />
-      </Button>
       <Container maxWidth="xl" className={styles.container}>
         <Box className={styles.images}>
           <Image
@@ -158,7 +164,9 @@ const ProductDetails: FC<{
           <Typography variant="h4" className={styles.title}>
             {item?.title}
           </Typography>
-          <Typography className={styles.price}>{item?.price}.00 lei</Typography>
+          <Typography className={styles.price}>
+            {item?.priceKg}.00 lei
+          </Typography>
 
           <FormControl className={styles.selectSize}>
             <InputLabel id="demo-simple-select-label">Mărime</InputLabel>

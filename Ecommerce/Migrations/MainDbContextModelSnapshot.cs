@@ -29,7 +29,10 @@ namespace Ecommerce.Migrations
                     b.Property<int>("FruitType")
                         .HasColumnType("int");
 
-                    b.Property<int>("Price")
+                    b.Property<int>("PriceHalf")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PriceKg")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductType")
@@ -138,8 +141,26 @@ namespace Ecommerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AddressBill")
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("CartId")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CityBill")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("County")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CountyBill")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -147,7 +168,31 @@ namespace Ecommerce.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstNameBill")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Info")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("InfoBill")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastNameBill")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Password")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneBill")
                         .HasColumnType("longtext");
 
                     b.Property<int>("UserType")
@@ -155,6 +200,12 @@ namespace Ecommerce.Migrations
 
                     b.Property<string>("Username")
                         .HasColumnType("longtext");
+
+                    b.Property<int>("ZipCode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ZipCodeBill")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId");
 

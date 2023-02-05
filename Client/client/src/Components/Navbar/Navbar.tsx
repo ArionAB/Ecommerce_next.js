@@ -20,57 +20,56 @@ export const Navbar = () => {
   const cartItems = useAppSelector(selectCartItems);
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        minHeight: "55px",
-        alignItems: "center",
-      }}
-    >
-      <Link href="/admin">Admin</Link>
-      <Link href="/home">Home</Link>
+    <Box className={styles.container}>
+      <Container className={styles.navContainer}>
+        <Link href="/admin" className={styles.link}>
+          Admin
+        </Link>
+        <Link href="/" className={styles.link}>
+          Acasă
+        </Link>
 
-      <Link href="/search">Search</Link>
-      <Link href="/cart" className={styles.cartLink}>
-        <ShoppingCartIcon />
-        {currentUser && (
-          <span className={styles.cartNumber}>{cartItems?.length}</span>
+        <Link href="/cart" className={styles.cartLink}>
+          <ShoppingCartIcon />
+          {currentUser && (
+            <span className={styles.cartNumber}>{cartItems?.length}</span>
+          )}
+        </Link>
+        {currentUser ? (
+          <Box
+            aria-owns={isLogin ? "mouse-over-popover" : undefined}
+            onMouseEnter={(e) => {
+              setCurrentTarget(e.currentTarget);
+              setIsLogin(true);
+            }}
+            onMouseLeave={() => setIsLogin(false)}
+            sx={{ position: "relative", cursor: "pointer" }}
+            className={styles.login}
+          >
+            <PersonPinIcon /> {currentUser?.username}
+            {isLogin && currentUser && <LogOut />}
+          </Box>
+        ) : (
+          <Typography
+            aria-owns={isLogin ? "mouse-over-popover" : undefined}
+            onMouseEnter={(e) => {
+              setCurrentTarget(e.currentTarget);
+              setIsLogin(true);
+            }}
+            onMouseLeave={() => setIsLogin(false)}
+            onClick={() => setOpenDialog(true)}
+            sx={{ position: "relative", cursor: "pointer" }}
+            className={styles.link}
+          >
+            Log in
+            {isLogin && !currentUser && <Login />}
+          </Typography>
         )}
-      </Link>
-      {currentUser ? (
-        <Box
-          aria-owns={isLogin ? "mouse-over-popover" : undefined}
-          onMouseEnter={(e) => {
-            setCurrentTarget(e.currentTarget);
-            setIsLogin(true);
-          }}
-          onMouseLeave={() => setIsLogin(false)}
-          sx={{ position: "relative", cursor: "pointer" }}
-          className={styles.login}
-        >
-          <PersonPinIcon /> {currentUser?.username}
-          {isLogin && currentUser && <LogOut />}
-        </Box>
-      ) : (
-        <Typography
-          aria-owns={isLogin ? "mouse-over-popover" : undefined}
-          onMouseEnter={(e) => {
-            setCurrentTarget(e.currentTarget);
-            setIsLogin(true);
-          }}
-          onMouseLeave={() => setIsLogin(false)}
-          onClick={() => setOpenDialog(true)}
-          sx={{ position: "relative", cursor: "pointer" }}
-        >
-          Log in
-          {isLogin && !currentUser && <Login />}
-        </Typography>
-      )}
 
-      <Dialog open={openDialog} maxWidth="md">
-        <Signup setOpenDialog={setOpenDialog} />
-      </Dialog>
-    </Container>
+        <Dialog open={openDialog} maxWidth="md">
+          <Signup setOpenDialog={setOpenDialog} />
+        </Dialog>
+      </Container>
+    </Box>
   );
 };

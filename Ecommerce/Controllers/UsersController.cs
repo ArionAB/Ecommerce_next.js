@@ -54,6 +54,15 @@ namespace Ecommerce.Controllers
                 return BadRequest(new { Message = authenticateUser.Message, Error = "Eroare autentificare" });
             }
         }
+        [HttpPost("/Users/UpdateUser")]
+        public async Task<IActionResult> UpdateUser([FromForm] UpdateUserDTO model)
+        {
+            var result = await _userService.UpdateUser(Account.UserId, model);
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
 
         [HttpPost("/Users/RefreshToken")]
 

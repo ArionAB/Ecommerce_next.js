@@ -7,9 +7,7 @@ namespace Ecommerce.DataLayer.DTOs.Baby
     {
         public List<ProductDTO> ProductItems { get; set; }
 
-        //public BabyCategoriesDTO TotalItemsPerCategory { get; set; }
-
-        //public ProductSizesEnumDTO TotalSizes { get; set; }
+      
 
         public ProductPriceDTO PriceRange { get; set; }
 

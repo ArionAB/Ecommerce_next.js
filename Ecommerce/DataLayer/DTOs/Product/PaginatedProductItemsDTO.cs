@@ -13,11 +13,11 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public int TotalItems { get; set; }
 
-        public ProductSizesEnumDTO TotalSizes { get; set; }
+      
 
         public ProductPriceDTO PriceRange { get; set; }
 
-        public BabyCategoriesDTO TotalItemsPerCategory { get; set; }
+        
 
 
 

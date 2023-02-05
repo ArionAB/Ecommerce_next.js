@@ -60,7 +60,7 @@ export const AddToCartModal: FC<{ open: boolean; onClose: Function }> = ({
               <Box className={styles.closeBox}>
                 <CloseIcon className={styles.removeItem} />
                 <Typography className={styles.price}>
-                  {item.price} lei
+                  {item.priceKg} lei
                 </Typography>
               </Box>
             </Box>

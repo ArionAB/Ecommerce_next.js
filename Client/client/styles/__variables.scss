@@ -16,9 +16,31 @@ $error-dark: #c62828;
 
 $box-shadow: 0 0 12px 0 rgb(0 0 0 / 20%);
 
+$main-gradient: rgb(61, 40, 45);
+$main-gradient-linear: linear-gradient(
+  90deg,
+  rgba(61, 40, 45, 1) 0%,
+  rgba(47, 31, 34, 1) 47%,
+  rgba(35, 25, 26, 1) 100%
+);
+
+$secondary-gradient: rgb(243, 220, 178);
+$seconday-gradient-linear: linear-gradient(
+  90deg,
+  rgba(243, 220, 178, 1) 0%,
+  rgba(247, 217, 166, 1) 47%,
+  rgba(248, 201, 125, 1) 100%
+);
+
+$secondary-color: rgba(248, 201, 125, 1);
 @mixin pink-btn {
   background-color: $pink;
   color: $brown;
+
+  &:hover {
+    background-color: $pink !important;
+    color: white;
+  }
 }
 
 @mixin product-title {

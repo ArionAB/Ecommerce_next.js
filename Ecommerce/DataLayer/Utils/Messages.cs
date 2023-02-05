@@ -62,6 +62,8 @@
         public static Message Message_RemoveCartItemError = new Message { Text = "Eroare sterge item din cart!", MessageType = MessageType.Error };
         public static Message Message_RemoveCartItemSuccess = new Message { Text = "Item sters cu success!", MessageType = MessageType.Success };
 
+        public static Message Message_AddressAddedSuccess = new Message { Text = "Adresa de livrare adaugata!", MessageType = MessageType.Success };
+        public static Message Message_AddressAddedError = new Message { Text = "Adresa de livrare nu a putut fi adaugata!", MessageType = MessageType.Error };
 
 
     }

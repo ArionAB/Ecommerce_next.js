@@ -61,7 +61,7 @@ export const Options: FC<{
         </Typography>
 
         <Typography variant="h6" className={styles.price}>
-          {card.price} lei
+          {card.priceKg} lei
         </Typography>
         <Box>
           <FormControl className={styles.selectWeight}>

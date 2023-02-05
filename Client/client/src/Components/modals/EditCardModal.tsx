@@ -24,7 +24,8 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
     description: "",
     fruitType: Number(card.fruitType),
     productCategory: 2,
-    price: "",
+    priceKg: "",
+    priceHalf: "",
     newAdditionalPictures: [],
   });
 
@@ -66,7 +67,8 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
       description: card.description,
       fruitType: Number(card.fruitType),
       productCategory: card.productCategory,
-      price: card.price,
+      priceKg: card.priceKg,
+      priceHalf: card.priceHalf,
       newAdditionalPictures: [],
     });
     // setTextfield(card.productSizes);
@@ -153,7 +155,7 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
           <TextField
             onChange={(e) => handleChange(e)}
             name="price"
-            value={formValues.price || ""}
+            value={formValues.priceKg || ""}
           />
         </InputLabel>
         <InputLabel className="input-label" sx={{ marginTop: "1rem" }}>

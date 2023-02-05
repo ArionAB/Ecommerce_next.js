@@ -1,7 +1,29 @@
 @import "./_variables.scss";
 
+.container {
+  z-index: 3;
+  width: 100vw;
+  height: 55px;
+  background: $main-gradient;
+  background: $main-gradient-linear;
+  position: fixed;
+}
+
+.navContainer {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  .link {
+    color: $secondary-color;
+  }
+}
+
 .cartLink {
   position: relative;
+  color: $secondary-color;
 }
 
 .cartNumber {

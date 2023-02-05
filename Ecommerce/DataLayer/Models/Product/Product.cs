@@ -11,9 +11,11 @@ namespace Ecommerce.DataLayer.Models.Baby
    
         public Guid ProductId { get; set; }
 
-        //public BabySizeType BabySize { get; set; }
+       
 
-        public int Price { get; set; }
+        public int PriceKg { get; set; }
+
+        public int PriceHalf { get; set; }
 
         public string Description { get; set; }
 

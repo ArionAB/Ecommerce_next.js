@@ -62,7 +62,7 @@ const Cart = () => {
     cartItems?.forEach((item, index) => {
       newValues[index] = {
         productId: item.cartProductId,
-        quantity: item.quantity,
+        quantity: Number(item.quantity),
       };
       setSelectValues(newValues);
     });
@@ -142,7 +142,7 @@ const Cart = () => {
                       {item.title}
                     </Typography>
                     <Typography className={styles.price}>
-                      Pret: {item.price} lei
+                      Pret: {item.priceKg} lei
                     </Typography>
                     <Typography className={styles.size}>
                       Marime: {ConvertSizeToLabel(item.sizeType)}
@@ -172,7 +172,7 @@ const Cart = () => {
                     </Select>
                   </FormControl>
                   <Typography className={styles.cost}>{`${
-                    Number(item.price) * item.quantity
+                    Number(item.priceKg) * Number(item.quantity)
                   } lei`}</Typography>
                   <Close
                     className={styles.closeIcon}
@@ -187,7 +187,7 @@ const Cart = () => {
         ) : (
           <>
             <Typography>Your cart is empty</Typography>
-            <Link href="/baby">
+            <Link href="/">
               <Button
                 startIcon={<ShoppingCartIcon />}
                 className={styles.continueBTN}

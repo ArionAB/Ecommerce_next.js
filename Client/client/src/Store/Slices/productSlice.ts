@@ -10,26 +10,13 @@ import {
 
 const initialState: ProductState = {
   actions: {},
-  productItems: {
-    productItems: new Array<ProductItemModel>(),
-    totalItemsPerCategory: {
-      bodysuits: 0,
-      coveralls: 0,
-    },
-  },
-  paginatedItems: {
-    productItems: new Array<ProductItemModel>(),
-    totalItemsPerCategory: {
-      bodysuits: 0,
-      coveralls: 0,
-    },
-  },
+  productItems: new Array<ProductItemModel>(),
+
   loadingItems: false,
   loadingItem: false,
   filters: {
     PageNumber: 0,
     PageSize: 10,
-    ProductSize: [],
     SearchText: "",
     MinPrice: 0,
     MaxPrice: 0,
@@ -38,15 +25,17 @@ const initialState: ProductState = {
   },
   item: {
     productId: "",
-    productSizes: [],
+    cartProductId: "",
     productPictures: [],
-    price: "",
+    priceKg: "",
+    priceHalf: "",
     description: "",
     title: "",
-    categoryType: "",
+    productCategory: 0,
     quantity: "",
     totalCategoryItems: "",
-    totalSize: "",
+    fruitType: "",
+    sizeType: 0,
   },
 };
 
@@ -61,9 +50,7 @@ export const productSlice = createSlice({
     setPageSize: (state, action) => {
       state.filters.PageSize = action.payload;
     },
-    setProductSize: (state, action) => {
-      state.filters.ProductSize = action.payload;
-    },
+
     setSearchText: (state, action) => {
       state.filters.SearchText = action.payload;
     },
@@ -85,23 +72,15 @@ export const productSlice = createSlice({
       state.loadingItems = true;
     }),
       builder.addCase(getProductItems.fulfilled, (state, action) => {
-        (state.productItems = action.payload), (state.loadingItems = false);
+        (state.productItems = action.payload.productItems),
+          (state.loadingItems = false);
       });
     builder.addCase(getProductItems.rejected, (state, action) => {
       state.loadingItems = false;
     }),
-      builder.addCase(getPaginatedProductItems.pending, (state, action) => {
-        state.loadingItems = true;
-      }),
-      builder.addCase(getPaginatedProductItems.fulfilled, (state, action) => {
-        (state.paginatedItems = action.payload), (state.loadingItems = false);
+      builder.addCase(getProduct.pending, (state, action) => {
+        state.loadingItem = true;
       });
-    builder.addCase(getPaginatedProductItems.rejected, (state, action) => {
-      state.loadingItems = false;
-    });
-    builder.addCase(getProduct.pending, (state, action) => {
-      state.loadingItem = true;
-    });
     builder.addCase(getProduct.fulfilled, (state, action) => {
       state.item = action.payload;
       state.loadingItem = false;
@@ -116,7 +95,7 @@ export const {
   resetProductState,
   setPageNumber,
   setPageSize,
-  setProductSize,
+
   setSearchText,
   setMinPrice,
   setMaxPrice,

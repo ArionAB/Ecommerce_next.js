@@ -92,7 +92,7 @@ const Card: FC<{
         ></Image>
       </Link>
       <Typography variant="h6" className={styles.price}>
-        {card.price} lei
+        {card.priceKg} lei
       </Typography>
       <Typography className={styles.title}>{card.title}</Typography>
       {expand && containerIndex === index && (

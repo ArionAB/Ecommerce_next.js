@@ -1,5 +1,9 @@
 @import "./_variables.scss";
 
+.breadCart {
+  color: $brown;
+}
+
 .container {
   display: flex;
 
@@ -10,6 +14,7 @@
     padding-right: 3rem;
     padding-top: 4rem;
     align-items: flex-end;
+    background-color: #fff;
 
     .form {
       @include textfield;
@@ -29,16 +34,63 @@
       }
     }
 
+    .information {
+      max-width: 600px;
+      width: 100%;
+      border: 1px solid $light-gray;
+      border-radius: 5px;
+
+      .contact {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid $light-gray;
+
+        .label {
+          width: 20%;
+          padding: 1rem 0;
+          padding-left: 1rem;
+        }
+
+        // padding: 1rem 0;
+
+        .withEdit {
+          display: flex;
+          width: 80%;
+          justify-content: space-between;
+          align-items: center;
+
+          button {
+            color: $brown;
+            text-transform: capitalize;
+          }
+        }
+      }
+    }
+
+    .billing {
+      display: flex;
+      align-items: center;
+    }
+
     .bottomForm {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
       max-width: 600px;
+      padding: 1rem 0;
 
       .editCart {
         display: flex;
         color: $brown;
+        cursor: pointer;
+      }
+
+      .continueBTN {
+        background-color: $dark-blue;
+        color: white;
+        padding: 0.5rem 1rem;
       }
     }
   }
@@ -46,7 +98,7 @@
   .right {
     width: 45%;
     background-color: $pink;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;

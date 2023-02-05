@@ -5,13 +5,14 @@ export interface ProductItemModel {
   cartProductId: string;
   productId: string;
   productPictures: ProductPictureModel[];
-  price: string;
+  priceKg: string;
+  priceHalf: string;
   description: string;
   title: string;
   productCategory: number;
   fruitType: string;
   totalCategoryItems: string;
-  totalSize: string;
+
   sizeType: SizeType;
-  quantity: number;
+  quantity: number | string;
 }

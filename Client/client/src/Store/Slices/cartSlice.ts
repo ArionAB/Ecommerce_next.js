@@ -24,7 +24,7 @@ export const cartSlice = createSlice({
       state.cartItems = action.payload;
       state.loadingCart = false;
       state.totalPrice = action.payload.reduce(
-        (acc, item) => acc + Number(item.price) * item.quantity,
+        (acc, item) => acc + Number(item.priceKg) * Number(item.quantity),
         0
       );
     });

@@ -15,26 +15,7 @@
 
 
 
-    //public enum BabySizeType
-    //{   
-    //    All = 0,
-    //    ZeroToThree = 1,
-    //    ThreeToSix = 2,
-    //    SixToNine = 3,
-    //    NineToTwelve = 4,
-    //    TwelveToEighteen = 5,
-    //    EighteenToTwentyFour = 6
-    //}
 
-  
-
-    //public enum SubcategoryType
-    //{
-    //    All = 1,
-    //    Bodysuit = 2,
-    //    Coverall = 3
-            
-    //}
 
     public enum FruitType
     {
@@ -56,6 +37,9 @@
         All = 1,
         Multiflower = 2,
         Accacia = 3,
+        Polen = 4,
+        Propolis = 5
+        
         //Girls = 2,
         //Boys = 3,
         //Baby = 4,

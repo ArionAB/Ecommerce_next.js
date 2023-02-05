@@ -9,7 +9,7 @@ const nextConfig = {
         hostname: "localhost",
       },
     ],
-    loader: "custom",
+    // loader: "custom",
     // loaderFile: "./src/Utils/customImageLoader",
   },
 };

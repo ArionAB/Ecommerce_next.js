@@ -4,7 +4,8 @@
 // }
 
 export interface AddProductItemModel {
-  price: string;
+  priceKg: string;
+  priceHalf: string;
   description: string;
   title: string;
   pictures: File[];

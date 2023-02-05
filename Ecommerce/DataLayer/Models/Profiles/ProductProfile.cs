@@ -22,9 +22,6 @@ namespace Ecommerce.DataLayer.Models.Profiles
 
             CreateMap<ProductClass, ProductDTO>()
 
-                //.ForMember(x => x.TotalCategoryItems, opt => opt.MapFrom(src => src.ProductSizes.Sum(x => x.Quantity))) //this will return all quantities
-
-                //.ForMember(x => x.TotalSize, opt => opt.MapFrom(src => src.ProductSizes.Count()))
                 .ForMember(x => x.ProductPictures, opt => opt.MapFrom(src => src.ProductPictures.Select(x => new ProductPictureDTO
                 {
                     PictureId = x.PictureId,
@@ -36,26 +33,6 @@ namespace Ecommerce.DataLayer.Models.Profiles
             .ForMember(x => x.FruitType, opt => opt.MapFrom(src => src.FruitType));
 
 
-            //CreateMap<ProductSize, ProductDTO>().ForMember(x => x.Price, opt => opt.MapFrom(src => src.Product.Price))
-            //    .ForMember(x => x.Description, opt => opt.MapFrom(src => src.Product.Description))
-            //    .ForMember(x => x.Title, opt => opt.MapFrom(src => src.Product.Description))
-            //    .ForMember(x => x.FruitType, opt => opt.MapFrom(src => src.Product.FruitType))
-            //.ForMember(x => x.TotalCategoryItems, opt => opt.MapFrom(src => src.Size.Count()))
-            //.ForMember(x => x.TotalSize, opt => opt.MapFrom(src => src.Size.Count()))
-            //.ForMember(x => x.ProductSizes, opt => opt.MapFrom(src => src.Product.ProductSizes.Select(x => new ProductSizeDTO
-            //{
-            //    ProductSizeId = x.ProductId,
-            //    Size = x.Size,
-            //    Quantity = x.Quantity
-            //}).ToList()))
-            //.ForMember(x => x.ProductPictures, opt => opt.MapFrom(src => src.Product.ProductPictures.Select(x => new ProductPictureDTO
-            //{
-            //    PictureId = x.PictureId,
-            //    FileName = x.FileName,
-            //    ContentType = x.ContentType,
-            //    FilePath = x.FilePath
-            //}).ToList()));
-
             CreateMap<UpdateProductItemDTO, ProductClass>()
                     .ForMember(x => x.ProductPictures, opt => opt.MapFrom(src => src.NewAdditionalPictures != null ? src.NewAdditionalPictures.Select(x => new ProductPicture
                     {
@@ -63,11 +40,7 @@ namespace Ecommerce.DataLayer.Models.Profiles
                         ContentType = x.ContentType,
 
                     }).ToList() : null))
-            //.ForMember(x => x.ProductSizes, opt => opt.MapFrom(src => src.ProductSize != null ? src.ProductSize.Select(x => new ProductSize
-            //{
-            //    Size = x.Size,
-            //    Quantity = x.Quantity
-            //}).ToList() : null))
+    
             .ForMember(x => x.ProductType, opt => opt.MapFrom(src => src.ProductCategory));
 
 

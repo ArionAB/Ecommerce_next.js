@@ -16,8 +16,8 @@ export const addProductItem = createAsyncThunk<
 >("/Product/Add", async ({ data }, thunkApi) => {
   try {
     let form = new FormData();
-    form.append("price", data.price);
-
+    form.append("priceKg", data.priceKg);
+    form.append("priceHalf", data.priceHalf);
     form.append("description", data.description);
     form.append("title", data.title);
     form.append("fruitType", data.fruitType);
@@ -53,7 +53,8 @@ export const updateProductItem = createAsyncThunk<
 >("/Product/Update", async ({ data, deletedImages }, thunkApi) => {
   try {
     let form = new FormData();
-    form.append("price", data.price);
+    form.append("priceKg", data.priceKg);
+    form.append("priceHalf", data.priceHalf);
     form.append("productId", data.productId);
     form.append("description", data.description);
     form.append("title", data.title);
@@ -123,11 +124,6 @@ export const getPaginatedProductItems = createAsyncThunk<
     form.append("MaxPrice", filters.MaxPrice.toString());
     form.append("ProductCategory", filters.ProductCategory.toString());
     form.append("SubcategoryType", filters.SubcategoryType.toString());
-    if (filters.ProductSize.length > 0) {
-      filters.ProductSize.forEach((size: any, index: number) => {
-        form.append(`ProductSize[${index}]`, size);
-      });
-    }
 
     let { data } = await axios.post(
       baseUrl + "Product/GetPaginatedItems",
