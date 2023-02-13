@@ -19,6 +19,7 @@
 
     public enum FruitType
     {
+        nothing = 1,
         ananas = 2,
         aronia = 3,
         banane = 4,
@@ -40,17 +41,33 @@
         Polen = 4,
         Propolis = 5
         
-        //Girls = 2,
-        //Boys = 3,
-        //Baby = 4,
-        //Accesories = 5,
-        //Footwear = 6
+    
     }
 
-  
+    public enum OrderStatusType
+    {
+        
+        Pending = 1,
+        Shipped = 2,
+        Delivered = 3,
+        Cancelled = 4
+    }
 
+    public enum PaymentStatusType
+    {
+        Pending = 1,
+        Paid = 2,
+        Cancelled = 3
+    }
 
+    public enum PaymentMethodType
+    {
+        
+        Cash = 1,
+        Card = 2,
+        Transfer = 3
     
+    }
 
     public static class MessageType
     {

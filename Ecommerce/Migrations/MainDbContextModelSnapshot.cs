@@ -124,6 +124,81 @@ namespace Ecommerce.Migrations
                     b.ToTable("CartProducts");
                 });
 
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Orders.Order", b =>
+                {
+                    b.Property<Guid>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Orders.OrderProduct", b =>
+                {
+                    b.Property<Guid>("OrderProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("FruitType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductCategory")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("ProductPicturePictureId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SizeType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("OrderProductId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ProductPicturePictureId");
+
+                    b.ToTable("OrderProducts");
+                });
+
             modelBuilder.Entity("Ecommerce.DataLayer.Models.Product.FruitInventory", b =>
                 {
                     b.Property<int>("FruitType")
@@ -269,6 +344,42 @@ namespace Ecommerce.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Orders.Order", b =>
+                {
+                    b.HasOne("Ecommerce.DataLayer.Models.User.BaseUser", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Orders.OrderProduct", b =>
+                {
+                    b.HasOne("Ecommerce.DataLayer.Models.Orders.Order", "Order")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.DataLayer.Models.Baby.ProductClass", "Product")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.DataLayer.Models.Baby.ProductPicture", "ProductPicture")
+                        .WithMany()
+                        .HasForeignKey("ProductPicturePictureId");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("ProductPicture");
+                });
+
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.BaseUser", b =>
                 {
                     b.OwnsMany("Ecommerce.DataLayer.Utils.RefreshToken", "RefreshTokens", b1 =>
@@ -320,6 +431,8 @@ namespace Ecommerce.Migrations
                 {
                     b.Navigation("CartProducts");
 
+                    b.Navigation("OrderProducts");
+
                     b.Navigation("ProductPictures");
                 });
 
@@ -328,9 +441,16 @@ namespace Ecommerce.Migrations
                     b.Navigation("CartProducts");
                 });
 
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Orders.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
+                });
+
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.BaseUser", b =>
                 {
                     b.Navigation("Cart");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

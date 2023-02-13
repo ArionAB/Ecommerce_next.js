@@ -6,6 +6,7 @@ using Ecommerce.ServiceLayer.CartService;
 using Ecommerce.ServiceLayer.FileService;
 using Ecommerce.ServiceLayer.FileService.FileSystemService;
 using Ecommerce.ServiceLayer.LogService;
+using Ecommerce.ServiceLayer.OrderService;
 using Ecommerce.ServiceLayer.UsersService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,6 +26,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static Ecommerce.ServiceLayer.CartService.CartServiceInterface;
+
 
 namespace Ecommerce
 {
@@ -62,6 +64,7 @@ namespace Ecommerce
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<IFileSystemService, FileSystemService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IOrderService, OrderService>();
            
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 

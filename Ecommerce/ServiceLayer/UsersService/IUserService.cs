@@ -17,6 +17,6 @@ namespace Ecommerce.ServiceLayer.UsersService
 
         Task<ServiceResponse<Object>> RevokeToken(string token, string ipAddress);
 
-        Task<ServiceResponse<RegularUserDTO>> UpdateUser(Guid loggedInUserId, UpdateUserDTO model);
+        Task<ServiceResponse<RegularUserDTO>> UpdateUser(Guid loggedInUserId, ShippingAddressDTO model);
     }
 }

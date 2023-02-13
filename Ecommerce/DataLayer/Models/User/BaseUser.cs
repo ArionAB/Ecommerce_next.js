@@ -1,5 +1,6 @@
 ﻿
 using Ecommerce.DataLayer.Models.Cart;
+using Ecommerce.DataLayer.Models.Orders;
 using Ecommerce.DataLayer.Utils;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace Ecommerce.DataLayer.Models.User
         }
 
         public string FirstName { get; set; }
-        
+
         public string LastName { get; set; }
 
         public string Address { get; set; }
@@ -65,6 +66,8 @@ namespace Ecommerce.DataLayer.Models.User
         public string FirstNameBill { get; set; }
 
         public string LastNameBill { get; set; }
+
+        public List<Order> Orders {get; set;}
 
     }
 }

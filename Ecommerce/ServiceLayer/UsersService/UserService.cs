@@ -313,7 +313,7 @@ namespace Ecommerce.ServiceLayer.UsersService
                 x.Created.AddDays(_appSettings.RefreshTokenTTL) <= GenericFunctions.GetCurrentDateTime());
         }
 
-        public async Task<ServiceResponse<RegularUserDTO>> UpdateUser(Guid loggedInUserId, UpdateUserDTO model)
+        public async Task<ServiceResponse<RegularUserDTO>> UpdateUser(Guid loggedInUserId, ShippingAddressDTO model)
         {
             try
             {

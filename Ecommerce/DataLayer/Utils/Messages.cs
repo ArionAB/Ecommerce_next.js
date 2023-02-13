@@ -64,7 +64,12 @@
 
         public static Message Message_AddressAddedSuccess = new Message { Text = "Adresa de livrare adaugata!", MessageType = MessageType.Success };
         public static Message Message_AddressAddedError = new Message { Text = "Adresa de livrare nu a putut fi adaugata!", MessageType = MessageType.Error };
+        
+        public static Message Message_AddOrderSuccess = new Message { Text = "Comandă finalizată", MessageType = MessageType.Success };
+        public static Message Message_AddOrderError = new Message { Text = "Comanda nu a putut fi finalizată", MessageType = MessageType.Error };
 
+        public static Message Message_GetOrderSuccess = new Message { Text = "Lista comenzilor primită cu success", MessageType = MessageType.Success };
+        public static Message Message_GetOrderError = new Message { Text = "Comenzile nu au putut fi afișate", MessageType = MessageType.Error };
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Ecommerce.DataLayer.Models.Cart;
+using Ecommerce.DataLayer.Models.Orders;
 using Ecommerce.DataLayer.Utils;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,8 @@ namespace Ecommerce.DataLayer.Models.Baby
 
         public FruitType FruitType { get; set; }
         public List<CartProduct> CartProducts { get; set; }
+
+        public List<OrderProduct> OrderProducts { get; set; }
 
 
 

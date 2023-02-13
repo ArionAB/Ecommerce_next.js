@@ -1,4 +1,5 @@
 export enum FruitType {
+  nothing = 1,
   ananas = 2,
   aronia = 3,
   banane = 4,

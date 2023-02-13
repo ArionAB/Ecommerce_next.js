@@ -1,5 +1,6 @@
 ﻿using Ecommerce.DataLayer.Models.Baby;
 using Ecommerce.DataLayer.Models.Cart;
+using Ecommerce.DataLayer.Models.Orders;
 using Ecommerce.DataLayer.Models.Product;
 using Ecommerce.DataLayer.Models.User;
 using Ecommerce.DataLayer.Utils;
@@ -21,18 +22,22 @@ namespace Ecommerce.DataLayer.DbContexts
         public DbSet<ProductClass> Product { get; set; }
         public DbSet<ProductPicture> ProductPictures { get; set; }
 
-        //public DbSet<ProductSize> ProductSizes { get; set; }
+      
 
         public DbSet<FruitInventory> FruitInventory { get; set; }
 
         public DbSet<CartClass> Cart { get; set; }
 
         public DbSet<CartProduct> CartProducts { get; set; }
+        
+        public DbSet<Order> Orders { get; set; }
 
-  
+        public DbSet<OrderProduct> OrderProducts { get; set; }
 
 
-       
+
+
+
 
 
 
@@ -73,7 +78,22 @@ namespace Ecommerce.DataLayer.DbContexts
                 .HasForeignKey(cp => cp.ProductId);
 
 
+            
+                modelBuilder.Entity<BaseUser>()
+                    .HasMany(u => u.Orders)
+                    .WithOne(o => o.User)
+                    .HasForeignKey(o => o.UserId);
 
+                modelBuilder.Entity<Order>()
+                    .HasMany(o => o.OrderProducts)
+                    .WithOne(op => op.Order)
+                    .HasForeignKey(op => op.OrderId);
+
+                modelBuilder.Entity<ProductClass>()
+                    .HasMany(p => p.OrderProducts)
+                    .WithOne(op => op.Product)
+                    .HasForeignKey(op => op.ProductId);
+            
 
 
 

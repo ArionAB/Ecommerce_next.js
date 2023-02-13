@@ -55,7 +55,7 @@ namespace Ecommerce.Controllers
             }
         }
         [HttpPost("/Users/UpdateUser")]
-        public async Task<IActionResult> UpdateUser([FromForm] UpdateUserDTO model)
+        public async Task<IActionResult> UpdateUser([FromForm] ShippingAddressDTO model)
         {
             var result = await _userService.UpdateUser(Account.UserId, model);
             if (result.Success)
