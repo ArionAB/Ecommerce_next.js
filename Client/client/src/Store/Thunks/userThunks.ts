@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppThunkConfig } from "..";
 import { baseUrl, getAxiosErrorMessage } from "../../Utils";
 import { RegisterUserModel } from "../Models/User/RegisterUserModel";
-import { UpdateUserModel } from "../Models/User/UpdateUserModel";
+import { ShippingAddressModel } from "../Models/User/ShippingAddressModel";
 import { resetProductState } from "../Slices/productSlice";
 
 const axios = require("axios").default;
@@ -112,7 +112,11 @@ export const requestLogout = createAsyncThunk<
 
 export const updateUser = createAsyncThunk<
   any,
-  { token: string | undefined; data: UpdateUserModel; sameAddress: boolean },
+  {
+    token: string | undefined;
+    data: ShippingAddressModel;
+    sameAddress: boolean;
+  },
   AppThunkConfig
 >("Users/UpdateUser", async ({ token, data, sameAddress }, thunkAPI) => {
   try {

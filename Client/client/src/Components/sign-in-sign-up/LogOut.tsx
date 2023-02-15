@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import styles from "../../../styles/logout.module.scss";
 import { requestLogout } from "../../Store/Thunks/userThunks";
+import Link from "next/link";
 
 const LogOut = () => {
   const currentUser = useAppSelector(selectCurrentUser);
@@ -29,7 +30,9 @@ const LogOut = () => {
           <ListItemIcon>
             <ListAltIcon fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Comenzile tale</ListItemText>
+          <Link href="/orders">
+            <ListItemText>Comenzile tale</ListItemText>
+          </Link>
         </MenuItem>
         <MenuItem>
           <ListItemIcon>

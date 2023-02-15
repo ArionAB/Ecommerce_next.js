@@ -1,0 +1,85 @@
+@import "./_variables.scss";
+
+.orders_history {
+  display: flex;
+  flex-direction: column;
+
+  .order {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid $light-gray;
+    justify-content: space-between;
+    padding: 10px;
+
+    &:hover {
+      background-color: $light-gray;
+      cursor: pointer;
+    }
+
+    .order_id {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 27px;
+      color: black;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+
+      .left_box {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+
+        .total_price {
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 20px;
+          color: $dark-blue;
+        }
+
+        .total_items {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          color: $gray-subtitle;
+        }
+      }
+
+      .right_box {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 30%;
+
+        .date {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          color: $gray-subtitle;
+        }
+      }
+    }
+  }
+}
+
+.pending {
+  color: $pending;
+  font-size: 14px;
+}
+
+.shipped {
+  color: $shipped;
+  font-size: 14px;
+}
+
+.delivered {
+  color: $delivered;
+  font-size: 14px;
+}
+
+.cancelled {
+  color: $cancelled;
+  font-size: 14px;
+}

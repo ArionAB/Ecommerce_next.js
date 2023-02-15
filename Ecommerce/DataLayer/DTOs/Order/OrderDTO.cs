@@ -17,8 +17,12 @@ namespace Ecommerce.DataLayer.DTOs.Order
 
         public PaymentMethodType PaymentMethod { get; set; }
 
+        public int TotalPrice { get; set; }
+
+        public int TotalProducts { get; set; }
+        public List<OrderProductDTO> OrderProducts { get; set; }
+
      
 
-        public List<OrderProductDTO> OrderProducts { get; set; }
     }
 }

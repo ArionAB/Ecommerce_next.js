@@ -12,7 +12,6 @@ export interface ProductItemModel {
   productCategory: number;
   fruitType: string;
   totalCategoryItems: string;
-
   sizeType: SizeType;
   quantity: number | string;
 }

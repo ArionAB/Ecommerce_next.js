@@ -38,7 +38,7 @@ import { AddToCartModal } from "../../src/Components/cart-page/AddToCartModal";
 import { TransitionProps } from "@mui/material/transitions";
 import Head from "next/head";
 
-const Transition = forwardRef(function Transition(
+const Transition: any = forwardRef(function Transition(
   props: TransitionProps & {
     children: ReactElement<any, any>;
   },
@@ -54,7 +54,7 @@ const ProductDetails: FC<{
 }> = ({ handleClose, open, productId }) => {
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [sizeValue, setSizeValue] = useState<string>("2");
-  let [maxQuantity, setMaxQuantity] = useState<number>(0);
+
   const [selectedQuantity, setSelectedQuantity] = useState<string>("1");
   const [openCart, setOpenCart] = useState<boolean>(false);
 
@@ -80,19 +80,6 @@ const ProductDetails: FC<{
 
   const handleChange = (event: SelectChangeEvent) => {
     setSizeValue(event.target.value as string);
-  };
-
-  const getTotalQuantity = () => {
-    let quantitiesArray: any[] = [];
-
-    if (maxQuantity > 10) {
-      maxQuantity = 10;
-    }
-    //we dont want to show more than 10 quantities
-    for (let i = 2; i <= maxQuantity; i++) {
-      quantitiesArray.push(i);
-    }
-    return quantitiesArray;
   };
 
   const handleQuantity = (event: SelectChangeEvent) => {

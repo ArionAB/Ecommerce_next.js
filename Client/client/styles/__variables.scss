@@ -31,8 +31,13 @@ $seconday-gradient-linear: linear-gradient(
   rgba(247, 217, 166, 1) 47%,
   rgba(248, 201, 125, 1) 100%
 );
-
 $secondary-color: rgba(248, 201, 125, 1);
+
+$pending: #356aee;
+$shipped: #f7b500;
+$delivered: #35a15b;
+$cancelled: #f44336;
+
 @mixin pink-btn {
   background-color: $pink;
   color: $brown;

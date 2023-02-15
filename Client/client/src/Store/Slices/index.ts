@@ -1,6 +1,7 @@
 import { authenticationSlice } from "./authenticateSlice";
 import { baseSlice } from "./baseSlice";
 import { cartSlice } from "./cartSlice";
+import { orderSlice } from "./orderSlice";
 import { productSlice } from "./productSlice";
 
 export const reducers = {
@@ -8,4 +9,5 @@ export const reducers = {
   product: productSlice.reducer,
   authentication: authenticationSlice.reducer,
   cart: cartSlice.reducer,
+  order: orderSlice.reducer,
 };

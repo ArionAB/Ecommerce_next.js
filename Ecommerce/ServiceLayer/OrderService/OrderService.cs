@@ -32,19 +32,9 @@ namespace Ecommerce.ServiceLayer.OrderService
             try
             {
 
-
+                var TotalPrice = 0;
                 var orderId = Guid.NewGuid();
-                var newOrder = new Order
-                {
-                    OrderId = orderId,
-                    UserId = userId,
-                    DateCreated = DateTime.Now,
-                    Status = orderDTO.Status,
-                    PaymentMethod = orderDTO.PaymentMethod
-                    
-                };
-               
-                await _context.Orders.AddAsync(newOrder);
+              
 
                 foreach (var item in orderDTO.OrderProducts)
                 {
@@ -61,12 +51,26 @@ namespace Ecommerce.ServiceLayer.OrderService
                         FruitType = item.FruitType,
                         ProductCategory = item.ProductCategory,
                         Quantity = item.Quantity,
+                        
                     };
                     await _context.OrderProducts.AddAsync(orderProduct);
+                TotalPrice += item.Price * item.Quantity;
                 }
 
+                var newOrder = new Order
+                {
+                    OrderId = orderId,
+                    UserId = userId,
+                    DateCreated = DateTime.Now,
+                    Status = orderDTO.Status,
+                    PaymentMethod = orderDTO.PaymentMethod,
+                    TotalPrice = orderDTO.OrderProducts.Sum(x => x.Price * x.Quantity)
+
+                };
+
+                await _context.Orders.AddAsync(newOrder);
                 await _context.SaveChangesAsync();
-                    
+
                 return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_AddOrderSuccess };
             }
             catch (Exception e)
@@ -83,13 +87,14 @@ namespace Ecommerce.ServiceLayer.OrderService
             {
                 var shippingAddress = await _context.Users.Where(x => x.UserId == userId).ProjectTo<ShippingAddressDTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
                 var orders = await _context.Orders.Where(x => x.UserId == userId).ProjectTo<OrderDTO>(_mapper.ConfigurationProvider).ToListAsync();
-            
-
+                var totalProducts = await _context.OrderProducts.Where(x => x.UserId == userId).ToListAsync();
+                
                 var obj = new
                 {
                     ShippingAddress = shippingAddress,
                     Orders = orders,
-              
+                   
+
                 };
             
 

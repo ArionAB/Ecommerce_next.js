@@ -26,10 +26,6 @@ export const addProductItem = createAsyncThunk<
     data.pictures.forEach((picture: any, index) =>
       form.append(`pictures`, picture)
     );
-    // productSize.forEach((size: any, index: number) => {
-    //   form.append(`productSize[${index}].size`, size.size);
-    //   form.append(`productSize[${index}].quantity`, size.quantity);
-    // });
 
     let { response } = await axios.post(baseUrl + "product/Add", form, {
       withCredentials: true,
@@ -66,11 +62,6 @@ export const updateProductItem = createAsyncThunk<
     deletedImages.forEach((picture: any, index) =>
       form.append(`deletedAdditionalPictures`, picture)
     );
-
-    // productSize.forEach((size: any, index: number) => {
-    //   form.append(`productSize[${index}].size`, size.size);
-    //   form.append(`productSize[${index}].quantity`, size.quantity);
-    // });
 
     let { response } = await axios.post(baseUrl + "product/update", form, {
       withCredentials: true,

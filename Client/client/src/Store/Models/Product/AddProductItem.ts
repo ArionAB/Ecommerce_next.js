@@ -11,5 +11,4 @@ export interface AddProductItemModel {
   pictures: File[];
   fruitType: string;
   productCategory: number;
-  // productSize?: quantityModel[];
 }

@@ -46,3 +46,18 @@ export const ConvertSizeToLabel = (enumValue: number) => {
       return "500g";
   }
 };
+
+export const ConvertStatusToLabel = (enumValue: number) => {
+  switch (enumValue) {
+    case 1:
+      return "Plasată";
+    case 2:
+      return "Procesată";
+    case 3:
+      return "Finalizată";
+    case 4:
+      return "Anulată";
+    default:
+      return "Plasată";
+  }
+};

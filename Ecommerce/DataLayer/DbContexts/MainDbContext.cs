@@ -17,13 +17,8 @@ namespace Ecommerce.DataLayer.DbContexts
 
         }
         public DbSet<BaseUser> Users { get; set; }
-
-    
         public DbSet<ProductClass> Product { get; set; }
         public DbSet<ProductPicture> ProductPictures { get; set; }
-
-      
-
         public DbSet<FruitInventory> FruitInventory { get; set; }
 
         public DbSet<CartClass> Cart { get; set; }
@@ -33,6 +28,13 @@ namespace Ecommerce.DataLayer.DbContexts
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<OrderProduct> OrderProducts { get; set; }
+
+        public DbSet<OrderAddress> OrderAddress { get; set; }
+
+    
+
+      
+
 
 
 
@@ -93,8 +95,11 @@ namespace Ecommerce.DataLayer.DbContexts
                     .HasMany(p => p.OrderProducts)
                     .WithOne(op => op.Product)
                     .HasForeignKey(op => op.ProductId);
-            
 
+            modelBuilder.Entity<OrderAddress>()
+                .HasOne(x => x.Order)
+                .WithOne(x => x.OrderAddress)
+                .HasForeignKey<OrderAddress>(x => x.OrderId);
 
 
 

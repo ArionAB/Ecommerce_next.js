@@ -1,0 +1,19 @@
+@import "./_variables.scss";
+
+.page_container {
+  .container {
+    gap: 1rem;
+    flex-wrap: nowrap;
+
+    .history_container {
+      background-color: #fff;
+      height: 80vh;
+      padding-right: 1rem;
+    }
+
+    .orders_container {
+      background-color: #fff;
+      height: 80vh;
+    }
+  }
+}

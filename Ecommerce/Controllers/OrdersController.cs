@@ -35,7 +35,7 @@ namespace Ecommerce.Controllers
         public async Task<IActionResult> GetOrders([FromQuery] Guid userId)
         {
             var response = await _orderService.GetOrders(userId);
-            if (response.Success)  return Ok(response.Response);
+            if (response.Success)  return Ok(response);
             else return BadRequest(response);
             
         }

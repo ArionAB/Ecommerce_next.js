@@ -29,16 +29,19 @@ namespace Ecommerce.DataLayer.Models.Profiles
                ProductCategory = x.ProductCategory,
                Title = x.Title,
                FilePath = x.FilePath
-              
-           }).ToList()));
-            
-               
+           }).ToList()))
+            .ForMember(x => x.TotalProducts, opt => opt.MapFrom(src => src.OrderProducts.Sum(x => x.Quantity)));
 
         }
     
     }
 
 }
+
+
+
+
+
              
 
 

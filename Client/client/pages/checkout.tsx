@@ -26,7 +26,7 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { selectCurrentUser } from "../src/Store/Selectors/authenticationSelectors";
 import { updateUser } from "../src/Store/Thunks/userThunks";
 import BillingAddress from "../src/Components/checkout-page/BillingAddress";
-import { UpdateUserModel } from "../src/Store/Models/User/UpdateUserModel";
+import { ShippingAddressModel } from "../src/Store/Models/User/ShippingAddressModel";
 
 export const Checkout = () => {
   const [shipping, setShipping] = useState({
@@ -39,7 +39,7 @@ export const Checkout = () => {
     county: "",
     phone: "",
   });
-  const [billing, setBilling] = useState<UpdateUserModel | any>({});
+  const [billing, setBilling] = useState<ShippingAddressModel | any>({});
   const [displayPayment, setDisplayPayment] = useState(false);
   const [activeBreadcrumb, setActiveBreadcrumb] = useState(2);
   const [sameAddress, setSameAddress] = useState(true);

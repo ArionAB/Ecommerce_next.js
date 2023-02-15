@@ -19,13 +19,17 @@ namespace Ecommerce.DataLayer.Models.Orders
         
         public List<OrderProduct> OrderProducts{get; set;}
 
-         
+        public OrderAddress OrderAddress { get; set; }
 
         public DateTime DateCreated { get; set; }
    
         public OrderStatusType Status { get; set; }
 
         public PaymentMethodType PaymentMethod { get; set; }
+
+        public int TotalPrice { get; set; }
+
+         
         
 
 
