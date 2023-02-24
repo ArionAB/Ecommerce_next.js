@@ -84,7 +84,7 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
       })
     );
   };
-
+  console.log(formValues);
   return (
     <Container maxWidth="xl">
       <form>
@@ -151,11 +151,19 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
         </InputLabel>
 
         <InputLabel className="input-label" sx={{ marginTop: "1rem" }}>
-          <Typography variant="h6">Price</Typography>
+          <Typography variant="h6">Pret la KG</Typography>
           <TextField
             onChange={(e) => handleChange(e)}
-            name="price"
+            name="priceKg"
             value={formValues.priceKg || ""}
+          />
+        </InputLabel>
+        <InputLabel className="input-label" sx={{ marginTop: "1rem" }}>
+          <Typography variant="h6">Pret la 500g</Typography>
+          <TextField
+            onChange={(e) => handleChange(e)}
+            name="priceHalf"
+            value={formValues.priceHalf || ""}
           />
         </InputLabel>
         <InputLabel className="input-label" sx={{ marginTop: "1rem" }}>

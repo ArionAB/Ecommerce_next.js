@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppThunkConfig } from "..";
 import { baseUrl, getAxiosErrorMessage } from "../../Utils";
 import { AddOrderModel } from "../Models/Order/AddOrderModel";
-import { GetOrdersModel } from "../Models/Order/GetOrdersModel";
+import { OrderModel } from "../Models/Order/OrderModel";
 
 const axios = require("axios").default;
 
@@ -57,7 +57,7 @@ export const addOrder = createAsyncThunk<
 });
 
 export const getOrders = createAsyncThunk<
-  GetOrdersModel,
+  OrderModel[],
   { userId?: string },
   AppThunkConfig
 >("/Order/GetOrders", async ({ userId }, thunkApi) => {

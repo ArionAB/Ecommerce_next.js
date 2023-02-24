@@ -1,7 +1,7 @@
 import { BaseState } from "../BaseState";
-import { GetOrdersModel } from "./GetOrdersModel";
+import { OrderModel } from "./OrderModel";
 
 export interface OrderState extends BaseState {
-  orders: GetOrdersModel;
+  orders: OrderModel[];
   loadingOrders: boolean;
 }

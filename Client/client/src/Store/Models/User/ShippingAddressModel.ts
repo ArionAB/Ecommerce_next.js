@@ -15,4 +15,6 @@ export interface ShippingAddressModel {
   cityBill: string;
   countyBill: string;
   phoneBill: string;
+  orderId?: string;
+  orderAddressId?: string;
 }

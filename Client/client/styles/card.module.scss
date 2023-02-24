@@ -25,10 +25,21 @@
   }
 
   .price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 1.5rem;
     font-weight: 400;
     color: $brown;
     padding-left: 1rem;
+
+    span {
+      color: $dark-blue;
+      font-weight: 400;
+      font-size: 1.3rem;
+      line-height: 1.5;
+      letter-spacing: 0.00938em;
+    }
   }
 
   .title {

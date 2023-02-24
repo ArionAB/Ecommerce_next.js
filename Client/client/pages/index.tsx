@@ -25,9 +25,10 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(getProductItems(""));
+
+    //eslint disable-next-line
   }, []);
 
-  console.log(productItems);
   return (
     <>
       <Box className={styles.heroContainer}>

@@ -22,8 +22,6 @@ export const AddToCartModal: FC<{ open: boolean; onClose: Function }> = ({
 }) => {
   const cartItems = useAppSelector(selectCartItems);
   const totalPrice = useAppSelector(selectTotalPrice);
-  console.log(cartItems);
-  console.log(totalPrice);
 
   return (
     <Box className={styles.modal}>

@@ -25,10 +25,8 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { resourceUrl } from "../../src/Utils";
-import styles from "../../styles/productDetails.module.scss";
-
+import { SizeType } from "../../src/Store/Enums/SizeType";
 import { SelectChangeEvent } from "@mui/material/Select";
-
 import Button from "@mui/material/Button/Button";
 import { SizeItems } from "../../src/Components/selectItems/SizeItems";
 import Close from "@mui/icons-material/Close";
@@ -37,6 +35,8 @@ import { QuantitySizeItems } from "../../src/Components/selectItems/QuantitySize
 import { AddToCartModal } from "../../src/Components/cart-page/AddToCartModal";
 import { TransitionProps } from "@mui/material/transitions";
 import Head from "next/head";
+
+import styles from "../../styles/productDetails.module.scss";
 
 const Transition: any = forwardRef(function Transition(
   props: TransitionProps & {
@@ -152,7 +152,8 @@ const ProductDetails: FC<{
             {item?.title}
           </Typography>
           <Typography className={styles.price}>
-            {item?.priceKg}.00 lei
+            {Number(sizeValue) === SizeType.Big ? item.priceKg : item.priceHalf}{" "}
+            lei
           </Typography>
 
           <FormControl className={styles.selectSize}>
@@ -189,7 +190,7 @@ const ProductDetails: FC<{
               className={styles.addCart}
               onClick={() => handleAddItemToCart()}
             >
-              Add to cart
+              Adaugă în coș
             </Button>
           </Box>
 

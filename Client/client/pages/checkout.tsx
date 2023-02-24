@@ -70,12 +70,9 @@ export const Checkout = () => {
     }
   };
 
-  console.log(currentUser);
-
   const handleChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    console.log(e.target.name, e.target.value);
     setShipping({ ...shipping, [e.target.name]: e.target.value });
   };
 
