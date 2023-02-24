@@ -8,8 +8,8 @@ namespace Ecommerce.DataLayer.DTOs.Order
     {
         public List<OrderDTO> Orders { get; set; }
 
-        public ShippingAddressDTO ShippingAddress { get; set; }
+      
 
-        public List<OrderProduct> OrderProducts { get; set; }
+     
     }
 }

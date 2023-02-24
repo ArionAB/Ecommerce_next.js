@@ -1,9 +1,11 @@
-﻿namespace Ecommerce.DataLayer.DTOs.User
+﻿using System;
+
+namespace Ecommerce.DataLayer.DTOs.User
 {
     public class ShippingAddressDTO
     {
-        
-       
+        public Guid? OrderAddressId { get; set; }
+        public Guid? OrderId { get; set; }
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

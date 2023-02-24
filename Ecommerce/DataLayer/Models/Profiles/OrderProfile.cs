@@ -12,11 +12,12 @@ namespace Ecommerce.DataLayer.Models.Profiles
         public OrderProfile()
         {
             CreateMap<Order, OrderDTO>();
-     
+
             CreateMap<BaseUser, ShippingAddressDTO>();
+           
 
             CreateMap<OrderProduct, OrderProductDTO>();
-
+            CreateMap<OrderAddress, ShippingAddressDTO>();
             CreateMap<Order, OrderDTO>()
            .ForMember(x => x.OrderProducts, opt => opt.MapFrom(src => src.OrderProducts.Select(x => new OrderProductDTO
            {
@@ -30,11 +31,16 @@ namespace Ecommerce.DataLayer.Models.Profiles
                Title = x.Title,
                FilePath = x.FilePath
            }).ToList()))
+           .ForMember(x => x.ShippingAddress, opt => opt.MapFrom(src => src.OrderAddress))
             .ForMember(x => x.TotalProducts, opt => opt.MapFrom(src => src.OrderProducts.Sum(x => x.Quantity)));
+         
 
         }
-    
     }
+           
+
+           
+    
 
 }
 

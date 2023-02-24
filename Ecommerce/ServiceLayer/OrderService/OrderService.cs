@@ -67,8 +67,13 @@ namespace Ecommerce.ServiceLayer.OrderService
                     TotalPrice = orderDTO.OrderProducts.Sum(x => x.Price * x.Quantity)
 
                 };
-
                 await _context.Orders.AddAsync(newOrder);
+
+                var shippingAddress = await _context.Users.Where(x => x.UserId == userId).ProjectTo<ShippingAddressDTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+                shippingAddress.OrderId = orderId;
+                shippingAddress.OrderAddressId = Guid.NewGuid();
+                await _context.OrderAddress.AddAsync(_mapper.Map<OrderAddress>(shippingAddress));
+
                 await _context.SaveChangesAsync();
 
                 return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_AddOrderSuccess };
@@ -85,20 +90,11 @@ namespace Ecommerce.ServiceLayer.OrderService
         {
             try
             {
-                var shippingAddress = await _context.Users.Where(x => x.UserId == userId).ProjectTo<ShippingAddressDTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+                
                 var orders = await _context.Orders.Where(x => x.UserId == userId).ProjectTo<OrderDTO>(_mapper.ConfigurationProvider).ToListAsync();
                 var totalProducts = await _context.OrderProducts.Where(x => x.UserId == userId).ToListAsync();
-                
-                var obj = new
-                {
-                    ShippingAddress = shippingAddress,
-                    Orders = orders,
-                   
 
-                };
-            
-
-                return new ServiceResponse<Object> { Response = obj,Success= true, Message = Messages.Message_GetOrderSuccess };
+                return new ServiceResponse<Object> { Response = orders,Success= true, Message = Messages.Message_GetOrderSuccess };
 
 
 
@@ -111,6 +107,14 @@ namespace Ecommerce.ServiceLayer.OrderService
     }
 }
                   
+            
+
+              
+                   
+                   
+                
+               
+            
                    
                  
                    
