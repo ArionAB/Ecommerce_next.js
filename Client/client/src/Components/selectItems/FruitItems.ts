@@ -1,4 +1,5 @@
 export const FruitItems = [
+  { value: 1, label: "Nimic" },
   { value: 2, label: "Ananas" },
   { value: 3, label: "Aronia" },
   { value: 4, label: "Banane" },

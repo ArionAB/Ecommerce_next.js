@@ -38,6 +38,8 @@ $shipped: #f7b500;
 $delivered: #35a15b;
 $cancelled: #f44336;
 
+$honey-bg: linear-gradient(180deg, #ffc97d, #f0b25b);
+
 @mixin pink-btn {
   background-color: $pink;
   color: $brown;

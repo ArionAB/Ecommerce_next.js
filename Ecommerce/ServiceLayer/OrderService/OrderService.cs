@@ -6,8 +6,10 @@ using Ecommerce.DataLayer.DTOs.User;
 using Ecommerce.DataLayer.Models.Orders;
 using Ecommerce.DataLayer.Models.User;
 using Ecommerce.DataLayer.Utils;
+using Ecommerce.ServiceLayer.Utils;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -86,23 +88,114 @@ namespace Ecommerce.ServiceLayer.OrderService
            
         }
 
-        public async Task<ServiceResponse<Object>> GetOrders(Guid userId)
+        public async Task<ServiceResponse<GetPaginatedOrdersDTO>> GetOrders(Guid userId, UserType userType, OrderFiltersDTO filters)
         {
             try
             {
-                
-                var orders = await _context.Orders.Where(x => x.UserId == userId).ProjectTo<OrderDTO>(_mapper.ConfigurationProvider).ToListAsync();
-                var totalProducts = await _context.OrderProducts.Where(x => x.UserId == userId).ToListAsync();
+             
+                var totalCount = _context.Orders.Where(x => userType == UserType.User ? x.UserId == userId : true)
+                    .Where(x => filters.SearchText != null ? ( (x.User.FirstName + " " + x.User.LastName).Contains(filters.SearchText) || x.OrderId.ToString().Contains(filters.SearchText)) : true)
+                    .Where(x => filters.Status != 0 ? x.Status == filters.Status : true)
+                    .Where(x => String.IsNullOrEmpty(filters.FirstEntryDate) ? true :
+                    DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.FirstEntryDate), x.DateCreated) <= 0)
+                    .Where(x => String.IsNullOrEmpty(filters.SecondEntryDate) ? true :
+                    DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.SecondEntryDate), x.DateCreated) >= 0)
+                    .Count();
+                var orders = getFilteredPaginatedOrders(filters, userId, userType);
+                var totalPages = totalCount / 10;
+                if (totalCount == 10) totalPages -= 1;
+              
 
-                return new ServiceResponse<Object> { Response = orders,Success= true, Message = Messages.Message_GetOrderSuccess };
+                var response = new GetPaginatedOrdersDTO
+                {
+                    TotalCount = totalCount,
+                    Orders = orders,
+                    TotalPages = totalPages,
+                    PageNumber = filters.PageNumber
+                  
+                };
+
+
+
+                return new ServiceResponse<GetPaginatedOrdersDTO> { Response = response, Success= true, Message = Messages.Message_GetOrderSuccess };
 
 
 
             }
             catch (Exception e)
             {
-                return new ServiceResponse<Object> { Response = null, Success = false, Message = Messages.Message_GetOrderError };
+                return new ServiceResponse<GetPaginatedOrdersDTO> { Response = null, Success = false, Message = Messages.Message_GetOrderError };
             }
+        }
+
+        private List<OrderDTO> getFilteredPaginatedOrders(OrderFiltersDTO filters, Guid userId, UserType userType)
+        {
+            var orders = new List<OrderDTO>();
+            switch (filters.OrderToSortBy)
+            {
+                case OrderSortBy.CreatedAt:
+                    if (filters.SortingOrder)
+                    {
+                    
+                        orders = _mapper.ProjectTo<OrderDTO>(_context.Orders.Where(x => userType == UserType.User ? x.UserId == userId : true)
+                            .Where(x => filters.SearchText != null ? ((x.User.FirstName + " " + x.User.LastName).Contains(filters.SearchText)
+                            || x.OrderId.ToString().Contains(filters.SearchText)) : true)
+                            .Where(x => filters.Status != 0 ? x.Status == filters.Status : true)
+                            .Where(x => String.IsNullOrEmpty(filters.FirstEntryDate) ? true :
+                            DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.FirstEntryDate), x.DateCreated) <= 0)
+                            .Where(x => String.IsNullOrEmpty(filters.SecondEntryDate) ? true :
+                            DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.SecondEntryDate), x.DateCreated) >= 0)
+                            .OrderBy(x => x.DateCreated).Skip(filters.PageNumber * 10).Take(10)).ToList();
+                    }
+                    else
+                    {
+                      
+                        orders = _mapper.ProjectTo<OrderDTO>(_context.Orders.Where(x => userType == UserType.User ? x.UserId == userId : true)
+                            .Where(x => filters.SearchText != null ? ((x.User.FirstName + " " + x.User.LastName).Contains(filters.SearchText)
+                            || x.OrderId.ToString().Contains(filters.SearchText)) : true)
+                            .Where(x => filters.Status != 0 ? x.Status == filters.Status : true)
+                            .Where(x => String.IsNullOrEmpty(filters.FirstEntryDate) ? true :
+                            DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.FirstEntryDate), x.DateCreated) <= 0)
+                            .Where(x => String.IsNullOrEmpty(filters.SecondEntryDate) ? true :
+                            DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.SecondEntryDate), x.DateCreated) >= 0)
+                            .OrderByDescending(x => x.DateCreated).Skip(filters.PageNumber * 10).Take(10)).ToList();
+                    }
+                    break;
+
+                case OrderSortBy.County:
+                    {
+                        if (filters.SortingOrder)
+                        {
+                            orders = _mapper.ProjectTo<OrderDTO>(_context.Orders.Where(x => userType == UserType.User ? x.UserId == userId : true)
+                           .Where(x => filters.SearchText != null ? ((x.User.FirstName + " " + x.User.LastName).Contains(filters.SearchText)
+                           || x.OrderId.ToString().Contains(filters.SearchText)) : true)
+                           .Where(x => filters.Status != 0 ? x.Status == filters.Status : true)
+                           .Where(x => String.IsNullOrEmpty(filters.FirstEntryDate) ? true :
+                           DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.FirstEntryDate), x.DateCreated) <= 0)
+                           .Where(x => String.IsNullOrEmpty(filters.SecondEntryDate) ? true :
+                           DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.SecondEntryDate), x.DateCreated) >= 0)
+                           .OrderBy(x => x.OrderAddress.County).Skip(filters.PageNumber * 10).Take(10)).ToList();
+                        }
+
+                        else
+                        {
+                            orders = _mapper.ProjectTo<OrderDTO>(_context.Orders.Where(x => userType == UserType.User ? x.UserId == userId : true)
+                            .Where(x => filters.SearchText != null ? ((x.User.FirstName + " " + x.User.LastName).Contains(filters.SearchText)
+                  |          x.OrderId.ToString().Contains(filters.SearchText)) : true)
+                             .Where(x => filters.Status != 0 ? x.Status == filters.Status : true)
+                             .Where(x => String.IsNullOrEmpty(filters.FirstEntryDate) ? true :
+                             DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.FirstEntryDate), x.DateCreated) <= 0)
+                             .Where(x => String.IsNullOrEmpty(filters.SecondEntryDate) ? true :
+                             DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.SecondEntryDate), x.DateCreated) >= 0)
+                            .OrderByDescending(x => x.OrderAddress.County).Skip(filters.PageNumber * 10).Take(10)).ToList();
+                        }
+                    }
+
+                    break;
+            }
+
+            return orders;
+            
         }
     }
 }

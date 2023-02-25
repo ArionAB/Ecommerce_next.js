@@ -6,6 +6,8 @@ import {
   Typography,
   MenuItem,
   Paper,
+  FormControl,
+  Select,
 } from "@mui/material";
 import React, { FC, useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store";
@@ -13,29 +15,19 @@ import { AddProductItemModel } from "../../Store/Models/Product/AddProductItem";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
 import { addProductItem } from "../../Store/Thunks/productThunks";
 import FileUploadComponent from "../fileUpload/FileUploadComponent";
+import { CategoryItems } from "../selectItems/CategoryItems";
+import { FruitItems } from "../selectItems/FruitItems";
 
-export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
-  fruitType,
-  productType,
-}) => {
-  const [textfield, setTextfield] = useState<any>([]);
+export const AddItemForm = () => {
   const [formValues, setFormValues] = useState<AddProductItemModel>({
     title: "",
     description: "",
-    fruitType: fruitType,
-    productCategory: productType,
+    fruitType: "",
+    productCategory: "",
     priceKg: "",
     priceHalf: "",
     pictures: [],
   });
-
-  useEffect(() => {
-    setFormValues((prev) => ({ ...prev, fruitType: fruitType }));
-  }, [fruitType]);
-
-  useEffect(() => {
-    setFormValues((prev) => ({ ...prev, productCategory: productType }));
-  }, [productType]);
 
   const currentUser = useAppSelector(selectCurrentUser);
 
@@ -54,7 +46,6 @@ export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const arrayOfObjects = Object.values(textfield);
 
     dispatch(
       addProductItem({
@@ -62,22 +53,6 @@ export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
         token: currentUser?.jwtToken,
       })
     );
-  };
-
-  const handleQuantityChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    size: string,
-    index: number
-  ) => {
-    const { value } = event.target;
-
-    setTextfield({
-      ...textfield,
-      [index]: {
-        size: size,
-        quantity: value,
-      },
-    });
   };
 
   return (
@@ -89,6 +64,48 @@ export const AddItemForm: FC<{ fruitType: string; productType: number }> = ({
           gap: "1rem",
         }}
       >
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Tip miere</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={formValues.productCategory || ""}
+            label="Tip fruct"
+            name="productCategory"
+            onChange={(e) =>
+              setFormValues({
+                ...formValues,
+                productCategory: e.target.value,
+              })
+            }
+          >
+            {CategoryItems.map((item) => (
+              <MenuItem key={item.value} value={item.value}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Tip Fruct</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={formValues.fruitType || ""}
+            label="Tip fruct"
+            name="fruitType"
+            onChange={(e) =>
+              setFormValues({ ...formValues, fruitType: e.target.value })
+            }
+          >
+            {FruitItems.map((item) => (
+              <MenuItem key={item.value} value={item.value}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
         <InputLabel className="input-label">
           <Typography variant="h6">Nume</Typography>
           <TextField onChange={(e) => handleChange(e)} name="title" />

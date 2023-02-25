@@ -1,7 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppThunkConfig } from "..";
 import { baseUrl, getAxiosErrorMessage } from "../../Utils";
+import { UserType } from "../Enums/UserType";
 import { AddOrderModel } from "../Models/Order/AddOrderModel";
+import { OrderFiltersModel } from "../Models/Order/OrderFiltersModel";
 import { OrderModel } from "../Models/Order/OrderModel";
 
 const axios = require("axios").default;
@@ -58,18 +60,17 @@ export const addOrder = createAsyncThunk<
 
 export const getOrders = createAsyncThunk<
   OrderModel[],
-  { userId?: string },
+  { token: string | undefined; filters: OrderFiltersModel },
   AppThunkConfig
->("/Order/GetOrders", async ({ userId }, thunkApi) => {
+>("/Order/GetOrders", async ({ token, filters }, thunkApi) => {
   try {
     let { data } = await axios.get(baseUrl + "order/GetOrders", {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
       },
-      params: {
-        userId: userId,
-      },
+      params: filters,
     });
 
     return data.response;

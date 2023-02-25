@@ -12,10 +12,12 @@ import Card from "../src/Components/card/Card";
 import { getProductItems } from "../src/Store/Thunks/productThunks";
 
 import styles from "../styles/index.module.scss";
+import Image from "next/image";
 
 export default function Home() {
   const [expand, setExpand] = useState<boolean>(true);
   const [containerIndex, setContainerIndex] = useState<number>(0);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
 
@@ -24,10 +26,13 @@ export default function Home() {
   const productItems = useAppSelector(selectProductItems);
 
   useEffect(() => {
-    dispatch(getProductItems(""));
+    setIsMounted(true);
+    if (isMounted) {
+      dispatch(getProductItems(""));
+    }
 
     //eslint disable-next-line
-  }, []);
+  }, [isMounted]);
 
   return (
     <>
@@ -41,6 +46,8 @@ export default function Home() {
         </div>
         <div className={styles.secondContainer}></div>
       </Box>
+
+      <img src="/dropplets.webp" alt="" className={styles.dropplets} />
       <Container className={styles.ProductsContainer} maxWidth="xl">
         <Box className={styles.categoryWrapper}>
           <Grid container rowGap={2}>

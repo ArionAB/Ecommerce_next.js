@@ -69,6 +69,12 @@
     
     }
 
+    public enum OrderSortBy
+    {
+      CreatedAt = 1,
+      County = 2
+    }
+
     public static class MessageType
     {
         public static string Error { get { return "error"; } }

@@ -1,4 +1,5 @@
 ﻿using Ecommerce.DataLayer.DTOs.Order;
+using Ecommerce.DataLayer.Utils;
 using Ecommerce.ServiceLayer.OrderService;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,7 +20,7 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPost("/Order/Add")]
-        
+
         public async Task<IActionResult> AddOrder([FromForm] AddOrderDTO orderDTO)
         {
             var response = await _orderService.AddOrder(orderDTO, Account.UserId);
@@ -32,9 +33,9 @@ namespace Ecommerce.Controllers
 
         [HttpGet("/Order/GetOrders")]
 
-        public async Task<IActionResult> GetOrders([FromQuery] Guid userId)
+        public async Task<IActionResult> GetOrders([FromQuery] OrderFiltersDTO filters)
         {
-            var response = await _orderService.GetOrders(userId);
+            var response = await _orderService.GetOrders(Account.UserId, Account.UserType, filters);
             if (response.Success)  return Ok(response);
             else return BadRequest(response);
             

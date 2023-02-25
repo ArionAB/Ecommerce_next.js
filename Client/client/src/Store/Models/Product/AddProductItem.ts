@@ -10,5 +10,5 @@ export interface AddProductItemModel {
   title: string;
   pictures: File[];
   fruitType: string;
-  productCategory: number;
+  productCategory: string;
 }

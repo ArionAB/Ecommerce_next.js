@@ -1,28 +1,18 @@
 import { Box, Tabs, Tab } from "@mui/material";
-import React, { useState } from "react";
+import React, { FC } from "react";
 import { productCategoryType } from "../../Store/Enums/Product/productCategory";
 
-export const TabsPanel = ({ setProductType }: any) => {
-  const [value, setValue] = useState(0);
-
-  const handleChange = (newValue: number, productType: number) => {
-    setValue(newValue);
-
-    setProductType(productType);
-  };
-
+export const TabsPanel: FC<{ setValue: Function; value: number }> = ({
+  setValue,
+  value,
+}) => {
   return (
     <Box sx={{ width: "100%", marginBottom: "1rem" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} aria-label="basic tabs example">
-          <Tab
-            label="Poliflora"
-            onClick={() => handleChange(0, productCategoryType.Poliflora)}
-          />
-          <Tab
-            label="Salcam"
-            onClick={() => handleChange(1, productCategoryType.Salcam)}
-          />
+          <Tab label="Adauga produs" onClick={() => setValue(0)} />
+          <Tab label="Comenzi" onClick={() => setValue(1)} />
+          <Tab label="Utilizatori" onClick={() => setValue(2)} />
         </Tabs>
       </Box>
     </Box>

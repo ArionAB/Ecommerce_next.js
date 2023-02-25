@@ -10,7 +10,7 @@ namespace Ecommerce.ServiceLayer.OrderService
         public interface IOrderService
         {
             Task<ServiceResponse<Object>> AddOrder(AddOrderDTO orderDTO, Guid userId);
-            Task<ServiceResponse<Object>> GetOrders(Guid userId);
+            Task<ServiceResponse<GetPaginatedOrdersDTO>> GetOrders(Guid userId, UserType userType, OrderFiltersDTO filters);
 
     }
     
