@@ -7,13 +7,22 @@
     position: relative;
     z-index: 2;
     width: calc(100vw - 19px);
-    height: 80vh;
+    height: 700px;
 
     /*   -webkit-clip-path: polygon(50% 0%, 100% 0, 100% 75%, 50% 100%, 0% 75%, 0 0);
     clip-path: polygon(50% 0%, 100% 0, 100% 75%, 50% 100%, 0% 75%, 0 0); */
 
-    -webkit-clip-path: polygon(50% 0%, 100% 0, 100% 60%, 50% 100%, 0 60%, 0 0);
-    clip-path: polygon(50% 0%, 100% 0, 100% 60%, 50% 100%, 0 60%, 0 0);
+    @media only screen and (min-width: 1700px) {
+      -webkit-clip-path: polygon(
+        50% 0%,
+        100% 0,
+        100% 60%,
+        50% 100%,
+        0 60%,
+        0 0
+      );
+      clip-path: polygon(50% 0%, 100% 0, 100% 60%, 50% 100%, 0 60%, 0 0);
+    }
 
     background: $main-gradient;
     background: $main-gradient-linear;
@@ -23,7 +32,7 @@
     z-index: 1;
     position: absolute;
     bottom: -250px;
-    // background: $secondary-gradient;
+    background: $secondary-gradient;
     background: $honey-bg;
 
     height: 600px;

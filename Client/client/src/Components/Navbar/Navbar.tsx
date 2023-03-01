@@ -10,6 +10,7 @@ import LogOut from "../sign-in-sign-up/LogOut";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { selectCartItems } from "../../Store/Selectors/cartSelectors";
 import styles from "../../../styles/navbar.module.scss";
+import { UserType } from "../../Store/Enums/UserType";
 
 export const Navbar = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -22,9 +23,12 @@ export const Navbar = () => {
   return (
     <Box className={styles.container}>
       <Container className={styles.navContainer}>
-        <Link href="/admin" className={styles.link}>
-          Admin
-        </Link>
+        {currentUser?.userType === UserType.Admin && (
+          <Link href="/admin" className={styles.link}>
+            Admin
+          </Link>
+        )}
+
         <Link href="/" className={styles.link}>
           Acasă
         </Link>

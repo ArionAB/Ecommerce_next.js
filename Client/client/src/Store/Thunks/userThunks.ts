@@ -3,6 +3,7 @@ import { AppThunkConfig } from "..";
 import { baseUrl, getAxiosErrorMessage } from "../../Utils";
 import { RegisterUserModel } from "../Models/User/RegisterUserModel";
 import { ShippingAddressModel } from "../Models/User/ShippingAddressModel";
+import { UsersFiltersModel } from "../Models/User/UsersFiltersModel";
 import { resetProductState } from "../Slices/productSlice";
 
 const axios = require("axios").default;
@@ -158,6 +159,27 @@ export const updateUser = createAsyncThunk<
       },
     });
     return response;
+  } catch (err: any) {
+    let errorMessage = getAxiosErrorMessage(err);
+    return thunkAPI.rejectWithValue(getAxiosErrorMessage(err));
+  }
+});
+
+export const getAllUsers = createAsyncThunk<
+  any,
+  { filters: UsersFiltersModel },
+  AppThunkConfig
+>("Users/GetAllUsers", async ({ filters }, thunkAPI) => {
+  try {
+    let { data } = await axios.get(baseUrl + "users/GetAllUsers", {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      params: filters,
+    });
+
+    return data.response;
   } catch (err: any) {
     let errorMessage = getAxiosErrorMessage(err);
     return thunkAPI.rejectWithValue(getAxiosErrorMessage(err));

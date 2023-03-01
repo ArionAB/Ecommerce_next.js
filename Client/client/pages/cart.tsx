@@ -21,7 +21,11 @@ import {
 import { resourceUrl } from "../src/Utils";
 import { ConvertSizeToLabel } from "../src/Utils/Functions/ConvertEnum";
 import { QuantitySizeItems } from "../src/Components/selectItems/QuantitySizeItems";
-import { changeQuantity, removeItem } from "../src/Store/Thunks/cartThunks";
+import {
+  changeQuantity,
+  getCartItems,
+  removeItem,
+} from "../src/Store/Thunks/cartThunks";
 import Close from "@mui/icons-material/Close";
 import { SizeType } from "../src/Store/Enums/SizeType";
 import { selectCurrentUser } from "../src/Store/Selectors/authenticationSelectors";
@@ -54,7 +58,13 @@ const Cart = () => {
         },
         token: currentUser?.jwtToken,
       })
-    );
+    ).then(() => {
+      dispatch(
+        getCartItems({
+          token: currentUser?.jwtToken,
+        })
+      );
+    });
   };
 
   useEffect(() => {
@@ -78,7 +88,13 @@ const Cart = () => {
         },
         token: currentUser?.jwtToken,
       })
-    );
+    ).then(() => {
+      dispatch(
+        getCartItems({
+          token: currentUser?.jwtToken,
+        })
+      );
+    });
   };
 
   const priceWithDelivery = () => {

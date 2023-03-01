@@ -1,5 +1,7 @@
 export const ConvertFruitTypeToLabel = (enumValue: number) => {
   switch (enumValue) {
+    case 1:
+      return "Nimic";
     case 2:
       return "Ananas";
     case 3:
@@ -33,6 +35,10 @@ export const ConvertProductCategoryType = (enumValue: number) => {
       return "Polifloră";
     case 3:
       return "Salcâm";
+    case 4:
+      return "Tei";
+    case 5:
+      return "Mană";
   }
 };
 
@@ -59,5 +65,19 @@ export const ConvertStatusToLabel = (enumValue: number) => {
       return "Anulată";
     default:
       return "Plasată";
+  }
+};
+
+export const ConvertPaymentMethodToLabel = (enumValue: number) => {
+  switch (enumValue) {
+    case 1:
+      return "Numerar";
+    case 2:
+      return "Card";
+    case 3:
+      return "Transfer";
+
+    default:
+      return "Numerar";
   }
 };

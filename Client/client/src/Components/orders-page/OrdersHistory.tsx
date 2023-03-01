@@ -37,7 +37,7 @@ export const OrdersHistory: FC<{ setSelectedOrder: Function }> = ({
         Istoricul comenzilor
       </Typography>
       {orders &&
-        orders.map((order: OrderModel) => (
+        orders.orders.map((order: OrderModel) => (
           <Box
             className={styles.order}
             key={order.orderId}

@@ -6,7 +6,10 @@ import { OrdersHistory } from "../src/Components/orders-page/OrdersHistory";
 import { useAppDispatch, useAppSelector } from "../src/Store";
 import { getOrders } from "../src/Store/Thunks/orderThunks";
 import { selectCurrentUser } from "../src/Store/Selectors/authenticationSelectors";
-import { selectGetOrders } from "../src/Store/Selectors/orderSelectors";
+import {
+  selectGetOrders,
+  selectOrdersFilters,
+} from "../src/Store/Selectors/orderSelectors";
 import { OrderDetails } from "../src/Components/orders-page/OrderDetails";
 import { OrderModel } from "../src/Store/Models/Order/OrderModel";
 
@@ -15,16 +18,22 @@ const Orders = () => {
 
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
-  const orders = useAppSelector(selectGetOrders);
 
-  useEffect(() => {
-    dispatch(
+  const filters = useAppSelector(selectOrdersFilters);
+  const getPaginatedOrders = () => {
+    return dispatch(
       getOrders({
-        userId: currentUser?.userId,
+        token: currentUser?.jwtToken,
+        filters: filters,
       })
     );
+  };
+
+  useEffect(() => {
+    let promise = getPaginatedOrders();
+    return () => promise.abort();
     //eslint-disable-next-line
-  }, [currentUser]);
+  }, [filters, currentUser]);
 
   return (
     <Container className={styles.page_container}>

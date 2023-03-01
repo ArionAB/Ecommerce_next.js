@@ -3,6 +3,7 @@ import { AppThunkConfig } from "..";
 import { baseUrl, getAxiosErrorMessage } from "../../Utils";
 import { UserType } from "../Enums/UserType";
 import { AddOrderModel } from "../Models/Order/AddOrderModel";
+import { GetPaginatedOrdersModel } from "../Models/Order/GetPaginatedOrdersModel";
 import { OrderFiltersModel } from "../Models/Order/OrderFiltersModel";
 import { OrderModel } from "../Models/Order/OrderModel";
 
@@ -59,7 +60,7 @@ export const addOrder = createAsyncThunk<
 });
 
 export const getOrders = createAsyncThunk<
-  OrderModel[],
+  GetPaginatedOrdersModel,
   { token: string | undefined; filters: OrderFiltersModel },
   AppThunkConfig
 >("/Order/GetOrders", async ({ token, filters }, thunkApi) => {

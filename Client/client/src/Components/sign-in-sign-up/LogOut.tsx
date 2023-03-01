@@ -38,7 +38,9 @@ const LogOut = () => {
           <ListItemIcon>
             <ShoppingCartIcon fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Coșul tău</ListItemText>
+          <ListItemText>
+            <Link href="/cart"> Coșul tău</Link>
+          </ListItemText>
         </MenuItem>
       </MenuList>
       <Button className={styles.logoutBTN} onClick={() => handleLogout()}>

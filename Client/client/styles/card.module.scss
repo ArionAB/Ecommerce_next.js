@@ -59,11 +59,12 @@
   }
 
   .twoButtons {
-    animation: opacityDelay 1s;
+    animation: opacityDelay 0.5s;
+    padding-top: 0.5rem;
 
-    padding-top: 1.8rem;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 
     .shop {
       background-color: $dark-blue;

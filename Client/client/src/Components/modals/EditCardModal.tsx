@@ -84,7 +84,7 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
       })
     );
   };
-  console.log(formValues);
+
   return (
     <Container maxWidth="xl">
       <form>

@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { useRouter } from "next/router";
 import { getProduct } from "../../src/Store/Thunks/productThunks";
-import { addItemToCart } from "../../src/Store/Thunks/cartThunks";
+import { addItemToCart, getCartItems } from "../../src/Store/Thunks/cartThunks";
 import { useAppDispatch, useAppSelector } from "../../src/Store";
 import { selectProductItem } from "../../src/Store/Selectors/productSelectors";
 import { guidRegex } from "../../src/Utils/Functions/guidRegex";
@@ -37,6 +37,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import Head from "next/head";
 
 import styles from "../../styles/productDetails.module.scss";
+import { ProductItemModel } from "../../src/Store/Models/Product/ProductItem";
 
 const Transition: any = forwardRef(function Transition(
   props: TransitionProps & {
@@ -87,18 +88,58 @@ const ProductDetails: FC<{
   };
 
   const handleAddItemToCart = () => {
-    dispatch(
-      addItemToCart({
-        data: {
-          productId: item?.productId,
-          quantity: parseInt(selectedQuantity),
-          sizeType: Number(sizeValue),
-        },
-        token: currentUser?.jwtToken,
-      })
-    ).then(() => {
-      setOpenCart(true);
-    });
+    if (!currentUser?.jwtToken) {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const alreadyExists = cart.find(
+        (cartItem: ProductItemModel) =>
+          cartItem.productId === item.productId &&
+          cartItem.sizeType === Number(sizeValue) &&
+          cartItem.fruitType === item.fruitType
+      );
+
+      if (alreadyExists) {
+        Object.keys(cart).forEach((key) => {
+          if (
+            cart[key].productId === item.productId &&
+            cart[key].sizeType === Number(sizeValue) &&
+            cart[key].fruitType === item.fruitType
+          ) {
+            cart[key].quantity += Number(selectedQuantity);
+          }
+        });
+        localStorage.setItem("cart", JSON.stringify(cart));
+      } else {
+        localStorage.setItem(
+          "cart",
+          JSON.stringify([
+            ...cart,
+            {
+              ...item,
+              quantity: Number(selectedQuantity),
+              sizeType: sizeValue,
+            },
+          ])
+        );
+        return;
+      }
+    } else
+      dispatch(
+        addItemToCart({
+          data: {
+            productId: item?.productId,
+            quantity: parseInt(selectedQuantity),
+            sizeType: Number(sizeValue),
+          },
+          token: currentUser?.jwtToken,
+        })
+      ).then(() => {
+        dispatch(
+          getCartItems({
+            token: currentUser?.jwtToken,
+          })
+        );
+        setOpenCart(true);
+      });
   };
 
   const handleCloseCart = () => {

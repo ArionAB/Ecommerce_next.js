@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Box, Button, Divider, Typography } from "@mui/material";
-import { useAppSelector } from "../../Store";
+import { useAppDispatch, useAppSelector } from "../../Store";
 import {
   selectCartItems,
   selectTotalPrice,
@@ -15,6 +15,9 @@ import {
   ConvertProductCategoryType,
   ConvertSizeToLabel,
 } from "../../Utils/Functions/ConvertEnum";
+import { SizeType } from "../../Store/Enums/SizeType";
+import { getCartItems, removeItem } from "../../Store/Thunks/cartThunks";
+import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
 
 export const AddToCartModal: FC<{ open: boolean; onClose: Function }> = ({
   open,
@@ -22,6 +25,26 @@ export const AddToCartModal: FC<{ open: boolean; onClose: Function }> = ({
 }) => {
   const cartItems = useAppSelector(selectCartItems);
   const totalPrice = useAppSelector(selectTotalPrice);
+  const currentUser = useAppSelector(selectCurrentUser);
+  const dispatch = useAppDispatch();
+
+  const handleRemoveItem = (cartProductId: string, sizeType: SizeType) => {
+    dispatch(
+      removeItem({
+        data: {
+          productId: cartProductId,
+          sizeType: sizeType,
+        },
+        token: currentUser?.jwtToken,
+      })
+    ).then(() => {
+      dispatch(
+        getCartItems({
+          token: currentUser?.jwtToken,
+        })
+      );
+    });
+  };
 
   return (
     <Box className={styles.modal}>
@@ -56,7 +79,12 @@ export const AddToCartModal: FC<{ open: boolean; onClose: Function }> = ({
                 </Typography>
               </Box>
               <Box className={styles.closeBox}>
-                <CloseIcon className={styles.removeItem} />
+                <CloseIcon
+                  className={styles.removeItem}
+                  onClick={() =>
+                    handleRemoveItem(item.cartProductId, item.sizeType)
+                  }
+                />
                 <Typography className={styles.price}>
                   {item.priceKg} lei
                 </Typography>
@@ -77,9 +105,11 @@ export const AddToCartModal: FC<{ open: boolean; onClose: Function }> = ({
         <Button className={styles.buyNow} variant="contained">
           Către casă
         </Button>
-        <Button className={styles.addCart} variant="contained">
-          Afișare coș cumpărături
-        </Button>
+        <Link href="/cart">
+          <Button className={styles.addCart} variant="contained">
+            Afișare coș cumpărături
+          </Button>
+        </Link>
         <Box></Box>
       </Box>
     </Box>

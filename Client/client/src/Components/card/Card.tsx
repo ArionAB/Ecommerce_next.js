@@ -12,9 +12,11 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditCardModal from "../modals/EditCardModal";
 import Close from "@mui/icons-material/Close";
 import ConfirmationMessage from "../notifications/ConfirmationMessage";
-import { useAppDispatch } from "../../Store";
+import { useAppDispatch, useAppSelector } from "../../Store";
 import { deleteProduct } from "../../Store/Thunks/productThunks";
 import ProductDetails from "../../../pages/miere/[productDetails]";
+import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
+import { UserType } from "../../Store/Enums/UserType";
 
 const Card: FC<{
   card: ProductItemModel;
@@ -33,6 +35,7 @@ const Card: FC<{
   const [openShop, setOpenShop] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
+  const currentUser = useAppSelector(selectCurrentUser);
 
   const imageLoader = () => {
     return `${resourceUrl}${imageSource}`;
@@ -51,21 +54,30 @@ const Card: FC<{
 
   return (
     <Box className={styles.cardContainer} component="div">
-      <EditIcon className={styles.edit} onClick={() => setEditDialog(true)} />
-      <Dialog open={editDialog} fullWidth maxWidth="md">
-        <Box onClick={() => setEditDialog(false)}>
-          <Close sx={{ float: "right", margin: "1rem", cursor: "pointer" }} />
-        </Box>
+      {currentUser?.userType === UserType.Admin && (
+        <>
+          <EditIcon
+            className={styles.edit}
+            onClick={() => setEditDialog(true)}
+          />
+          <Dialog open={editDialog} fullWidth maxWidth="md">
+            <Box onClick={() => setEditDialog(false)}>
+              <Close
+                sx={{ float: "right", margin: "1rem", cursor: "pointer" }}
+              />
+            </Box>
 
-        <EditCardModal card={card} />
-      </Dialog>
-      <DeleteForeverIcon
-        className={styles.delete}
-        onClick={(e) => {
-          setOpenConfirmationMessage(true);
-          setCurrentTarget(e.currentTarget);
-        }}
-      />
+            <EditCardModal card={card} />
+          </Dialog>
+          <DeleteForeverIcon
+            className={styles.delete}
+            onClick={(e) => {
+              setOpenConfirmationMessage(true);
+              setCurrentTarget(e.currentTarget);
+            }}
+          />
+        </>
+      )}
       <ConfirmationMessage
         message={`Are you sure you want to delete ${card.title} ?`}
         open={openConfirmationMessage}
