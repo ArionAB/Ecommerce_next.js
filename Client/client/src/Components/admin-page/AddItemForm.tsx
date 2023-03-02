@@ -9,6 +9,7 @@ import {
   FormControl,
   Select,
 } from "@mui/material";
+import Container from "@mui/material/Container";
 import React, { FC, useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store";
 import { AddProductItemModel } from "../../Store/Models/Product/AddProductItem";
@@ -56,85 +57,87 @@ export const AddItemForm = () => {
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-        }}
-      >
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Tip miere</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={formValues.productCategory || ""}
-            label="Tip fruct"
-            name="productCategory"
-            onChange={(e) =>
-              setFormValues({
-                ...formValues,
-                productCategory: e.target.value,
-              })
-            }
-          >
-            {CategoryItems.map((item) => (
-              <MenuItem key={item.value} value={item.value}>
-                {item.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Tip Fruct</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={formValues.fruitType || ""}
-            label="Tip fruct"
-            name="fruitType"
-            onChange={(e) =>
-              setFormValues({ ...formValues, fruitType: e.target.value })
-            }
-          >
-            {FruitItems.map((item) => (
-              <MenuItem key={item.value} value={item.value}>
-                {item.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+    <Container>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+          }}
+        >
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Tip miere</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={formValues.productCategory || ""}
+              label="Tip fruct"
+              name="productCategory"
+              onChange={(e) =>
+                setFormValues({
+                  ...formValues,
+                  productCategory: e.target.value,
+                })
+              }
+            >
+              {CategoryItems.map((item) => (
+                <MenuItem key={item.value} value={item.value}>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Tip Fruct</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={formValues.fruitType || ""}
+              label="Tip fruct"
+              name="fruitType"
+              onChange={(e) =>
+                setFormValues({ ...formValues, fruitType: e.target.value })
+              }
+            >
+              {FruitItems.map((item) => (
+                <MenuItem key={item.value} value={item.value}>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-        <InputLabel className="input-label">
-          <Typography variant="h6">Nume</Typography>
-          <TextField onChange={(e) => handleChange(e)} name="title" />
-        </InputLabel>
+          <InputLabel className="input-label">
+            <Typography variant="h6">Nume</Typography>
+            <TextField onChange={(e) => handleChange(e)} name="title" />
+          </InputLabel>
 
-        <InputLabel className="input-label">
-          <Typography variant="h6">Descriere</Typography>
-          <TextField
-            onChange={(e) => handleChange(e)}
-            name="description"
-            multiline
-            minRows={4}
-          />
-        </InputLabel>
+          <InputLabel className="input-label">
+            <Typography variant="h6">Descriere</Typography>
+            <TextField
+              onChange={(e) => handleChange(e)}
+              name="description"
+              multiline
+              minRows={4}
+            />
+          </InputLabel>
 
-        <InputLabel className="input-label">
-          <Typography variant="h6">Pret la KG</Typography>
-          <TextField onChange={(e) => handleChange(e)} name="priceKg" />
-        </InputLabel>
-        <InputLabel className="input-label">
-          <Typography variant="h6">Pret la 500g</Typography>
-          <TextField onChange={(e) => handleChange(e)} name="priceHalf" />
-        </InputLabel>
-      </Box>
-      <Typography variant="h6">Poze</Typography>
-      <FileUploadComponent onFilesChange={uploadPictures} />
-      <Button variant="contained" type="submit">
-        Adaugă produs
-      </Button>
-    </form>
+          <InputLabel className="input-label">
+            <Typography variant="h6">Pret la KG</Typography>
+            <TextField onChange={(e) => handleChange(e)} name="priceKg" />
+          </InputLabel>
+          <InputLabel className="input-label">
+            <Typography variant="h6">Pret la 500g</Typography>
+            <TextField onChange={(e) => handleChange(e)} name="priceHalf" />
+          </InputLabel>
+        </Box>
+        <Typography variant="h6">Poze</Typography>
+        <FileUploadComponent onFilesChange={uploadPictures} />
+        <Button variant="contained" type="submit">
+          Adaugă produs
+        </Button>
+      </form>
+    </Container>
   );
 };

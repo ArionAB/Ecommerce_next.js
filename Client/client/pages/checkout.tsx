@@ -8,6 +8,8 @@ import {
   Breadcrumbs,
   Button,
   Checkbox,
+  FormGroup,
+  FormControlLabel,
 } from "@mui/material";
 import styles from "../styles/checkout.module.scss";
 import { useAppDispatch, useAppSelector } from "../src/Store";
@@ -27,6 +29,9 @@ import { selectCurrentUser } from "../src/Store/Selectors/authenticationSelector
 import { updateUser } from "../src/Store/Thunks/userThunks";
 import BillingAddress from "../src/Components/checkout-page/BillingAddress";
 import { ShippingAddressModel } from "../src/Store/Models/User/ShippingAddressModel";
+import { PaymentMethodType } from "../src/Store/Enums/Order/PaymentMethodType";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import { style } from "@mui/system";
 
 export const Checkout = () => {
   const [shipping, setShipping] = useState({
@@ -43,6 +48,9 @@ export const Checkout = () => {
   const [displayPayment, setDisplayPayment] = useState(false);
   const [activeBreadcrumb, setActiveBreadcrumb] = useState(2);
   const [sameAddress, setSameAddress] = useState(true);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodType>(
+    PaymentMethodType.Card
+  );
 
   const cartItems = useAppSelector(selectCartItems);
   const totalPrice = useAppSelector(selectTotalPrice);
@@ -123,9 +131,10 @@ export const Checkout = () => {
 
   const breadcrumbs = [
     <Link key="1" color="inherit" href="/cart" className={styles.breadCart}>
-      Coș
+      <Typography fontSize={14}>Coș</Typography>
     </Link>,
     <Typography
+      fontSize={14}
       key="2"
       sx={
         activeBreadcrumb === 2
@@ -140,6 +149,7 @@ export const Checkout = () => {
       Detalii livrare
     </Typography>,
     <Typography
+      fontSize={14}
       key="3"
       onClick={() => {
         setDisplayPayment(true);
@@ -151,9 +161,8 @@ export const Checkout = () => {
           : { color: "#b06f2a", cursor: "pointer" }
       }
     >
-      Informații
+      Plată
     </Typography>,
-    <Typography key="4">Plată</Typography>,
   ];
 
   return (
@@ -358,7 +367,7 @@ export const Checkout = () => {
           </Box>
         )}
 
-        {activeBreadcrumb === 3 && (
+        {activeBreadcrumb === 2 && (
           <Box className={styles.billing}>
             <Checkbox
               checked={sameAddress}
@@ -374,10 +383,89 @@ export const Checkout = () => {
           </Box>
         )}
 
-        {!sameAddress && <BillingAddress setBilling={handleBillingChange} />}
+        {!sameAddress && activeBreadcrumb === 2 && (
+          <BillingAddress setBilling={handleBillingChange} />
+        )}
+
+        {activeBreadcrumb === 3 && (
+          <Box className={styles.payment}>
+            <Typography className={styles.label}>Metoda de plată</Typography>
+            <Typography className={styles.secured}>
+              Toate tranzacțiile sunt securizate și encriptate.
+            </Typography>
+            <FormGroup className={styles.choose_method}>
+              <Box className={styles.each_method}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={paymentMethod}
+                      checked={paymentMethod === PaymentMethodType.Card}
+                      sx={{
+                        color: "#b06f2a",
+                        "&.Mui-checked": {
+                          color: "#b06f2a",
+                        },
+                      }}
+                      onChange={() => setPaymentMethod(PaymentMethodType.Card)}
+                    />
+                  }
+                  label="Credit card"
+                />
+                <Box className={styles.images}>
+                  <img src="visa.svg" alt="visa" />
+                  <img src="mastercard.svg" alt="mastercard" />
+                </Box>
+              </Box>
+              <Box className={styles.each_method}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={paymentMethod}
+                      checked={paymentMethod === PaymentMethodType.Transfer}
+                      sx={{
+                        color: "#b06f2a",
+                        "&.Mui-checked": {
+                          color: "#b06f2a",
+                        },
+                      }}
+                      onChange={() =>
+                        setPaymentMethod(PaymentMethodType.Transfer)
+                      }
+                    />
+                  }
+                  label="Transfer bancar"
+                />
+              </Box>
+              <Box className={styles.each_method}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={paymentMethod}
+                      checked={paymentMethod === PaymentMethodType.Cash}
+                      sx={{
+                        color: "#b06f2a",
+                        "&.Mui-checked": {
+                          color: "#b06f2a",
+                        },
+                      }}
+                      onChange={() => setPaymentMethod(PaymentMethodType.Cash)}
+                    />
+                  }
+                  label="Plată la livrare"
+                />
+                <CurrencyExchangeIcon className={styles.svg} />
+              </Box>
+            </FormGroup>
+          </Box>
+        )}
 
         <Box className={styles.bottomForm}>
-          {activeBreadcrumb === 2 ? (
+          {activeBreadcrumb === 1 ? (
+            <Link href="/cart" className={styles.editCart}>
+              <NavigateBeforeIcon />
+              <Typography> Editează coșul</Typography>
+            </Link>
+          ) : activeBreadcrumb === 2 ? (
             <Link href="/cart" className={styles.editCart}>
               <NavigateBeforeIcon />
               <Typography> Editează coșul</Typography>
@@ -385,15 +473,36 @@ export const Checkout = () => {
           ) : (
             <Box className={styles.editCart}>
               <NavigateBeforeIcon />
-              <Typography onClick={() => setDisplayPayment(false)}>
+              <Typography
+                onClick={() => {
+                  setDisplayPayment(false);
+                  setActiveBreadcrumb(1);
+                }}
+              >
                 Editează adresa
               </Typography>
             </Box>
           )}
 
-          <Button className={styles.continueBTN} onClick={() => handleSubmit()}>
-            Continuă
-          </Button>
+          {activeBreadcrumb === 3 ? (
+            <>
+              <Button
+                className={styles.continueBTN}
+                onClick={() => handleSubmit()}
+              >
+                Plasează comanda
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                className={styles.continueBTN}
+                onClick={() => handleSubmit()}
+              >
+                Continuă
+              </Button>
+            </>
+          )}
         </Box>
       </Grid>
       <Box className={styles.right}>

@@ -1,7 +1,11 @@
-import { SizeType } from "../../Enums/SizeType";
+import { CartItemModel } from "./CartItemModel";
 
 export interface AddItemToCartModel {
-  productId: string;
-  sizeType: SizeType;
-  quantity: number;
+  cartItems: [
+    {
+      productId: string;
+      sizeType: number;
+      quantity: number;
+    }
+  ];
 }

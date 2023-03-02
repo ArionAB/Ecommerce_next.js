@@ -1,7 +1,13 @@
 @import "./_variables.scss";
 
 .container {
+  position: relative;
   background: $main-gradient;
   background: $main-gradient-linear;
   height: 400px;
+
+  .flower_honey {
+    position: absolute;
+    top: -142px;
+  }
 }

@@ -19,6 +19,10 @@ export const Navbar = () => {
 
   const currentUser = useAppSelector(selectCurrentUser);
   const cartItems = useAppSelector(selectCartItems);
+  const totalItems = cartItems.reduce(
+    (acc, item) => acc + Number(item.quantity),
+    0
+  );
 
   return (
     <Box className={styles.container}>
@@ -35,8 +39,8 @@ export const Navbar = () => {
 
         <Link href="/cart" className={styles.cartLink}>
           <ShoppingCartIcon />
-          {currentUser && (
-            <span className={styles.cartNumber}>{cartItems?.length}</span>
+          {cartItems.length > 0 && (
+            <span className={styles.cartNumber}>{totalItems}</span>
           )}
         </Link>
         {currentUser ? (

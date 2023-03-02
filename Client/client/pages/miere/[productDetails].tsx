@@ -38,6 +38,7 @@ import Head from "next/head";
 
 import styles from "../../styles/productDetails.module.scss";
 import { ProductItemModel } from "../../src/Store/Models/Product/ProductItem";
+import { setCartItems } from "../../src/Store/Slices/cartSlice";
 
 const Transition: any = forwardRef(function Transition(
   props: TransitionProps & {
@@ -108,6 +109,9 @@ const ProductDetails: FC<{
           }
         });
         localStorage.setItem("cart", JSON.stringify(cart));
+        dispatch(
+          setCartItems(JSON.parse(localStorage.getItem("cart") || "[]"))
+        );
       } else {
         localStorage.setItem(
           "cart",
@@ -120,16 +124,24 @@ const ProductDetails: FC<{
             },
           ])
         );
+        dispatch(
+          setCartItems(JSON.parse(localStorage.getItem("cart") || "[]"))
+        );
         return;
       }
     } else
       dispatch(
         addItemToCart({
           data: {
-            productId: item?.productId,
-            quantity: parseInt(selectedQuantity),
-            sizeType: Number(sizeValue),
+            cartItems: [
+              {
+                productId: item.productId.toString(),
+                quantity: Number(selectedQuantity),
+                sizeType: Number(sizeValue),
+              },
+            ],
           },
+
           token: currentUser?.jwtToken,
         })
       ).then(() => {

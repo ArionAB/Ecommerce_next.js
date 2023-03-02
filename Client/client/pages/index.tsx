@@ -27,7 +27,7 @@ export default function Home() {
 
   useEffect(() => {
     setIsMounted(true);
-    if (isMounted) {
+    if (isMounted && !productItems.length) {
       dispatch(getProductItems(""));
     }
 

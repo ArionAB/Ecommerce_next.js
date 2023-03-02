@@ -176,7 +176,7 @@ export const UsersTable = () => {
           height: 650,
           boxShadow: 3,
         }}
-        rows={users?.users}
+        rows={users?.users || []}
         columns={columns}
         onPageChange={handlePageChange}
         rowCount={users?.rowCount}

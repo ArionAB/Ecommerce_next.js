@@ -28,6 +28,11 @@
 
 .cartNumber {
   position: absolute;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   top: -15px;
   left: 15px;
   background-color: $pink;

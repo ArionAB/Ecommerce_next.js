@@ -8,7 +8,8 @@ import {
   setIsRefreshing,
   setIsSilentRefresh,
 } from "../../Store/Slices/authenticateSlice";
-import { getCartItems } from "../../Store/Thunks/cartThunks";
+import { setCartItems } from "../../Store/Slices/cartSlice";
+import { addItemToCart, getCartItems } from "../../Store/Thunks/cartThunks";
 import { requestRefreshToken } from "../../Store/Thunks/userThunks";
 
 const RefreshToken: FC = () => {
@@ -35,12 +36,43 @@ const RefreshToken: FC = () => {
   );
 
   useEffect(() => {
-    if (!currentUser) return;
-    dispatch(
-      getCartItems({
-        token: currentUser?.jwtToken,
-      })
-    );
+    const getCart = localStorage.getItem("cart" || "[]");
+    const cart = JSON.parse(getCart || "[]") || [];
+
+    if (!currentUser) {
+      dispatch(setCartItems(JSON.parse(getCart || "[]") || []));
+    } else {
+      const newCart: any = cart?.map((item: any) => {
+        return {
+          productId: item.productId.toString(),
+          quantity: item.quantity,
+          sizeType: item.sizeType,
+        };
+      });
+      newCart.length > 0
+        ? dispatch(
+            addItemToCart({
+              data: {
+                cartItems: newCart,
+              },
+
+              token: currentUser?.jwtToken,
+            })
+          ).then(() => {
+            localStorage.removeItem("cart");
+            dispatch(
+              getCartItems({
+                token: currentUser?.jwtToken,
+              })
+            );
+          })
+        : dispatch(
+            getCartItems({
+              token: currentUser?.jwtToken,
+            })
+          );
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 

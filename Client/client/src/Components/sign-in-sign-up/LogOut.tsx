@@ -14,13 +14,16 @@ import {
 import styles from "../../../styles/logout.module.scss";
 import { requestLogout } from "../../Store/Thunks/userThunks";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const LogOut = () => {
   const currentUser = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
-
+  const router = useRouter();
   const handleLogout = () => {
-    dispatch(requestLogout(currentUser?.jwtToken));
+    dispatch(requestLogout(currentUser?.jwtToken)).then(() => {
+      router.push("/");
+    });
   };
 
   return (

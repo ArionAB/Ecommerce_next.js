@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppThunkConfig } from "..";
 import { baseUrl, getAxiosErrorMessage } from "../../Utils";
 import { AddItemToCartModel } from "../Models/Cart/AddItemToCartModel";
+import { CartItemModel } from "../Models/Cart/CartItemModel";
 import { ChangeQuantityModel } from "../Models/Cart/ChangeQuantityModel";
 import { RemoveItemModel } from "../Models/Cart/RemoveItemModel";
 import { ProductItemModel } from "../Models/Product/ProductItem";
@@ -15,9 +16,15 @@ export const addItemToCart = createAsyncThunk<
 >("/Cart/Add", async ({ data, token }, thunkApi) => {
   try {
     let form = new FormData();
-    form.append("productId", data.productId);
-    form.append("sizeType", data.sizeType.toString());
-    form.append("quantity", data.quantity.toString());
+    data.cartItems.forEach((item: CartItemModel, index: number) => {
+      form.append(`cartItems[${index}].productId`, item.productId);
+    });
+    data.cartItems.forEach((item: CartItemModel, index: number) => {
+      form.append(`cartItems[${index}].sizeType`, item.sizeType.toString());
+    });
+    data.cartItems.forEach((item: CartItemModel, index: number) => {
+      form.append(`cartItems[${index}].quantity`, item.quantity.toString());
+    });
 
     let { response } = await axios.post(baseUrl + "cart/Add", form, {
       withCredentials: true,

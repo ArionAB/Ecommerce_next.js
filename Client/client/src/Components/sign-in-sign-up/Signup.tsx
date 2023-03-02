@@ -4,10 +4,11 @@ import { ClickAwayListener } from "@mui/base";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 
-import React, { useState, FC } from "react";
+import React, { useState, FC, useEffect } from "react";
 import styles from "../../../styles/signup.module.scss";
 import { useAppDispatch } from "../../Store";
 import { loginUser, registerUser } from "../../Store/Thunks/userThunks";
+import { emailRegex } from "../../Utils/Functions/emailRegex";
 
 const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
   const [register, setRegister] = useState({
@@ -60,6 +61,10 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
       errors.email = "Email is required";
       isError = true;
     }
+    if (!emailRegex(login.email)) {
+      errors.email = "Email is not valid";
+      isError = true;
+    }
     if (login.password.length === 0) {
       errors.password = "Password is required";
       isError = true;
@@ -71,7 +76,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
         loginUser({
           data: login,
         })
-      );
+      ).then(() => setOpenDialog(false));
     }
   };
 
@@ -99,10 +104,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
       errors.name = "Name must contain at least 3 characters";
       isError = true;
     }
-    if (
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(register.email) ===
-      false
-    ) {
+    if (!emailRegex(register.email)) {
       errors.email = "Email is not valid";
       isError = true;
     }
@@ -229,7 +231,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
                 className={styles.registerBTN}
                 onClick={(e) => submitLogin(e)}
               >
-                Login
+                Log in
               </Button>
             </Box>
           </form>
