@@ -19,16 +19,34 @@ const BillingAddress: FC<{ setBilling: Function }> = ({ setBilling }) => {
   const currentUser = useAppSelector(selectCurrentUser);
 
   useEffect(() => {
-    setShipping({
-      firstNameBill: currentUser?.firstNameBill || "",
-      lastNameBill: currentUser?.lastNameBill || "",
-      addressBill: currentUser?.addressBill || "",
-      infoBill: currentUser?.infoBill || "",
-      zipCodeBill: currentUser?.zipCodeBill || "",
-      cityBill: currentUser?.cityBill || "",
-      countyBill: currentUser?.countyBill || "",
-      phoneBill: currentUser?.phoneBill || "",
-    });
+    if (currentUser) {
+      setShipping({
+        firstNameBill: currentUser?.firstNameBill || "",
+        lastNameBill: currentUser?.lastNameBill || "",
+        addressBill: currentUser?.addressBill || "",
+        infoBill: currentUser?.infoBill || "",
+        zipCodeBill: currentUser?.zipCodeBill || "",
+        cityBill: currentUser?.cityBill || "",
+        countyBill: currentUser?.countyBill || "",
+        phoneBill: currentUser?.phoneBill || "",
+      });
+    } else {
+      const shippingAddress = localStorage.getItem("billing")
+        ? JSON.parse(localStorage.getItem("billing")!)
+        : null;
+      if (shippingAddress) {
+        setShipping({
+          firstNameBill: shippingAddress?.firstNameBill || "",
+          lastNameBill: shippingAddress?.lastNameBill || "",
+          addressBill: shippingAddress?.addressBill || "",
+          infoBill: shippingAddress?.infoBill || "",
+          zipCodeBill: shippingAddress?.zipCodeBill || "",
+          cityBill: shippingAddress?.cityBill || "",
+          countyBill: shippingAddress?.countyBill || "",
+          phoneBill: shippingAddress?.phoneBill || "",
+        });
+      }
+    }
   }, [currentUser]);
 
   const handleChange = (

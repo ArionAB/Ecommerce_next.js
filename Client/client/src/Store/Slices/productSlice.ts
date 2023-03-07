@@ -66,6 +66,9 @@ export const productSlice = createSlice({
     setSubcategoryType: (state, action) => {
       state.filters.SubcategoryType = action.payload;
     },
+    setProductItem: (state, action) => {
+      state.item = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getProductItems.pending, (state, action) => {
@@ -95,7 +98,7 @@ export const {
   resetProductState,
   setPageNumber,
   setPageSize,
-
+  setProductItem,
   setSearchText,
   setMinPrice,
   setMaxPrice,

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  Container,
   Grid,
   Box,
   Typography,
@@ -20,10 +19,9 @@ import {
 import { resourceUrl } from "../src/Utils";
 import { ConvertSizeToLabel } from "../src/Utils/Functions/ConvertEnum";
 import Link from "next/link";
-import BreadLink from "@mui/material/Link";
+
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import InputLabel from "@mui/material/InputLabel";
-import TextField from "@mui/material/TextField";
+
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { selectCurrentUser } from "../src/Store/Selectors/authenticationSelectors";
 import { updateUser } from "../src/Store/Thunks/userThunks";
@@ -31,12 +29,20 @@ import BillingAddress from "../src/Components/checkout-page/BillingAddress";
 import { ShippingAddressModel } from "../src/Store/Models/User/ShippingAddressModel";
 import { PaymentMethodType } from "../src/Store/Enums/Order/PaymentMethodType";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
-import { style } from "@mui/system";
+
+import { addOrder } from "../src/Store/Thunks/orderThunks";
+import { StatusType } from "../src/Store/Enums/Order/StatusType";
+import { SizeType } from "../src/Store/Enums/SizeType";
+import { removeAllItems } from "../src/Store/Thunks/cartThunks";
+import { useRouter } from "next/router";
+import { resetCartState } from "../src/Store/Slices/cartSlice";
+import ShippingAddress from "../src/Components/checkout-page/ShippingAddress";
 
 export const Checkout = () => {
   const [shipping, setShipping] = useState({
     firstName: "",
     lastName: "",
+    email: "",
     address: "",
     info: "",
     zipCode: "",
@@ -44,31 +50,18 @@ export const Checkout = () => {
     county: "",
     phone: "",
   });
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodType>(
+    PaymentMethodType.Card
+  );
   const [billing, setBilling] = useState<ShippingAddressModel | any>({});
   const [displayPayment, setDisplayPayment] = useState(false);
   const [activeBreadcrumb, setActiveBreadcrumb] = useState(2);
   const [sameAddress, setSameAddress] = useState(true);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodType>(
-    PaymentMethodType.Card
-  );
-
+  const router = useRouter();
   const cartItems = useAppSelector(selectCartItems);
   const totalPrice = useAppSelector(selectTotalPrice);
   const currentUser = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    setShipping({
-      firstName: currentUser?.firstName ?? "",
-      lastName: currentUser?.lastName ?? "",
-      address: currentUser?.address ?? "",
-      info: currentUser?.info ?? "",
-      zipCode: currentUser?.zipCode ?? "",
-      city: currentUser?.city ?? "",
-      county: currentUser?.county ?? "",
-      phone: currentUser?.phone ?? "",
-    });
-  }, [currentUser]);
 
   const priceWithDelivery = () => {
     if (totalPrice < 200) {
@@ -78,19 +71,35 @@ export const Checkout = () => {
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    setShipping({ ...shipping, [e.target.name]: e.target.value });
-  };
-
   const handleBillingChange = (billingInfo: any) => {
     setBilling(billingInfo);
   };
 
+  useEffect(() => {
+    if (sameAddress)
+      setBilling({
+        firstNameBill: shipping.firstName,
+        lastNameBill: shipping.lastName,
+        addressBill: shipping.address,
+        infoBill: shipping.info,
+        zipCodeBill: shipping.zipCode,
+        cityBill: shipping.city,
+        countyBill: shipping.county,
+        phoneBill: shipping.phone,
+      });
+  }, [sameAddress, shipping]);
+
   const handleSubmit = () => {
     setActiveBreadcrumb((prev) => prev + 1);
-    if (sameAddress) {
+    // if (activeBreadcrumb === 3) setDisplayPayment(true);
+    if (!currentUser?.jwtToken) {
+      localStorage.setItem("shipping", JSON.stringify(shipping));
+      localStorage.setItem("billing", JSON.stringify(shipping));
+      if (!sameAddress) {
+        localStorage.setItem("billing", JSON.stringify(billing));
+      }
+      return;
+    } else if (sameAddress) {
       dispatch(
         updateUser({
           data: {
@@ -127,6 +136,54 @@ export const Checkout = () => {
         })
       ).then(() => setDisplayPayment(true));
     }
+  };
+
+  const placeOrder = () => {
+    dispatch(
+      addOrder({
+        data: {
+          status: StatusType.Pending,
+          paymentMethod: paymentMethod,
+          userId: currentUser?.userId,
+          address: { ...shipping, ...billing },
+          orderProducts: [
+            ...cartItems.map((item) => {
+              return {
+                productId: item.productId,
+                title: item.title,
+                price:
+                  item.sizeType === SizeType.Big
+                    ? Number(item.priceKg)
+                    : Number(item.priceHalf),
+                sizeType: item.sizeType,
+                fruitType: Number(item.fruitType),
+                quantity: Number(item.quantity),
+                productCategory: item.productCategory,
+                filePath: item.productPictures[0].filePath,
+              };
+            }),
+          ],
+        },
+      })
+    )
+      .then((res) => {
+        if (res.meta.requestStatus === "fulfilled" && currentUser) {
+          dispatch(
+            removeAllItems({
+              token: currentUser?.jwtToken,
+            })
+          ).then((res) => {
+            if (res.meta.requestStatus === "fulfilled") {
+              dispatch(resetCartState());
+              router.push("/orders");
+            }
+          });
+        } else if (res.meta.requestStatus === "fulfilled" && !currentUser) {
+          dispatch(resetCartState());
+          router.push("/");
+        }
+      })
+      .catch((error) => console.error(error));
   };
 
   const breadcrumbs = [
@@ -178,191 +235,71 @@ export const Checkout = () => {
             </Breadcrumbs>
           </Stack>
         </Box>
-        {!displayPayment ? (
-          <form className={styles.form}>
-            <Typography>Adresă de livrare</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Nume"
-                  InputProps={{
-                    classes: {
-                      root: styles.cssOutlinedInput,
-                      focused: styles.cssFocused,
-                      notchedOutline: styles.notchedOutline,
-                    },
-                    inputMode: "numeric",
-                  }}
-                  name="lastName"
-                  value={shipping.lastName}
-                  onChange={(e) => handleChange(e)}
-                  className={styles.textfield}
-                ></TextField>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Prenume"
-                  className={styles.textfield}
-                  InputProps={{
-                    classes: {
-                      root: styles.cssOutlinedInput,
-                      focused: styles.cssFocused,
-                      notchedOutline: styles.notchedOutline,
-                    },
-                    inputMode: "numeric",
-                  }}
-                  name="firstName"
-                  value={shipping.firstName}
-                  onChange={(e) => handleChange(e)}
-                >
-                  {shipping.firstName}
-                </TextField>
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Stradă și număr"
-                InputProps={{
-                  classes: {
-                    root: styles.cssOutlinedInput,
-                    focused: styles.cssFocused,
-                    notchedOutline: styles.notchedOutline,
-                  },
-                  inputMode: "numeric",
-                }}
-                name="address"
-                value={shipping.address}
-                className={styles.textfield}
-                onChange={(e) => handleChange(e)}
-              >
-                =
-              </TextField>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Informații suplimentare"
-                InputProps={{
-                  classes: {
-                    root: styles.cssOutlinedInput,
-                    focused: styles.cssFocused,
-                    notchedOutline: styles.notchedOutline,
-                  },
-                  inputMode: "numeric",
-                }}
-                name="info"
-                value={shipping.info}
-                className={styles.textfield}
-                onChange={(e) => handleChange(e)}
-              ></TextField>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <TextField
-                  label="Cod poștal"
-                  InputProps={{
-                    classes: {
-                      root: styles.cssOutlinedInput,
-                      focused: styles.cssFocused,
-                      notchedOutline: styles.notchedOutline,
-                    },
-                    inputMode: "numeric",
-                  }}
-                  name="zipCode"
-                  value={shipping.zipCode}
-                  className={styles.textfield}
-                  onChange={(e) => handleChange(e)}
-                ></TextField>
-              </Grid>
-
-              <Grid item xs={9}>
-                <TextField
-                  label="Localitate"
-                  InputProps={{
-                    classes: {
-                      root: styles.cssOutlinedInput,
-                      focused: styles.cssFocused,
-                      notchedOutline: styles.notchedOutline,
-                    },
-                    inputMode: "numeric",
-                  }}
-                  name="city"
-                  value={shipping.city}
-                  className={styles.textfield}
-                  onChange={(e) => handleChange(e)}
-                ></TextField>
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Județ"
-                InputProps={{
-                  classes: {
-                    root: styles.cssOutlinedInput,
-                    focused: styles.cssFocused,
-                    notchedOutline: styles.notchedOutline,
-                  },
-                  inputMode: "numeric",
-                }}
-                name="county"
-                value={shipping.county}
-                className={styles.textfield}
-                onChange={(e) => handleChange(e)}
-              >
-                {shipping.county}
-              </TextField>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Telefon"
-                InputProps={{
-                  classes: {
-                    root: styles.cssOutlinedInput,
-                    focused: styles.cssFocused,
-                    notchedOutline: styles.notchedOutline,
-                  },
-                  inputMode: "numeric",
-                }}
-                name="phone"
-                value={shipping.phone}
-                className={styles.textfield}
-                onChange={(e) => handleChange(e)}
-              >
-                {shipping.phone}
-              </TextField>
-            </Grid>
-          </form>
+        {!displayPayment && activeBreadcrumb === 2 ? (
+          <ShippingAddress setShipping={setShipping} shipping={shipping} />
         ) : (
           <Box className={styles.information}>
             <Box className={styles.contact}>
               <Typography className={styles.label}>Contact</Typography>
-              <Box className={styles.withEdit}>
-                <Typography>{currentUser?.email}</Typography>{" "}
-                <Button
-                  onClick={() => {
-                    setDisplayPayment(false);
-                    setActiveBreadcrumb(2);
-                  }}
-                >
-                  Editează
-                </Button>
-              </Box>
+
+              {currentUser ? (
+                <Box className={styles.withEdit}>
+                  <Typography>{currentUser?.email}</Typography>
+                  <Button
+                    onClick={() => {
+                      setDisplayPayment(false);
+                      setActiveBreadcrumb(2);
+                    }}
+                  >
+                    Editează
+                  </Button>{" "}
+                </Box>
+              ) : (
+                <Box className={styles.withEdit}>
+                  <Typography>{shipping.email}</Typography>{" "}
+                  <Button
+                    onClick={() => {
+                      setDisplayPayment(false);
+                      setActiveBreadcrumb(2);
+                    }}
+                  >
+                    Editează
+                  </Button>{" "}
+                </Box>
+              )}
             </Box>
             <Box className={styles.contact}>
               <Typography className={styles.label}>Adresa</Typography>
-              <Box className={styles.withEdit}>
-                <Typography>
-                  {currentUser?.address}, {currentUser?.city},{" "}
-                  {currentUser?.county}
-                </Typography>{" "}
-                <Button
-                  onClick={() => {
-                    setDisplayPayment(false);
-                    setActiveBreadcrumb(2);
-                  }}
-                >
-                  Editează
-                </Button>
-              </Box>
+              {currentUser ? (
+                <Box className={styles.withEdit}>
+                  <Typography>
+                    {currentUser?.address}, {currentUser?.city},{" "}
+                    {currentUser?.county}
+                  </Typography>{" "}
+                  <Button
+                    onClick={() => {
+                      setDisplayPayment(false);
+                      setActiveBreadcrumb(2);
+                    }}
+                  >
+                    Editează
+                  </Button>
+                </Box>
+              ) : (
+                <Box className={styles.withEdit}>
+                  <Typography>
+                    {shipping.address}, {shipping.city}, {shipping.county}
+                  </Typography>{" "}
+                  <Button
+                    onClick={() => {
+                      setDisplayPayment(false);
+                      setActiveBreadcrumb(2);
+                    }}
+                  >
+                    Editează
+                  </Button>
+                </Box>
+              )}
             </Box>
           </Box>
         )}
@@ -476,7 +413,7 @@ export const Checkout = () => {
               <Typography
                 onClick={() => {
                   setDisplayPayment(false);
-                  setActiveBreadcrumb(1);
+                  setActiveBreadcrumb(2);
                 }}
               >
                 Editează adresa
@@ -488,7 +425,7 @@ export const Checkout = () => {
             <>
               <Button
                 className={styles.continueBTN}
-                onClick={() => handleSubmit()}
+                onClick={() => placeOrder()}
               >
                 Plasează comanda
               </Button>

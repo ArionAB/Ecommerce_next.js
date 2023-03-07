@@ -17,6 +17,7 @@ import { deleteProduct } from "../../Store/Thunks/productThunks";
 import ProductDetails from "../../../pages/miere/[productDetails]";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
 import { UserType } from "../../Store/Enums/UserType";
+import { setProductItem } from "../../Store/Slices/productSlice";
 
 const Card: FC<{
   card: ProductItemModel;
@@ -50,6 +51,10 @@ const Card: FC<{
 
   const handleDeleteProduct = () => {
     dispatch(deleteProduct(card.productId));
+  };
+
+  const handleSetItem = () => {
+    dispatch(setProductItem(card));
   };
 
   return (
@@ -86,7 +91,7 @@ const Card: FC<{
         close={setOpenConfirmationMessage}
         deleteProduct={handleDeleteProduct}
       />
-      <Link href={`/miere/${card.productId}`}>
+      <Link href={`/miere/${card.productId}`} onClick={handleSetItem}>
         <Image
           src={resourceUrl + imageSource}
           onMouseEnter={() => {
@@ -120,14 +125,14 @@ const Card: FC<{
           </Button>
         </Box>
       )}
-      <Dialog open={openOptions}>
+      <Dialog open={openOptions} onClose={handleCloseOptions}>
         <Options handleClose={handleCloseOptions} card={card} />
       </Dialog>
-      <Dialog open={openShop} maxWidth="lg">
+      <Dialog open={openShop} maxWidth="lg" onClose={handleCloseShop}>
         <ProductDetails
           handleClose={handleCloseShop}
           open={openShop}
-          productId={card.productId}
+          card={card}
         />
       </Dialog>
     </Box>

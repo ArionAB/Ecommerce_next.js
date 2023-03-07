@@ -4,7 +4,7 @@ import { ClickAwayListener } from "@mui/base";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 
-import React, { useState, FC, useEffect } from "react";
+import React, { useState, FC } from "react";
 import styles from "../../../styles/signup.module.scss";
 import { useAppDispatch } from "../../Store";
 import { loginUser, registerUser } from "../../Store/Thunks/userThunks";
@@ -22,6 +22,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
     email: "",
     password: "",
     confirmPassword: "",
+    errorMessage: "",
   });
 
   const [login, setLogin] = useState({
@@ -32,6 +33,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
   const [loginError, setLoginError] = useState({
     email: "",
     password: "",
+    errorMessage: "",
   });
 
   const [tabValue, setTabValue] = useState(0);
@@ -46,7 +48,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
-    setLoginError({ ...loginError, [e.target.name]: "" });
+    setLoginError({ ...loginError, [e.target.name]: "", errorMessage: "" });
   };
 
   const submitLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -55,6 +57,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
     const errors = {
       email: "",
       password: "",
+      errorMessage: "",
     };
 
     if (login.email.length === 0) {
@@ -76,7 +79,13 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
         loginUser({
           data: login,
         })
-      ).then(() => setOpenDialog(false));
+      ).then((res) => {
+        if (res.payload.success) {
+          setOpenDialog(false);
+        } else {
+          setLoginError({ ...loginError, errorMessage: res.payload });
+        }
+      });
     }
   };
 
@@ -98,6 +107,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
       email: "",
       password: "",
       confirmPassword: "",
+      errorMessage: "",
     };
 
     if (register.name.length < 3) {
@@ -124,7 +134,24 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
         registerUser({
           data: register,
         })
-      );
+      ).then((res) => {
+        if (res.payload?.message?.text === "Inregistrat cu success!") {
+          dispatch(
+            loginUser({
+              data: {
+                email: register.email,
+                password: register.password,
+              },
+            })
+          ).then(() => setOpenDialog(false));
+        }
+        if (res.payload?.message?.text === "Email-ul este deja folosit") {
+          setRegisterError({
+            ...registerError,
+            errorMessage: res.payload.message.text,
+          });
+        }
+      });
     }
   };
 
@@ -133,7 +160,9 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
       <Paper className={styles.signup}>
         <Box className={styles.loginBox}>
           <Box></Box>
-          <Typography>Log in</Typography>
+          <Typography className={styles.title}>
+            {tabValue === 1 ? "Log in" : "Înregistrează-te"}
+          </Typography>
           <Close
             sx={{ float: "right", cursor: "pointer" }}
             onClick={() => setOpenDialog(false)}
@@ -144,44 +173,100 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
           value={tabValue}
           onChange={handleTab}
           centered
+          TabIndicatorProps={{ style: { background: "#344660" } }}
           className={styles.tabs}
         >
-          <Tab label="Sign Up" value={0} />
-          <Tab label="Log in" value={1} />
+          <Tab
+            label="Sign Up"
+            className={tabValue === 0 ? styles.activeTab : styles.tab}
+            value={0}
+          />
+          <Tab
+            label="Log in"
+            className={tabValue === 1 ? styles.activeTab : styles.tab}
+            value={1}
+          />
         </Tabs>
         {tabValue === 0 && (
           <form>
             <Box className={styles.formBox}>
               <InputLabel>
-                <Typography>Name</Typography>
+                <Typography>Nume</Typography>
                 <TextField
+                  InputProps={{
+                    classes: {
+                      root: styles.cssOutlinedInput,
+                      focused: styles.cssFocused,
+                      notchedOutline: styles.notchedOutline,
+                    },
+                  }}
+                  className={styles.textfield}
                   onChange={(e) => handleRegister(e)}
                   name="name"
                   helperText={registerError.name && registerError.name}
                   error={registerError.name ? true : false}
+                  sx={
+                    registerError
+                      ? { minHeight: "80px" }
+                      : { minHeight: "auto" }
+                  }
                 />
               </InputLabel>
               <InputLabel>
                 <Typography>Email</Typography>
                 <TextField
+                  InputProps={{
+                    classes: {
+                      root: styles.cssOutlinedInput,
+                      focused: styles.cssFocused,
+                      notchedOutline: styles.notchedOutline,
+                    },
+                  }}
+                  className={styles.textfield}
                   onChange={(e) => handleRegister(e)}
                   name="email"
                   helperText={registerError.email && registerError.email}
                   error={registerError.email ? true : false}
+                  sx={
+                    registerError
+                      ? { minHeight: "80px" }
+                      : { minHeight: "auto" }
+                  }
                 />
               </InputLabel>
               <InputLabel>
-                <Typography>Password</Typography>
+                <Typography>Parola</Typography>
                 <TextField
+                  InputProps={{
+                    classes: {
+                      root: styles.cssOutlinedInput,
+                      focused: styles.cssFocused,
+                      notchedOutline: styles.notchedOutline,
+                    },
+                  }}
+                  className={styles.textfield}
                   onChange={(e) => handleRegister(e)}
                   name="password"
                   helperText={registerError.password && registerError.password}
                   error={registerError.password ? true : false}
+                  sx={
+                    registerError
+                      ? { minHeight: "80px" }
+                      : { minHeight: "auto" }
+                  }
                 />
               </InputLabel>
               <InputLabel>
-                <Typography>Confirm Password</Typography>
+                <Typography>Confirmă parola</Typography>
                 <TextField
+                  InputProps={{
+                    classes: {
+                      root: styles.cssOutlinedInput,
+                      focused: styles.cssFocused,
+                      notchedOutline: styles.notchedOutline,
+                    },
+                  }}
+                  className={styles.textfield}
                   onChange={(e) => handleRegister(e)}
                   name="confirmPassword"
                   helperText={
@@ -189,9 +274,20 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
                     registerError.confirmPassword
                   }
                   error={registerError.confirmPassword ? true : false}
+                  sx={
+                    registerError
+                      ? { minHeight: "80px" }
+                      : { minHeight: "auto" }
+                  }
                 />
               </InputLabel>
+              {}
             </Box>
+            {registerError.errorMessage && (
+              <Typography className={styles.errorMessage}>
+                {registerError.errorMessage}
+              </Typography>
+            )}
             <Box className={styles.registerBox}>
               <Button
                 variant="contained"
@@ -209,22 +305,49 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
               <InputLabel>
                 <Typography>Email</Typography>
                 <TextField
+                  InputProps={{
+                    classes: {
+                      root: styles.cssOutlinedInput,
+                      focused: styles.cssFocused,
+                      notchedOutline: styles.notchedOutline,
+                    },
+                  }}
+                  className={styles.textfield}
                   onChange={(e) => handleLogin(e)}
                   name="email"
                   helperText={loginError.email && loginError.email}
                   error={loginError.email ? true : false}
+                  sx={
+                    loginError ? { minHeight: "80px" } : { minHeight: "auto" }
+                  }
                 />
               </InputLabel>
               <InputLabel>
                 <Typography>Password</Typography>
                 <TextField
+                  InputProps={{
+                    classes: {
+                      root: styles.cssOutlinedInput,
+                      focused: styles.cssFocused,
+                      notchedOutline: styles.notchedOutline,
+                    },
+                  }}
+                  className={styles.textfield}
                   onChange={(e) => handleLogin(e)}
                   name="password"
                   helperText={loginError.password && loginError.password}
                   error={loginError.password ? true : false}
+                  sx={
+                    loginError ? { minHeight: "80px" } : { minHeight: "auto" }
+                  }
                 />
               </InputLabel>
             </Box>
+            {loginError.errorMessage && (
+              <Typography className={styles.errorMessage}>
+                {loginError.errorMessage}
+              </Typography>
+            )}
             <Box className={styles.registerBox}>
               <Button
                 variant="contained"

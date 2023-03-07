@@ -29,6 +29,7 @@ import {
 import Close from "@mui/icons-material/Close";
 import { SizeType } from "../src/Store/Enums/SizeType";
 import { selectCurrentUser } from "../src/Store/Selectors/authenticationSelectors";
+import { setCartItems } from "../src/Store/Slices/cartSlice";
 
 const Cart = () => {
   const [selectValues, setSelectValues] = useState([
@@ -43,28 +44,49 @@ const Cart = () => {
   const currentUser = useAppSelector(selectCurrentUser);
   const totalPrice = useAppSelector(selectTotalPrice);
 
-  const isNotEmpty = () => cartItems.length > 0;
+  const isNotEmpty = () => cartItems?.length > 0;
 
-  const handleChange = (event: any, index: number, cartProductId: string) => {
+  const handleChange = (
+    event: any,
+    index: number,
+    cartProductId: string,
+    productId: string,
+    sizeType: SizeType
+  ) => {
     const newValues = [...selectValues];
     newValues[index].quantity = Number(event.target.value);
     newValues[index].cartProductId = cartProductId;
     setSelectValues(newValues);
-    dispatch(
-      changeQuantity({
-        data: {
-          cartProductId: cartProductId,
-          quantity: Number(event.target.value),
-        },
-        token: currentUser?.jwtToken,
-      })
-    ).then(() => {
+    if (currentUser) {
       dispatch(
-        getCartItems({
+        changeQuantity({
+          data: {
+            cartProductId: cartProductId,
+            quantity: Number(event.target.value),
+          },
           token: currentUser?.jwtToken,
         })
-      );
-    });
+      ).then(() => {
+        dispatch(
+          getCartItems({
+            token: currentUser?.jwtToken,
+          })
+        );
+      });
+    } else {
+      const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+      const newCartItems = cartItems.map((item: any) => {
+        if (item.productId === productId && item.sizeType === sizeType) {
+          return {
+            ...item,
+            quantity: Number(event.target.value),
+          };
+        }
+        return item;
+      });
+      localStorage.setItem("cart", JSON.stringify(newCartItems));
+      dispatch(setCartItems(newCartItems));
+    }
   };
 
   useEffect(() => {
@@ -79,29 +101,52 @@ const Cart = () => {
     //eslint-disable-next-line
   }, [cartItems]);
 
-  const handleRemoveItem = (cartProductId: string, sizeType: SizeType) => {
-    dispatch(
-      removeItem({
-        data: {
-          productId: cartProductId,
-          sizeType: sizeType,
-        },
-        token: currentUser?.jwtToken,
-      })
-    ).then(() => {
+  const handleRemoveItem = (
+    cartProductId: string,
+    sizeType: SizeType,
+    productId?: string
+  ) => {
+    if (currentUser) {
       dispatch(
-        getCartItems({
+        removeItem({
+          data: {
+            productId: cartProductId,
+            sizeType: sizeType,
+          },
           token: currentUser?.jwtToken,
         })
+      ).then(() => {
+        dispatch(
+          getCartItems({
+            token: currentUser?.jwtToken,
+          })
+        );
+      });
+    } else {
+      const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+      const newCartItems = cartItems.filter((item: any) =>
+        item.productId !== productId
+          ? true
+          : Number(item.sizeType) !== sizeType
+          ? true
+          : false
       );
-    });
+
+      localStorage.setItem("cart", JSON.stringify(newCartItems));
+      dispatch(setCartItems(newCartItems));
+    }
   };
 
+  const TotalPrice = cartItems?.reduce(
+    (acc, item) => acc + Number(item.priceKg) * Number(item.quantity),
+    0
+  );
+
   const priceWithDelivery = () => {
-    if (totalPrice < 200) {
-      return totalPrice + 15;
+    if (TotalPrice < 200) {
+      return TotalPrice + 15;
     } else {
-      return totalPrice;
+      return TotalPrice;
     }
   };
 
@@ -146,10 +191,13 @@ const Cart = () => {
         {isNotEmpty() ? (
           cartItems?.map((item, index) => {
             return (
-              <Box className={styles.cartItemBox} key={item.cartProductId}>
+              <Box
+                className={styles.cartItemBox}
+                key={item.productId + item.sizeType + item.fruitType}
+              >
                 <Box className={styles.leftSection}>
                   <img
-                    src={resourceUrl + item.productPictures[0].filePath}
+                    src={resourceUrl + item.productPictures[0]?.filePath}
                     alt={item.title}
                     className={styles.picture}
                   />
@@ -173,9 +221,15 @@ const Cart = () => {
                     <Select
                       id="demo-simple-select-label"
                       // @ts-ignore
-                      value={Number(selectValues[index]?.quantity)}
+                      value={Number(selectValues[index]?.quantity) || 1}
                       onChange={(e) =>
-                        handleChange(e, index, item.cartProductId)
+                        handleChange(
+                          e,
+                          index,
+                          item.cartProductId,
+                          item.productId,
+                          item.sizeType
+                        )
                       }
                       label="Nr. bucati"
                       defaultValue="1"
@@ -193,7 +247,11 @@ const Cart = () => {
                   <Close
                     className={styles.closeIcon}
                     onClick={() =>
-                      handleRemoveItem(item.cartProductId, item.sizeType)
+                      handleRemoveItem(
+                        item.cartProductId,
+                        item.sizeType,
+                        item.productId
+                      )
                     }
                   />
                 </Box>
@@ -219,7 +277,7 @@ const Cart = () => {
         <Typography variant="subtitle2">
           Livrare gratuită la comenzile peste 200 de lei
         </Typography>
-        <Box>Cost livrare: {totalPrice >= 200 ? 0 : 15} lei</Box>
+        <Box>Cost livrare: {priceWithDelivery() >= 200 ? 0 : 15} lei</Box>
         <Box className={styles.totalBox}>
           <Typography variant="h5" className={styles.total}>
             Total

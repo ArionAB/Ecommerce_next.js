@@ -47,7 +47,7 @@ const initialState: OrderState = {
   ordersFilters: {
     pageNumber: 0,
     orderToSortBy: DataGridColumnNames.CreatedAt,
-    sortingOrder: true,
+    sortingOrder: false,
   },
 };
 

@@ -54,7 +54,7 @@ export const Navbar = () => {
             sx={{ position: "relative", cursor: "pointer" }}
             className={styles.login}
           >
-            <PersonPinIcon /> {currentUser?.username}
+            <PersonPinIcon /> {currentUser?.userName}
             {isLogin && currentUser && <LogOut />}
           </Box>
         ) : (

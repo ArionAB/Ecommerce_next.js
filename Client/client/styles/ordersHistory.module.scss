@@ -3,6 +3,9 @@
 .orders_history {
   display: flex;
   flex-direction: column;
+  max-height: 92%;
+  overflow: hidden;
+  overflow-y: auto;
 
   .history {
     padding: 10px;
@@ -69,6 +72,13 @@
       }
     }
   }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
 }
 
 .pending {

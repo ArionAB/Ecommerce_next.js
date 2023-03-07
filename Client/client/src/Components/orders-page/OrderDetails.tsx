@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import { OrderModel } from "../../Store/Models/Order/OrderModel";
 import { Box, Typography, CardMedia } from "@mui/material";
 import styles from "../../../styles/orderDetails.module.scss";
@@ -12,13 +12,21 @@ import { resourceUrl } from "../../Utils";
 export const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
   selectedOrder,
 }) => {
+  const [order, setOrder] = useState<OrderModel | null>(selectedOrder);
+
+  useEffect(() => {
+    setOrder(selectedOrder);
+
+    //eslint disable-next-line
+  }, [selectedOrder]);
+
   return (
     <Box className={styles.container}>
       <Typography variant="h5" className={styles.order_id}>
-        Coamnda #{selectedOrder?.orderId}
-        <span>({selectedOrder?.totalProducts})</span>
+        Coamnda #{order?.orderId}
+        <span>({order?.totalProducts})</span>
       </Typography>
-      {selectedOrder?.orderProducts.map((product) => (
+      {order?.orderProducts.map((product) => (
         <Box className={styles.each_order} key={product.productId}>
           <Box className={styles.left}>
             <CardMedia

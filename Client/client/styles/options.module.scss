@@ -5,6 +5,7 @@
   max-width: 500px;
   padding: 0.5rem 3rem;
   height: 400px;
+  min-width: 500px;
 
   .title {
     font-weight: 600;
@@ -34,6 +35,8 @@
       display: flex;
       margin: 1.5rem 0;
       width: 40%;
+
+      @include textfield;
     }
 
     .addCart {

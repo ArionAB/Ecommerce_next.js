@@ -1,45 +1,32 @@
-import {
-  Dialog,
-  Typography,
-  Select,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
+import { Typography, Select, FormControl, InputLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState } from "react";
 import styles from "../../../styles/options.module.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import { ProductItemModel } from "../../Store/Models/Product/ProductItem";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
-import { ConvertSizeToLabel } from "../../Utils/Functions/ConvertEnum";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
 import { SizeItems } from "../selectItems/SizeItems";
+import { AddToCartModal } from "../cart-page/AddToCartModal";
+import { useAppSelector } from "../../Store";
+import { selectProductItem } from "../../Store/Selectors/productSelectors";
+import useAddItemToCart from "../../Utils/Hooks/useAddItemToCart";
 
 export const Options: FC<{
   handleClose: Function;
   card: ProductItemModel;
 }> = ({ handleClose, card }) => {
   const [sizeValue, setSizeValue] = useState<number>(2);
-  let [maxQuantity, setMaxQuantity] = useState<number>(0);
   const [selectedQuantity, setSelectedQuantity] = useState<string>("1");
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setSizeValue(Number(event.target.value));
-  };
-
-  const getTotalQuantity = () => {
-    let quantitiesArray: any[] = [];
-
-    if (maxQuantity > 10) {
-      maxQuantity = 10;
-    }
-    //we dont want to show more than 10 quantities
-    for (let i = 2; i <= maxQuantity; i++) {
-      quantitiesArray.push(i);
-    }
-    return quantitiesArray;
-  };
+  const [openCart, setOpenCart] = useState<boolean>(false);
+  const item = useAppSelector(selectProductItem);
+  const { addToCart }: any = useAddItemToCart({
+    item: card,
+    size: Number(sizeValue),
+    qty: Number(selectedQuantity),
+    setOpenCart,
+  });
 
   const handleQuantity = (event: SelectChangeEvent) => {
     setSelectedQuantity(event.target.value as string);
@@ -49,9 +36,18 @@ export const Options: FC<{
     setSizeValue(Number(event.target.value));
   };
 
+  const handleCloseCart = () => {
+    setOpenCart(false);
+  };
+
+  const handleAddItemToCart = () => {
+    addToCart();
+  };
+
   return (
     // <Dialog open={open}>
     <>
+      <AddToCartModal open={openCart} onClose={handleCloseCart} />
       <Button onClick={() => handleClose()} className={styles.closeBTN}>
         <CloseIcon />
       </Button>
@@ -67,6 +63,7 @@ export const Options: FC<{
           <FormControl className={styles.selectWeight}>
             <InputLabel>Mărime</InputLabel>
             <Select
+              className={styles.textfield}
               value={sizeValue.toString()}
               label="Mărime"
               onChange={handleSize}
@@ -84,6 +81,7 @@ export const Options: FC<{
           <FormControl className={styles.selectQuantity}>
             <InputLabel>Cantitate</InputLabel>
             <Select
+              className={styles.textfield}
               value={selectedQuantity}
               // defaultValue="1"
               label="Cantitate"
@@ -96,7 +94,9 @@ export const Options: FC<{
               ))}
             </Select>
           </FormControl>
-          <Button className={styles.addCart}>Add to cart</Button>
+          <Button className={styles.addCart} onClick={handleAddItemToCart}>
+            Add to cart
+          </Button>
         </Box>
       </Box>
       {/* </Dialog> */}

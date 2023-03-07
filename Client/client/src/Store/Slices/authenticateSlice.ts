@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserType } from "../Enums/UserType";
+
 import { AuthenticationState } from "../Models/User/AutehnticateState";
 import { AutehticateUserModel } from "../Models/User/AuthtenticateUserModel";
 import {

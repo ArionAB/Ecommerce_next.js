@@ -20,13 +20,14 @@ export const registerUser = createAsyncThunk<
     form.append("password", data.password);
     form.append("confirmPassword", data.confirmPassword);
 
-    let { response } = await axios.post(baseUrl + "Users/Register", form, {
+    let response = await axios.post(baseUrl + "Users/Register", form, {
       withCredentials: true,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    return response;
+
+    return response.data;
   } catch (err: any) {
     let errorMessage = getAxiosErrorMessage(err);
     return thunkApi.rejectWithValue(getAxiosErrorMessage(err));

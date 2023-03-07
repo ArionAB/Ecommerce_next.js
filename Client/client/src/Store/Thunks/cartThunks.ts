@@ -112,3 +112,24 @@ export const removeItem = createAsyncThunk<
     return thunkApi.rejectWithValue(getAxiosErrorMessage(err));
   }
 });
+
+export const removeAllItems = createAsyncThunk<
+  any,
+  { token: string | undefined | null },
+  AppThunkConfig
+>("/Cart/RemoveAllItems", async ({ token }, thunkApi) => {
+  try {
+    let { response } = await axios.get(baseUrl + "Cart/RemoveAllItems", {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response;
+  } catch (err: any) {
+    let errorMessage = getAxiosErrorMessage(err);
+    return thunkApi.rejectWithValue(getAxiosErrorMessage(err));
+  }
+});

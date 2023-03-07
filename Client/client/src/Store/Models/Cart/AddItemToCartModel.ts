@@ -1,5 +1,3 @@
-import { CartItemModel } from "./CartItemModel";
-
 export interface AddItemToCartModel {
   cartItems: [
     {

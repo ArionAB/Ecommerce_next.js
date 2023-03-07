@@ -6,12 +6,10 @@ import { OrdersHistory } from "../src/Components/orders-page/OrdersHistory";
 import { useAppDispatch, useAppSelector } from "../src/Store";
 import { getOrders } from "../src/Store/Thunks/orderThunks";
 import { selectCurrentUser } from "../src/Store/Selectors/authenticationSelectors";
-import {
-  selectGetOrders,
-  selectOrdersFilters,
-} from "../src/Store/Selectors/orderSelectors";
+import { selectOrdersFilters } from "../src/Store/Selectors/orderSelectors";
 import { OrderDetails } from "../src/Components/orders-page/OrderDetails";
 import { OrderModel } from "../src/Store/Models/Order/OrderModel";
+import withAuth from "../src/Utils/ProtectedRoutes/WithAuth";
 
 const Orders = () => {
   const [selectedOrder, setSelectedOrder] = useState<OrderModel | null>(null);
@@ -81,4 +79,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default withAuth(Orders, false);

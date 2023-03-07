@@ -1,14 +1,7 @@
-import React, {
-  useEffect,
-  useState,
-  FC,
-  forwardRef,
-  ReactElement,
-  Ref,
-} from "react";
+import React, { useEffect, useState, FC } from "react";
 import { useRouter } from "next/router";
 import { getProduct } from "../../src/Store/Thunks/productThunks";
-import { addItemToCart, getCartItems } from "../../src/Store/Thunks/cartThunks";
+
 import { useAppDispatch, useAppSelector } from "../../src/Store";
 import { selectProductItem } from "../../src/Store/Selectors/productSelectors";
 import { guidRegex } from "../../src/Utils/Functions/guidRegex";
@@ -20,8 +13,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Slide,
-  Dialog,
 } from "@mui/material";
 import Image from "next/image";
 import { resourceUrl } from "../../src/Utils";
@@ -30,52 +21,55 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import Button from "@mui/material/Button/Button";
 import { SizeItems } from "../../src/Components/selectItems/SizeItems";
 import Close from "@mui/icons-material/Close";
-import { selectCurrentUser } from "../../src/Store/Selectors/authenticationSelectors";
+
 import { QuantitySizeItems } from "../../src/Components/selectItems/QuantitySizeItems";
 import { AddToCartModal } from "../../src/Components/cart-page/AddToCartModal";
-import { TransitionProps } from "@mui/material/transitions";
-import Head from "next/head";
 
+import Head from "next/head";
+import useAddItemToCart from "../../src/Utils/Hooks/useAddItemToCart";
 import styles from "../../styles/productDetails.module.scss";
 import { ProductItemModel } from "../../src/Store/Models/Product/ProductItem";
-import { setCartItems } from "../../src/Store/Slices/cartSlice";
-
-const Transition: any = forwardRef(function Transition(
-  props: TransitionProps & {
-    children: ReactElement<any, any>;
-  },
-  ref: Ref<unknown>
-) {
-  return <Slide direction="left" ref={ref} {...props} />;
-});
+import { setProductItem } from "../../src/Store/Slices/productSlice";
 
 const ProductDetails: FC<{
   handleClose: Function;
   open: boolean;
-  productId: string;
-}> = ({ handleClose, open, productId }) => {
+  card: ProductItemModel;
+}> = ({ handleClose, open, card }) => {
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [sizeValue, setSizeValue] = useState<string>("2");
-
   const [selectedQuantity, setSelectedQuantity] = useState<string>("1");
+
+  const item = useAppSelector(selectProductItem);
+
   const [openCart, setOpenCart] = useState<boolean>(false);
 
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector(selectCurrentUser);
+
   const { productDetails } = router.query;
-  const item = useAppSelector(selectProductItem);
+  const { addToCart }: any = useAddItemToCart({
+    item,
+    size: Number(sizeValue),
+    qty: Number(selectedQuantity),
+    setOpenCart,
+  });
 
   const imageLoader = () => {
     return `${resourceUrl}${item?.productPictures[imageIndex]?.filePath}`;
   };
 
   useEffect(() => {
-    if (guidRegex(productDetails as string)) {
-      dispatch(getProduct(productDetails as string));
-    } else {
-      dispatch(getProduct(productId as string));
+    if (card) {
+      dispatch(setProductItem(card));
     }
+    //eslnt disable-next-line
+  }, [card]);
+
+  useEffect(() => {
+    if (!item.productId && guidRegex(productDetails as string)) {
+      dispatch(getProduct(productDetails as string));
+    } else return;
 
     //eslint-disable-next-line
   }, [productDetails]);
@@ -88,74 +82,13 @@ const ProductDetails: FC<{
     setSelectedQuantity(event.target.value as string);
   };
 
-  const handleAddItemToCart = () => {
-    if (!currentUser?.jwtToken) {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const alreadyExists = cart.find(
-        (cartItem: ProductItemModel) =>
-          cartItem.productId === item.productId &&
-          cartItem.sizeType === Number(sizeValue) &&
-          cartItem.fruitType === item.fruitType
-      );
-
-      if (alreadyExists) {
-        Object.keys(cart).forEach((key) => {
-          if (
-            cart[key].productId === item.productId &&
-            cart[key].sizeType === Number(sizeValue) &&
-            cart[key].fruitType === item.fruitType
-          ) {
-            cart[key].quantity += Number(selectedQuantity);
-          }
-        });
-        localStorage.setItem("cart", JSON.stringify(cart));
-        dispatch(
-          setCartItems(JSON.parse(localStorage.getItem("cart") || "[]"))
-        );
-      } else {
-        localStorage.setItem(
-          "cart",
-          JSON.stringify([
-            ...cart,
-            {
-              ...item,
-              quantity: Number(selectedQuantity),
-              sizeType: sizeValue,
-            },
-          ])
-        );
-        dispatch(
-          setCartItems(JSON.parse(localStorage.getItem("cart") || "[]"))
-        );
-        return;
-      }
-    } else
-      dispatch(
-        addItemToCart({
-          data: {
-            cartItems: [
-              {
-                productId: item.productId.toString(),
-                quantity: Number(selectedQuantity),
-                sizeType: Number(sizeValue),
-              },
-            ],
-          },
-
-          token: currentUser?.jwtToken,
-        })
-      ).then(() => {
-        dispatch(
-          getCartItems({
-            token: currentUser?.jwtToken,
-          })
-        );
-        setOpenCart(true);
-      });
-  };
-
   const handleCloseCart = () => {
     setOpenCart(false);
+  };
+
+  const handleAddToCart = () => {
+    addToCart();
+    setOpenCart(true);
   };
 
   return (
@@ -163,14 +96,9 @@ const ProductDetails: FC<{
       <Head>
         <title>{item?.title}</title>
       </Head>
-      <Dialog
-        TransitionComponent={Transition}
-        onClose={handleCloseCart}
-        className={styles.dialogDetails}
-        open={openCart}
-      >
-        <AddToCartModal open={openCart} onClose={handleCloseCart} />
-      </Dialog>
+
+      <AddToCartModal open={openCart} onClose={handleCloseCart} />
+
       {open && (
         <Button onClick={() => handleClose()} className={styles.closeModal}>
           <Close />
@@ -205,7 +133,9 @@ const ProductDetails: FC<{
             {item?.title}
           </Typography>
           <Typography className={styles.price}>
-            {Number(sizeValue) === SizeType.Big ? item.priceKg : item.priceHalf}{" "}
+            {Number(sizeValue) === SizeType.Big
+              ? item?.priceKg
+              : item?.priceHalf}{" "}
             lei
           </Typography>
 
@@ -239,10 +169,7 @@ const ProductDetails: FC<{
                 ))}
               </Select>
             </FormControl>
-            <Button
-              className={styles.addCart}
-              onClick={() => handleAddItemToCart()}
-            >
+            <Button className={styles.addCart} onClick={handleAddToCart}>
               Adaugă în coș
             </Button>
           </Box>

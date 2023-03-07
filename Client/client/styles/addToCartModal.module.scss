@@ -1,5 +1,19 @@
 @import "__variables.scss";
 
+.dialogDetails {
+  div[class*="MuiDialog-container"] {
+    position: absolute;
+    right: 0;
+
+    div[class*="MuiPaper-root"] {
+      margin: 0;
+      padding: 10px;
+      width: 350px;
+      height: 100%;
+    }
+  }
+}
+
 .modal {
   position: relative;
   display: flex;
@@ -33,15 +47,21 @@
 
     .productDetails {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      align-items: center;
 
-      .title {
-        @include product-title;
-        font-style: normal;
-      }
+      .info {
+        display: flex;
+        flex-direction: column;
 
-      .qty {
-        color: $gray-subtitle;
+        .title {
+          @include product-title;
+          font-style: normal;
+        }
+
+        .qty {
+          color: $gray-subtitle;
+        }
       }
     }
     .closeBox {

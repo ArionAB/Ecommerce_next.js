@@ -1,23 +1,24 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppThunkConfig } from "..";
 import { baseUrl, getAxiosErrorMessage } from "../../Utils";
-import { UserType } from "../Enums/UserType";
+import { guidRegex } from "../../Utils/Functions/guidRegex";
+
 import { AddOrderModel } from "../Models/Order/AddOrderModel";
 import { GetPaginatedOrdersModel } from "../Models/Order/GetPaginatedOrdersModel";
 import { OrderFiltersModel } from "../Models/Order/OrderFiltersModel";
-import { OrderModel } from "../Models/Order/OrderModel";
 
 const axios = require("axios").default;
 
 export const addOrder = createAsyncThunk<
   any,
-  { data: AddOrderModel; token: string | undefined | null },
+  { data: AddOrderModel },
   AppThunkConfig
 >("/Order/Add", async ({ data }, thunkApi) => {
   try {
     let form = new FormData();
     form.append("status", data.status.toString());
     form.append("paymentMethod", data.paymentMethod.toString());
+    form.append("userId", data.userId ? data.userId : "");
     data.orderProducts.forEach((orderProduct, index) => {
       form.append(`orderProducts[${index}].productId`, orderProduct.productId);
       form.append(`orderProducts[${index}].title`, orderProduct.title);
@@ -44,11 +45,30 @@ export const addOrder = createAsyncThunk<
       form.append(`orderProducts[${index}].filePath`, orderProduct.filePath);
     });
 
+    if (!guidRegex(data.userId)) {
+      form.append("address.firstName", data.address.firstName);
+      form.append("address.lastName", data.address.lastName);
+      form.append("address.email", data.address.email);
+      form.append("address.address", data.address.address);
+      form.append("address.info", data.address.info ?? "");
+      form.append("address.zipCode", data.address.zipCode);
+      form.append("address.city", data.address.city);
+      form.append("address.county", data.address.county);
+      form.append("address.phone", data.address.phone);
+      form.append("address.firstNameBill", data.address.firstNameBill);
+      form.append("address.lastNameBill", data.address.lastNameBill);
+      form.append("address.addressBill", data.address.addressBill);
+      form.append("address.infoBill", data.address.infoBill ?? "");
+      form.append("address.zipCodeBill", data.address.zipCodeBill);
+      form.append("address.cityBill", data.address.cityBill);
+      form.append("address.countyBill", data.address.countyBill);
+      form.append("address.phoneBill", data.address.phoneBill);
+    }
+
     let { response } = await axios.post(baseUrl + "order/Add", form, {
       withCredentials: true,
       headers: {
-        // "Content-Type": "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "multipart/form-data",
       },
     });
 

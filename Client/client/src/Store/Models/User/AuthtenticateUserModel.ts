@@ -6,7 +6,7 @@ export interface AutehticateUserModel {
   jwtToken: string;
   userId: string;
   userType: UserType;
-  username: string;
+  userName: string;
   firstName: string;
   lastName: string;
   address: string;

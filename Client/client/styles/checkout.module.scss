@@ -29,6 +29,7 @@
 
       .textfield {
         width: 100%;
+        border-color: 1px solid red;
 
         &:focus-within {
           .notchedOutline {
@@ -125,6 +126,7 @@
           justify-content: space-between;
           align-items: center;
           border-bottom: 1px solid rgb(207, 207, 207);
+          padding-left: 1rem;
 
           img,
           .svg {

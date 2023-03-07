@@ -1,6 +1,7 @@
 export interface ShippingAddressModel {
   firstName: string;
   lastName: string;
+  email: string;
   address: string;
   info: string | undefined;
   zipCode: string;

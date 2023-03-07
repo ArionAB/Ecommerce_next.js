@@ -72,6 +72,10 @@ $honey-bg: linear-gradient(180deg, #ffc97d, #f0b25b);
       border-bottom: 2px solid $brown;
     }
 
+    fieldset {
+      border-color: rgb(218, 197, 197);
+    }
+
     input:-webkit-autofill {
       -webkit-box-shadow: 0 0 0 30px white inset !important;
     }
@@ -96,4 +100,17 @@ $honey-bg: linear-gradient(180deg, #ffc97d, #f0b25b);
   color: $gray-subtitle;
   // background-color: white;
   padding-right: 5px;
+}
+
+@mixin error-message($text-align: center) {
+  color: #d32f2f;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  text-align: $text-align;
+  margin-top: 3px;
+  margin-right: 14px;
+  margin-bottom: 0;
+  margin-left: 14px;
 }
