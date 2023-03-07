@@ -19,6 +19,8 @@ namespace Ecommerce.ServiceLayer.CartService
             Task<ServiceResponse<Object>> ChangeQuantity(ChangeQuantityDTO changeQuantityDTO, Guid loggedInUserId);
 
             Task<ServiceResponse<Object>> RemoveItem(RemoveItemDTO removeItemDTO, Guid loggedInUserId, Guid CartId);
+
+            Task<ServiceResponse<Object>> RemoveAllItems(Guid loggedInUserId, Guid CartId);
         }
     }
 }

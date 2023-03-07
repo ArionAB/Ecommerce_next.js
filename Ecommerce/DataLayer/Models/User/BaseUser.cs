@@ -2,20 +2,21 @@
 using Ecommerce.DataLayer.Models.Cart;
 using Ecommerce.DataLayer.Models.Orders;
 using Ecommerce.DataLayer.Utils;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.DataLayer.Models.User
 {
-    public abstract class BaseUser
+    public abstract class BaseUser 
     {
         [Key]
         public Guid UserId { get; set; }
 
         public string Email { get; set; }
 
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -23,6 +24,7 @@ namespace Ecommerce.DataLayer.Models.User
 
         public UserType UserType { get; set; }
 
+        [ConcurrencyCheck]
         public List<RefreshToken> RefreshTokens { get; set; }
 
 
@@ -68,6 +70,8 @@ namespace Ecommerce.DataLayer.Models.User
         public string LastNameBill { get; set; }
 
         public List<Order> Orders {get; set;}
+
+        
 
     }
 }

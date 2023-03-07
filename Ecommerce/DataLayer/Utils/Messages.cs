@@ -71,5 +71,10 @@
         public static Message Message_GetOrderSuccess = new Message { Text = "Lista comenzilor primită cu success", MessageType = MessageType.Success };
         public static Message Message_GetOrderError = new Message { Text = "Comenzile nu au putut fi afișate", MessageType = MessageType.Error };
 
+        public static Message Message_UsersLoadError = new Message { Text = "Utilizatorii nu au putut fi încărcati.", MessageType = MessageType.Error };
+
+        public static Message Message_RemoveAllCartItemsSuccess = new Message { Text = "Produsele din coș au fost șterse!", MessageType = MessageType.Success };
+        public static Message Message_RemoveAllCartItemsError = new Message { Text = "Produse din coș nu au putut fi șterse!.", MessageType = MessageType.Error };
+
     }
 }

@@ -10,7 +10,9 @@ namespace Ecommerce.DataLayer.Models.Orders
 
         public Guid OrderId { get; set; }
 
+
         public virtual Order Order { get; set; }
+        public string Email { get; set; }
 
         public string FirstName { get; set; }
 

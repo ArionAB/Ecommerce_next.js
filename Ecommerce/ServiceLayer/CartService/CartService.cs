@@ -29,74 +29,78 @@ namespace Ecommerce.ServiceLayer.CartService
          
         }
 
-        public async Task<ServiceResponse<Object>> AddToCart(AddItemToCartDTO itemDTO, Guid loggedInUserId, Guid CartId)
+        public async Task<ServiceResponse<Object>> AddToCart(AddItemToCartDTO items, Guid loggedInUserId, Guid CartId)
         {
             try
             {
-                if (GenericFunctions.GuidIsNullOrEmpty(itemDTO.ProductId))
+                foreach(var item in items.CartItems)
                 {
-                    return new ServiceResponse<object> { Response = null, Success = false, Message = Messages.Message_ProductIdError };
-                }
-                var newCartItem = new CartProduct
-                {
-                    CartProductId = Guid.NewGuid(),
-                    CartId = CartId,
-                    ProductId = itemDTO.ProductId,
-                    SizeType = itemDTO.SizeType,
-                    Quantity = itemDTO.Quantity,
-                    UserId = loggedInUserId
-                    
-                };
-                var carts = _mapper.Map<CartProduct>(newCartItem);
-                var cartexists = await _context.Cart.FirstOrDefaultAsync(x => x.UserId == loggedInUserId);
-                switch(cartexists == null)
-                {
-                    case true:
-                        var cart = new CartClass
+                    if (GenericFunctions.GuidIsNullOrEmpty(item.ProductId))
                     {
-                        UserId = loggedInUserId,
-                        DateCreated = DateTime.Now,
-                        DateModified = DateTime.Now,
-                        CartId = CartId
+                        return new ServiceResponse<object> { Response = null, Success = false, Message = Messages.Message_ProductIdError };
+                    }
+                    var newCartItem = new CartProduct
+                    {
+                        CartProductId = Guid.NewGuid(),
+                        CartId = CartId,
+                        ProductId = item.ProductId,
+                        SizeType = item.SizeType,
+                        Quantity = item.Quantity,
+                        UserId = loggedInUserId
 
                     };
+                    var carts = _mapper.Map<CartProduct>(newCartItem);
+                    var cartexists = await _context.Cart.FirstOrDefaultAsync(x => x.UserId == loggedInUserId);
+                    switch (cartexists == null)
+                    {
+                        case true:
+                            var cart = new CartClass
+                            {
+                                UserId = loggedInUserId,
+                                DateCreated = DateTime.Now,
+                                DateModified = DateTime.Now,
+                                CartId = CartId
 
-                        await _context.Cart.AddAsync(cart);
+                            };
 
-                
-                        await _context.CartProducts.AddAsync(carts);
-                        await _context.SaveChangesAsync();
+                            await _context.Cart.AddAsync(cart);
 
-                        break;
-                    case false:
-                        var itemExists = await _context.CartProducts.FirstOrDefaultAsync(x => x.CartId == CartId && x.ProductId == itemDTO.ProductId && x.SizeType == itemDTO.SizeType);
 
-                        if (itemExists != null)
-                        {
-                            itemExists.Quantity += itemDTO.Quantity;
-                            //itemExists.TotalPrice += itemDTO.TotalPrice;
-
+                            await _context.CartProducts.AddAsync(carts);
                             await _context.SaveChangesAsync();
 
-                            return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_ChangedItemQtySuccess };
+                            break;
+                        case false:
+                            var itemExists = await _context.CartProducts.FirstOrDefaultAsync(x => x.CartId == CartId && x.ProductId == item.ProductId && x.SizeType == item.SizeType);
 
-                        }
-                        else
-                        {
-                 
-                            await _context.CartProducts.AddAsync(carts);
+                            if (itemExists != null)
+                            {
+                                itemExists.Quantity += item.Quantity;
+                                //itemExists.TotalPrice += itemDTO.TotalPrice;
 
-                            _context.SaveChanges();
+                                await _context.SaveChangesAsync();
 
-                            return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_AddItemToCartSuccess };
-                        }
-                       
+                                //this return breaks the for loop 
+                                //return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_ChangedItemQtySuccess };
+
+                            }
+                            else
+                            {
+
+                                await _context.CartProducts.AddAsync(carts);
+
+                                _context.SaveChanges();
+
+                              
+                            }
+                            break;
+
+
+                    }
 
                 }
-
-
-              
-
+                
+               
 
                 return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_AddItemToCartSuccess };
 
@@ -108,6 +112,10 @@ namespace Ecommerce.ServiceLayer.CartService
          
 
         }
+
+              
+
+
         
         public async Task<ServiceResponse<List<ProductDTO>>> GetCartItems(Guid userId)
         {
@@ -224,6 +232,44 @@ namespace Ecommerce.ServiceLayer.CartService
             {
                 return new ServiceResponse<Object> { Response = null, Success = false, Message = Messages.Message_RemoveCartItemError };
             }
+        }
+
+        public async Task<ServiceResponse<Object>> RemoveAllItems(Guid userId, Guid CartId)
+        {
+            try
+            {
+                if (GenericFunctions.GuidIsNullOrEmpty(userId))
+                {
+                    return new ServiceResponse<Object> { Response = null, Success = false, Message = Messages.Message_GetCartItemIdError };
+                }
+
+                var cart = await _context.Cart.FirstOrDefaultAsync(x => x.CartId == CartId);
+
+                if (cart == null)
+                {
+                    return new ServiceResponse<Object> { Response = null, Success = false, Message = Messages.Message_GetCartItemCartError };
+                }
+
+                var cartItems = await _context.CartProducts.Where(x => x.CartId == cart.CartId).ToListAsync();
+
+                if (cartItems == null)
+                {
+                    return new ServiceResponse<Object> { Response = null, Success = false, Message = Messages.Message_GetCartItemCartError };
+                }
+
+                _context.CartProducts.RemoveRange(cartItems);
+                _context.Cart.Remove(cart);
+
+                await _context.SaveChangesAsync();
+
+                return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_RemoveAllCartItemsSuccess };
+
+            }
+            catch (Exception e)
+            {
+                return new ServiceResponse<Object> { Response = null, Success = false, Message = Messages.Message_RemoveAllCartItemsError };
+            }
+        
         }
 
     }

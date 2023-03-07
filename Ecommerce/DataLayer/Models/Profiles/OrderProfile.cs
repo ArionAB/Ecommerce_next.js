@@ -18,7 +18,10 @@ namespace Ecommerce.DataLayer.Models.Profiles
 
             CreateMap<OrderProduct, OrderProductDTO>();
             CreateMap<OrderAddress, ShippingAddressDTO>();
+            CreateMap<ShippingAddressDTO, OrderAddress>();
             CreateMap<Order, OrderDTO>()
+           .ForMember(x => x.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
+           .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.User.LastName))
            .ForMember(x => x.OrderProducts, opt => opt.MapFrom(src => src.OrderProducts.Select(x => new OrderProductDTO
            {
                OrderProductId = x.OrderProductId,

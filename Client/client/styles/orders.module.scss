@@ -2,6 +2,30 @@
 
 .page_container {
   padding-top: 1rem;
+
+  .noOrders {
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px;
+    color: $gray-subtitle;
+
+    button {
+      @include pink-btn;
+      padding: 0rem 1rem;
+      border: none;
+      border-radius: 5px;
+      margin-left: 1rem;
+      cursor: pointer;
+      height: 2.5rem;
+    }
+  }
+
   .container {
     gap: 1rem;
     flex-wrap: nowrap;

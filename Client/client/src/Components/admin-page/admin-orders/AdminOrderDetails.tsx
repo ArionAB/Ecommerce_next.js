@@ -99,9 +99,14 @@ export const AdminOrderDetails: FC<{
               <Typography variant="subtitle2" fontWeight={600}>
                 Cod postal:{" "}
               </Typography>
+              {selectedOrder?.shippingAddress?.zipCode}
             </Box>
-
-            {selectedOrder?.shippingAddress?.zipCode}
+            <Box>
+              <Typography variant="subtitle2" fontWeight={600}>
+                Numar telefon:{" "}
+              </Typography>
+              {selectedOrder?.shippingAddress?.phone}
+            </Box>
           </Grid>
           <Grid
             item
@@ -142,9 +147,14 @@ export const AdminOrderDetails: FC<{
               <Typography variant="subtitle2" fontWeight={600}>
                 Cod postal:{" "}
               </Typography>
+              {selectedOrder?.shippingAddress?.zipCodeBill}
             </Box>
-
-            {selectedOrder?.shippingAddress?.zipCodeBill}
+            <Box>
+              <Typography variant="subtitle2" fontWeight={600}>
+                Numar telefon:{" "}
+              </Typography>
+              {selectedOrder?.shippingAddress?.phoneBill}
+            </Box>
           </Grid>
         </Grid>
       </Box>

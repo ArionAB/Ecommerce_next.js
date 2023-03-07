@@ -2,6 +2,8 @@
 {
     public class RegularUserDTO : BaseUserDTO
     {
+      
+        
         
     }
 }

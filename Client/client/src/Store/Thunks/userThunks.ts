@@ -131,6 +131,7 @@ export const updateUser = createAsyncThunk<
     form.append("city", data.city);
     form.append("county", data.county);
     form.append("phone", data.phone);
+    form.append("email", data.email);
 
     if (sameAddress) {
       form.append("firstNameBill", data.firstName);

@@ -25,6 +25,7 @@ namespace Ecommerce.DataLayer.Models.Orders
         public string Title { get; set; }
         
         public int Price { get; set; }
+
         public SizeType SizeType { get; set; }
 
         public FruitType FruitType { get; set; }
@@ -32,6 +33,7 @@ namespace Ecommerce.DataLayer.Models.Orders
         public ProductCategoryType ProductCategory { get; set; }
 
         public int Quantity { get; set; }
+
    
         
             

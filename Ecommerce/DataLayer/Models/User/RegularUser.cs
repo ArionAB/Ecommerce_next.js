@@ -5,6 +5,8 @@ namespace Ecommerce.DataLayer.Models.User
 {
     public class RegularUser : BaseUser
     {
+
+
         //public Guid UserId;
 
         //public string Email;

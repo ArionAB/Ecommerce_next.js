@@ -1,16 +1,11 @@
 ﻿using Ecommerce.DataLayer.Utils;
 using System;
+using System.Collections.Generic;
 
 namespace Ecommerce.DataLayer.DTOs.Cart
 {
     public class AddItemToCartDTO
     {
-        public Guid ProductId { get; set; }
-
-        public Guid CartId { get; set; }
-
-        public SizeType SizeType { get; set; }
-
-        public int Quantity { get; set; }
+        public List<CartItemDTO> CartItems { get; set; }
     }
 }

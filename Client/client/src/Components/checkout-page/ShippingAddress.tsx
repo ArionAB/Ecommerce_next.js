@@ -10,7 +10,7 @@ const ShippingAddress: FC<{
   shipping: any;
 }> = ({ setShipping, shipping }) => {
   const currentUser = useAppSelector(selectCurrentUser);
-
+  console.log(currentUser);
   useEffect(() => {
     if (currentUser) {
       setShipping({

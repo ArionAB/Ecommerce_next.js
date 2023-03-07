@@ -39,11 +39,11 @@ export const UsersTable = () => {
     return () => promise.abort();
     //eslint-disable-next-line
   }, [filters]);
-
+  console.log(users);
   const columns: GridColDef[] = [
     {
-      field: "username",
-      headerName: "Username",
+      field: "userName",
+      headerName: "Userame",
       flex: 1,
       minWidth: 150,
     },

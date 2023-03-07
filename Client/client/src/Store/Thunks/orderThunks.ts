@@ -16,6 +16,7 @@ export const addOrder = createAsyncThunk<
 >("/Order/Add", async ({ data }, thunkApi) => {
   try {
     let form = new FormData();
+    console.log(data);
     form.append("status", data.status.toString());
     form.append("paymentMethod", data.paymentMethod.toString());
     form.append("userId", data.userId ? data.userId : "");

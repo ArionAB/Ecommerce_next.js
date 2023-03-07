@@ -114,3 +114,53 @@ $honey-bg: linear-gradient(180deg, #ffc97d, #f0b25b);
   margin-bottom: 0;
   margin-left: 14px;
 }
+
+@mixin divider {
+  .divider {
+    position: relative;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    height: 1px;
+  }
+
+  .div_transparent:before {
+    content: "\2B22";
+    position: absolute;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    width: 90%;
+    height: 1px;
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      #ffd900,
+      transparent
+    );
+  }
+
+  .div_dot:after {
+    display: block;
+    content: "\2B22";
+    position: absolute;
+    z-index: 1;
+    top: -23px;
+    left: calc(50% - 9px);
+    content: "\2B22";
+    display: block;
+    color: $brown;
+    font-size: 32px;
+  }
+  .div_dot_two:after {
+    display: block;
+    content: "\2B22";
+    position: absolute;
+    z-index: 1;
+    top: -23px;
+    left: calc(50% - 29px);
+    content: "\2B22";
+    display: block;
+    color: #ffd900;
+    font-size: 32px;
+  }
+}

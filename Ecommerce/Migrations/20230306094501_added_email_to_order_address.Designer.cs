@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20230212070930_added_payment_method")]
-    partial class added_payment_method
+    [Migration("20230306094501_added_email_to_order_address")]
+    partial class added_email_to_order_address
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -138,10 +138,10 @@ namespace Ecommerce.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
-                    b.Property<string>("ShippingAddress")
-                        .HasColumnType("longtext");
-
                     b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalPrice")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
@@ -154,19 +154,87 @@ namespace Ecommerce.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Orders.OrderAddress", b =>
+                {
+                    b.Property<Guid>("OrderAddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AddressBill")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("City")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CityBill")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("County")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CountyBill")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstNameBill")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Info")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("InfoBill")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastNameBill")
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneBill")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ZipCode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ZipCodeBill")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderAddressId");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.ToTable("OrderAddress");
+                });
+
             modelBuilder.Entity("Ecommerce.DataLayer.Models.Orders.OrderProduct", b =>
                 {
                     b.Property<Guid>("OrderProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("FilePath")
+                        .HasColumnType("longtext");
+
                     b.Property<int>("FruitType")
                         .HasColumnType("int");
 
                     b.Property<Guid>("OrderId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("PictureId")
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Price")
@@ -275,11 +343,11 @@ namespace Ecommerce.Migrations
                     b.Property<string>("PhoneBill")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("longtext");
+
                     b.Property<int>("UserType")
                         .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("longtext");
 
                     b.Property<int>("ZipCode")
                         .HasColumnType("int");
@@ -358,6 +426,17 @@ namespace Ecommerce.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Ecommerce.DataLayer.Models.Orders.OrderAddress", b =>
+                {
+                    b.HasOne("Ecommerce.DataLayer.Models.Orders.Order", "Order")
+                        .WithOne("OrderAddress")
+                        .HasForeignKey("Ecommerce.DataLayer.Models.Orders.OrderAddress", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.Orders.OrderProduct", b =>
@@ -448,6 +527,8 @@ namespace Ecommerce.Migrations
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.Orders.Order", b =>
                 {
+                    b.Navigation("OrderAddress");
+
                     b.Navigation("OrderProducts");
                 });
 

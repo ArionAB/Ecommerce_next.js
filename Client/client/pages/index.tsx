@@ -93,6 +93,11 @@ export default function Home() {
           </Grid>
         </Box>
       </Container>
+      <div
+        className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
+      >
+        <span className={`${styles.div_dot_two}`}></span>
+      </div>
     </>
   );
 }

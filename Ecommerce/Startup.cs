@@ -1,4 +1,5 @@
 using Ecommerce.DataLayer.DbContexts;
+using Ecommerce.DataLayer.Models.User;
 using Ecommerce.DataLayer.Utils;
 using Ecommerce.Middleware;
 using Ecommerce.ServiceLayer.BabyService;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -65,7 +67,10 @@ namespace Ecommerce
             services.AddScoped<IFileSystemService, FileSystemService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IOrderService, OrderService>();
-           
+          
+
+  
+
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
 

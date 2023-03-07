@@ -62,12 +62,31 @@ const AdminOrdersTable = () => {
       headerName: "Nume",
       flex: 1,
       minWidth: 150,
+      valueGetter: (params: GridValueGetterParams) =>
+        params.row?.lastName
+          ? params.row?.lastName
+          : params.row?.shippingAddress.lastName,
     },
+
     {
       field: "firstName",
       headerName: "Prenume",
       flex: 1,
       minWidth: 150,
+      valueGetter: (params: GridValueGetterParams) =>
+        params.row?.firstName
+          ? params.row?.firstName
+          : params.row?.shippingAddress.firstName,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      flex: 1,
+      minWidth: 150,
+      valueGetter: (params: GridValueGetterParams) =>
+        params.row?.email
+          ? params.row?.email
+          : params.row?.shippingAddress.email,
     },
     {
       field: "orderId",
@@ -87,7 +106,7 @@ const AdminOrdersTable = () => {
       field: "paymentMethod",
       headerName: "Metoda de plata",
       flex: 1,
-      minWidth: 150,
+      minWidth: 100,
       valueFormatter: (params: GridValueFormatterParams) =>
         ConvertPaymentMethodToLabel(params.value),
     },
@@ -133,7 +152,7 @@ const AdminOrdersTable = () => {
       field: "totalPrice",
       headerName: "Pret total",
       flex: 1,
-      minWidth: 150,
+      minWidth: 70,
     },
     {
       field: "",
@@ -141,7 +160,7 @@ const AdminOrdersTable = () => {
       sortable: false,
       // hide: isEmployer(currentUser?.userType),
       flex: 1,
-      minWidth: 150,
+      minWidth: 100,
       align: "center",
       renderCell: (params: GridRenderCellParams) => {
         return (

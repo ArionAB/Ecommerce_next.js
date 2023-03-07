@@ -6,10 +6,12 @@ using Ecommerce.DataLayer.Models.User;
 using Ecommerce.DataLayer.Utils;
 using Ecommerce.ServiceLayer.LogService;
 using Ecommerce.ServiceLayer.Utils;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -17,6 +19,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
+
 
 namespace Ecommerce.ServiceLayer.UsersService
 {
@@ -27,17 +30,19 @@ namespace Ecommerce.ServiceLayer.UsersService
         private readonly IMapper _mapper;
         private readonly ILogService _logService;
         private readonly AppSettings _appSettings;
+    
 
-        
-        public UserService(MainDbContext context, IMapper mapper, ILogService logService, IOptions<AppSettings> appSettings)
+
+        public UserService(MainDbContext context, IMapper mapper, ILogService logService, IOptions<AppSettings> appSettings) 
         {
             _context = context;
             _mapper = mapper;
             _logService = logService;
             _appSettings = appSettings.Value;
+    
         }
 
-      public async Task<ServiceResponse<Object>> RegisterUser(RegisterUserDTO model, string origin)
+      public async Task<ServiceResponse<Object>> RegisterUser(RegisterUserDTO model, string origin, string ipAddress)
         {
             try
             {
@@ -55,12 +60,23 @@ namespace Ecommerce.ServiceLayer.UsersService
                 account.CreatedAt = GenericFunctions.GetCurrentDateTime();
                 account.Password = BC.HashPassword(model.Password);
                 account.CartId = Guid.NewGuid();
+                account.UserName = model.UserName;
+              
 
                 _context.Users.Add(account);
 
-               
-
+            
+             
+            
                 _context.SaveChanges();
+
+                
+             
+                 
+              
+                
+                    return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_RegisterUserSuccess };
+            
 
                 //am ramas sa adaug Log service
 
@@ -73,7 +89,7 @@ namespace Ecommerce.ServiceLayer.UsersService
                     _logService.LogError(e, model);
                 }
 
-                return new ServiceResponse<Object> { Response = (string)null, Success = true, Message = Messages.Message_RegisterUserSuccess };
+                
             }
             catch (Exception e)
             {
@@ -332,8 +348,44 @@ namespace Ecommerce.ServiceLayer.UsersService
                 return new ServiceResponse<RegularUserDTO> { Response = null, Success = false, Message = Messages.Message_AddressAddedError };
             }
         }
+
+        public async Task<ServiceResponse<PaginatedUsersDTO>> GetAllUsers(GetUsersFiltersDTO filters)
+        {
+            try
+            {
+                if (filters.SearchText == null)
+                {
+                    filters.SearchText = "";
+                }
+                   
+
+                var users = new List<BaseUserDTO>();
+                users = _mapper.ProjectTo<BaseUserDTO>(_context.Users.Where(x => (x.UserType == UserType.User) && ((x.LastName + " " + x.FirstName).ToLower().Contains(filters.SearchText.ToLower()))
+                        ).OrderBy(x => x.FirstName).ThenByDescending(x => x.CreatedAt).Skip(10 * filters.PageNumber).Take(10)).ToList();
+                
+                
+
+                var rowCount = _mapper.ProjectTo<BaseUserDTO>(_context.Users.Where(x => (x.UserType == UserType.User))).Count();
+
+                var response = new PaginatedUsersDTO
+                {
+                    RowCount = rowCount,
+                    Users = users,
+                    
+                };
+                return new ServiceResponse<PaginatedUsersDTO> { Response = response, Success = true };
+            }
+            catch (Exception e)
+            {
+                return new ServiceResponse<PaginatedUsersDTO> { Response = null, Success = false, Message = Messages.Message_UsersLoadError };
+            }
+     
+        }
        
     }
     
     
 }
+
+
+           

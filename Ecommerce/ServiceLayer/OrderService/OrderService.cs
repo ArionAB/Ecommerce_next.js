@@ -29,7 +29,7 @@ namespace Ecommerce.ServiceLayer.OrderService
 
 
 
-        public async Task<ServiceResponse<Object>> AddOrder(AddOrderDTO orderDTO, Guid userId)
+        public async Task<ServiceResponse<Object>> AddOrder(AddOrderDTO orderDTO)
         {
             try
             {
@@ -45,7 +45,8 @@ namespace Ecommerce.ServiceLayer.OrderService
                         OrderProductId = Guid.NewGuid(),
                         OrderId = orderId,
                         ProductId = item.ProductId,
-                        UserId = userId,
+                        //UserId = (Guid)(string.IsNullOrEmpty(orderDTO.UserId.ToString()) ? null : orderDTO.UserId),
+                        UserId = orderDTO.UserId == null ? Guid.Empty : new Guid(orderDTO.UserId.ToString()),
                         FilePath = item.FilePath,
                         Title = item.Title,
                         Price = item.Price,
@@ -59,26 +60,63 @@ namespace Ecommerce.ServiceLayer.OrderService
                 TotalPrice += item.Price * item.Quantity;
                 }
 
-                var newOrder = new Order
+                if (orderDTO.UserId == null)
                 {
-                    OrderId = orderId,
-                    UserId = userId,
-                    DateCreated = DateTime.Now,
-                    Status = orderDTO.Status,
-                    PaymentMethod = orderDTO.PaymentMethod,
-                    TotalPrice = orderDTO.OrderProducts.Sum(x => x.Price * x.Quantity)
+                    // Add the order without a user record
+                    var newOrderAsGuest = new Order
+                    {
+                        OrderId = orderId,
+                        DateCreated = DateTime.Now,
+                        Status = orderDTO.Status,
+                        PaymentMethod = orderDTO.PaymentMethod,
+                        TotalPrice = TotalPrice,
+                        UserId = Guid.Empty
+                    };
 
-                };
-                await _context.Orders.AddAsync(newOrder);
+                    await _context.Orders.AddAsync(newOrderAsGuest);
+                    await _context.SaveChangesAsync();
 
-                var shippingAddress = await _context.Users.Where(x => x.UserId == userId).ProjectTo<ShippingAddressDTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
-                shippingAddress.OrderId = orderId;
-                shippingAddress.OrderAddressId = Guid.NewGuid();
-                await _context.OrderAddress.AddAsync(_mapper.Map<OrderAddress>(shippingAddress));
+                    // Add the shipping address to a separate table
+                
+                    var shippingAddress = _mapper.Map<ShippingAddressDTO>(orderDTO.Address);
+                    shippingAddress.OrderId = orderId;
+                    shippingAddress.OrderAddressId = Guid.NewGuid();
+                    await _context.OrderAddress.AddAsync(_mapper.Map<OrderAddress>(shippingAddress));
+                  
 
-                await _context.SaveChangesAsync();
+                
+
+                    //await _context.OrderAddress.AddAsync(shippingAddress);
+                    await _context.SaveChangesAsync();
+
+                    return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_AddOrderSuccess };
+                } else
+                {
+
+                    var newOrder = new Order
+                    {
+                        OrderId = orderId,
+                        DateCreated = DateTime.Now,
+                        Status = orderDTO.Status,
+                        PaymentMethod = orderDTO.PaymentMethod,
+                        TotalPrice = TotalPrice,
+                        UserId = orderDTO.UserId
+
+                    };
+
+                    await _context.Orders.AddAsync(newOrder);
+
+                    var shippingAddress = await _context.Users.Where(x => x.UserId == orderDTO.UserId).ProjectTo<ShippingAddressDTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+                    shippingAddress.OrderId = orderId;
+                    shippingAddress.OrderAddressId = Guid.NewGuid();
+                    await _context.OrderAddress.AddAsync(_mapper.Map<OrderAddress>(shippingAddress));
+
+                    await _context.SaveChangesAsync();
+                }
+
 
                 return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_AddOrderSuccess };
+
             }
             catch (Exception e)
             {
@@ -199,6 +237,26 @@ namespace Ecommerce.ServiceLayer.OrderService
         }
     }
 }
+
+
+
+
+
+
+
+               
+
+              
+               
+             
+
+               
+           
+               
+
+               
+
+
                   
             
 

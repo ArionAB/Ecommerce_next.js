@@ -10,7 +10,7 @@ namespace Ecommerce.DataLayer.DTOs.User
 
         public string Email { get; set; }
 
-        public string Username { get; set; }
+        public string UserName { get; set; }
         
         public string CreatedAt { get; set; }
         
@@ -51,5 +51,9 @@ namespace Ecommerce.DataLayer.DTOs.User
         public string CountyBill { get; set; }
 
         public string PhoneBill { get; set; }
+
+        public int TotalOrders { get; set; }
+
+        public int MoneySpent { get; set; }
     }
 }

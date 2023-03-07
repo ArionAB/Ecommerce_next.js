@@ -42,7 +42,6 @@ const Cart = () => {
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectCartItems);
   const currentUser = useAppSelector(selectCurrentUser);
-  const totalPrice = useAppSelector(selectTotalPrice);
 
   const isNotEmpty = () => cartItems?.length > 0;
 
@@ -151,7 +150,7 @@ const Cart = () => {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" className={styles.page_container}>
       <Box className={styles.yourCartBox}>
         <Typography
           variant="h3"
@@ -176,12 +175,11 @@ const Cart = () => {
             </Link>
           </Box>
         ) : (
-          <>
-            {" "}
+          <Link href="/">
             <Typography className={styles.continueLink}>
-              Continue shopping
+              Continuă cumpărăturile
             </Typography>
-          </>
+          </Link>
         )}
       </Box>
       <Box
@@ -260,13 +258,13 @@ const Cart = () => {
           })
         ) : (
           <>
-            <Typography>Your cart is empty</Typography>
+            <Typography>Coșul tău de cumpărături este gol!</Typography>
             <Link href="/">
               <Button
                 startIcon={<ShoppingCartIcon />}
                 className={styles.continueBTN}
               >
-                Continue shopping
+                Continuă cumpărăturile
               </Button>
             </Link>{" "}
           </>
@@ -287,11 +285,19 @@ const Cart = () => {
           </Typography>
         </Box>
 
-        <Link href="/checkout">
-          <Button variant="contained" className={styles.btn}>
-            Finzalizează comanda
-          </Button>
-        </Link>
+        {isNotEmpty() ? (
+          <Link href="/checkout">
+            <Button variant="contained" className={styles.btn}>
+              Finalizează comanda
+            </Button>
+          </Link>
+        ) : (
+          <Link href="/">
+            <Button variant="contained" className={styles.btn}>
+              Continuă cumpărăturile
+            </Button>
+          </Link>
+        )}
       </Box>
     </Container>
   );

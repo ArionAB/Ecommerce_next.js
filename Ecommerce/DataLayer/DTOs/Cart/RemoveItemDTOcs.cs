@@ -7,8 +7,8 @@ namespace Ecommerce.DataLayer.DTOs.Cart
     {
         public Guid ProductId { get; set; }
         public SizeType SizeType { get; set; }
+    }
 
+}
        
 
-    }
-}

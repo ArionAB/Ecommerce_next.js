@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   Grid,
   Box,
@@ -70,6 +70,13 @@ export const Checkout = () => {
       return totalPrice;
     }
   };
+
+  useLayoutEffect(() => {
+    if (!cartItems.length) {
+      router.push("/");
+    }
+    //eslint-disable-next-line
+  }, []);
 
   const handleBillingChange = (billingInfo: any) => {
     setBilling(billingInfo);

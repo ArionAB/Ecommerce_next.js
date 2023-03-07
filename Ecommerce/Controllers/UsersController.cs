@@ -1,8 +1,10 @@
 ﻿using Ecommerce.DataLayer.DTOs.User;
+using Ecommerce.DataLayer.Models.User;
 using Ecommerce.DataLayer.Utils;
 using Ecommerce.ServiceLayer.UsersService;
 using Ecommerce.ServiceLayer.Utils;
 using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -12,17 +14,19 @@ namespace Ecommerce.Controllers
     public class UsersController : BaseController
     {
         private readonly IUserService _userService;
+   
 
         public UsersController(IUserService userService)
         {
             _userService = userService;
+      
         }
 
         [HttpPost("/Users/Register")]
         
         public async Task<IActionResult> RegisterUser([FromForm] RegisterUserDTO model)
         {
-            var result = await _userService.RegisterUser(model, Request.Headers["origin"]);
+            var result = await _userService.RegisterUser(model, Request.Headers["origin"], ipAddress());
             if (result.Success)
                 return Ok(result);
             else
@@ -125,5 +129,16 @@ namespace Ecommerce.Controllers
             Response.Cookies.Append("refreshToken", token, cookieOptions);
         }
 
+        [HttpGet("/Users/GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers([FromQuery] GetUsersFiltersDTO filters)
+        {
+            var result = await _userService.GetAllUsers(filters);
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
     }
+
+    
 }

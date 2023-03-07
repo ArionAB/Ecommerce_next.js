@@ -176,6 +176,9 @@ namespace Ecommerce.Migrations
                     b.Property<string>("CountyBill")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("longtext");
 
@@ -338,11 +341,11 @@ namespace Ecommerce.Migrations
                     b.Property<string>("PhoneBill")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("longtext");
+
                     b.Property<int>("UserType")
                         .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("longtext");
 
                     b.Property<int>("ZipCode")
                         .HasColumnType("int");
@@ -360,8 +363,6 @@ namespace Ecommerce.Migrations
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.AdminUser", b =>
                 {
                     b.HasBaseType("Ecommerce.DataLayer.Models.User.BaseUser");
-
-                    b.HasDiscriminator().HasValue(2);
                 });
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.RegularUser", b =>

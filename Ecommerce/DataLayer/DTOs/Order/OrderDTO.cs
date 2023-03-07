@@ -11,6 +11,10 @@ namespace Ecommerce.DataLayer.DTOs.Order
 
         public Guid UserId { get; set; }
 
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
         public DateTime DateCreated { get; set; }
 
         public OrderStatusType Status { get; set; }

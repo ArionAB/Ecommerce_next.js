@@ -135,7 +135,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
           data: register,
         })
       ).then((res) => {
-        if (res.payload?.message?.text === "Inregistrat cu success!") {
+        if (res.payload === "Inregistrat cu success!") {
           dispatch(
             loginUser({
               data: {
@@ -145,10 +145,11 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
             })
           ).then(() => setOpenDialog(false));
         }
-        if (res.payload?.message?.text === "Email-ul este deja folosit") {
+
+        if (res.payload === "Email-ul este deja folosit") {
           setRegisterError({
             ...registerError,
-            errorMessage: res.payload.message.text,
+            errorMessage: res.payload,
           });
         }
       });

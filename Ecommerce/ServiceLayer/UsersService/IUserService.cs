@@ -7,7 +7,7 @@ namespace Ecommerce.ServiceLayer.UsersService
 {
     public interface IUserService
     {
-        Task<ServiceResponse<Object>> RegisterUser(RegisterUserDTO model, string origin);
+        Task<ServiceResponse<Object>> RegisterUser(RegisterUserDTO model, string origin, string ipAddress);
 
         Task<ServiceResponse<Object>> RegisterAdmin(RegisterAdminDTO model, string origin);
 
@@ -18,5 +18,7 @@ namespace Ecommerce.ServiceLayer.UsersService
         Task<ServiceResponse<Object>> RevokeToken(string token, string ipAddress);
 
         Task<ServiceResponse<RegularUserDTO>> UpdateUser(Guid loggedInUserId, ShippingAddressDTO model);
+
+        Task<ServiceResponse<PaginatedUsersDTO>> GetAllUsers(GetUsersFiltersDTO filters);
     }
 }

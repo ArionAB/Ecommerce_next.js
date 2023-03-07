@@ -1,4 +1,5 @@
 ﻿using Ecommerce.DataLayer.DTOs.Order;
+using Ecommerce.DataLayer.DTOs.User;
 using Ecommerce.DataLayer.Utils;
 using Ecommerce.ServiceLayer.OrderService;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace Ecommerce.Controllers
 
         public async Task<IActionResult> AddOrder([FromForm] AddOrderDTO orderDTO)
         {
-            var response = await _orderService.AddOrder(orderDTO, Account.UserId);
+            var response = await _orderService.AddOrder(orderDTO);
             if (response.Success)
             {
                 return Ok(response);

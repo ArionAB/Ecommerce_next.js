@@ -57,6 +57,17 @@ namespace Ecommerce.Controllers
 
         }
 
+        [HttpGet("/Cart/RemoveAllItems")]
+
+        public async Task<IActionResult> RemoveAllItems()
+        {
+            var response = await _cartService.RemoveAllItems(Account.UserId, Account.CartId);
+            if (response.Success) return Ok(response);
+
+            else return BadRequest(response);
+
+        }
+
 
 
     }
