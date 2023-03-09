@@ -1,3 +1,5 @@
+import { HoneyType } from "../../Store/Enums/Product/HoneyType";
+
 export const ConvertFruitTypeToLabel = (enumValue: number) => {
   switch (enumValue) {
     case 1:
@@ -27,7 +29,7 @@ export const ConvertFruitTypeToLabel = (enumValue: number) => {
   }
 };
 
-export const ConvertProductCategoryType = (enumValue: number) => {
+export const ConvertHoneyType = (enumValue: HoneyType) => {
   switch (enumValue) {
     case 1:
       return "All";

@@ -1,30 +1,28 @@
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { Container, Paper, Grid, Box, CardMedia } from "@mui/material";
-
+import { Box, CardMedia } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../src/Store";
-
 import {
   selectProductItems,
   selectLoadingItems,
 } from "../src/Store/Selectors/productSelectors";
-import Card from "../src/Components/card/Card";
 import { getProductItems } from "../src/Store/Thunks/productThunks";
+import { ProductItems } from "../src/Components/home-page/ProductItems";
 
 import styles from "../styles/index.module.scss";
-import Image from "next/image";
+import { RecentlyViewed } from "../src/Components/home-page/RecentlyViewed";
+import { ProductItemModel } from "../src/Store/Models/Product/ProductItem";
 
 export default function Home() {
-  const [expand, setExpand] = useState<boolean>(true);
-  const [containerIndex, setContainerIndex] = useState<number>(0);
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [recentlyViewedItems, setRecentlyViewedItems] = useState<
+    ProductItemModel[]
+  >([]);
 
   const dispatch = useAppDispatch();
 
-  const loading = useAppSelector(selectLoadingItems);
-
   const productItems = useAppSelector(selectProductItems);
-
+  const loading = useAppSelector(selectLoadingItems);
   useEffect(() => {
     setIsMounted(true);
     if (isMounted && !productItems.length) {
@@ -33,6 +31,12 @@ export default function Home() {
 
     //eslint disable-next-line
   }, [isMounted]);
+
+  useEffect(() => {
+    setRecentlyViewedItems(
+      JSON.parse(localStorage?.getItem("recentlyViewed") || "[]")
+    );
+  }, []);
 
   return (
     <>
@@ -55,49 +59,22 @@ export default function Home() {
       </Box>
 
       <img src="/dropplets.webp" alt="" className={styles.dropplets} />
-      <Container className={styles.ProductsContainer} maxWidth="xl">
-        <Box className={styles.categoryWrapper}>
-          <Grid container rowGap={2}>
-            {productItems?.map((card, index) => (
-              <Grid
-                key={card.productId}
-                item
-                xs={3}
-                onMouseEnter={() => {
-                  setExpand(true);
-                  setContainerIndex(index);
-                }}
-                onMouseLeave={() => {
-                  setExpand(false);
-                }}
-              >
-                <Paper
-                  sx={{
-                    width: 300,
-                    height: expand && containerIndex === index ? 550 : 500,
-                    padding: 1,
-                    transition: "all 0.5s ease",
-                  }}
-                  className={styles.cardContainer}
-                  elevation={1}
-                >
-                  <Card
-                    card={card}
-                    expand={expand}
-                    containerIndex={containerIndex}
-                    index={index}
-                  />
-                </Paper>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </Container>
+      <ProductItems />
       <div
         className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
       >
         <span className={`${styles.div_dot_two}`}></span>
       </div>
+      {recentlyViewedItems.length && (
+        <>
+          <RecentlyViewed items={recentlyViewedItems} />
+          <div
+            className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
+          >
+            <span className={`${styles.div_dot_two}`}></span>
+          </div>
+        </>
+      )}
     </>
   );
 }

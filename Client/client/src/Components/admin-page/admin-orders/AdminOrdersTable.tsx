@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
+  dateTimeFormatOptions,
   getDateLabel,
-  onlyDateFormat,
 } from "../../../Utils/Functions/dateTimeFormat";
 import { useAppDispatch, useAppSelector } from "../../../Store";
 import {
@@ -12,7 +12,16 @@ import {
   GridValueFormatterParams,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
-import { Button, Container } from "@mui/material";
+import {
+  Button,
+  Container,
+  List,
+  ListItem,
+  Checkbox,
+  ListItemButton,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { selectCurrentUser } from "../../../Store/Selectors/authenticationSelectors";
 import {
   selectGetOrders,
@@ -20,7 +29,10 @@ import {
   selectOrdersFilters,
   selectTotalOrders,
 } from "../../../Store/Selectors/orderSelectors";
-import { getOrders } from "../../../Store/Thunks/orderThunks";
+import {
+  changeOrderStatus,
+  getOrders,
+} from "../../../Store/Thunks/orderThunks";
 import { setOrdersFilters } from "../../../Store/Slices/orderSlice";
 import { DataGridColumnNames } from "../../../Store/Enums/DataGridColumnNames";
 import { orderToSortByItems } from "../../selectItems/OrderToSortByItems";
@@ -30,10 +42,17 @@ import {
 } from "../../../Utils/Functions/ConvertEnum";
 import { AdminOrderDetails } from "./AdminOrderDetails";
 import { OrderModel } from "../../../Store/Models/Order/OrderModel";
+import { OrderStatusType } from "../../../Store/Enums/Order/OrderStatusType";
+import { OrderStatusItems } from "../../selectItems/OrderStatusItems";
+import AdminOrdersFilters from "./AdminOrdersFilters";
+import { Close } from "@mui/icons-material";
 
 const AdminOrdersTable = () => {
   const [open, setOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<OrderModel | null>(null);
+  const [DisplayOrderStatusModal, setDisplayOrderStatusModal] = useState(false);
+  const [checked, setChecked] = useState<number>(OrderStatusType.Pending);
+  const [selectedOrderId, setSelectedOrderId] = useState<string>("");
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
   const filters = useAppSelector(selectOrdersFilters);
@@ -89,6 +108,18 @@ const AdminOrdersTable = () => {
           : params.row?.shippingAddress.email,
     },
     {
+      field: "userId",
+      headerName: "Tip client",
+      flex: 1,
+      minWidth: 100,
+      valueGetter: (params: GridValueGetterParams) => {
+        return params.row?.userId === "00000000-0000-0000-0000-000000000000"
+          ? "Vizitator"
+          : "Client";
+      },
+    },
+
+    {
       field: "orderId",
       headerName: "ID Comanda",
       flex: 1,
@@ -100,7 +131,7 @@ const AdminOrdersTable = () => {
       flex: 1,
       minWidth: 150,
       valueFormatter: (params: GridValueFormatterParams) =>
-        getDateLabel(params.value, onlyDateFormat),
+        getDateLabel(params.value, dateTimeFormatOptions),
     },
     {
       field: "paymentMethod",
@@ -114,7 +145,7 @@ const AdminOrdersTable = () => {
       field: "status",
       headerName: "Status comandă",
       flex: 1,
-      minWidth: 150,
+      minWidth: 100,
       valueFormatter: (params: GridValueFormatterParams) =>
         ConvertStatusToLabel(params.value),
     },
@@ -216,13 +247,97 @@ const AdminOrdersTable = () => {
     setOpen(false);
   };
 
+  const handleChangeOrderStatus = (orderId: string) => {
+    setSelectedOrderId(orderId);
+    setDisplayOrderStatusModal(true);
+  };
+
+  const handleToggle = (value: number) => () => {
+    setChecked(value);
+  };
+
+  const handleSaveOrderStatus = () => {
+    dispatch(
+      changeOrderStatus({
+        token: currentUser?.jwtToken,
+        order: {
+          orderId: selectedOrderId,
+          status: checked,
+        },
+      })
+    ).then(() => {
+      setDisplayOrderStatusModal(false);
+      setSelectedOrderId("");
+      getPaginatedOrders();
+    });
+  };
+
   return (
     <Container sx={{ maxWidth: "1800px !important" }}>
+      <AdminOrdersFilters />
+      {DisplayOrderStatusModal && (
+        <List
+          dense
+          sx={{
+            width: "100%",
+            maxWidth: 360,
+            boxShadow: 1,
+            bgcolor: "white",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Close
+            onClick={() => setDisplayOrderStatusModal(false)}
+            sx={{
+              cursor: "pointer",
+              textAlign: "right",
+              float: "right",
+              display: "flex",
+              justifyContent: "flex-end",
+              width: "100%",
+            }}
+          />
+          <Typography variant="h6">{selectedOrderId}</Typography>
+          {OrderStatusItems.map((item) => {
+            const labelId = `checkbox-list-secondary-label-${item.label}`;
+            return (
+              <ListItem
+                key={item.value}
+                secondaryAction={
+                  <Checkbox
+                    edge="end"
+                    onChange={handleToggle(item.value)}
+                    checked={checked === item.value}
+                    inputProps={{ "aria-labelledby": labelId }}
+                  />
+                }
+                disablePadding
+              >
+                <ListItemButton>
+                  <ListItemText id={labelId} primary={item.label} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+          <Button variant="contained" onClick={handleSaveOrderStatus}>
+            Schimbă statusu
+          </Button>
+        </List>
+      )}
       <DataGrid
         className="allocations-data-grid"
         //   components={{
         //     LoadingOverlay: DataLoadingComponent,
         //   }}
+        onCellClick={(params) => {
+          if (params.field === "status") {
+            handleChangeOrderStatus(params.row.orderId);
+            setChecked(params.row.status);
+          }
+        }}
         loading={loading}
         page={filters.pageNumber}
         pageSize={10}

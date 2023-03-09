@@ -31,7 +31,7 @@ import { PaymentMethodType } from "../src/Store/Enums/Order/PaymentMethodType";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 
 import { addOrder } from "../src/Store/Thunks/orderThunks";
-import { StatusType } from "../src/Store/Enums/Order/StatusType";
+import { OrderStatusType } from "../src/Store/Enums/Order/OrderStatusType";
 import { SizeType } from "../src/Store/Enums/SizeType";
 import { removeAllItems } from "../src/Store/Thunks/cartThunks";
 import { useRouter } from "next/router";
@@ -149,7 +149,7 @@ export const Checkout = () => {
     dispatch(
       addOrder({
         data: {
-          status: StatusType.Pending,
+          status: OrderStatusType.Pending,
           paymentMethod: paymentMethod,
           userId: currentUser?.userId,
           address: { ...shipping, ...billing },

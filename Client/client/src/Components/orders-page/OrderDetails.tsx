@@ -4,7 +4,7 @@ import { Box, Typography, CardMedia } from "@mui/material";
 import styles from "../../../styles/orderDetails.module.scss";
 import {
   ConvertFruitTypeToLabel,
-  ConvertProductCategoryType,
+  ConvertHoneyType,
   ConvertSizeToLabel,
 } from "../../Utils/Functions/ConvertEnum";
 import { resourceUrl } from "../../Utils";
@@ -39,7 +39,7 @@ export const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
                 {product.title}
               </Typography>
               <span className={styles.product_category}>
-                {ConvertProductCategoryType(product.productCategory)}
+                {ConvertHoneyType(product.productCategory)}
               </span>
               <span className={styles.fruit_type}>
                 Tip fruct: {ConvertFruitTypeToLabel(product.fruitType)}

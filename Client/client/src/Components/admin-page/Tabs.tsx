@@ -1,6 +1,5 @@
 import { Box, Tabs, Tab } from "@mui/material";
 import React, { FC } from "react";
-import { productCategoryType } from "../../Store/Enums/Product/productCategory";
 
 export const TabsPanel: FC<{ setValue: Function; value: number }> = ({
   setValue,

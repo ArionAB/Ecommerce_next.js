@@ -1,0 +1,45 @@
+@import "./_variables";
+
+.ProductsContainer {
+  padding-top: 60px;
+
+  .honeyType {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    .type {
+      color: $dark-blue;
+      font-size: 40px;
+      font-family: Typeka-bold !important;
+      font-weight: 600;
+    }
+
+    .selectType {
+      display: flex;
+      border-bottom: 3px solid $dark-blue;
+      padding-left: 0;
+
+      li {
+        list-style: none;
+
+        cursor: pointer;
+        font-size: 24px;
+        font-family: Typeka-bold !important;
+        font-weight: 400;
+        color: $dark-blue;
+        transition: all 0.3s ease-in-out;
+        text-transform: uppercase;
+        padding: 10px 20px;
+      }
+
+      .active {
+        background-color: $dark-blue;
+        color: white;
+      }
+    }
+  }
+}

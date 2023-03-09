@@ -1,4 +1,4 @@
-export enum StatusType {
+export enum OrderStatusType {
   Pending = 1,
   Shipped = 2,
   Delivered = 3,

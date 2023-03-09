@@ -2,8 +2,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppThunkConfig } from "..";
 import { baseUrl, getAxiosErrorMessage } from "../../Utils";
 import { guidRegex } from "../../Utils/Functions/guidRegex";
+import { OrderStatusType } from "../Enums/Order/OrderStatusType";
 
 import { AddOrderModel } from "../Models/Order/AddOrderModel";
+import { ChangeOrderStatusModel } from "../Models/Order/ChangeOrderStatusModel.";
 import { GetPaginatedOrdersModel } from "../Models/Order/GetPaginatedOrdersModel";
 import { OrderFiltersModel } from "../Models/Order/OrderFiltersModel";
 
@@ -16,7 +18,7 @@ export const addOrder = createAsyncThunk<
 >("/Order/Add", async ({ data }, thunkApi) => {
   try {
     let form = new FormData();
-    console.log(data);
+
     form.append("status", data.status.toString());
     form.append("paymentMethod", data.paymentMethod.toString());
     form.append("userId", data.userId ? data.userId : "");
@@ -96,6 +98,34 @@ export const getOrders = createAsyncThunk<
     });
 
     return data.response;
+  } catch (err: any) {
+    let errorMessage = getAxiosErrorMessage(err);
+    return thunkApi.rejectWithValue(getAxiosErrorMessage(err));
+  }
+});
+
+export const changeOrderStatus = createAsyncThunk<
+  any,
+  { token: string | undefined; order: ChangeOrderStatusModel },
+  AppThunkConfig
+>("/Order/ChangeOrderStatus", async ({ token, order }, thunkApi) => {
+  try {
+    let { response } = await axios.post(
+      baseUrl + "order/ChangeOrderStatus",
+      {
+        orderId: order.orderId,
+        status: order.status,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+
+    return response;
   } catch (err: any) {
     let errorMessage = getAxiosErrorMessage(err);
     return thunkApi.rejectWithValue(getAxiosErrorMessage(err));

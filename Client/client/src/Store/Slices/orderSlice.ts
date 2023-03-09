@@ -18,6 +18,7 @@ const initialState: OrderState = {
           city: "",
           county: "",
           phone: "",
+          email: "",
           firstNameBill: "",
           lastNameBill: "",
           addressBill: "",

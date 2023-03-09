@@ -10,7 +10,7 @@ import React, { FC } from "react";
 import { OrderModel } from "../../../Store/Models/Order/OrderModel";
 import {
   ConvertFruitTypeToLabel,
-  ConvertProductCategoryType,
+  ConvertHoneyType,
   ConvertSizeToLabel,
 } from "../../../Utils/Functions/ConvertEnum";
 
@@ -41,7 +41,7 @@ export const AdminOrderDetails: FC<{
                 </Grid>
                 <Grid item xs={12}>
                   Tip miere:
-                  {ConvertProductCategoryType(product.productCategory)}
+                  {ConvertHoneyType(product.productCategory)}
                 </Grid>
                 <Grid item xs={12}>
                   Gramaj: {ConvertSizeToLabel(product.sizeType)}

@@ -9,7 +9,7 @@ import styles from "../../../styles/addToCartModal.module.scss";
 import { resourceUrl } from "../../Utils";
 import {
   ConvertFruitTypeToLabel,
-  ConvertProductCategoryType,
+  ConvertHoneyType,
   ConvertSizeToLabel,
 } from "../../Utils/Functions/ConvertEnum";
 import { SizeType } from "../../Store/Enums/SizeType";
@@ -17,7 +17,6 @@ import { getCartItems, removeItem } from "../../Store/Thunks/cartThunks";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
 import { TransitionProps } from "@mui/material/transitions";
 import { setCartItems } from "../../Store/Slices/cartSlice";
-import { FruitType } from "../../Store/Enums/Product/FruitType";
 
 const Transition: any = forwardRef(function Transition(
   props: TransitionProps & {
@@ -107,9 +106,7 @@ export const AddToCartModal: FC<{
                   />
                   <Box className={styles.info}>
                     <Typography className={styles.title}>
-                      {ConvertProductCategoryType(
-                        item.productCategory
-                      )?.toUpperCase()}
+                      {ConvertHoneyType(item.productCategory)?.toUpperCase()}
                     </Typography>
                     <Typography>
                       {ConvertFruitTypeToLabel(Number(item.fruitType))}

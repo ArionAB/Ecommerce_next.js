@@ -63,6 +63,7 @@ const ProductDetails: FC<{
     if (card) {
       dispatch(setProductItem(card));
     }
+
     //eslnt disable-next-line
   }, [card]);
 
@@ -89,6 +90,26 @@ const ProductDetails: FC<{
   const handleAddToCart = () => {
     addToCart();
     setOpenCart(true);
+  };
+
+  useEffect(() => {
+    recentlyViewedProducts();
+    //eslint-disable-next-line
+  }, []);
+
+  const recentlyViewedProducts = () => {
+    const storageItems = JSON.parse(
+      localStorage.getItem("recentlyViewed") || "[]"
+    );
+    const alreadyExists = storageItems.find(
+      (storageItem: ProductItemModel) =>
+        storageItem.productId === item.productId
+    );
+    if (!alreadyExists)
+      localStorage.setItem(
+        "recentlyViewed",
+        JSON.stringify([...storageItems, item])
+      );
   };
 
   return (

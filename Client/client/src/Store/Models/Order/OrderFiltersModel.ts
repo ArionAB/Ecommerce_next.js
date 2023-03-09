@@ -1,5 +1,5 @@
 import { DataGridColumnNames } from "../../Enums/DataGridColumnNames";
-import { StatusType } from "../../Enums/Order/StatusType";
+import { OrderStatusType } from "../../Enums/Order/OrderStatusType";
 
 export interface OrderFiltersModel {
   pageNumber: number;
@@ -8,5 +8,5 @@ export interface OrderFiltersModel {
   searchText?: string;
   firstEntryDate?: string | undefined;
   secondEntryDate?: string | undefined;
-  status?: StatusType;
+  status?: OrderStatusType;
 }

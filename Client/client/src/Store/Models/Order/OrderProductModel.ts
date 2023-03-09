@@ -1,5 +1,5 @@
 import { FruitType } from "../../Enums/Product/FruitType";
-import { productCategoryType } from "../../Enums/Product/productCategory";
+import { HoneyType } from "../../Enums/Product/HoneyType";
 import { SizeType } from "../../Enums/SizeType";
 
 export interface OrderProductModel {
@@ -8,7 +8,7 @@ export interface OrderProductModel {
   price: number;
   sizeType: SizeType;
   fruitType: FruitType;
-  productCategory: productCategoryType;
+  productCategory: HoneyType;
   quantity: number;
   filePath: string;
 }

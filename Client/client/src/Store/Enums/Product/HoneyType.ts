@@ -1,4 +1,4 @@
-export enum productCategoryType {
+export enum HoneyType {
   All = 1,
   Poliflora = 2,
   Salcam = 3,
