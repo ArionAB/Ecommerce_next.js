@@ -132,7 +132,7 @@ namespace Ecommerce.ServiceLayer.OrderService
             {
              
                 var totalCount = _context.Orders.Where(x => userType == UserType.User ? x.UserId == userId : true)
-                    .Where(x => filters.SearchText != null ? ( (x.User.FirstName + " " + x.User.LastName).Contains(filters.SearchText) || x.OrderId.ToString().Contains(filters.SearchText)) : true)
+                    .Where(x => filters.SearchText != null ? ( (x.User.FirstName + " " + x.User.LastName).Contains(filters.SearchText) || x.OrderId.ToString().Contains(filters.SearchText)) /*|| x.OrderAddress.Email.ToString().Contains(filters.SearchText))*/ : true)
                     .Where(x => filters.Status != 0 ? x.Status == filters.Status : true)
                     .Where(x => String.IsNullOrEmpty(filters.FirstEntryDate) ? true :
                     DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.FirstEntryDate), x.DateCreated) <= 0)
@@ -177,7 +177,7 @@ namespace Ecommerce.ServiceLayer.OrderService
                     
                         orders = _mapper.ProjectTo<OrderDTO>(_context.Orders.Where(x => userType == UserType.User ? x.UserId == userId : true)
                             .Where(x => filters.SearchText != null ? ((x.User.FirstName + " " + x.User.LastName).Contains(filters.SearchText)
-                            || x.OrderId.ToString().Contains(filters.SearchText)) : true)
+                            || x.OrderId.ToString().Contains(filters.SearchText)) /*|| x.OrderAddress.Email.ToString().Contains(filters.SearchText)*/ : true)
                             .Where(x => filters.Status != 0 ? x.Status == filters.Status : true)
                             .Where(x => String.IsNullOrEmpty(filters.FirstEntryDate) ? true :
                             DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.FirstEntryDate), x.DateCreated) <= 0)
@@ -190,7 +190,7 @@ namespace Ecommerce.ServiceLayer.OrderService
                       
                         orders = _mapper.ProjectTo<OrderDTO>(_context.Orders.Where(x => userType == UserType.User ? x.UserId == userId : true)
                             .Where(x => filters.SearchText != null ? ((x.User.FirstName + " " + x.User.LastName).Contains(filters.SearchText)
-                            || x.OrderId.ToString().Contains(filters.SearchText)) : true)
+                            || x.OrderId.ToString().Contains(filters.SearchText)) /*|| x.OrderAddress.Email.ToString().Contains(filters.SearchText)*/ : true)
                             .Where(x => filters.Status != 0 ? x.Status == filters.Status : true)
                             .Where(x => String.IsNullOrEmpty(filters.FirstEntryDate) ? true :
                             DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.FirstEntryDate), x.DateCreated) <= 0)
@@ -206,7 +206,7 @@ namespace Ecommerce.ServiceLayer.OrderService
                         {
                             orders = _mapper.ProjectTo<OrderDTO>(_context.Orders.Where(x => userType == UserType.User ? x.UserId == userId : true)
                            .Where(x => filters.SearchText != null ? ((x.User.FirstName + " " + x.User.LastName).Contains(filters.SearchText)
-                           || x.OrderId.ToString().Contains(filters.SearchText)) : true)
+                           || x.OrderId.ToString().Contains(filters.SearchText)) /*|| x.OrderAddress.Email.ToString().Contains(filters.SearchText)*/ : true)
                            .Where(x => filters.Status != 0 ? x.Status == filters.Status : true)
                            .Where(x => String.IsNullOrEmpty(filters.FirstEntryDate) ? true :
                            DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.FirstEntryDate), x.DateCreated) <= 0)
@@ -219,7 +219,7 @@ namespace Ecommerce.ServiceLayer.OrderService
                         {
                             orders = _mapper.ProjectTo<OrderDTO>(_context.Orders.Where(x => userType == UserType.User ? x.UserId == userId : true)
                             .Where(x => filters.SearchText != null ? ((x.User.FirstName + " " + x.User.LastName).Contains(filters.SearchText)
-                  |          x.OrderId.ToString().Contains(filters.SearchText)) : true)
+                  |          x.OrderId.ToString().Contains(filters.SearchText)) /*|| x.OrderAddress.Email.ToString().Contains(filters.SearchText)*/ : true)
                              .Where(x => filters.Status != 0 ? x.Status == filters.Status : true)
                              .Where(x => String.IsNullOrEmpty(filters.FirstEntryDate) ? true :
                              DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.FirstEntryDate), x.DateCreated) <= 0)
@@ -234,6 +234,28 @@ namespace Ecommerce.ServiceLayer.OrderService
 
             return orders;
             
+        }
+
+        public async Task<ServiceResponse<Object>> ChangeOrderStatus(Guid orderId, OrderStatusType status, UserType userType)
+        {
+            try
+            {
+                if (userType != UserType.Admin)
+                {
+                    return new ServiceResponse<Object> { Response = null, Success = false, Message = Messages.Message_NotAdmin };
+                }
+
+                var order = await _context.Orders.FirstOrDefaultAsync(x => x.OrderId == orderId);
+                order.Status = status;
+
+                await _context.SaveChangesAsync();
+
+                return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_ChangeOrderStatusSuccess };
+            }
+            catch (Exception e)
+            {
+                return new ServiceResponse<object> { Response = null, Success = false, Message = Messages.Message_ChangeOrderStatusError };
+            }
         }
     }
 }

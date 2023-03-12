@@ -51,8 +51,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
     setLoginError({ ...loginError, [e.target.name]: "", errorMessage: "" });
   };
 
-  const submitLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
+  const submitLogin = () => {
     let isError = false;
     const errors = {
       email: "",
@@ -156,9 +155,19 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
     }
   };
 
+  const handleEnterPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      if (tabValue === 0) {
+        submitRegister(e as any);
+      } else {
+        submitLogin();
+      }
+    }
+  };
+
   return (
     <ClickAwayListener onClickAway={() => setOpenDialog(false)}>
-      <Paper className={styles.signup}>
+      <Paper className={styles.signup} onKeyDown={handleEnterPress}>
         <Box className={styles.loginBox}>
           <Box></Box>
           <Typography className={styles.title}>
@@ -324,7 +333,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
                 />
               </InputLabel>
               <InputLabel>
-                <Typography>Password</Typography>
+                <Typography>Parola</Typography>
                 <TextField
                   InputProps={{
                     classes: {
@@ -353,7 +362,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
               <Button
                 variant="contained"
                 className={styles.registerBTN}
-                onClick={(e) => submitLogin(e)}
+                onClick={() => submitLogin}
               >
                 Log in
               </Button>

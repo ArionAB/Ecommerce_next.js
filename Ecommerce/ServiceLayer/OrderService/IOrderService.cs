@@ -12,6 +12,7 @@ namespace Ecommerce.ServiceLayer.OrderService
         {
             Task<ServiceResponse<Object>> AddOrder(AddOrderDTO orderDTO);
             Task<ServiceResponse<GetPaginatedOrdersDTO>> GetOrders(Guid userId, UserType userType, OrderFiltersDTO filters);
+        Task<ServiceResponse<Object>> ChangeOrderStatus(Guid orderId, OrderStatusType status, UserType userType);
 
     }
     

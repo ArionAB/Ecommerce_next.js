@@ -30,6 +30,9 @@ import useAddItemToCart from "../../src/Utils/Hooks/useAddItemToCart";
 import styles from "../../styles/productDetails.module.scss";
 import { ProductItemModel } from "../../src/Store/Models/Product/ProductItem";
 import { setProductItem } from "../../src/Store/Slices/productSlice";
+import { Recommend } from "@mui/icons-material";
+import { Recommended } from "../../src/Components/product-details-page/Recommended";
+import { RecentlyViewed } from "../../src/Components/home-page/RecentlyViewed";
 
 const ProductDetails: FC<{
   handleClose: Function;
@@ -203,6 +206,18 @@ const ProductDetails: FC<{
           </Typography>
         </Box>
       </Container>
+      <div
+        className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
+      >
+        <span className={`${styles.div_dot_two}`}></span>
+      </div>
+      <Recommended honeyType={item.productCategory} />
+      <div
+        className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
+      >
+        <span className={`${styles.div_dot_two}`}></span>
+      </div>
+      <RecentlyViewed />
     </>
   );
 };

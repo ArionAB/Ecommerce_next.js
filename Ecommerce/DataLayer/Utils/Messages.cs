@@ -76,5 +76,11 @@
         public static Message Message_RemoveAllCartItemsSuccess = new Message { Text = "Produsele din coș au fost șterse!", MessageType = MessageType.Success };
         public static Message Message_RemoveAllCartItemsError = new Message { Text = "Produse din coș nu au putut fi șterse!.", MessageType = MessageType.Error };
 
+
+        public static Message Message_NotAdmin = new Message { Text = "Unauthorized!.", MessageType = MessageType.Error };
+
+        public static Message Message_ChangeOrderStatusSuccess = new Message { Text = "Statusul comenzii a fost schimbat!", MessageType = MessageType.Success };
+        public static Message Message_ChangeOrderStatusError = new Message { Text = "Eroare schimbare status comanda!.", MessageType = MessageType.Error };
+
     }
 }

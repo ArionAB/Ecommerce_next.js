@@ -11,13 +11,9 @@ import { ProductItems } from "../src/Components/home-page/ProductItems";
 
 import styles from "../styles/index.module.scss";
 import { RecentlyViewed } from "../src/Components/home-page/RecentlyViewed";
-import { ProductItemModel } from "../src/Store/Models/Product/ProductItem";
 
 export default function Home() {
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  const [recentlyViewedItems, setRecentlyViewedItems] = useState<
-    ProductItemModel[]
-  >([]);
 
   const dispatch = useAppDispatch();
 
@@ -31,12 +27,6 @@ export default function Home() {
 
     //eslint disable-next-line
   }, [isMounted]);
-
-  useEffect(() => {
-    setRecentlyViewedItems(
-      JSON.parse(localStorage?.getItem("recentlyViewed") || "[]")
-    );
-  }, []);
 
   return (
     <>
@@ -65,16 +55,10 @@ export default function Home() {
       >
         <span className={`${styles.div_dot_two}`}></span>
       </div>
-      {recentlyViewedItems.length && (
-        <>
-          <RecentlyViewed items={recentlyViewedItems} />
-          <div
-            className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
-          >
-            <span className={`${styles.div_dot_two}`}></span>
-          </div>
-        </>
-      )}
+
+      <>
+        <RecentlyViewed />
+      </>
     </>
   );
 }

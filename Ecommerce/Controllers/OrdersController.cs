@@ -42,5 +42,13 @@ namespace Ecommerce.Controllers
             
         }
 
+        [HttpPost("/Order/ChangeOrderStatus")]
+        public async Task<IActionResult> ChangeOrderStatus([FromBody] ChangeOrderStatusDTO order )
+        {
+            var response = await _orderService.ChangeOrderStatus(order.OrderId, order.Status, Account.UserType);
+            if (response.Success) return Ok(response);
+            else return BadRequest(response);
+        }
+
     }
 }

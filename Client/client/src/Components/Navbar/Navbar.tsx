@@ -36,6 +36,9 @@ export const Navbar = () => {
         <Link href="/" className={styles.link}>
           Acasă
         </Link>
+        <Link href="/about" className={styles.link}>
+          Despre noi
+        </Link>
 
         <Link href="/cart" className={styles.cartLink}>
           <ShoppingCartIcon />

@@ -126,7 +126,7 @@ $honey-bg: linear-gradient(180deg, #ffc97d, #f0b25b);
   }
 
   .div_transparent:before {
-    content: "\2B22";
+    content: "";
     position: absolute;
     top: 0;
     left: 5%;
@@ -143,7 +143,7 @@ $honey-bg: linear-gradient(180deg, #ffc97d, #f0b25b);
 
   .div_dot:after {
     display: block;
-    content: "\2B22";
+    content: "";
     position: absolute;
     z-index: 1;
     top: -23px;
@@ -155,7 +155,7 @@ $honey-bg: linear-gradient(180deg, #ffc97d, #f0b25b);
   }
   .div_dot_two:after {
     display: block;
-    content: "\2B22";
+    content: "";
     position: absolute;
     z-index: 1;
     top: -23px;

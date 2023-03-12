@@ -273,7 +273,7 @@ const AdminOrdersTable = () => {
   };
 
   return (
-    <Container sx={{ maxWidth: "1800px !important" }}>
+    <Container sx={{ maxWidth: "1800px !important", position: "relative" }}>
       <AdminOrdersFilters />
       {DisplayOrderStatusModal && (
         <List
@@ -287,6 +287,9 @@ const AdminOrdersTable = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            position: "absolute",
+            zIndex: 2,
+            right: "20%",
           }}
         >
           <Close
