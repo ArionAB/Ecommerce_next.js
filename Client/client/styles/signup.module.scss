@@ -9,7 +9,7 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid $light-gray;
-    padding: 1rem;
+    padding: 1em;
 
     .title {
       color: $brown;
@@ -33,8 +33,8 @@
     display: grid;
     align-items: center;
     grid-template-columns: 1fr 1fr;
-    padding: 0 1rem;
-    column-gap: 1rem;
+    padding: 0 2rem;
+    column-gap: 2rem;
     @include textfield;
 
     .textfield {
@@ -58,12 +58,55 @@
     justify-content: center;
     justify-self: center;
     margin: 1rem 0;
+    padding: 0 2rem;
 
     .registerBTN {
       background-color: $pink;
       color: $brown;
       width: 100%;
-      max-width: 150px;
+      max-width: 300px;
     }
   }
+}
+
+.resetPassword {
+  padding: 0rem 2rem 2rem 2rem;
+  @include textfield;
+  border-bottom: 1px solid $light-gray;
+
+  .textfield {
+    width: 100%;
+    // min-height: 102px;
+
+    &:focus-within {
+      .notchedOutline {
+        border-color: $brown !important;
+      }
+    }
+  }
+
+  .resetPasswordBTN {
+    background-color: $dark-blue;
+    color: #fff;
+    width: 100%;
+    // max-width: 150px;
+  }
+}
+
+.noAccount {
+  text-align: center;
+  padding: 3rem 0;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 18px;
+  color: rgb(155, 155, 155);
+}
+
+.forgotPassword {
+  text-align: right;
+  font-size: 14px;
+  line-height: 18px;
+  color: rgb(155, 155, 155);
+  cursor: pointer;
+  padding-right: 2rem;
 }

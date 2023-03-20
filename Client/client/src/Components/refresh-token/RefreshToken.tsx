@@ -1,5 +1,6 @@
 import { FC, useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store";
+import { UserType } from "../../Store/Enums/UserType";
 
 import { AutehticateUserModel } from "../../Store/Models/User/AuthtenticateUserModel";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
@@ -39,7 +40,7 @@ const RefreshToken: FC = () => {
     const getCart = localStorage.getItem("cart" || "[]");
     const cart = JSON.parse(getCart || "[]") || [];
 
-    if (!currentUser) {
+    if (!currentUser || currentUser.userType === UserType.Admin) {
       dispatch(setCartItems(JSON.parse(getCart || "[]") || []));
     } else {
       const newCart: any = cart?.map((item: any) => {

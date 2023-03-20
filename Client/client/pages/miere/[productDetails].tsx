@@ -30,7 +30,7 @@ import useAddItemToCart from "../../src/Utils/Hooks/useAddItemToCart";
 import styles from "../../styles/productDetails.module.scss";
 import { ProductItemModel } from "../../src/Store/Models/Product/ProductItem";
 import { setProductItem } from "../../src/Store/Slices/productSlice";
-import { Recommend } from "@mui/icons-material";
+
 import { Recommended } from "../../src/Components/product-details-page/Recommended";
 import { RecentlyViewed } from "../../src/Components/home-page/RecentlyViewed";
 

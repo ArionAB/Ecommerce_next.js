@@ -7,7 +7,11 @@ import TextField from "@mui/material/TextField";
 import React, { useState, FC } from "react";
 import styles from "../../../styles/signup.module.scss";
 import { useAppDispatch } from "../../Store";
-import { loginUser, registerUser } from "../../Store/Thunks/userThunks";
+import {
+  forgotPassword,
+  loginUser,
+  registerUser,
+} from "../../Store/Thunks/userThunks";
 import { emailRegex } from "../../Utils/Functions/emailRegex";
 
 const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
@@ -35,6 +39,8 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
     password: "",
     errorMessage: "",
   });
+
+  const [forgotEmail, setForgotEmail] = useState("");
 
   const [tabValue, setTabValue] = useState(0);
 
@@ -95,11 +101,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
     setRegisterError({ ...registerError, [e.target.name]: "" });
   };
 
-  const submitRegister = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-
+  const submitRegister = () => {
     let isError = false;
     const errors = {
       name: "",
@@ -134,7 +136,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
           data: register,
         })
       ).then((res) => {
-        if (res.payload === "Inregistrat cu success!") {
+        if (res.payload.message.text === "Inregistrat cu success!") {
           dispatch(
             loginUser({
               data: {
@@ -156,13 +158,15 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
   };
 
   const handleEnterPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      if (tabValue === 0) {
-        submitRegister(e as any);
-      } else {
-        submitLogin();
-      }
+    if (e.key === "Enter" && tabValue === 0) {
+      submitRegister();
+    } else if (e.key === "Enter" && tabValue === 1) {
+      submitLogin();
     }
+  };
+
+  const sendResetPassword = () => {
+    dispatch(forgotPassword(forgotEmail));
   };
 
   return (
@@ -171,32 +175,45 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
         <Box className={styles.loginBox}>
           <Box></Box>
           <Typography className={styles.title}>
-            {tabValue === 1 ? "Log in" : "Înregistrează-te"}
+            {tabValue === 0
+              ? "Înregistrează-te"
+              : tabValue === 1
+              ? "Logare"
+              : tabValue === 2
+              ? "Ai uitat parola?"
+              : ""}
           </Typography>
           <Close
             sx={{ float: "right", cursor: "pointer" }}
             onClick={() => setOpenDialog(false)}
           />
         </Box>
+        {tabValue === 2 ? (
+          <Typography textAlign="center" p={4}>
+            Te rugăm să introduci adresa de e-mail. O să îți trimitem un e-mail
+            pentru a putea reseta parola.
+          </Typography>
+        ) : (
+          <Tabs
+            value={tabValue}
+            onChange={handleTab}
+            centered
+            TabIndicatorProps={{ style: { background: "#344660" } }}
+            className={styles.tabs}
+          >
+            <Tab
+              label="Înregistrează-te"
+              className={tabValue === 0 ? styles.activeTab : styles.tab}
+              value={0}
+            />
+            <Tab
+              label="Logare"
+              className={tabValue === 1 ? styles.activeTab : styles.tab}
+              value={1}
+            />
+          </Tabs>
+        )}
 
-        <Tabs
-          value={tabValue}
-          onChange={handleTab}
-          centered
-          TabIndicatorProps={{ style: { background: "#344660" } }}
-          className={styles.tabs}
-        >
-          <Tab
-            label="Sign Up"
-            className={tabValue === 0 ? styles.activeTab : styles.tab}
-            value={0}
-          />
-          <Tab
-            label="Log in"
-            className={tabValue === 1 ? styles.activeTab : styles.tab}
-            value={1}
-          />
-        </Tabs>
         {tabValue === 0 && (
           <form>
             <Box className={styles.formBox}>
@@ -302,9 +319,9 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
               <Button
                 variant="contained"
                 className={styles.registerBTN}
-                onClick={(e) => submitRegister(e)}
+                onClick={() => submitRegister()}
               >
-                Register
+                Înregistrează-te acum
               </Button>
             </Box>
           </form>
@@ -352,21 +369,62 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
                   }
                 />
               </InputLabel>
+              {/* <Typography>Am uitat parola</Typography> */}
             </Box>
             {loginError.errorMessage && (
               <Typography className={styles.errorMessage}>
                 {loginError.errorMessage}
               </Typography>
             )}
+            <Typography
+              onClick={() => setTabValue(2)}
+              className={styles.forgotPassword}
+            >
+              Ai uitat parola?
+            </Typography>
             <Box className={styles.registerBox}>
               <Button
                 variant="contained"
                 className={styles.registerBTN}
-                onClick={() => submitLogin}
+                onClick={() => submitLogin()}
               >
-                Log in
+                Logare
               </Button>
             </Box>
+          </form>
+        )}
+        {tabValue === 2 && (
+          <form>
+            <Box className={styles.resetPassword}>
+              <InputLabel>
+                <Typography>Adresa ta de e-mail</Typography>
+                <TextField
+                  InputProps={{
+                    classes: {
+                      root: styles.cssOutlinedInput,
+                      focused: styles.cssFocused,
+                      notchedOutline: styles.notchedOutline,
+                    },
+                  }}
+                  fullWidth
+                  className={styles.textfield}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                />
+              </InputLabel>
+
+              <Button
+                className={styles.resetPasswordBTN}
+                onClick={() => sendResetPassword()}
+              >
+                Resetează parola
+              </Button>
+            </Box>
+            <Typography
+              className={styles.noAccount}
+              onClick={() => setTabValue(0)}
+            >
+              Încă nu ai cont? Înregistrează-te acum
+            </Typography>
           </form>
         )}
       </Paper>

@@ -12,6 +12,7 @@ import { AddToCartModal } from "../cart-page/AddToCartModal";
 import { useAppSelector } from "../../Store";
 import { selectProductItem } from "../../Store/Selectors/productSelectors";
 import useAddItemToCart from "../../Utils/Hooks/useAddItemToCart";
+import { SizeType } from "../../Store/Enums/SizeType";
 
 export const Options: FC<{
   handleClose: Function;
@@ -57,7 +58,10 @@ export const Options: FC<{
         </Typography>
 
         <Typography variant="h6" className={styles.price}>
-          {card.priceKg} lei
+          {sizeValue === SizeType.Big
+            ? Number(item.priceKg)
+            : Number(item.priceHalf)}
+          lei
         </Typography>
         <Box>
           <FormControl className={styles.selectWeight}>

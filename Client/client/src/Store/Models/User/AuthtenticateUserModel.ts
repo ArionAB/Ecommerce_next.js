@@ -11,7 +11,7 @@ export interface AutehticateUserModel {
   lastName: string;
   address: string;
   info: string | undefined;
-  zipCode: string;
+  zipCode: number;
   city: string;
   county: string;
   phone: string;
@@ -19,7 +19,7 @@ export interface AutehticateUserModel {
   lastNameBill: string;
   addressBill: string;
   infoBill: string | undefined;
-  zipCodeBill: string;
+  zipCodeBill: number;
   cityBill: string;
   countyBill: string;
   phoneBill: string;

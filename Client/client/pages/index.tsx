@@ -2,10 +2,7 @@ import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { Box, CardMedia } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../src/Store";
-import {
-  selectProductItems,
-  selectLoadingItems,
-} from "../src/Store/Selectors/productSelectors";
+import { selectProductItems } from "../src/Store/Selectors/productSelectors";
 import { getProductItems } from "../src/Store/Thunks/productThunks";
 import { ProductItems } from "../src/Components/home-page/ProductItems";
 
@@ -14,19 +11,79 @@ import { RecentlyViewed } from "../src/Components/home-page/RecentlyViewed";
 
 export default function Home() {
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [visible, setVisible] = useState<boolean>(false);
 
+  function logit() {
+    setScrollY(window.pageYOffset);
+  }
+  console.log(visible);
   const dispatch = useAppDispatch();
 
   const productItems = useAppSelector(selectProductItems);
-  const loading = useAppSelector(selectLoadingItems);
+
+  useEffect(() => {
+    function watchScroll() {
+      window.addEventListener("scroll", logit);
+    }
+    watchScroll();
+
+    return () => {
+      window.removeEventListener("scroll", logit);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     setIsMounted(true);
     if (isMounted && !productItems.length) {
       dispatch(getProductItems(""));
     }
 
-    //eslint disable-next-line
+    //eslint-disable-next-line
   }, [isMounted]);
+
+  useEffect(() => {
+    observer();
+    if (visible) return;
+    if (scrollY > 100) {
+      setVisible(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scrollY]);
+
+  const observer = () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        console.log(entry);
+        if (entry.isIntersecting) {
+          entry.target.classList.add("styles_fadeIn");
+          entry.target.classList.add("reaveal");
+          return;
+        }
+        observer.unobserve(entry.target);
+      });
+    });
+
+    // Observe the element
+
+    //used for left-to-right animation
+    // const elementLeft = document.querySelectorAll(".reveal-left");
+    // const elementRight = document.querySelectorAll(".reveal-right");
+
+    const fadeOut = document.querySelectorAll(".styles_fadeOut");
+
+    //used for left-to-right animation
+    // elementRight.forEach((elem) => {
+    //   observer.observe(elem);
+    // });
+    // elementLeft.forEach((elem) => {
+    //   observer.observe(elem);
+    // });
+    fadeOut.forEach((elem) => {
+      observer.observe(elem);
+    });
+  };
 
   return (
     <>
@@ -48,7 +105,24 @@ export default function Home() {
         <div className={styles.secondContainer}></div>
       </Box>
 
-      <img src="/dropplets.webp" alt="" className={styles.dropplets} />
+      <img
+        src="/dropplets.webp"
+        alt=""
+        className={
+          !visible
+            ? `${styles.dropplets} ${styles.fadeOut}`
+            : `${styles.dropplets} ${styles.fadeIn}`
+        }
+        // style={
+        //   scrollY > 400
+        //     ? {
+        //         opacity: 1,
+        //         transition: "transform 1s, opacity 1s",
+        //         transform: "translateY(0)",
+        //       }
+        //     : { opacity: 0 }
+        // }
+      />
       <ProductItems />
       <div
         className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}

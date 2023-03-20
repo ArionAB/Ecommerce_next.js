@@ -126,8 +126,8 @@ export const updateUser = createAsyncThunk<
     form.append("firstName", data.firstName);
     form.append("lastName", data.lastName);
     form.append("address", data.address);
-    form.append("info", data.info!);
-    form.append("zipCode", data.zipCode);
+    form.append("info", data.info ?? "");
+    form.append("zipCode", data.zipCode.toString() ?? 0);
     form.append("city", data.city);
     form.append("county", data.county);
     form.append("phone", data.phone);
@@ -137,20 +137,18 @@ export const updateUser = createAsyncThunk<
       form.append("firstNameBill", data.firstName);
       form.append("lastNameBill", data.lastName);
       form.append("addressBill", data.address);
-      form.append("infoBill", data.info!);
-      form.append("zipCodeBill", data.zipCode);
+      form.append("infoBill", data.info! ?? "");
+      form.append("zipCodeBill", data.zipCode.toString() ?? 0);
       form.append("cityBill", data.city);
       form.append("countyBill", data.county);
-      form.append("phoneBill", data.phone);
     } else {
       form.append("firstNameBill", data.firstNameBill);
       form.append("lastNameBill", data.lastNameBill);
       form.append("addressBill", data.addressBill);
-      form.append("infoBill", data.infoBill!);
-      form.append("zipCodeBill", data.zipCodeBill);
+      form.append("infoBill", data.infoBill! ?? "");
+      form.append("zipCodeBill", data.zipCodeBill.toString() ?? 0);
       form.append("cityBill", data.cityBill);
       form.append("countyBill", data.countyBill);
-      form.append("phoneBill", data.phoneBill);
     }
 
     let { response } = await axios.post(baseUrl + "Users/UpdateUser", form, {
@@ -185,5 +183,59 @@ export const getAllUsers = createAsyncThunk<
   } catch (err: any) {
     let errorMessage = getAxiosErrorMessage(err);
     return thunkAPI.rejectWithValue(getAxiosErrorMessage(err));
+  }
+});
+
+export const forgotPassword = createAsyncThunk<any, string, AppThunkConfig>(
+  "Users/ForgotPassword",
+  async (email, thunkAPI) => {
+    console.log(email);
+    try {
+      let response = await axios.post(baseUrl + "Users/ForgotPassword", email, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response;
+    } catch (err: any) {
+      let errorMessage = getAxiosErrorMessage(err);
+      return thunkAPI.rejectWithValue(getAxiosErrorMessage(err));
+    }
+  }
+);
+
+export const requestResetPassword = createAsyncThunk<
+  any,
+  {
+    token: string | null | undefined;
+    password: string;
+    confirmPassword: string;
+  },
+  AppThunkConfig
+>("auth/resetPassword", async (requestData, thunkAPI) => {
+  try {
+    let { data } = await axios.post(
+      baseUrl + "Users/ResetPassword",
+      {
+        token: requestData.token,
+        password: requestData.password,
+        confirmPassword: requestData.confirmPassword,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return data.response;
+  } catch (err: any) {
+    let errorMessage = getAxiosErrorMessage(err);
+    if (errorMessage) {
+      return thunkAPI.rejectWithValue(errorMessage);
+    } else {
+      throw err;
+    }
   }
 });

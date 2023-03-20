@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useEffect } from "react";
 import { useAppSelector } from "../../Store";
 import { UserType } from "../../Store/Enums/UserType";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
@@ -10,7 +10,7 @@ export default function withAuth(WrappedComponent: any, adminOnly: boolean) {
     const user = currentUser?.userType;
     const router = useRouter();
 
-    useLayoutEffect(() => {
+    useEffect(() => {
       if (adminOnly && user !== UserType.Admin) {
         router.push("/");
       }

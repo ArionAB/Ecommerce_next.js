@@ -84,7 +84,7 @@ const AdminOrdersTable = () => {
       valueGetter: (params: GridValueGetterParams) =>
         params.row?.lastName
           ? params.row?.lastName
-          : params.row?.shippingAddress.lastName,
+          : params.row?.shippingAddress?.lastName,
     },
 
     {
@@ -95,7 +95,7 @@ const AdminOrdersTable = () => {
       valueGetter: (params: GridValueGetterParams) =>
         params.row?.firstName
           ? params.row?.firstName
-          : params.row?.shippingAddress.firstName,
+          : params.row?.shippingAddress?.firstName,
     },
     {
       field: "email",

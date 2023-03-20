@@ -95,16 +95,17 @@ const Card: FC<{
         <Image
           src={resourceUrl + imageSource}
           onMouseEnter={() => {
-            setImageSource(card.productPictures[1].filePath);
+            setImageSource(card.productPictures[1]?.filePath);
           }}
           onMouseLeave={() => {
-            setImageSource(card.productPictures[0].filePath);
+            setImageSource(card.productPictures[0]?.filePath);
           }}
           loader={imageLoader}
           alt={card.title}
           width={280}
           height={400}
           quality={100}
+          // layout="responsive"
           unoptimized={true}
         ></Image>
       </Link>
@@ -115,13 +116,13 @@ const Card: FC<{
       {expand && containerIndex === index && (
         <Box className={styles.twoButtons}>
           <Button className={styles.shop} onClick={() => setOpenShop(true)}>
-            Quick Shop
+            Detalii
           </Button>
           <Button
             className={styles.options}
             onClick={() => setOpenOptions(true)}
           >
-            Choose Options
+            Opțiuni
           </Button>
         </Box>
       )}

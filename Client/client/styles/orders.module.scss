@@ -33,8 +33,10 @@
     .history_container {
       background-color: #fff;
       height: 80vh;
-
       padding-right: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .orders_container {

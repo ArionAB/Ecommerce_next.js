@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Box,
@@ -12,10 +12,7 @@ import {
 } from "@mui/material";
 import styles from "../styles/checkout.module.scss";
 import { useAppDispatch, useAppSelector } from "../src/Store";
-import {
-  selectCartItems,
-  selectTotalPrice,
-} from "../src/Store/Selectors/cartSelectors";
+import { selectCartItems } from "../src/Store/Selectors/cartSelectors";
 import { resourceUrl } from "../src/Utils";
 import { ConvertSizeToLabel } from "../src/Utils/Functions/ConvertEnum";
 import Link from "next/link";
@@ -37,31 +34,42 @@ import { removeAllItems } from "../src/Store/Thunks/cartThunks";
 import { useRouter } from "next/router";
 import { resetCartState } from "../src/Store/Slices/cartSlice";
 import ShippingAddress from "../src/Components/checkout-page/ShippingAddress";
+import { setCurrentUser } from "../src/Store/Slices/authenticateSlice";
+import { useFormState } from "../src/Utils/Hooks/useReactForm";
 
 export const Checkout = () => {
-  const [shipping, setShipping] = useState({
+  const [hasErrors, setHasErrors] = useState(true);
+  const [formState, setFormProp, setFormState] = useFormState({
     firstName: "",
     lastName: "",
     email: "",
     address: "",
     info: "",
-    zipCode: "",
+    zipCode: 0,
     city: "",
     county: "",
     phone: "",
   });
+
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodType>(
     PaymentMethodType.Card
   );
   const [billing, setBilling] = useState<ShippingAddressModel | any>({});
+  const [checkForErrors, setCheckForErrors] = useState(false);
   const [displayPayment, setDisplayPayment] = useState(false);
   const [activeBreadcrumb, setActiveBreadcrumb] = useState(2);
   const [sameAddress, setSameAddress] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const cartItems = useAppSelector(selectCartItems);
-  const totalPrice = useAppSelector(selectTotalPrice);
-  const currentUser = useAppSelector(selectCurrentUser);
+
+  const currentUser: any = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
+
+  const totalPrice = cartItems?.reduce(
+    (acc, item) => acc + Number(item.priceKg) * Number(item.quantity),
+    0
+  );
 
   const priceWithDelivery = () => {
     if (totalPrice < 200) {
@@ -71,37 +79,44 @@ export const Checkout = () => {
     }
   };
 
-  useLayoutEffect(() => {
-    if (!cartItems.length) {
-      router.push("/");
-    }
-    //eslint-disable-next-line
-  }, []);
-
   const handleBillingChange = (billingInfo: any) => {
     setBilling(billingInfo);
   };
 
   useEffect(() => {
-    if (sameAddress)
+    if (sameAddress) {
       setBilling({
-        firstNameBill: shipping.firstName,
-        lastNameBill: shipping.lastName,
-        addressBill: shipping.address,
-        infoBill: shipping.info,
-        zipCodeBill: shipping.zipCode,
-        cityBill: shipping.city,
-        countyBill: shipping.county,
-        phoneBill: shipping.phone,
+        firstNameBill: formState.firstName,
+        lastNameBill: formState.lastName,
+        addressBill: formState.address,
+        infoBill: formState.info,
+        zipCodeBill: formState.zipCode,
+        cityBill: formState.city,
+        countyBill: formState.county,
       });
-  }, [sameAddress, shipping]);
+    } else {
+      setBilling({
+        firstNameBill: billing.firstNameBill,
+        lastNameBill: billing.lastNameBill,
+        addressBill: billing.addressBill,
+        infoBill: billing.infoBill,
+        zipCodeBill: billing.zipCodeBill,
+        cityBill: billing.cityBill,
+        countyBill: billing.countyBill,
+      });
+    }
 
+    //eslint-disable-next-line
+  }, [sameAddress, formState]);
+  console.log(isSubmitting);
   const handleSubmit = () => {
+    if (hasErrors || checkForErrors) return;
+
     setActiveBreadcrumb((prev) => prev + 1);
-    // if (activeBreadcrumb === 3) setDisplayPayment(true);
+    setDisplayPayment(true);
     if (!currentUser?.jwtToken) {
-      localStorage.setItem("shipping", JSON.stringify(shipping));
-      localStorage.setItem("billing", JSON.stringify(shipping));
+      localStorage.setItem("shipping", JSON.stringify(formState));
+      localStorage.setItem("billing", JSON.stringify(formState));
       if (!sameAddress) {
         localStorage.setItem("billing", JSON.stringify(billing));
       }
@@ -110,25 +125,46 @@ export const Checkout = () => {
       dispatch(
         updateUser({
           data: {
-            ...shipping,
-            firstNameBill: shipping.firstName,
-            lastNameBill: shipping.lastName,
-            addressBill: shipping.address,
-            infoBill: shipping.info,
-            zipCodeBill: shipping.zipCode,
-            cityBill: shipping.city,
-            countyBill: shipping.county,
-            phoneBill: shipping.phone,
+            ...formState,
+            firstNameBill: formState.firstName,
+            lastNameBill: formState.lastName,
+            addressBill: formState.address,
+            infoBill: formState.info,
+            zipCodeBill: formState.zipCode as number,
+            cityBill: formState.city,
+            countyBill: formState.county,
           },
           sameAddress: sameAddress,
           token: currentUser?.jwtToken,
         })
-      ).then(() => setDisplayPayment(true));
+      ).then(() => {
+        dispatch(
+          setCurrentUser({
+            ...currentUser,
+            firstNameBill: formState.firstName,
+            lastNameBill: formState.lastName,
+            addressBill: formState.address,
+            infoBill: formState.info,
+            zipCodeBill: formState.zipCode,
+            cityBill: formState.city,
+            countyBill: formState.county,
+            firstName: formState.firstName,
+            lastName: formState.lastName,
+            address: formState.address,
+            info: formState.info,
+            zipCode: formState.zipCode,
+            city: formState.city,
+            county: formState.county,
+            phone: formState.phone,
+          })
+        );
+        setDisplayPayment(true);
+      });
     } else {
       dispatch(
         updateUser({
           data: {
-            ...shipping,
+            ...formState,
             firstNameBill: billing.firstNameBill,
             lastNameBill: billing.lastNameBill,
             addressBill: billing.addressBill,
@@ -136,14 +172,44 @@ export const Checkout = () => {
             zipCodeBill: billing.zipCodeBill,
             cityBill: billing.cityBill,
             countyBill: billing.countyBill,
-            phoneBill: billing.phoneBill,
           },
           sameAddress: sameAddress,
           token: currentUser?.jwtToken,
         })
-      ).then(() => setDisplayPayment(true));
+      ).then(() => {
+        dispatch(
+          setCurrentUser({
+            ...currentUser,
+            firstNameBill: billing.firstNameBill,
+            lastNameBill: billing.lastNameBill,
+            addressBill: billing.addressBill,
+            infoBill: billing.infoBill,
+            zipCodeBill: billing.zipCodeBill,
+            cityBill: billing.cityBill,
+            countyBill: billing.countyBill,
+
+            firstName: formState.firstName,
+            lastName: formState.lastName,
+            address: formState.address,
+            info: formState.info,
+            zipCode: formState.zipCode,
+            city: formState.city,
+            county: formState.county,
+            phone: formState.phone,
+          })
+        );
+        setDisplayPayment(true);
+      });
     }
   };
+
+  useEffect(() => {
+    if (!hasErrors && !checkForErrors) {
+      handleSubmit();
+    }
+
+    //eslint-disable-next-line
+  }, [checkForErrors]);
 
   const placeOrder = () => {
     dispatch(
@@ -152,7 +218,7 @@ export const Checkout = () => {
           status: OrderStatusType.Pending,
           paymentMethod: paymentMethod,
           userId: currentUser?.userId,
-          address: { ...shipping, ...billing },
+          address: { ...formState, ...billing },
           orderProducts: [
             ...cartItems.map((item) => {
               return {
@@ -216,8 +282,7 @@ export const Checkout = () => {
       fontSize={14}
       key="3"
       onClick={() => {
-        setDisplayPayment(true);
-        setActiveBreadcrumb(3);
+        handleSubmit();
       }}
       sx={
         activeBreadcrumb === 3
@@ -243,7 +308,14 @@ export const Checkout = () => {
           </Stack>
         </Box>
         {!displayPayment && activeBreadcrumb === 2 ? (
-          <ShippingAddress setShipping={setShipping} shipping={shipping} />
+          <ShippingAddress
+            setHasErrors={setHasErrors}
+            setFormProp={setFormProp}
+            formState={formState}
+            setFormState={setFormState}
+            checkForErrors={checkForErrors}
+            setCheckForErrors={setCheckForErrors}
+          />
         ) : (
           <Box className={styles.information}>
             <Box className={styles.contact}>
@@ -263,7 +335,7 @@ export const Checkout = () => {
                 </Box>
               ) : (
                 <Box className={styles.withEdit}>
-                  <Typography>{shipping.email}</Typography>{" "}
+                  <Typography>{formState.email}</Typography>{" "}
                   <Button
                     onClick={() => {
                       setDisplayPayment(false);
@@ -295,7 +367,7 @@ export const Checkout = () => {
               ) : (
                 <Box className={styles.withEdit}>
                   <Typography>
-                    {shipping.address}, {shipping.city}, {shipping.county}
+                    {formState.address}, {formState.city}, {formState.county}
                   </Typography>{" "}
                   <Button
                     onClick={() => {
@@ -328,7 +400,13 @@ export const Checkout = () => {
         )}
 
         {!sameAddress && activeBreadcrumb === 2 && (
-          <BillingAddress setBilling={handleBillingChange} />
+          <BillingAddress
+            setBilling={handleBillingChange}
+            sameAddress={sameAddress}
+            isSubmitting={isSubmitting}
+            setHasErrors={setHasErrors}
+            deliveryAddress={formState}
+          />
         )}
 
         {activeBreadcrumb === 3 && (
@@ -420,6 +498,7 @@ export const Checkout = () => {
               <Typography
                 onClick={() => {
                   setDisplayPayment(false);
+                  setIsSubmitting(false);
                   setActiveBreadcrumb(2);
                 }}
               >
@@ -441,7 +520,9 @@ export const Checkout = () => {
             <>
               <Button
                 className={styles.continueBTN}
-                onClick={() => handleSubmit()}
+                onClick={() => {
+                  setCheckForErrors(true);
+                }}
               >
                 Continuă
               </Button>

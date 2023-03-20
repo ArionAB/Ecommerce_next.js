@@ -75,7 +75,7 @@ const Orders = () => {
               <Box className={styles.between}>
                 <Typography className={styles.left}>Număr telefon</Typography>
                 <Typography className={styles.right}>
-                  {selectedOrder?.shippingAddress?.phoneBill}
+                  {selectedOrder?.shippingAddress?.phone}
                 </Typography>
               </Box>
               <Box className={styles.between}>

@@ -54,7 +54,10 @@ export const addOrder = createAsyncThunk<
       form.append("address.email", data.address.email);
       form.append("address.address", data.address.address);
       form.append("address.info", data.address.info ?? "");
-      form.append("address.zipCode", data.address.zipCode);
+      form.append(
+        "address.zipCode",
+        data.address.zipCode ? data.address.zipCode.toString() : "0"
+      );
       form.append("address.city", data.address.city);
       form.append("address.county", data.address.county);
       form.append("address.phone", data.address.phone);
@@ -62,10 +65,12 @@ export const addOrder = createAsyncThunk<
       form.append("address.lastNameBill", data.address.lastNameBill);
       form.append("address.addressBill", data.address.addressBill);
       form.append("address.infoBill", data.address.infoBill ?? "");
-      form.append("address.zipCodeBill", data.address.zipCodeBill);
+      form.append(
+        "address.zipCodeBill",
+        data.address.zipCodeBill ? data.address.zipCodeBill.toString() : "0"
+      );
       form.append("address.cityBill", data.address.cityBill);
       form.append("address.countyBill", data.address.countyBill);
-      form.append("address.phoneBill", data.address.phoneBill);
     }
 
     let { response } = await axios.post(baseUrl + "order/Add", form, {

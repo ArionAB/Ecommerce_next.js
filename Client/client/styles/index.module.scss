@@ -44,4 +44,41 @@
   width: 100%;
 }
 
+.salam {
+  background-color: red;
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-100px);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(100px);
+}
+
+.reaveal {
+  opacity: 1;
+  transform: translateX(0) !important;
+  transition: all 1s ease-in-out;
+}
+
+.fadeIn {
+  -webkit-transform: scaleY(1);
+  transform: scaleY(1);
+  -webkit-transform-origin: 100% 0;
+  transform-origin: 100% 0;
+  transition: 1.2s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+//effect for fade out and fade in
+.fadeOut {
+  -webkit-transform: scaleY(0);
+  transform: scaleY(0);
+  -webkit-transform-origin: 100% 0;
+  transform-origin: 100% 0;
+  transition: 1.2s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
 @include divider;
