@@ -1,0 +1,30 @@
+@import "./_variables";
+
+.container {
+  padding: 2rem;
+  display: flex;
+  gap: 2rem;
+
+  .card {
+    box-shadow: $box-shadow;
+    width: 100%;
+    max-width: 300px;
+    overflow: hidden;
+    transform-origin: 0 0;
+
+    .image {
+      overflow: hidden;
+
+      transition: 1s;
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    .title {
+      padding: 1rem;
+      background-color: white;
+      height: 100px;
+    }
+  }
+}

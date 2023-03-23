@@ -189,7 +189,6 @@ export const getAllUsers = createAsyncThunk<
 export const forgotPassword = createAsyncThunk<any, string, AppThunkConfig>(
   "Users/ForgotPassword",
   async (email, thunkAPI) => {
-    console.log(email);
     try {
       let response = await axios.post(baseUrl + "Users/ForgotPassword", email, {
         withCredentials: true,

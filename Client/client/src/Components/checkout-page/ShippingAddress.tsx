@@ -68,7 +68,7 @@ const ShippingAddress: FC<{
 
   useEffect(() => {
     if (!checkForErrors) return;
-    console.log("asd");
+
     let isError = false;
     const errors = {
       firstName: "",

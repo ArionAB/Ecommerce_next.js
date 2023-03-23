@@ -108,7 +108,7 @@ export const Checkout = () => {
 
     //eslint-disable-next-line
   }, [sameAddress, formState]);
-  console.log(isSubmitting);
+
   const handleSubmit = () => {
     if (hasErrors || checkForErrors) return;
 

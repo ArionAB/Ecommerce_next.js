@@ -8,8 +8,9 @@ import { ProductItems } from "../src/Components/home-page/ProductItems";
 
 import styles from "../styles/index.module.scss";
 import { RecentlyViewed } from "../src/Components/home-page/RecentlyViewed";
+import Info from "../src/Components/home-page/Info";
 
-export default function Home() {
+const Home = () => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
   const [visible, setVisible] = useState<boolean>(false);
@@ -17,7 +18,7 @@ export default function Home() {
   function logit() {
     setScrollY(window.pageYOffset);
   }
-  console.log(visible);
+
   const dispatch = useAppDispatch();
 
   const productItems = useAppSelector(selectProductItems);
@@ -55,7 +56,6 @@ export default function Home() {
   const observer = () => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        console.log(entry);
         if (entry.isIntersecting) {
           entry.target.classList.add("styles_fadeIn");
           entry.target.classList.add("reaveal");
@@ -65,21 +65,8 @@ export default function Home() {
       });
     });
 
-    // Observe the element
-
-    //used for left-to-right animation
-    // const elementLeft = document.querySelectorAll(".reveal-left");
-    // const elementRight = document.querySelectorAll(".reveal-right");
-
     const fadeOut = document.querySelectorAll(".styles_fadeOut");
 
-    //used for left-to-right animation
-    // elementRight.forEach((elem) => {
-    //   observer.observe(elem);
-    // });
-    // elementLeft.forEach((elem) => {
-    //   observer.observe(elem);
-    // });
     fadeOut.forEach((elem) => {
       observer.observe(elem);
     });
@@ -113,15 +100,6 @@ export default function Home() {
             ? `${styles.dropplets} ${styles.fadeOut}`
             : `${styles.dropplets} ${styles.fadeIn}`
         }
-        // style={
-        //   scrollY > 400
-        //     ? {
-        //         opacity: 1,
-        //         transition: "transform 1s, opacity 1s",
-        //         transform: "translateY(0)",
-        //       }
-        //     : { opacity: 0 }
-        // }
       />
       <ProductItems />
       <div
@@ -133,6 +111,16 @@ export default function Home() {
       <>
         <RecentlyViewed />
       </>
+
+      <div
+        className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
+      >
+        <span className={`${styles.div_dot_two}`}></span>
+      </div>
+
+      <Info />
     </>
   );
-}
+};
+
+export default Home;

@@ -149,12 +149,6 @@ export const AdminOrderDetails: FC<{
               </Typography>
               {selectedOrder?.shippingAddress?.zipCodeBill}
             </Box>
-            <Box>
-              <Typography variant="subtitle2" fontWeight={600}>
-                Numar telefon:{" "}
-              </Typography>
-              {selectedOrder?.shippingAddress?.phoneBill}
-            </Box>
           </Grid>
         </Grid>
       </Box>
