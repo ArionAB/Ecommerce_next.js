@@ -28,6 +28,15 @@
     }
   }
 
+  .content {
+    p,
+    ul,
+    li {
+      font-size: 20px;
+      color: $dark-blue;
+    }
+  }
+
   img {
     display: flex;
     justify-content: center;

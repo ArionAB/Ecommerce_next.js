@@ -103,14 +103,17 @@ const Card: FC<{
           loader={imageLoader}
           alt={card.title}
           width={280}
-          height={400}
+          height={300}
           quality={100}
           // layout="responsive"
           unoptimized={true}
         ></Image>
       </Link>
       <Typography variant="h6" className={styles.price}>
-        {card.priceKg} lei <span>1kg</span>
+        {card.priceKg} lei{" "}
+        <span>
+          1 <span>kg</span>
+        </span>
       </Typography>
       <Typography className={styles.title}>{card.title}</Typography>
       {expand && containerIndex === index && (

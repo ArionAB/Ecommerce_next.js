@@ -3,18 +3,25 @@ import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
+import { BlogType } from "../src/Store/Enums/BlogType";
 
-const postsDirectory = path.join(process.cwd(), "recipes");
+const recipeDirectory = path.join(process.cwd(), "recipes");
+const articoleDirectory = path.join(process.cwd(), "articole");
 
-export function getSortedRecipesData() {
+export function getSortedRecipesData(type: BlogType) {
   // Get file names under /posts
-  const fileNames = fs.readdirSync(postsDirectory);
+  const fileNames = fs.readdirSync(
+    type === BlogType.RECIPES ? recipeDirectory : articoleDirectory
+  );
   const allPostsData = fileNames.map((fileName) => {
     // Remove ".md" from file name to get id
     const id = fileName.replace(/\.md$/, "");
 
     // Read markdown file as string
-    const fullPath = path.join(postsDirectory, fileName);
+    const fullPath = path.join(
+      type === BlogType.RECIPES ? recipeDirectory : articoleDirectory,
+      fileName
+    );
     const fileContents = fs.readFileSync(fullPath, "utf8");
 
     // Use gray-matter to parse the post metadata section
@@ -27,7 +34,7 @@ export function getSortedRecipesData() {
     };
   });
   // Sort posts by date
-  return allPostsData.sort((a, b) => {
+  return allPostsData.sort((a: any, b: any) => {
     if (a.date < b.date) {
       return 1;
     } else {
@@ -36,22 +43,11 @@ export function getSortedRecipesData() {
   });
 }
 
-export function getAllRecipesIds() {
-  const fileNames = fs.readdirSync(postsDirectory);
+export function getAllRecipesIds(type: BlogType) {
+  const fileNames = fs.readdirSync(
+    type === BlogType.RECIPES ? recipeDirectory : articoleDirectory
+  );
 
-  // Returns an array that looks like this:
-  // [
-  //   {
-  //     params: {
-  //       id: 'ssg-ssr'
-  //     }
-  //   },
-  //   {
-  //     params: {
-  //       id: 'pre-rendering'
-  //     }
-  //   }
-  // ]
   return fileNames.map((fileName) => {
     return {
       params: {
@@ -61,8 +57,11 @@ export function getAllRecipesIds() {
   });
 }
 
-export async function getRecipeData(id) {
-  const fullPath = path.join(postsDirectory, `${id}.md`);
+export async function getRecipeData(id: any, type: BlogType) {
+  const fullPath = path.join(
+    type === BlogType.RECIPES ? recipeDirectory : articoleDirectory,
+    `${id}.md`
+  );
   const fileContents = fs.readFileSync(fullPath, "utf8");
 
   // Use gray-matter to parse the post metadata section

@@ -17,8 +17,12 @@ $error-main: #d32f2f;
 $error-dark: #c62828;
 
 $box-shadow: 0 0 12px 0 rgb(0 0 0 / 20%);
+$card-box-shadow: 0 21px 10px #0000000d, 0 21.7776px 24.4221px #00000009,
+  0 16.3363px 12.869px #00000008, 0 4.5216px 10.0172px #00000006,
+  0 6.6501px 5.32008px #00000005, 0 2.76726px 2.21381px #00000004;
 
 $main-gradient: rgb(61, 40, 45);
+
 $main-gradient-linear: linear-gradient(
   90deg,
   rgba(61, 40, 45, 1) 0%,

@@ -2,6 +2,10 @@
 
 .cardContainer {
   position: relative;
+  background-color: white;
+  box-shadow: $card-box-shadow;
+  min-height: 416px;
+
   img {
     &:hover {
       cursor: pointer;
@@ -36,17 +40,25 @@
     span {
       color: $dark-blue;
       font-weight: 400;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       line-height: 1.5;
       letter-spacing: 0.00938em;
+      padding-right: 1rem;
+
+      span {
+        font-size: 0.9rem;
+        padding-right: 0;
+      }
     }
   }
 
   .title {
-    font-size: 17px;
+    text-align: center;
+    font-size: 22px;
     font-weight: 400;
     color: $dark-blue;
     padding-left: 1rem;
+    padding-bottom: 0.5rem;
   }
 
   @keyframes opacityDelay {
@@ -61,6 +73,7 @@
   .twoButtons {
     animation: opacityDelay 0.5s;
     padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 
     display: flex;
     justify-content: space-around;

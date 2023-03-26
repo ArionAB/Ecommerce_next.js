@@ -11,6 +11,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { selectCartItems } from "../../Store/Selectors/cartSelectors";
 import styles from "../../../styles/navbar.module.scss";
 import { UserType } from "../../Store/Enums/UserType";
+import Head from "next/head";
 
 export const Navbar = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -26,6 +27,14 @@ export const Navbar = () => {
 
   return (
     <Box className={styles.container}>
+      <Head>
+        <title>Henig Honig, Miere naturală polifloră și salcâm</title>
+        <meta
+          name="description"
+          content="Henig Honig, Miere naturală polifloră și salcâm"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Container className={styles.navContainer}>
         {currentUser?.userType === UserType.Admin && (
           <Link href="/admin" className={styles.link}>
@@ -41,6 +50,9 @@ export const Navbar = () => {
         </Link>
         <Link href="/retete/" className={styles.link}>
           Rețete
+        </Link>
+        <Link href="/articole/" className={styles.link}>
+          Articole
         </Link>
 
         <Link href="/cart" className={styles.cartLink}>

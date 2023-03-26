@@ -1,16 +1,20 @@
 @import "./_variables.scss";
 
+@font-face {
+  font-family: "Brothers";
+  src: url("../public/Fonts/Brothers/Brothers-Bold.ttf");
+  src: url("../public/Fonts/Brothers/Brothers-Medium.ttf");
+  font-style: normal;
+}
+
 .heroContainer {
   position: relative;
   width: calc(100vw - 19px);
   .container {
     position: relative;
+
     z-index: 2;
     width: calc(100vw - 19px);
-    height: 700px;
-
-    /*   -webkit-clip-path: polygon(50% 0%, 100% 0, 100% 75%, 50% 100%, 0% 75%, 0 0);
-    clip-path: polygon(50% 0%, 100% 0, 100% 75%, 50% 100%, 0% 75%, 0 0); */
 
     @media only screen and (min-width: 1700px) {
       -webkit-clip-path: polygon(
@@ -24,8 +28,20 @@
       clip-path: polygon(50% 0%, 100% 0, 100% 60%, 50% 100%, 0 60%, 0 0);
     }
 
-    background: $main-gradient;
-    background: $main-gradient-linear;
+    .mask {
+      display: flex;
+      width: 100%;
+
+      img {
+        height: auto !important;
+        bottom: -5px !important;
+        top: auto !important;
+      }
+
+      @media only screen and (min-width: 1700px) {
+        display: none;
+      }
+    }
   }
   .secondContainer {
     width: calc(100vw - 19px);
@@ -33,9 +49,38 @@
     position: absolute;
     bottom: -250px;
     background: $secondary-gradient;
-    background: $honey-bg;
-
+    // background: #fcfaf2;
+    // background: $seconday-gradient-linear;
     height: 600px;
+    display: flex;
+    align-items: center;
+
+    .hero_wrapper {
+      padding-top: 200px;
+      padding-left: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .hero {
+        font-size: 55px;
+        font-weight: 700;
+        color: $main-gradient;
+        font-family: Brothers !important;
+
+        span {
+          // color: rgba(248, 201, 125, 1);
+          color: $brown;
+        }
+      }
+
+      .discover {
+        padding-top: 1rem;
+        color: $main-gradient;
+        font-weight: 600;
+        font-size: 24px;
+      }
+    }
   }
 }
 
@@ -79,6 +124,14 @@
   -webkit-transform-origin: 100% 0;
   transform-origin: 100% 0;
   transition: 1.2s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+.title {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 600;
+  font-family: Brothers !important;
+  color: $dark-blue;
 }
 
 @include divider;

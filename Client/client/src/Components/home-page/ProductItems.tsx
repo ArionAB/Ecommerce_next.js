@@ -67,7 +67,7 @@ export const ProductItems = () => {
                       setExpand(false);
                     }}
                   >
-                    <Paper
+                    <Box
                       sx={{
                         width: 300,
                         height: expand && containerIndex === index ? 550 : 500,
@@ -75,7 +75,6 @@ export const ProductItems = () => {
                         transition: "all 0.5s ease",
                       }}
                       className={styles.cardContainer}
-                      elevation={1}
                     >
                       <Card
                         card={card}
@@ -83,7 +82,7 @@ export const ProductItems = () => {
                         containerIndex={containerIndex}
                         index={index}
                       />
-                    </Paper>
+                    </Box>
                   </Grid>
                 </>
               );
@@ -102,7 +101,7 @@ export const ProductItems = () => {
                       setExpand(false);
                     }}
                   >
-                    <Paper
+                    <Box
                       sx={{
                         width: 300,
                         height: expand && containerIndex === index ? 550 : 500,
@@ -110,7 +109,7 @@ export const ProductItems = () => {
                         transition: "all 0.5s ease",
                       }}
                       className={styles.cardContainer}
-                      elevation={1}
+                      // elevation={1}
                     >
                       <Card
                         card={card}
@@ -118,7 +117,7 @@ export const ProductItems = () => {
                         containerIndex={containerIndex}
                         index={index}
                       />
-                    </Paper>
+                    </Box>
                   </Grid>
                 </>
               );

@@ -13,6 +13,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  TextField,
 } from "@mui/material";
 import Image from "next/image";
 import { resourceUrl } from "../../src/Utils";
@@ -33,6 +34,7 @@ import { setProductItem } from "../../src/Store/Slices/productSlice";
 
 import { Recommended } from "../../src/Components/product-details-page/Recommended";
 import { RecentlyViewed } from "../../src/Components/home-page/RecentlyViewed";
+import { Add, Remove } from "@mui/icons-material";
 
 const ProductDetails: FC<{
   handleClose: Function;
@@ -40,8 +42,9 @@ const ProductDetails: FC<{
   card: ProductItemModel;
 }> = ({ handleClose, open, card }) => {
   const [imageIndex, setImageIndex] = useState<number>(0);
-  const [sizeValue, setSizeValue] = useState<string>("2");
-  const [selectedQuantity, setSelectedQuantity] = useState<string>("1");
+  const [sizeValue, setSizeValue] = useState<string>(SizeType.Big.toString());
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
+  const [error, setError] = useState<string>("");
 
   const item = useAppSelector(selectProductItem);
 
@@ -78,21 +81,30 @@ const ProductDetails: FC<{
     //eslint-disable-next-line
   }, [productDetails]);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setSizeValue(event.target.value as string);
-  };
-
-  const handleQuantity = (event: SelectChangeEvent) => {
-    setSelectedQuantity(event.target.value as string);
-  };
-
   const handleCloseCart = () => {
     setOpenCart(false);
   };
 
+  const handleQuantity = (type: "add" | "remove") => {
+    if (type === "add") {
+      setSelectedQuantity((prev) => prev + 1);
+      setError("");
+    } else {
+      if (selectedQuantity > 1) {
+        setSelectedQuantity((prev) => prev - 1);
+        setError("");
+      }
+    }
+  };
+
   const handleAddToCart = () => {
-    addToCart();
-    setOpenCart(true);
+    if (selectedQuantity === 0) {
+      setError("Selectează cantitatea");
+      return;
+    } else {
+      addToCart();
+      setOpenCart(true);
+    }
   };
 
   useEffect(() => {
@@ -162,37 +174,37 @@ const ProductDetails: FC<{
               : item?.priceHalf}{" "}
             lei
           </Typography>
+          <Typography>Alege mărimea borcanului</Typography>
 
-          <FormControl className={styles.selectSize}>
-            <InputLabel id="demo-simple-select-label">Mărime</InputLabel>
-            <Select
-              id="demo-simple-select-label"
-              value={sizeValue}
-              onChange={handleChange}
-              label="Marime"
+          <Box className={styles.selectSize}>
+            <Button
+              onClick={() => setSizeValue(SizeType.Small.toString())}
+              className={styles.sizeBTN}
+              data-active={Number(sizeValue) === SizeType.Small}
             >
-              {SizeItems.map((size, index) => (
-                <MenuItem key={index} value={size.value}>
-                  {size.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              500 g
+            </Button>
+            <Button
+              onClick={() => setSizeValue(SizeType.Big.toString())}
+              className={styles.sizeBTN}
+              data-active={Number(sizeValue) === SizeType.Big}
+            >
+              1000 g
+            </Button>
+          </Box>
+          <Typography className={styles.qtyTitle}>Cantitate</Typography>
+          <Typography className={styles.error}>{error}</Typography>
           <Box className={styles.qty}>
-            <FormControl className={styles.selectQuantity}>
-              <InputLabel>Cantitate</InputLabel>
-              <Select
-                value={selectedQuantity}
-                label="Cantitate"
-                onChange={handleQuantity}
-              >
-                {QuantitySizeItems.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Remove onClick={() => handleQuantity("remove")} />
+            <TextField
+              defaultValue={1}
+              value={selectedQuantity}
+              className={styles.qtyNumber}
+              onChange={(e) => setSelectedQuantity(Number(e.target.value))}
+              variant="standard"
+            />
+            <Add onClick={() => handleQuantity("add")} />
+
             <Button className={styles.addCart} onClick={handleAddToCart}>
               Adaugă în coș
             </Button>

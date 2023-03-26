@@ -1,14 +1,14 @@
-import { FC } from "react";
-import { getAllRecipesIds, getRecipeData } from "../../lib/posts";
-import Head from "next/head";
 import { Box, Container, Typography } from "@mui/material";
+import Head from "next/head";
+import { getAllRecipesIds, getRecipeData } from "../../lib/posts";
 import { getDateMonthLabel } from "../../src/Utils/Functions/dateTimeFormat";
+import { FC } from "react";
 
 import styles from "../../styles/recipes.module.scss";
 import { BlogType } from "../../src/Store/Enums/BlogType";
 
 export async function getStaticPaths() {
-  const paths = getAllRecipesIds(BlogType.RECIPES);
+  const paths = getAllRecipesIds(BlogType.ARTICOLE);
   return {
     paths,
     fallback: false,
@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const postData = await getRecipeData(params.id, BlogType.RECIPES);
+  const postData = await getRecipeData(params.id, BlogType.ARTICOLE);
   return {
     props: {
       postData,
@@ -24,7 +24,7 @@ export async function getStaticProps({ params }: any) {
   };
 }
 
-const RecipeId: FC<{ postData: any }> = ({ postData }) => {
+export const Articole: FC<{ postData: any }> = ({ postData }) => {
   return (
     <Container className={styles.container}>
       <Head>
@@ -45,4 +45,4 @@ const RecipeId: FC<{ postData: any }> = ({ postData }) => {
   );
 };
 
-export default RecipeId;
+export default Articole;

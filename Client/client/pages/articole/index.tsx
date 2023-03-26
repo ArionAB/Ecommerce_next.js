@@ -1,15 +1,17 @@
+import React from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
-import Image from "next/image";
-import { FC, useState, useRef } from "react";
+import { useState, useRef, FC } from "react";
 import { getSortedRecipesData } from "../../lib/posts";
-import Link from "next/link";
-import styles from "../../styles/recipe_page.module.scss";
 import { useRouter } from "next/router";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+
+import styles from "../../styles/recipe_page.module.scss";
+import Link from "next/link";
+import Image from "next/image";
 import { BlogType } from "../../src/Store/Enums/BlogType";
 
-const Retete: FC<{ allPostsData: any }> = ({ allPostsData }) => {
+const Articole: FC<{ allPostsData: any }> = ({ allPostsData }) => {
   const [clientX, setClientX] = useState<number>(0);
   const [percentage, setPercentage] = useState<number>(0);
   const [prevPercentage, setPrevPercentage] = useState<number>(0);
@@ -20,16 +22,10 @@ const Retete: FC<{ allPostsData: any }> = ({ allPostsData }) => {
 
   const getCorrectImage = (id: string) => {
     switch (id) {
-      case "smores":
-        return "/smores.webp";
-      case "rosemary_pork":
-        return "/rosemary_pork_tenderloin.webp";
-      case "cajun_catfish":
-        return "/cajun_catfish.jpg";
-      case "hot_bacon":
-        return "/hot_bacon.jpg";
-      case "cheese_cake":
-        return "/cheese_cake.webp";
+      case "vaccine_save":
+        return "/vaccine_save.webp";
+      case "propolis":
+        return "/propolis.webp";
     }
   };
 
@@ -83,7 +79,6 @@ const Retete: FC<{ allPostsData: any }> = ({ allPostsData }) => {
   };
 
   const handleOnTrack = (e: any) => {
-    if (!homepage) return;
     const eleBounds = trackRef.current.getBoundingClientRect();
     const sliderBounds = sliderRef.current.getBoundingClientRect();
 
@@ -129,7 +124,7 @@ const Retete: FC<{ allPostsData: any }> = ({ allPostsData }) => {
               {allPostsData?.map((data: any) => {
                 return (
                   <Box key={data.id} className={styles.card}>
-                    <Link href={`retete/${data.id}`}>
+                    <Link href={`articole/${data.id}`}>
                       <Image
                         className={styles.image}
                         //@ts-ignore
@@ -164,7 +159,7 @@ const Retete: FC<{ allPostsData: any }> = ({ allPostsData }) => {
               key={data.id}
               className={styles.card}
             >
-              <Link href={`retete/${data.id}`}>
+              <Link href={`articole/${data.id}`}>
                 <Image
                   className={styles.image}
                   //@ts-ignore
@@ -184,8 +179,9 @@ const Retete: FC<{ allPostsData: any }> = ({ allPostsData }) => {
     </Container>
   );
 };
+
 export async function getStaticProps() {
-  const allPostsData = getSortedRecipesData(BlogType.RECIPES);
+  const allPostsData = getSortedRecipesData(BlogType.ARTICOLE);
   return {
     props: {
       allPostsData,
@@ -193,4 +189,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Retete;
+export default Articole;

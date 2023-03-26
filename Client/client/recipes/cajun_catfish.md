@@ -12,7 +12,7 @@ _Dredged in homemade blackening season, fillets of tender catfish are bathed in 
 (skillet blackened catfish + honey pan sauce)
 Serves 4
 
-### **What you need:**
+### **What you need:**cd c
 
 1 tablespoon paprika
 2 teaspoon garlic powder
