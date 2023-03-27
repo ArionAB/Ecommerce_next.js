@@ -22,6 +22,8 @@ namespace Ecommerce.DataLayer.DTOs.Baby
         
         public ProductCategoryType ProductCategory { get; set; }
 
+    
+
         
     }
 }

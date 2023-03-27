@@ -13,9 +13,6 @@ namespace Ecommerce.DataLayer.DTOs.Order
         public string FilePath { get; set; }
       
         public string Title { get; set; }
-        
-    
-
         public int Price { get; set; }
         public SizeType SizeType { get; set; }
 
@@ -25,13 +22,18 @@ namespace Ecommerce.DataLayer.DTOs.Order
 
         public int Quantity { get; set; }
 
-
-
-
+        public string MixedFruitId { get; set; }
 
     }
 }
        
+        
+    
+
+
+
+
+
 
      
         

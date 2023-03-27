@@ -32,6 +32,7 @@
         mango = 10,
         merisor = 11,
         papaya = 12,
+        mixed = 13,
     }
 
     public enum ProductCategoryType

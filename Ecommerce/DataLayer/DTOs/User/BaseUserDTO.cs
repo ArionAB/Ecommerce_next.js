@@ -20,6 +20,8 @@ namespace Ecommerce.DataLayer.DTOs.User
         [JsonIgnore] // refresh token is returned in http only cookie
         public string RefreshToken { get; set; }
 
+        public DateTime? PasswordReset { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

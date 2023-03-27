@@ -20,5 +20,10 @@ namespace Ecommerce.ServiceLayer.UsersService
         Task<ServiceResponse<RegularUserDTO>> UpdateUser(Guid loggedInUserId, ShippingAddressDTO model);
 
         Task<ServiceResponse<PaginatedUsersDTO>> GetAllUsers(GetUsersFiltersDTO filters);
+
+        Task<ServiceResponse<Object>> ForgotPassword(string email, string origin);
+
+        Task<ServiceResponse<Object>> ValidateResetToken(string token);
+        Task<ServiceResponse<Object>> ResetPassword(ResetPasswordDTO model);
     }
 }

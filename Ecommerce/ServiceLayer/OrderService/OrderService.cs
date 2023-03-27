@@ -45,7 +45,7 @@ namespace Ecommerce.ServiceLayer.OrderService
                         OrderProductId = Guid.NewGuid(),
                         OrderId = orderId,
                         ProductId = item.ProductId,
-                        //UserId = (Guid)(string.IsNullOrEmpty(orderDTO.UserId.ToString()) ? null : orderDTO.UserId),
+                       
                         UserId = orderDTO.UserId == null ? Guid.Empty : new Guid(orderDTO.UserId.ToString()),
                         FilePath = item.FilePath,
                         Title = item.Title,
@@ -54,6 +54,7 @@ namespace Ecommerce.ServiceLayer.OrderService
                         FruitType = item.FruitType,
                         ProductCategory = item.ProductCategory,
                         Quantity = item.Quantity,
+                        MixedFruitId = item.MixedFruitId
                         
                     };
                     await _context.OrderProducts.AddAsync(orderProduct);
@@ -77,16 +78,19 @@ namespace Ecommerce.ServiceLayer.OrderService
                     await _context.SaveChangesAsync();
 
                     // Add the shipping address to a separate table
-                
+
                     var shippingAddress = _mapper.Map<ShippingAddressDTO>(orderDTO.Address);
                     shippingAddress.OrderId = orderId;
                     shippingAddress.OrderAddressId = Guid.NewGuid();
                     await _context.OrderAddress.AddAsync(_mapper.Map<OrderAddress>(shippingAddress));
+
                   
 
-                
 
-                    //await _context.OrderAddress.AddAsync(shippingAddress);
+
+
+
+              
                     await _context.SaveChangesAsync();
 
                     return new ServiceResponse<Object> { Response = null, Success = true, Message = Messages.Message_AddOrderSuccess };
@@ -100,7 +104,7 @@ namespace Ecommerce.ServiceLayer.OrderService
                         Status = orderDTO.Status,
                         PaymentMethod = orderDTO.PaymentMethod,
                         TotalPrice = TotalPrice,
-                        UserId = orderDTO.UserId
+                        UserId = (Guid)orderDTO.UserId
 
                     };
 
@@ -140,6 +144,8 @@ namespace Ecommerce.ServiceLayer.OrderService
                     DateTime.Compare((DateTime)GenericFunctions.ParseStringToDateTime(filters.SecondEntryDate), x.DateCreated) >= 0)
                     .Count();
                 var orders = getFilteredPaginatedOrders(filters, userId, userType);
+                
+
                 var totalPages = totalCount / 10;
                 if (totalCount == 10) totalPages -= 1;
               

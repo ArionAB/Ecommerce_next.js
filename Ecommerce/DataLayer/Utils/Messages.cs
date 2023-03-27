@@ -82,5 +82,13 @@
         public static Message Message_ChangeOrderStatusSuccess = new Message { Text = "Statusul comenzii a fost schimbat!", MessageType = MessageType.Success };
         public static Message Message_ChangeOrderStatusError = new Message { Text = "Eroare schimbare status comanda!.", MessageType = MessageType.Error };
 
+
+        public static Message Message_ForgottenPasswordEmailSent = new Message { Text = "A fost trimis un email pentru modificarea parolei dumneavoastră.", MessageType = MessageType.Success };
+        public static Message Message_ForgottenPasswordEmailNotSent = new Message { Text = "Email-ul pentru modificarea parolei nu a putut fi trimis.", MessageType = MessageType.Error };
+        public static Message Message_ResetPasswordSuccess = new Message { Text = "Parola a fost schimbată cu succes.", MessageType = MessageType.Success };
+        public static Message Message_ResetPasswordError = new Message { Text = "Nu s-a putut schimba parola.", MessageType = MessageType.Error };
+
+        public static Message Message_ValidateResetTokenSuccess = new Message { Text = "S-a validat token-ul cu succes.", MessageType = MessageType.Success };
+        public static Message Message_ValidateResetTokenError = new Message { Text = "Token-ul nu a putut fi validat.", MessageType = MessageType.Error };
     }
 }

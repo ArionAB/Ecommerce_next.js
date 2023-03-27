@@ -4,6 +4,7 @@ using Ecommerce.DataLayer.Utils;
 using Ecommerce.Middleware;
 using Ecommerce.ServiceLayer.BabyService;
 using Ecommerce.ServiceLayer.CartService;
+using Ecommerce.ServiceLayer.EmailService;
 using Ecommerce.ServiceLayer.FileService;
 using Ecommerce.ServiceLayer.FileService.FileSystemService;
 using Ecommerce.ServiceLayer.LogService;
@@ -67,9 +68,10 @@ namespace Ecommerce
             services.AddScoped<IFileSystemService, FileSystemService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IOrderService, OrderService>();
-          
+            services.AddScoped<IEmailService, EmailService>();
 
-  
+
+
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 

@@ -103,6 +103,9 @@ namespace Ecommerce.Migrations
                     b.Property<Guid>("CartId")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("MixedFruitId")
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("ProductId")
                         .HasColumnType("char(36)");
 
@@ -232,6 +235,9 @@ namespace Ecommerce.Migrations
                     b.Property<int>("FruitType")
                         .HasColumnType("int");
 
+                    b.Property<string>("MixedFruitId")
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("OrderId")
                         .HasColumnType("char(36)");
 
@@ -268,17 +274,6 @@ namespace Ecommerce.Migrations
                     b.HasIndex("ProductPicturePictureId");
 
                     b.ToTable("OrderProducts");
-                });
-
-            modelBuilder.Entity("Ecommerce.DataLayer.Models.Product.FruitInventory", b =>
-                {
-                    b.Property<int>("FruitType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.ToTable("FruitInventory");
                 });
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.BaseUser", b =>
@@ -335,11 +330,20 @@ namespace Ecommerce.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime?>("PasswordReset")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Phone")
                         .HasColumnType("longtext");
 
                     b.Property<string>("PhoneBill")
                         .HasColumnType("longtext");
+
+                    b.Property<string>("ResetToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ResetTokenExpires")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("UserName")
                         .HasColumnType("longtext");
@@ -363,6 +367,8 @@ namespace Ecommerce.Migrations
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.AdminUser", b =>
                 {
                     b.HasBaseType("Ecommerce.DataLayer.Models.User.BaseUser");
+
+                    b.HasDiscriminator().HasValue(2);
                 });
 
             modelBuilder.Entity("Ecommerce.DataLayer.Models.User.RegularUser", b =>

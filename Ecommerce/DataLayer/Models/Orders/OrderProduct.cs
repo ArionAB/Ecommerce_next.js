@@ -34,8 +34,10 @@ namespace Ecommerce.DataLayer.Models.Orders
 
         public int Quantity { get; set; }
 
-   
-        
-            
+        public string MixedFruitId { get; set; }
+
+
+
+
     }
 }

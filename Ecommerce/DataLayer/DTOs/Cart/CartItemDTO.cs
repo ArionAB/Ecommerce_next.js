@@ -12,5 +12,9 @@ namespace Ecommerce.DataLayer.DTOs.Cart
         public SizeType SizeType { get; set; }
 
         public int Quantity { get; set; }
+
+        public string MixedFruitId { get; set; }
+
+
     }
 }

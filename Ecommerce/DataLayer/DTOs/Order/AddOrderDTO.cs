@@ -12,7 +12,7 @@ namespace Ecommerce.DataLayer.DTOs.Order
         public List<OrderProduct> OrderProducts { get; set; }
         public OrderStatusType Status { get; set; }
         public PaymentMethodType PaymentMethod { get; set; }
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
 
         public ShippingAddressDTO Address { get; set; }
 

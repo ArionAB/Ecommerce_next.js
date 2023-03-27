@@ -138,6 +138,36 @@ namespace Ecommerce.Controllers
             else
                 return BadRequest(result);
         }
+
+        [HttpPost("/Users/ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        {
+            var result = await _userService.ForgotPassword(email, Request.Headers["origin"]);
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
+        [HttpPost("/Users/ValidateResetToken")]
+        public async Task<IActionResult> ValidateResetToken([FromQuery] string token)
+        {
+            var result = await _userService.ValidateResetToken(token);
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
+        [HttpPost("/Users/ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO model)
+        {
+            var result = await _userService.ResetPassword(model);
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
     }
 
     

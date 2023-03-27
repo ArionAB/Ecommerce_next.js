@@ -46,7 +46,10 @@ namespace Ecommerce.ServiceLayer.CartService
                         ProductId = item.ProductId,
                         SizeType = item.SizeType,
                         Quantity = item.Quantity,
-                        UserId = loggedInUserId
+                        UserId = loggedInUserId,
+                        MixedFruitId = item.MixedFruitId
+
+
 
                     };
                     var carts = _mapper.Map<CartProduct>(newCartItem);
@@ -71,7 +74,7 @@ namespace Ecommerce.ServiceLayer.CartService
 
                             break;
                         case false:
-                            var itemExists = await _context.CartProducts.FirstOrDefaultAsync(x => x.CartId == CartId && x.ProductId == item.ProductId && x.SizeType == item.SizeType);
+                            var itemExists = await _context.CartProducts.FirstOrDefaultAsync(x => x.CartId == CartId && x.ProductId == item.ProductId && x.SizeType == item.SizeType && x.MixedFruitId == item.MixedFruitId);
 
                             if (itemExists != null)
                             {
@@ -151,6 +154,29 @@ namespace Ecommerce.ServiceLayer.CartService
                     productDTO.SizeType = item.SizeType;
                     productDTO.Quantity = item.Quantity;
                     productDTO.CartProductId = item.CartProductId;
+
+
+                    if (!string.IsNullOrEmpty(item.MixedFruitId))
+                    {
+                        int[] arr = item.MixedFruitId.Split(",").Select(str =>
+                        {
+                            int value;
+                            if (int.TryParse(str, out value))
+                            {
+                                return value;
+                            }
+                            return 0; // or return null;
+                        }).ToArray();
+                        productDTO.MixedFruitId = arr;
+                    }
+                    else
+                    {
+                        productDTO.MixedFruitId = null;
+                    }
+
+
+
+
                     cartItems.Add(productDTO);
                 
                 }

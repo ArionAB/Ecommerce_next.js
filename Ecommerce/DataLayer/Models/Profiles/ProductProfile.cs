@@ -31,6 +31,7 @@ namespace Ecommerce.DataLayer.Models.Profiles
                 }).ToList()))
                 .ForMember(x => x.ProductCategory, opt => opt.MapFrom(src => src.ProductType))
             .ForMember(x => x.FruitType, opt => opt.MapFrom(src => src.FruitType));
+         
 
 
             CreateMap<UpdateProductItemDTO, ProductClass>()

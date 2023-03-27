@@ -1,7 +1,7 @@
 ﻿using Ecommerce.DataLayer.Models.Baby;
 using Ecommerce.DataLayer.Models.Cart;
 using Ecommerce.DataLayer.Models.Orders;
-using Ecommerce.DataLayer.Models.Product;
+
 using Ecommerce.DataLayer.Models.User;
 using Ecommerce.DataLayer.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +19,7 @@ namespace Ecommerce.DataLayer.DbContexts
         public DbSet<BaseUser> Users { get; set; }
         public DbSet<ProductClass> Product { get; set; }
         public DbSet<ProductPicture> ProductPictures { get; set; }
-        public DbSet<FruitInventory> FruitInventory { get; set; }
+
 
         public DbSet<CartClass> Cart { get; set; }
 

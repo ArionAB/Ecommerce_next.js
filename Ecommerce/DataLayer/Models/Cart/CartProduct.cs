@@ -23,7 +23,9 @@ namespace Ecommerce.DataLayer.Models.Cart
 
         public int Quantity { get; set; }
 
-        
+        public string MixedFruitId { get; set; }
+
+
 
 
 

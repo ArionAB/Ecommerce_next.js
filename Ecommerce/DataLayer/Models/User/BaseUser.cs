@@ -27,6 +27,10 @@ namespace Ecommerce.DataLayer.Models.User
         [ConcurrencyCheck]
         public List<RefreshToken> RefreshTokens { get; set; }
 
+        public string ResetToken { get; set; }
+        public DateTime? ResetTokenExpires { get; set; }
+
+        public DateTime? PasswordReset { get; set; }
 
         public Guid CartId { get; set; }
 

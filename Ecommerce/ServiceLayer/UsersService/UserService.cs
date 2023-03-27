@@ -4,6 +4,7 @@ using Ecommerce.DataLayer.DTOs.User;
 using Ecommerce.DataLayer.Models.Cart;
 using Ecommerce.DataLayer.Models.User;
 using Ecommerce.DataLayer.Utils;
+using Ecommerce.ServiceLayer.EmailService;
 using Ecommerce.ServiceLayer.LogService;
 using Ecommerce.ServiceLayer.Utils;
 
@@ -30,15 +31,17 @@ namespace Ecommerce.ServiceLayer.UsersService
         private readonly IMapper _mapper;
         private readonly ILogService _logService;
         private readonly AppSettings _appSettings;
+        private readonly IEmailService _emailService;
     
 
 
-        public UserService(MainDbContext context, IMapper mapper, ILogService logService, IOptions<AppSettings> appSettings) 
+        public UserService(MainDbContext context, IMapper mapper, ILogService logService, IOptions<AppSettings> appSettings, IEmailService emailService) 
         {
             _context = context;
             _mapper = mapper;
             _logService = logService;
             _appSettings = appSettings.Value;
+            _emailService = emailService;
     
         }
 
@@ -381,7 +384,87 @@ namespace Ecommerce.ServiceLayer.UsersService
             }
      
         }
-       
+
+        public async Task<ServiceResponse<Object>> ForgotPassword(string email, string origin)
+        {
+            try
+            {
+                var account = await _context.Users.SingleOrDefaultAsync(x => x.Email == email);
+
+                // always return ok response to prevent email enumeration
+                if (account == null) return new ServiceResponse<Object> { Response = (string)null, Success = false }; ;
+
+                // create reset token that expires after 1 day
+                account.ResetToken = randomTokenString();
+                account.ResetTokenExpires = GenericFunctions.GetCurrentDateTime().AddDays(1);
+
+                _context.Users.Update(account);
+                _context.SaveChanges();
+
+                // send email
+                _emailService.SendPasswordResetEmail(account, origin);
+
+                return new ServiceResponse<Object> { Response = (string)null, Success = true, Message = Messages.Message_ForgottenPasswordEmailSent };
+            }
+            catch (Exception e)
+            {
+                _logService.LogError(e, new { email = email });
+                return new ServiceResponse<Object> { Response = (string)null, Success = false, Message = Messages.Message_ForgottenPasswordEmailNotSent };
+            }
+        }
+
+        public async Task<ServiceResponse<Object>> ValidateResetToken(string token)
+        {
+            try
+            {
+                var account = await _context.Users.SingleOrDefaultAsync(x =>
+                        x.ResetToken == token &&
+                        x.ResetTokenExpires > GenericFunctions.GetCurrentDateTime());
+
+                if (account == null)
+                    throw new AppException("Invalid token");
+
+                return new ServiceResponse<Object> { Response = (string)null, Success = true, Message = Messages.Message_ValidateResetTokenSuccess };
+            }
+            catch (Exception e)
+            {
+           
+                return new ServiceResponse<object> { Response = null, Success = false, Message = Messages.Message_ValidateResetTokenError };
+            }
+        }
+
+        public async Task<ServiceResponse<Object>> ResetPassword(ResetPasswordDTO model)
+        {
+            try
+            {
+              
+
+                var account = await _context.Users.SingleOrDefaultAsync(x =>
+                        x.ResetToken == model.Token &&
+                        x.ResetTokenExpires > GenericFunctions.GetCurrentDateTime());
+
+
+                if (account == null)
+                    throw new AppException("Invalid token");
+
+                // update password and remove reset token
+                account.Password = BC.HashPassword(model.Password);
+                account.PasswordReset = GenericFunctions.GetCurrentDateTime();
+                account.ResetToken = null;
+                account.ResetTokenExpires = null;
+
+                _context.Users.Update(account);
+                _context.SaveChanges();
+
+                return new ServiceResponse<Object> { Response = (string)null, Success = true, Message = Messages.Message_ResetPasswordSuccess };
+            }
+            catch (Exception e)
+            {
+                _logService.LogError(e, model);
+                return new ServiceResponse<Object> { Response = (string)null, Success = false, Message = Messages.Message_ResetPasswordError };
+            }
+        }
+
     }
     
     

@@ -23,6 +23,10 @@ namespace Ecommerce.DataLayer.DTOs.Baby
         public SizeType SizeType { get; set; }
         
         public int Quantity { get; set; }
+
+        public int[] MixedFruitId { get; set; }
+
+       
      
 
 
