@@ -8,6 +8,8 @@ import {
   ConvertSizeToLabel,
 } from "../../Utils/Functions/ConvertEnum";
 import { resourceUrl } from "../../Utils";
+import { FruitType } from "../../Store/Enums/Product/FruitType";
+import { FruitItems } from "../selectItems/FruitItems";
 
 export const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
   selectedOrder,
@@ -19,6 +21,18 @@ export const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
 
     //eslint disable-next-line
   }, [selectedOrder]);
+
+  const handleConvertFruitTypeToLabel = (selectedFruits: string) => {
+    const arr = selectedFruits.split(",").map((num) => Number(num.trim()));
+
+    const labels = arr?.map((fruit) => {
+      const item = FruitItems.find((item) => item.value === fruit);
+      if (item) {
+        return item.label;
+      }
+    });
+    return labels?.join(", ");
+  };
 
   return (
     <Box className={styles.container}>
@@ -41,9 +55,19 @@ export const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
               <span className={styles.product_category}>
                 {ConvertHoneyType(product.productCategory)}
               </span>
-              <span className={styles.fruit_type}>
-                Tip fruct: {ConvertFruitTypeToLabel(product.fruitType)}
-              </span>
+              {product.fruitType === FruitType.mixed ? (
+                <span className={styles.fruit_type}>
+                  Tip fruct:{" "}
+                  {handleConvertFruitTypeToLabel(
+                    product.mixedFruitId.toString()
+                  )}
+                </span>
+              ) : (
+                <span className={styles.fruit_type}>
+                  Tip fruct: {ConvertFruitTypeToLabel(product.fruitType)}
+                </span>
+              )}
+
               <span>{ConvertSizeToLabel(product.sizeType)}</span>
             </Box>
           </Box>

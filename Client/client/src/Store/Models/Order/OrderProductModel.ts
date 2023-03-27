@@ -11,4 +11,5 @@ export interface OrderProductModel {
   productCategory: HoneyType;
   quantity: number;
   filePath: string;
+  mixedFruitId: FruitType[];
 }

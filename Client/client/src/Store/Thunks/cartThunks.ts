@@ -25,6 +25,12 @@ export const addItemToCart = createAsyncThunk<
     data.cartItems.forEach((item: CartItemModel, index: number) => {
       form.append(`cartItems[${index}].quantity`, item.quantity.toString());
     });
+    data.cartItems.forEach((item: CartItemModel, index: number) => {
+      form.append(
+        `cartItems[${index}].mixedFruitId`,
+        item.mixedFruitId!.toString() ? item.mixedFruitId!.toString() : ""
+      );
+    });
 
     let { response } = await axios.post(baseUrl + "cart/Add", form, {
       withCredentials: true,

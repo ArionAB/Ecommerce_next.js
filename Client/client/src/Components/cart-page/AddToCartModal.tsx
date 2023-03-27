@@ -17,6 +17,8 @@ import { getCartItems, removeItem } from "../../Store/Thunks/cartThunks";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
 import { TransitionProps } from "@mui/material/transitions";
 import { setCartItems } from "../../Store/Slices/cartSlice";
+import { FruitItems } from "../selectItems/FruitItems";
+import { FruitType } from "../../Store/Enums/Product/FruitType";
 
 const Transition: any = forwardRef(function Transition(
   props: TransitionProps & {
@@ -39,6 +41,7 @@ export const AddToCartModal: FC<{
   const handleRemoveItem = (
     cartProductId: string,
     sizeType: SizeType,
+    selectedFruits: FruitType[],
     productId?: string
   ) => {
     if (currentUser) {
@@ -65,6 +68,9 @@ export const AddToCartModal: FC<{
           ? true
           : item.sizeType !== sizeType
           ? true
+          : JSON.stringify(item.selectedFruits) !==
+            JSON.stringify(selectedFruits)
+          ? true
           : false
       );
 
@@ -77,6 +83,16 @@ export const AddToCartModal: FC<{
     (acc, item) => acc + Number(item.priceKg) * Number(item.quantity),
     0
   );
+
+  const handleConvertFruitTypeToLabel = (selectedFruits: FruitType[]) => {
+    const labels = selectedFruits?.map((fruit) => {
+      const item = FruitItems.find((item) => item.value === fruit);
+      if (item) {
+        return item.label;
+      }
+    });
+    return labels?.join(", ");
+  };
 
   return (
     <Dialog
@@ -111,6 +127,9 @@ export const AddToCartModal: FC<{
                     <Typography>
                       {ConvertFruitTypeToLabel(Number(item.fruitType))}
                     </Typography>
+                    <Typography className={styles.fruits}>
+                      {handleConvertFruitTypeToLabel(item.mixedFruitId)}
+                    </Typography>
                     <Typography className={styles.qty}>
                       {ConvertSizeToLabel(item.sizeType)}
                     </Typography>
@@ -126,6 +145,7 @@ export const AddToCartModal: FC<{
                       handleRemoveItem(
                         item.cartProductId,
                         item.sizeType,
+                        item.mixedFruitId,
                         item.productId
                       )
                     }

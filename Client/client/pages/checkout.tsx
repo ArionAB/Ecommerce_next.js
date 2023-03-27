@@ -212,6 +212,8 @@ export const Checkout = () => {
   }, [checkForErrors]);
 
   const placeOrder = () => {
+    console.log("dispatching");
+
     dispatch(
       addOrder({
         data: {
@@ -233,6 +235,7 @@ export const Checkout = () => {
                 quantity: Number(item.quantity),
                 productCategory: item.productCategory,
                 filePath: item.productPictures[0].filePath,
+                mixedFruitId: item.mixedFruitId ?? "",
               };
             }),
           ],

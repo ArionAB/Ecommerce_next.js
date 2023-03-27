@@ -14,12 +14,12 @@ import styles from "../styles/cart.module.scss";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "../src/Store";
-import {
-  selectCartItems,
-  selectTotalPrice,
-} from "../src/Store/Selectors/cartSelectors";
+import { selectCartItems } from "../src/Store/Selectors/cartSelectors";
 import { resourceUrl } from "../src/Utils";
-import { ConvertSizeToLabel } from "../src/Utils/Functions/ConvertEnum";
+import {
+  ConvertSizeToLabel,
+  ConvertFruitTypeToLabel,
+} from "../src/Utils/Functions/ConvertEnum";
 import { QuantitySizeItems } from "../src/Components/selectItems/QuantitySizeItems";
 import {
   changeQuantity,
@@ -30,6 +30,8 @@ import Close from "@mui/icons-material/Close";
 import { SizeType } from "../src/Store/Enums/SizeType";
 import { selectCurrentUser } from "../src/Store/Selectors/authenticationSelectors";
 import { setCartItems } from "../src/Store/Slices/cartSlice";
+import { FruitType } from "../src/Store/Enums/Product/FruitType";
+import { FruitItems } from "../src/Components/selectItems/FruitItems";
 
 const Cart = () => {
   const [selectValues, setSelectValues] = useState([
@@ -38,6 +40,7 @@ const Cart = () => {
       quantity: 1,
     },
   ]);
+  const [fruitLabels, setFruitLabels] = useState<string[]>([]);
 
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectCartItems);
@@ -149,6 +152,16 @@ const Cart = () => {
     }
   };
 
+  const handleConvertFruitTypeToLabel = (selectedFruits: FruitType[]) => {
+    const labels = selectedFruits?.map((fruit) => {
+      const item = FruitItems.find((item) => item.value === fruit);
+      if (item) {
+        return item.label;
+      }
+    });
+    return labels?.join(", ");
+  };
+
   return (
     <Container maxWidth="xl" className={styles.page_container}>
       <Box className={styles.yourCartBox}>
@@ -203,6 +216,11 @@ const Cart = () => {
                     <Typography variant="h5" className={styles.title}>
                       {item.title}
                     </Typography>
+
+                    <Typography className={styles.price}>
+                      {handleConvertFruitTypeToLabel(item.mixedFruitId)}
+                    </Typography>
+
                     <Typography className={styles.price}>
                       Pret: {item.priceKg} lei
                     </Typography>

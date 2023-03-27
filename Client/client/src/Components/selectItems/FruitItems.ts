@@ -11,4 +11,5 @@ export const FruitItems = [
   { value: 10, label: "Mango" },
   { value: 11, label: "Merisor" },
   { value: 12, label: "Papaya" },
+  { value: 13, label: "Mixt" },
 ];

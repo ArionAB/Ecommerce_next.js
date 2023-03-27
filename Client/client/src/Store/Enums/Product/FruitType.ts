@@ -11,4 +11,5 @@ export enum FruitType {
   mango = 10,
   merisor = 11,
   papaya = 12,
+  mixed = 13,
 }

@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store";
+import { FruitType } from "../../Store/Enums/Product/FruitType";
 import { ProductItemModel } from "../../Store/Models/Product/ProductItem";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
 import { setCartItems } from "../../Store/Slices/cartSlice";
@@ -10,8 +11,9 @@ const useAddItemToCart: FC<{
   item: ProductItemModel;
   size: number;
   qty: number;
+  mixedFruitId?: FruitType[];
   setOpenCart: Function;
-}> = ({ item, size, qty, setOpenCart }) => {
+}> = ({ item, size, qty, setOpenCart, mixedFruitId }) => {
   const currentUser = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
 
@@ -22,7 +24,8 @@ const useAddItemToCart: FC<{
         (cartItem: ProductItemModel) =>
           cartItem.productId === item.productId &&
           cartItem.sizeType === Number(size) &&
-          cartItem.fruitType === item.fruitType
+          cartItem.fruitType === item.fruitType &&
+          JSON.stringify(cartItem.mixedFruitId) === JSON.stringify(mixedFruitId)
       );
 
       if (alreadyExists) {
@@ -30,7 +33,9 @@ const useAddItemToCart: FC<{
           if (
             cart[key].productId === item.productId &&
             cart[key].sizeType === Number(size) &&
-            cart[key].fruitType === item.fruitType
+            cart[key].fruitType === item.fruitType &&
+            JSON.stringify(cart[key].mixedFruitId) ===
+              JSON.stringify(mixedFruitId)
           ) {
             cart[key].quantity += Number(qty);
           }
@@ -49,6 +54,7 @@ const useAddItemToCart: FC<{
               ...item,
               quantity: Number(qty),
               sizeType: size,
+              mixedFruitId: mixedFruitId,
             },
           ])
         );
@@ -67,6 +73,7 @@ const useAddItemToCart: FC<{
                 productId: item.productId.toString(),
                 quantity: Number(qty),
                 sizeType: Number(size),
+                mixedFruitId: mixedFruitId,
               },
             ],
           },

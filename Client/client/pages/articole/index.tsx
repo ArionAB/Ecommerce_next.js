@@ -79,6 +79,7 @@ const Articole: FC<{ allPostsData: any }> = ({ allPostsData }) => {
   };
 
   const handleOnTrack = (e: any) => {
+    if (!homepage) return;
     const eleBounds = trackRef.current.getBoundingClientRect();
     const sliderBounds = sliderRef.current.getBoundingClientRect();
 

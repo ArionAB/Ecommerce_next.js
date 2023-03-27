@@ -54,6 +54,9 @@ export const Navbar = () => {
         <Link href="/articole/" className={styles.link}>
           Articole
         </Link>
+        <Link href="/contact" className={styles.link}>
+          Contact
+        </Link>
 
         <Link href="/cart" className={styles.cartLink}>
           <ShoppingCartIcon />

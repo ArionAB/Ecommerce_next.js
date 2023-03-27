@@ -9,21 +9,19 @@ import {
   Container,
   Box,
   Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
+  Paper,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import Image from "next/image";
 import { resourceUrl } from "../../src/Utils";
 import { SizeType } from "../../src/Store/Enums/SizeType";
-import { SelectChangeEvent } from "@mui/material/Select";
+
 import Button from "@mui/material/Button/Button";
-import { SizeItems } from "../../src/Components/selectItems/SizeItems";
+
 import Close from "@mui/icons-material/Close";
 
-import { QuantitySizeItems } from "../../src/Components/selectItems/QuantitySizeItems";
 import { AddToCartModal } from "../../src/Components/cart-page/AddToCartModal";
 
 import Head from "next/head";
@@ -35,6 +33,8 @@ import { setProductItem } from "../../src/Store/Slices/productSlice";
 import { Recommended } from "../../src/Components/product-details-page/Recommended";
 import { RecentlyViewed } from "../../src/Components/home-page/RecentlyViewed";
 import { Add, Remove } from "@mui/icons-material";
+import { FruitType } from "../../src/Store/Enums/Product/FruitType";
+import { FruitItems } from "../../src/Components/selectItems/FruitItems";
 
 const ProductDetails: FC<{
   handleClose: Function;
@@ -45,10 +45,11 @@ const ProductDetails: FC<{
   const [sizeValue, setSizeValue] = useState<string>(SizeType.Big.toString());
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
   const [error, setError] = useState<string>("");
+  const [openCart, setOpenCart] = useState<boolean>(false);
+
+  const [mixedFruitId, setMixedFruitId] = useState<FruitType[]>([]);
 
   const item = useAppSelector(selectProductItem);
-
-  const [openCart, setOpenCart] = useState<boolean>(false);
 
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -58,6 +59,7 @@ const ProductDetails: FC<{
     item,
     size: Number(sizeValue),
     qty: Number(selectedQuantity),
+    mixedFruitId: mixedFruitId,
     setOpenCart,
   });
 
@@ -127,6 +129,13 @@ const ProductDetails: FC<{
       );
   };
 
+  const handlePickFruits = (id: number) => {
+    if (mixedFruitId.length === 3 && !mixedFruitId.includes(id)) return;
+    if (mixedFruitId.includes(id)) {
+      setMixedFruitId((prev) => prev.filter((fruit) => fruit !== id));
+    } else setMixedFruitId((prev) => [...prev, id].sort());
+  };
+
   return (
     <>
       <Head>
@@ -174,25 +183,59 @@ const ProductDetails: FC<{
               : item?.priceHalf}{" "}
             lei
           </Typography>
-          <Typography>Alege mărimea borcanului</Typography>
+          <Typography variant="overline">Alege mărimea borcanului</Typography>
 
           <Box className={styles.selectSize}>
+            <Button
+              className={styles.sizeBTN}
+              data-active={Number(sizeValue) === SizeType.Big}
+              onClick={() => setSizeValue(SizeType.Big.toString())}
+            >
+              500 g
+            </Button>
             <Button
               onClick={() => setSizeValue(SizeType.Small.toString())}
               className={styles.sizeBTN}
               data-active={Number(sizeValue) === SizeType.Small}
             >
-              500 g
-            </Button>
-            <Button
-              onClick={() => setSizeValue(SizeType.Big.toString())}
-              className={styles.sizeBTN}
-              data-active={Number(sizeValue) === SizeType.Big}
-            >
               1000 g
             </Button>
           </Box>
-          <Typography className={styles.qtyTitle}>Cantitate</Typography>
+
+          {Number(item?.fruitType) === FruitType.mixed && (
+            <Box className={styles.selectFruits}>
+              <Typography variant="overline">Alege maxim 3 fructe</Typography>
+
+              <Paper elevation={2}>
+                {FruitItems.map((fruit) => {
+                  if (
+                    fruit.value === FruitType.mixed ||
+                    fruit.value === FruitType.nothing
+                  ) {
+                    return null;
+                  } else {
+                    return (
+                      <MenuItem
+                        onClick={() =>
+                          handlePickFruits(fruit.value as FruitType)
+                        }
+                        key={fruit.value}
+                        value={fruit.value}
+                        divider
+                        data-active={mixedFruitId.includes(fruit.value)}
+                      >
+                        {fruit.label}
+                      </MenuItem>
+                    );
+                  }
+                })}
+              </Paper>
+            </Box>
+          )}
+
+          <Typography className={styles.caption} variant="overline">
+            Cantitate
+          </Typography>
           <Typography className={styles.error}>{error}</Typography>
           <Box className={styles.qty}>
             <Remove onClick={() => handleQuantity("remove")} />

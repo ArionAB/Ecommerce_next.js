@@ -84,7 +84,9 @@
     }
 
     .title {
-      @include product-title;
+      font-family: Brothers, sans-serif !important;
+      color: $brown;
+      font-style: normal;
     }
 
     .price,

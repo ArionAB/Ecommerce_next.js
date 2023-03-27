@@ -46,6 +46,10 @@ export const addOrder = createAsyncThunk<
         orderProduct.quantity.toString()
       );
       form.append(`orderProducts[${index}].filePath`, orderProduct.filePath);
+      form.append(
+        `orderProducts[${index}].mixedFruitId`,
+        orderProduct.mixedFruitId.toString()
+      );
     });
 
     if (!guidRegex(data.userId)) {
