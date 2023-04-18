@@ -6,7 +6,7 @@ export interface AddItemToCartModel {
       productId: string;
       sizeType: number;
       quantity: number;
-      mixedFruitId: FruitType[] | undefined;
+      mixedFruitId?: FruitType[] | undefined;
     }
   ];
 }

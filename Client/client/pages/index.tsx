@@ -4,22 +4,24 @@ import { useAppDispatch, useAppSelector } from "../src/Store";
 import { selectProductItems } from "../src/Store/Selectors/productSelectors";
 import { getProductItems } from "../src/Store/Thunks/productThunks";
 import { ProductItems } from "../src/Components/home-page/ProductItems";
-
 import styles from "../styles/index.module.scss";
-import { RecentlyViewed } from "../src/Components/home-page/RecentlyViewed";
 import Info from "../src/Components/home-page/Info";
 import Retete from "./retete";
 import { getSortedRecipesData } from "../lib/posts";
 import Image from "next/image";
-import Posts from "./retete";
 import { BlogType } from "../src/Store/Enums/BlogType";
+import { ReusableCarousel } from "../src/Components/home-page/ReusableCarousel";
+import { ProductItemModel } from "../src/Store/Models/Product/ProductItem";
+import { CustomDivider } from "../src/Components/divider/CustomDivider";
 import Articole from "./articole";
-import Head from "next/head";
 
 const Home = ({ allPostsData, articlePostsData }: any) => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
   const [visible, setVisible] = useState<boolean>(false);
+  const [localStorageitems, setLocalStorageItems] = useState<
+    ProductItemModel[]
+  >([]);
 
   function logit() {
     setScrollY(window.pageYOffset);
@@ -30,6 +32,13 @@ const Home = ({ allPostsData, articlePostsData }: any) => {
   const productItems = useAppSelector(selectProductItems);
 
   useEffect(() => {
+    const localStorageItems = JSON.parse(
+      localStorage?.getItem("recentlyViewed") || "[]"
+    );
+
+    setLocalStorageItems(
+      localStorageItems.filter((item: ProductItemModel) => item.productId)
+    );
     function watchScroll() {
       window.addEventListener("scroll", logit);
     }
@@ -38,6 +47,7 @@ const Home = ({ allPostsData, articlePostsData }: any) => {
     return () => {
       window.removeEventListener("scroll", logit);
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -121,31 +131,26 @@ const Home = ({ allPostsData, articlePostsData }: any) => {
             : `${styles.dropplets} ${styles.fadeIn}`
         }
       />
+
       <ProductItems />
-      <div
-        className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
-      >
-        <span className={`${styles.div_dot_two}`}></span>
-      </div>
 
-      <>
-        <RecentlyViewed />
-      </>
+      {localStorageitems.length > 0 && (
+        <>
+          <CustomDivider />
+          <Typography className={styles.title}>
+            Produse vizualizate recent
+          </Typography>
 
-      <div
-        className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
-      >
-        <span className={`${styles.div_dot_two}`}></span>
-      </div>
+          <ReusableCarousel items={localStorageitems} />
+        </>
+      )}
+
+      <CustomDivider />
 
       <Typography className={styles.title}>Retete</Typography>
 
       <Retete allPostsData={allPostsData} />
-      <div
-        className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
-      >
-        <span className={`${styles.div_dot_two}`}></span>
-      </div>
+      <CustomDivider />
       <Typography className={styles.title}>Articole</Typography>
 
       <Articole allPostsData={articlePostsData} />

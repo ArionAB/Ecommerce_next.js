@@ -22,6 +22,7 @@ export const addProductItem = createAsyncThunk<
     form.append("title", data.title);
     form.append("fruitType", data.fruitType);
     form.append("productCategory", data.productCategory.toString());
+    form.append("inStock", "true");
 
     data.pictures.forEach((picture: any, index) =>
       form.append(`pictures`, picture)
@@ -48,6 +49,7 @@ export const updateProductItem = createAsyncThunk<
   AppThunkConfig
 >("/Product/Update", async ({ data, deletedImages }, thunkApi) => {
   try {
+    console.log(data);
     let form = new FormData();
     form.append("priceKg", data.priceKg);
     form.append("priceHalf", data.priceHalf);
@@ -56,6 +58,7 @@ export const updateProductItem = createAsyncThunk<
     form.append("title", data.title);
     form.append("fruitType", data.fruitType.toString());
     form.append("productCategory", data.productCategory.toString());
+    form.append("inStock", data.inStock.toString());
     data.newAdditionalPictures.forEach((picture: any, index) =>
       form.append(`newAdditionalPictures`, picture)
     );

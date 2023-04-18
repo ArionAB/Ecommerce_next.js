@@ -1,8 +1,11 @@
-import { FC, useState } from "react";
-import { Typography, Box, Stack, Pagination } from "@mui/material";
+import { FC, useState, useEffect } from "react";
+import { Typography, Box, Stack, Pagination, Skeleton } from "@mui/material";
 import styles from "../../../styles/ordersHistory.module.scss";
 import { useAppDispatch, useAppSelector } from "../../Store";
-import { selectGetOrders } from "../../Store/Selectors/orderSelectors";
+import {
+  selectGetOrders,
+  selectLoadingOrders,
+} from "../../Store/Selectors/orderSelectors";
 import { OrderModel } from "../../Store/Models/Order/OrderModel";
 import { ConvertStatusToLabel } from "../../Utils/Functions/ConvertEnum";
 import { selectOrdersFilters } from "../../Store/Selectors/orderSelectors";
@@ -46,12 +49,26 @@ export const OrdersHistory: FC<{ setSelectedOrder: Function }> = ({
     }
   };
 
+  const loadingOrders = useAppSelector(selectLoadingOrders);
+
+  useEffect(() => {
+    setSelectedOrderId(orders?.orders[0].orderId);
+    setSelectedOrder(orders?.orders[0]);
+  }, []);
+
   return (
     <>
       <Box className={styles.orders_history}>
         <Typography variant="h5" className={styles.history}>
           Istoricul comenzilor
         </Typography>
+        {loadingOrders && (
+          <Box className={styles.skeletons}>
+            <Skeleton variant="rectangular" width="100%" height={70} />
+            <Skeleton variant="rectangular" width="100%" height={70} />
+            <Skeleton variant="rectangular" width="100%" height={70} />
+          </Box>
+        )}
         {orders &&
           orders.orders.map((order: OrderModel) => (
             <Box

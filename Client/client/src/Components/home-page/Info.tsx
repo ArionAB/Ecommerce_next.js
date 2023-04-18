@@ -5,7 +5,7 @@ import React from "react";
 const Info = () => {
   return (
     <Container maxWidth="xl">
-      <Grid container display="flex" justifyContent="space-between">
+      <Grid container display="flex" justifyContent="space-between" padding={2}>
         <Grid item xs={12} sm={6} md={3} display="flex" alignItems="center">
           <Image
             src="/delivery.svg"

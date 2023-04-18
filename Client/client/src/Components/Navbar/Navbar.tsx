@@ -12,6 +12,7 @@ import { selectCartItems } from "../../Store/Selectors/cartSelectors";
 import styles from "../../../styles/navbar.module.scss";
 import { UserType } from "../../Store/Enums/UserType";
 import Head from "next/head";
+import HamburgerMenu from "./HamburgerMenu";
 
 export const Navbar = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -26,79 +27,85 @@ export const Navbar = () => {
   );
 
   return (
-    <Box className={styles.container}>
-      <Head>
-        <title>Henig Honig, Miere naturală polifloră și salcâm</title>
-        <meta
-          name="description"
-          content="Henig Honig, Miere naturală polifloră și salcâm"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Container className={styles.navContainer}>
-        {currentUser?.userType === UserType.Admin && (
-          <Link href="/admin" className={styles.link}>
-            Admin
-          </Link>
-        )}
-
-        <Link href="/" className={styles.link}>
-          Acasă
-        </Link>
-        <Link href="/about" className={styles.link}>
-          Despre noi
-        </Link>
-        <Link href="/retete/" className={styles.link}>
-          Rețete
-        </Link>
-        <Link href="/articole/" className={styles.link}>
-          Articole
-        </Link>
-        <Link href="/contact" className={styles.link}>
-          Contact
-        </Link>
-
-        <Link href="/cart" className={styles.cartLink}>
-          <ShoppingCartIcon />
-          {cartItems.length > 0 && (
-            <span className={styles.cartNumber}>{totalItems}</span>
+    <>
+      <Box className={styles.container}>
+        <Head>
+          <title>Henig Honig, Miere naturală polifloră și salcâm</title>
+          <meta
+            name="description"
+            content="Henig Honig, Miere naturală polifloră și salcâm"
+          />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Container className={styles.navContainer}>
+          {currentUser?.userType === UserType.Admin && (
+            <Link href="/admin" className={styles.link}>
+              Admin
+            </Link>
           )}
-        </Link>
-        {currentUser ? (
-          <Box
-            aria-owns={isLogin ? "mouse-over-popover" : undefined}
-            onMouseEnter={(e) => {
-              setCurrentTarget(e.currentTarget);
-              setIsLogin(true);
-            }}
-            onMouseLeave={() => setIsLogin(false)}
-            sx={{ position: "relative", cursor: "pointer" }}
-            className={styles.login}
-          >
-            <PersonPinIcon /> {currentUser?.userName}
-            {isLogin && currentUser && <LogOut />}
-          </Box>
-        ) : (
-          <Typography
-            aria-owns={isLogin ? "mouse-over-popover" : undefined}
-            onMouseEnter={(e) => {
-              setCurrentTarget(e.currentTarget);
-              setIsLogin(true);
-            }}
-            onMouseLeave={() => setIsLogin(false)}
-            onClick={() => setOpenDialog(true)}
-            sx={{ position: "relative", cursor: "pointer" }}
-            className={styles.link}
-          >
-            Log in
-            {isLogin && !currentUser && <Login />}
-          </Typography>
-        )}
 
-        <Dialog open={openDialog} maxWidth="md">
-          <Signup setOpenDialog={setOpenDialog} />
-        </Dialog>
-      </Container>
-    </Box>
+          <Link href="/" className={styles.link}>
+            Acasă
+          </Link>
+          <Link href="/miere" className={styles.link}>
+            Miere
+          </Link>
+          <Link href="/about" className={styles.link}>
+            Despre noi
+          </Link>
+          <Link href="/retete/" className={styles.link}>
+            Rețete
+          </Link>
+          <Link href="/articole/" className={styles.link}>
+            Articole
+          </Link>
+          <Link href="/contact" className={styles.link}>
+            Contact
+          </Link>
+
+          <Link href="/cart" className={styles.cartLink}>
+            <ShoppingCartIcon />
+            {cartItems.length > 0 && (
+              <span className={styles.cartNumber}>{totalItems}</span>
+            )}
+          </Link>
+          {currentUser ? (
+            <Box
+              aria-owns={isLogin ? "mouse-over-popover" : undefined}
+              onMouseEnter={(e) => {
+                setCurrentTarget(e.currentTarget);
+                setIsLogin(true);
+              }}
+              onMouseLeave={() => setIsLogin(false)}
+              sx={{ position: "relative", cursor: "pointer" }}
+              className={styles.login}
+            >
+              <PersonPinIcon /> {currentUser?.userName}
+              {isLogin && currentUser && <LogOut />}
+            </Box>
+          ) : (
+            <Typography
+              aria-owns={isLogin ? "mouse-over-popover" : undefined}
+              onMouseEnter={(e) => {
+                setCurrentTarget(e.currentTarget);
+                setIsLogin(true);
+              }}
+              onMouseLeave={() => setIsLogin(false)}
+              onClick={() => setOpenDialog(true)}
+              sx={{ position: "relative", cursor: "pointer" }}
+              className={styles.link}
+            >
+              Log in
+              {isLogin && !currentUser && <Login />}
+            </Typography>
+          )}
+
+          <Dialog open={openDialog} maxWidth="md">
+            <Signup setOpenDialog={setOpenDialog} />
+          </Dialog>
+        </Container>
+      </Box>
+      <HamburgerMenu />
+    </>
   );
 };

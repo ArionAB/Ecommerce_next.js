@@ -31,11 +31,12 @@ const initialState: ProductState = {
     priceHalf: "",
     description: "",
     title: "",
-    productCategory: 0,
+    productCategory: 1,
     quantity: "",
     totalCategoryItems: "",
     fruitType: "",
-    sizeType: 0,
+    sizeType: 1,
+    mixedFruitId: [],
   },
 };
 
@@ -60,7 +61,7 @@ export const productSlice = createSlice({
     setMaxPrice: (state, action) => {
       state.filters.MaxPrice = action.payload;
     },
-    setProductCategory: (state, action) => {
+    sethoneyType: (state, action) => {
       state.filters.ProductCategory = action.payload;
     },
     setSubcategoryType: (state, action) => {
@@ -102,6 +103,6 @@ export const {
   setSearchText,
   setMinPrice,
   setMaxPrice,
-  setProductCategory,
+  sethoneyType,
   setSubcategoryType,
 } = productSlice.actions;

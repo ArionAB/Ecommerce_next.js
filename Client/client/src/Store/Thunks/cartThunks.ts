@@ -6,6 +6,9 @@ import { CartItemModel } from "../Models/Cart/CartItemModel";
 import { ChangeQuantityModel } from "../Models/Cart/ChangeQuantityModel";
 import { RemoveItemModel } from "../Models/Cart/RemoveItemModel";
 import { ProductItemModel } from "../Models/Product/ProductItem";
+import { CartModel } from "../Models/Cart/CartModel";
+import { AbandonedCartsFiltersModel } from "../Models/Cart/AbandonedCartsFilters";
+import { GetAbandonedCartsModel } from "../Models/Cart/GetAbandonedCartsModel";
 
 const axios = require("axios").default;
 
@@ -132,6 +135,59 @@ export const removeAllItems = createAsyncThunk<
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return response;
+  } catch (err: any) {
+    let errorMessage = getAxiosErrorMessage(err);
+    return thunkApi.rejectWithValue(getAxiosErrorMessage(err));
+  }
+});
+
+export const getAbandonedCarts = createAsyncThunk<
+  GetAbandonedCartsModel,
+  { filters: AbandonedCartsFiltersModel },
+  AppThunkConfig
+>("/Cart/GetAbandonedCarts", async ({ filters }, thunkApi) => {
+  try {
+    const form = new FormData();
+    form.append("PageNumber", filters.pageNumber.toString());
+    form.append("PageSize", filters.pageSize.toString());
+
+    let { data } = await axios.post(baseUrl + "Cart/GetAbandonedCarts", form, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${filters.token}`,
+      },
+    });
+
+    return data.response;
+  } catch (err: any) {
+    let errorMessage = getAxiosErrorMessage(err);
+    return thunkApi.rejectWithValue(getAxiosErrorMessage(err));
+  }
+});
+
+export const sendAbandonedCartEmail = createAsyncThunk<
+  any,
+  { token: string | undefined | null; userId: string },
+  AppThunkConfig
+>("/Cart/SendAbandonedCartEmail", async ({ token, userId }, thunkApi) => {
+  let form = new FormData();
+  form.append("userId", userId);
+
+  try {
+    let { response } = await axios.post(
+      baseUrl + "Cart/SendAbandonedCartEmail",
+      form,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return response;
   } catch (err: any) {

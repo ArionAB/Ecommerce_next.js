@@ -10,7 +10,7 @@ import {
   Select,
 } from "@mui/material";
 import Container from "@mui/material/Container";
-import React, { FC, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store";
 import { AddProductItemModel } from "../../Store/Models/Product/AddProductItem";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";

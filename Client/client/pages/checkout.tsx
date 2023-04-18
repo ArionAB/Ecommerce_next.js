@@ -9,6 +9,7 @@ import {
   Checkbox,
   FormGroup,
   FormControlLabel,
+  CircularProgress,
 } from "@mui/material";
 import styles from "../styles/checkout.module.scss";
 import { useAppDispatch, useAppSelector } from "../src/Store";
@@ -36,6 +37,7 @@ import { resetCartState } from "../src/Store/Slices/cartSlice";
 import ShippingAddress from "../src/Components/checkout-page/ShippingAddress";
 import { setCurrentUser } from "../src/Store/Slices/authenticateSlice";
 import { useFormState } from "../src/Utils/Hooks/useReactForm";
+import { addAppNotification } from "../src/Store/Slices/appNotificationSlice";
 
 export const Checkout = () => {
   const [hasErrors, setHasErrors] = useState(true);
@@ -60,6 +62,7 @@ export const Checkout = () => {
   const [activeBreadcrumb, setActiveBreadcrumb] = useState(2);
   const [sameAddress, setSameAddress] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadingOrder, setLoadingOrder] = useState(false);
   const router = useRouter();
   const cartItems = useAppSelector(selectCartItems);
 
@@ -212,8 +215,7 @@ export const Checkout = () => {
   }, [checkForErrors]);
 
   const placeOrder = () => {
-    console.log("dispatching");
-
+    setLoadingOrder(true);
     dispatch(
       addOrder({
         data: {
@@ -243,6 +245,7 @@ export const Checkout = () => {
       })
     )
       .then((res) => {
+        setLoadingOrder(false);
         if (res.meta.requestStatus === "fulfilled" && currentUser) {
           dispatch(
             removeAllItems({
@@ -250,16 +253,32 @@ export const Checkout = () => {
             })
           ).then((res) => {
             if (res.meta.requestStatus === "fulfilled") {
+              dispatch(
+                addAppNotification({
+                  message: "Comanda a fost plasată!",
+                  severity: "success",
+                })
+              );
               dispatch(resetCartState());
               router.push("/orders");
             }
           });
         } else if (res.meta.requestStatus === "fulfilled" && !currentUser) {
+          dispatch(
+            addAppNotification({
+              message: "Comanda a fost plasată!",
+              severity: "success",
+            })
+          );
           dispatch(resetCartState());
           router.push("/");
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) =>
+        dispatch(
+          addAppNotification({ message: error.message, severity: "error" })
+        )
+      );
   };
 
   const breadcrumbs = [
@@ -515,6 +534,14 @@ export const Checkout = () => {
               <Button
                 className={styles.continueBTN}
                 onClick={() => placeOrder()}
+                disabled={loadingOrder}
+                startIcon={
+                  loadingOrder ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    ""
+                  )
+                }
               >
                 Plasează comanda
               </Button>

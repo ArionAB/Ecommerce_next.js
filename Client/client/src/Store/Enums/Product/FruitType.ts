@@ -4,7 +4,7 @@ export enum FruitType {
   aronia = 3,
   banane = 4,
   cocos = 5,
-  curmale = 6,
+  catina = 6,
   ghimbir = 7,
   goji = 8,
   lamaie = 9,
@@ -12,4 +12,7 @@ export enum FruitType {
   merisor = 11,
   papaya = 12,
   mixed = 13,
+  walnut = 14,
+  almond = 15,
+  caju = 16,
 }

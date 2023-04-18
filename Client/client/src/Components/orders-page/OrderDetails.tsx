@@ -41,7 +41,10 @@ export const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
         <span>({order?.totalProducts})</span>
       </Typography>
       {order?.orderProducts.map((product) => (
-        <Box className={styles.each_order} key={product.productId}>
+        <Box
+          className={styles.each_order}
+          key={product.productId + product.fruitType + product.sizeType}
+        >
           <Box className={styles.left}>
             <CardMedia
               component="img"

@@ -3,7 +3,7 @@ import { HoneyType } from "../../Store/Enums/Product/HoneyType";
 export const ConvertFruitTypeToLabel = (enumValue: number) => {
   switch (enumValue) {
     case 1:
-      return "Nimic";
+      return "";
     case 2:
       return "Ananas";
     case 3:
@@ -13,7 +13,7 @@ export const ConvertFruitTypeToLabel = (enumValue: number) => {
     case 5:
       return "Cocos";
     case 6:
-      return "Curmale";
+      return "Cătină";
     case 7:
       return "Ghimbir";
     case 8:
@@ -26,6 +26,14 @@ export const ConvertFruitTypeToLabel = (enumValue: number) => {
       return "Merișor";
     case 12:
       return "Papaya";
+    case 13:
+      return "Mix fructe";
+    case 14:
+      return "Nucă";
+    case 15:
+      return "Migdale";
+    case 16:
+      return "Caju";
   }
 };
 
@@ -81,5 +89,34 @@ export const ConvertPaymentMethodToLabel = (enumValue: number) => {
 
     default:
       return "Numerar";
+  }
+};
+
+export const ConvertMonthToLabel = (enumValue: number) => {
+  switch (enumValue) {
+    case 1:
+      return "Ianuarie";
+    case 2:
+      return "Februarie";
+    case 3:
+      return "Martie";
+    case 4:
+      return "Aprilie";
+    case 5:
+      return "Mai";
+    case 6:
+      return "Iunie";
+    case 7:
+      return "Iulie";
+    case 8:
+      return "August";
+    case 9:
+      return "Septembrie";
+    case 10:
+      return "Octombrie";
+    case 11:
+      return "Noiembrie";
+    case 12:
+      return "Decembrie";
   }
 };

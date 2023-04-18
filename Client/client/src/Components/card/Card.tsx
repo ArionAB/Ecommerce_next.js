@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { ProductItemModel } from "../../Store/Models/Product/ProductItem";
 import Image from "next/image";
@@ -9,7 +9,7 @@ import Link from "next/link";
 import Dialog from "@mui/material/Dialog";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditCardModal from "../modals/EditCardModal";
+import UpdateProductModal from "../modals/UpdateProductModal";
 import Close from "@mui/icons-material/Close";
 import ConfirmationMessage from "../notifications/ConfirmationMessage";
 import { useAppDispatch, useAppSelector } from "../../Store";
@@ -18,17 +18,20 @@ import ProductDetails from "../../../pages/miere/[productDetails]";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
 import { UserType } from "../../Store/Enums/UserType";
 import { setProductItem } from "../../Store/Slices/productSlice";
+import { HoneyType } from "../../Store/Enums/Product/HoneyType";
 
 const Card: FC<{
   card: ProductItemModel;
   expand: boolean;
   containerIndex: number;
   index: number;
-}> = ({ card, expand, containerIndex, index }) => {
+  carousel: boolean;
+}> = ({ card, expand, containerIndex, index, carousel }) => {
   const [editDialog, setEditDialog] = useState<boolean>(false);
   const [imageSource, setImageSource] = useState<string>(
     card.productPictures[0].filePath
   );
+  const [baseImage, setBaseImage] = useState<string>("");
   const [openOptions, setOpenOptions] = useState<boolean>(false);
   const [openConfirmationMessage, setOpenConfirmationMessage] =
     useState<boolean>(false);
@@ -57,8 +60,29 @@ const Card: FC<{
     dispatch(setProductItem(card));
   };
 
+  const setImageByHoneyType = () => {
+    switch (card.productCategory) {
+      case HoneyType.Poliflora:
+        setBaseImage("/poliflora.jpg");
+        break;
+      case HoneyType.Salcam:
+        setBaseImage("/salcam.jpg");
+        break;
+    }
+  };
+
+  useEffect(() => {
+    setImageByHoneyType();
+  }, []);
+
   return (
-    <Box className={styles.cardContainer} component="div">
+    <Box
+      className={styles.cardContainer}
+      component="div"
+      sx={{
+        height: carousel ? "430px" : "auto",
+      }}
+    >
       {currentUser?.userType === UserType.Admin && (
         <>
           <EditIcon
@@ -72,7 +96,7 @@ const Card: FC<{
               />
             </Box>
 
-            <EditCardModal card={card} />
+            <UpdateProductModal card={card} setEditDialog={setEditDialog} />
           </Dialog>
           <DeleteForeverIcon
             className={styles.delete}
@@ -93,20 +117,21 @@ const Card: FC<{
       />
       <Link href={`/miere/${card.productId}`} onClick={handleSetItem}>
         <Image
-          src={resourceUrl + imageSource}
+          src={baseImage ? baseImage : resourceUrl + imageSource}
           onMouseEnter={() => {
-            setImageSource(card.productPictures[1]?.filePath);
+            setBaseImage("");
           }}
           onMouseLeave={() => {
-            setImageSource(card.productPictures[0]?.filePath);
+            setImageByHoneyType();
           }}
-          loader={imageLoader}
+          loader={baseImage ? undefined : imageLoader}
           alt={card.title}
           width={280}
           height={300}
           quality={100}
           // layout="responsive"
           unoptimized={true}
+          draggable={false}
         ></Image>
       </Link>
       <Typography variant="h6" className={styles.price}>

@@ -1,0 +1,62 @@
+@import "./_variables";
+
+.ham_menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  z-index: 3;
+  width: 100vw;
+  height: 55px;
+  background: rgb(61, 40, 45);
+  background: linear-gradient(
+    90deg,
+    rgb(61, 40, 45) 0%,
+    rgb(47, 31, 34) 47%,
+    rgb(35, 25, 26) 100%
+  );
+  position: fixed;
+
+  @media only screen and (min-width: 600px) {
+    display: none;
+  }
+
+  .menuButton {
+    color: $secondary-gradient;
+  }
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-right: 20px;
+
+    svg {
+      color: $secondary-color;
+    }
+
+    .login {
+      display: flex;
+      align-items: center;
+      color: $secondary-color;
+      gap: 0.5rem;
+
+      .loginBTN {
+        &:hover {
+          background-color: $pink !important;
+          color: $brown;
+        }
+      }
+    }
+
+    .link {
+      color: $secondary-color;
+    }
+  }
+}
+
+.drawer {
+  width: 300px;
+  background-color: $bg-color-2;
+  height: 100%;
+}

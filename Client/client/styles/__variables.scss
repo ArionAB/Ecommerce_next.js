@@ -1,6 +1,13 @@
 $dark-blue: #344660;
 $pink: #e0cece;
+// $pink: #f5f5dc;
+// $pink: rgb(61, 40, 45);
+// $brown: #757575;
 $brown: #b06f2a;
+// $brown: #f5f5dc;
+// $brown: rgb(61, 40, 45);
+// $brown: rgb(243, 220, 178);
+// $brown: #654321;
 $bg-color: #fcfaf9;
 $bg-color-2: #fcfaf2;
 $gray: #4c5154;
@@ -21,6 +28,7 @@ $card-box-shadow: 0 21px 10px #0000000d, 0 21.7776px 24.4221px #00000009,
   0 16.3363px 12.869px #00000008, 0 4.5216px 10.0172px #00000006,
   0 6.6501px 5.32008px #00000005, 0 2.76726px 2.21381px #00000004;
 
+$main-gradient: #f3b300;
 $main-gradient: rgb(61, 40, 45);
 
 $main-gradient-linear: linear-gradient(
@@ -45,6 +53,19 @@ $delivered: #35a15b;
 $cancelled: #f44336;
 
 $honey-bg: linear-gradient(180deg, #ffc97d, #f0b25b);
+
+$big-font: clamp(16px, 2vw, 24px);
+
+@mixin disabled {
+  MuiButton-root.Mui-disabled {
+    color: rgba(0, 0, 0, 0.26) !important;
+    box-shadow: none !important;
+    background-color: rgba(0, 0, 0, 0.12) !important;
+  }
+}
+$disabled-color: rgba(0, 0, 0, 0.26);
+$disabled-box-shadow: none;
+$disabled-bg-color: rgba(0, 0, 0, 0.12);
 
 @mixin pink-btn {
   background-color: $pink;

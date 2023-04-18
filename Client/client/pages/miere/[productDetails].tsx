@@ -11,7 +11,6 @@ import {
   Typography,
   TextField,
   Paper,
-  Menu,
   MenuItem,
 } from "@mui/material";
 import Image from "next/image";
@@ -31,10 +30,12 @@ import { ProductItemModel } from "../../src/Store/Models/Product/ProductItem";
 import { setProductItem } from "../../src/Store/Slices/productSlice";
 
 import { Recommended } from "../../src/Components/product-details-page/Recommended";
-import { RecentlyViewed } from "../../src/Components/home-page/RecentlyViewed";
+
 import { Add, Remove } from "@mui/icons-material";
 import { FruitType } from "../../src/Store/Enums/Product/FruitType";
 import { FruitItems } from "../../src/Components/selectItems/FruitItems";
+import { ReusableCarousel } from "../../src/Components/home-page/ReusableCarousel";
+import { CustomDivider } from "../../src/Components/divider/CustomDivider";
 
 const ProductDetails: FC<{
   handleClose: Function;
@@ -42,12 +43,14 @@ const ProductDetails: FC<{
   card: ProductItemModel;
 }> = ({ handleClose, open, card }) => {
   const [imageIndex, setImageIndex] = useState<number>(0);
-  const [sizeValue, setSizeValue] = useState<string>(SizeType.Big.toString());
+  const [sizeValue, setSizeValue] = useState<SizeType>(SizeType.Big);
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
   const [error, setError] = useState<string>("");
   const [openCart, setOpenCart] = useState<boolean>(false);
-
   const [mixedFruitId, setMixedFruitId] = useState<FruitType[]>([]);
+  const [localStorageitems, setLocalStorageItems] = useState<
+    ProductItemModel[]
+  >([]);
 
   const item = useAppSelector(selectProductItem);
 
@@ -111,6 +114,13 @@ const ProductDetails: FC<{
 
   useEffect(() => {
     recentlyViewedProducts();
+    const localStorageItems = JSON.parse(
+      localStorage?.getItem("recentlyViewed") || "[]"
+    );
+
+    setLocalStorageItems(
+      localStorageItems.filter((item: ProductItemModel) => item.productId)
+    );
     //eslint-disable-next-line
   }, []);
 
@@ -180,7 +190,7 @@ const ProductDetails: FC<{
           <Typography className={styles.price}>
             {Number(sizeValue) === SizeType.Big
               ? item?.priceKg
-              : item?.priceHalf}{" "}
+              : item?.priceHalf}
             lei
           </Typography>
           <Typography variant="overline">Alege mărimea borcanului</Typography>
@@ -188,15 +198,15 @@ const ProductDetails: FC<{
           <Box className={styles.selectSize}>
             <Button
               className={styles.sizeBTN}
-              data-active={Number(sizeValue) === SizeType.Big}
-              onClick={() => setSizeValue(SizeType.Big.toString())}
+              data-active={Number(sizeValue) === SizeType.Small}
+              onClick={() => setSizeValue(SizeType.Small)}
             >
               500 g
             </Button>
             <Button
-              onClick={() => setSizeValue(SizeType.Small.toString())}
+              onClick={() => setSizeValue(SizeType.Big)}
               className={styles.sizeBTN}
-              data-active={Number(sizeValue) === SizeType.Small}
+              data-active={Number(sizeValue) === SizeType.Big}
             >
               1000 g
             </Button>
@@ -261,18 +271,14 @@ const ProductDetails: FC<{
           </Typography>
         </Box>
       </Container>
-      <div
-        className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
-      >
-        <span className={`${styles.div_dot_two}`}></span>
-      </div>
+      <CustomDivider />
       <Recommended honeyType={item.productCategory} />
-      <div
-        className={`${styles.divider} ${styles.div_transparent} ${styles.div_dot} `}
-      >
-        <span className={`${styles.div_dot_two}`}></span>
-      </div>
-      <RecentlyViewed />
+      <CustomDivider />
+
+      <Typography className={styles.categoryTitle} variant="h5">
+        Produse vizualizate recent
+      </Typography>
+      <ReusableCarousel items={localStorageitems} />
     </>
   );
 };

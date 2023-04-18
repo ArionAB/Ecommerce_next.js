@@ -25,7 +25,8 @@
       margin-bottom: 0.5rem;
       color: $main-gradient;
       text-transform: uppercase;
-      font-family: Brothers;
+      // font-family: Brothers;
+      font-family: DaysOne;
     }
 
     .price {
@@ -57,6 +58,8 @@
     }
 
     .selectFruits {
+      width: 300px;
+
       li[data-active="true"] {
         background-color: $main-gradient !important;
         color: $secondary-color !important;
@@ -123,6 +126,14 @@
       font-size: 1.1rem;
     }
   }
+}
+
+.categoryTitle {
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: $brown;
+  font-style: italic;
+  text-align: center;
 }
 
 @include divider;

@@ -10,4 +10,5 @@ export interface UpdateProductItemModel {
   productCategory: HoneyType;
   fruitType: FruitType;
   newAdditionalPictures: File[];
+  inStock: boolean;
 }

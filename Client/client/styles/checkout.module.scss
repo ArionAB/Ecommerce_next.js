@@ -91,11 +91,18 @@
         color: $brown;
         cursor: pointer;
       }
+      @include disabled;
 
       .continueBTN {
         background-color: $dark-blue;
         color: white;
         padding: 0.5rem 1rem;
+
+        &[disabled] {
+          color: $disabled-color;
+          background-color: $disabled-bg-color;
+          box-shadow: $disabled-box-shadow;
+        }
       }
     }
 

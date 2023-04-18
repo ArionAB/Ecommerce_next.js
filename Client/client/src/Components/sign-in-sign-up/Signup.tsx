@@ -1,20 +1,31 @@
 import Close from "@mui/icons-material/Close";
-import { Box, Paper, Tab, Tabs, Typography, Button } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import { ClickAwayListener } from "@mui/base";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 
 import React, { useState, FC } from "react";
 import styles from "../../../styles/signup.module.scss";
-import { useAppDispatch } from "../../Store";
+import { useAppDispatch, useAppSelector } from "../../Store";
 import {
   forgotPassword,
   loginUser,
   registerUser,
 } from "../../Store/Thunks/userThunks";
 import { emailRegex } from "../../Utils/Functions/emailRegex";
+import { selectIsLoggingIn } from "../../Store/Selectors/authenticationSelectors";
+import { addAppNotification } from "../../Store/Slices/appNotificationSlice";
 
 const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
+  const [loadingRegister, setLoadingRegister] = useState(false);
   const [register, setRegister] = useState({
     name: "",
     email: "",
@@ -45,6 +56,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
   const [tabValue, setTabValue] = useState(0);
 
   const dispatch = useAppDispatch();
+  const isLogging = useAppSelector(selectIsLoggingIn);
 
   const handleTab = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -131,12 +143,20 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
     setRegisterError(errors);
 
     if (!isError) {
+      setLoadingRegister(true);
       dispatch(
         registerUser({
           data: register,
         })
       ).then((res) => {
+        setLoadingRegister(false);
         if (res.payload.message.text === "Inregistrat cu success!") {
+          dispatch(
+            addAppNotification({
+              message: "Inregistrat cu success!",
+              severity: "success",
+            })
+          );
           dispatch(
             loginUser({
               data: {
@@ -320,6 +340,14 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
                 variant="contained"
                 className={styles.registerBTN}
                 onClick={() => submitRegister()}
+                disabled={loadingRegister}
+                startIcon={
+                  loadingRegister ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    ""
+                  )
+                }
               >
                 Înregistrează-te acum
               </Button>
@@ -369,7 +397,6 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
                   }
                 />
               </InputLabel>
-              {/* <Typography>Am uitat parola</Typography> */}
             </Box>
             {loginError.errorMessage && (
               <Typography className={styles.errorMessage}>
@@ -387,6 +414,14 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
                 variant="contained"
                 className={styles.registerBTN}
                 onClick={() => submitLogin()}
+                disabled={isLogging}
+                startIcon={
+                  isLogging ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    ""
+                  )
+                }
               >
                 Logare
               </Button>

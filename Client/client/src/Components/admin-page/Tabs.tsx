@@ -12,6 +12,8 @@ export const TabsPanel: FC<{ setValue: Function; value: number }> = ({
           <Tab label="Adauga produs" onClick={() => setValue(0)} />
           <Tab label="Comenzi" onClick={() => setValue(1)} />
           <Tab label="Utilizatori" onClick={() => setValue(2)} />
+          <Tab label="Statistici" onClick={() => setValue(3)} />
+          <Tab label="Marketing" onClick={() => setValue(4)} />
         </Tabs>
       </Box>
     </Box>

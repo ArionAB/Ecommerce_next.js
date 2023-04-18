@@ -6,6 +6,12 @@
   src: url("../public/Fonts/Brothers/Brothers-Medium.ttf");
   font-style: normal;
 }
+@font-face {
+  font-family: "DaysOne";
+  src: url("../public/Fonts/Brothers/DaysOne-Regular.ttf");
+  // src: url("../public/Fonts/Brothers/Brothers-Medium.ttf");
+  font-style: normal;
+}
 
 .heroContainer {
   position: relative;
@@ -66,7 +72,8 @@
         font-size: 55px;
         font-weight: 700;
         color: $main-gradient;
-        font-family: Brothers !important;
+        // font-family: Brothers !important;
+        font-family: DaysOne !important;
 
         span {
           // color: rgba(248, 201, 125, 1);
@@ -133,5 +140,3 @@
   font-family: Brothers !important;
   color: $dark-blue;
 }
-
-@include divider;

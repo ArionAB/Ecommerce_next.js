@@ -16,10 +16,7 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "../src/Store";
 import { selectCartItems } from "../src/Store/Selectors/cartSelectors";
 import { resourceUrl } from "../src/Utils";
-import {
-  ConvertSizeToLabel,
-  ConvertFruitTypeToLabel,
-} from "../src/Utils/Functions/ConvertEnum";
+import { ConvertSizeToLabel } from "../src/Utils/Functions/ConvertEnum";
 import { QuantitySizeItems } from "../src/Components/selectItems/QuantitySizeItems";
 import {
   changeQuantity,
@@ -40,7 +37,6 @@ const Cart = () => {
       quantity: 1,
     },
   ]);
-  const [fruitLabels, setFruitLabels] = useState<string[]>([]);
 
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectCartItems);

@@ -1,0 +1,63 @@
+@import "./_variables";
+
+.container {
+  padding: 2rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+
+  .card_container {
+    justify-content: center;
+  }
+
+  .card {
+    // box-shadow: $box-shadow;
+    height: 90%;
+    box-shadow: $card-box-shadow;
+    width: 100%;
+    max-width: 300px;
+    overflow: hidden;
+    transform-origin: 0 0;
+    justify-self: flex-start;
+
+    .image {
+      overflow: hidden;
+      object-fit: cover;
+      object-position: center;
+      transition: 1s;
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    .title {
+      padding: 1rem;
+      background-color: white;
+      height: 100px;
+    }
+  }
+}
+
+// HOMEPAGE
+.arrow {
+  color: white;
+  background-color: rgba(61, 40, 45, 1);
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+}
+
+.image_track {
+  display: flex;
+  overflow: hidden;
+
+  .slider {
+    height: 460px;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    transition: 1s;
+    z-index: 2;
+  }
+}

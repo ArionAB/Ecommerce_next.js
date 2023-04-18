@@ -48,8 +48,10 @@ const RefreshToken: FC = () => {
           productId: item.productId.toString(),
           quantity: item.quantity,
           sizeType: item.sizeType,
+          mixedFruitId: item.mixedFruitId,
         };
       });
+
       newCart.length > 0
         ? dispatch(
             addItemToCart({

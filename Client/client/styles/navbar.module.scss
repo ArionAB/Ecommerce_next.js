@@ -7,6 +7,10 @@
   background: $main-gradient;
   background: $main-gradient-linear;
   position: fixed;
+
+  @media only screen and (max-width: 599px) {
+    display: none;
+  }
 }
 
 .navContainer {

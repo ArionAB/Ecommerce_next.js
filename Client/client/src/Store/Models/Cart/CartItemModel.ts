@@ -5,5 +5,5 @@ export interface CartItemModel {
   productId: string;
   sizeType: SizeType;
   quantity: number;
-  mixedFruitId: FruitType[] | undefined;
+  mixedFruitId?: FruitType[] | undefined;
 }

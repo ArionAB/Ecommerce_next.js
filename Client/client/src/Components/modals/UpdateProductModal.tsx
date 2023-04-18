@@ -13,10 +13,16 @@ import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import FileUploadComponent from "../fileUpload/FileUploadComponent";
 import Button from "@mui/material/Button/Button";
 import { useAppDispatch } from "../../Store";
-import { updateProductItem } from "../../Store/Thunks/productThunks";
+import {
+  getProductItems,
+  updateProductItem,
+} from "../../Store/Thunks/productThunks";
 import { UpdateProductItemModel } from "../../Store/Models/Product/UpdateProductItemModel";
 
-const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
+const UpdateProductModal: FC<{
+  card: ProductItemModel;
+  setEditDialog: Function;
+}> = ({ card, setEditDialog }) => {
   const [deletedImages, setDeletedImages] = useState<string[]>([]);
   const [formValues, setFormValues] = useState<UpdateProductItemModel>({
     productId: card.productId,
@@ -27,6 +33,7 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
     priceKg: "",
     priceHalf: "",
     newAdditionalPictures: [],
+    inStock: false,
   });
 
   const dispatch = useAppDispatch();
@@ -70,6 +77,7 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
       priceKg: card.priceKg,
       priceHalf: card.priceHalf,
       newAdditionalPictures: [],
+      inStock: card.inStock,
     });
     // setTextfield(card.productSizes);
   }, [card]);
@@ -82,9 +90,12 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
         data: formValues,
         deletedImages: deletedImages,
       })
-    );
+    ).then(() => {
+      dispatch(getProductItems(""));
+      setEditDialog(false);
+    });
   };
-
+  console.log(formValues);
   return (
     <Container maxWidth="xl">
       <form>
@@ -166,6 +177,20 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
             value={formValues.priceHalf || ""}
           />
         </InputLabel>
+        <FormControlLabel
+          control={
+            <Switch
+              color="success"
+              name="InStock"
+              value={card.inStock}
+              checked={formValues.inStock}
+              onChange={(e) =>
+                setFormValues({ ...formValues, inStock: e.target.checked })
+              }
+            />
+          }
+          label="In stoc"
+        ></FormControlLabel>
         <InputLabel className="input-label" sx={{ marginTop: "1rem" }}>
           <Typography variant="h6">Delete</Typography>
           <FormGroup>
@@ -217,4 +242,4 @@ const EditCardModal: FC<{ card: ProductItemModel }> = ({ card }) => {
   );
 };
 
-export default EditCardModal;
+export default UpdateProductModal;

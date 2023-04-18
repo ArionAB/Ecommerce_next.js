@@ -17,4 +17,5 @@ export interface ProductItemModel {
   sizeType: SizeType;
   quantity: number | string;
   mixedFruitId: FruitType[];
+  inStock: boolean;
 }
