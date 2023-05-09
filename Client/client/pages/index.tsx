@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, CardMedia, Typography } from "@mui/material";
+import { Box, Button, CardMedia, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../src/Store";
 import { selectProductItems } from "../src/Store/Selectors/productSelectors";
 import { getProductItems } from "../src/Store/Thunks/productThunks";
@@ -14,6 +14,7 @@ import { ReusableCarousel } from "../src/Components/home-page/ReusableCarousel";
 import { ProductItemModel } from "../src/Store/Models/Product/ProductItem";
 import { CustomDivider } from "../src/Components/divider/CustomDivider";
 import Articole from "./articole";
+import Link from "next/link";
 
 const Home = ({ allPostsData, articlePostsData }: any) => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -99,14 +100,6 @@ const Home = ({ allPostsData, articlePostsData }: any) => {
             muted
             src="/hero_video.mp4"
           />
-          <div className={styles.mask}>
-            <Image
-              src="/header_mask.png"
-              fill
-              style={{ objectFit: "contain" }}
-              alt="Miere naturala polifloră, salcâm"
-            />
-          </div>
         </div>
         <div className={styles.secondContainer}>
           <Box className={styles.hero_wrapper}>
@@ -117,6 +110,9 @@ const Home = ({ allPostsData, articlePostsData }: any) => {
               Descoperă mierea naturală din Transilvania.
             </Typography>
           </Box>
+          <Link href="/miere">
+            <Button className={styles.products_btn}>Produse</Button>
+          </Link>
         </div>
       </Box>
 

@@ -37,6 +37,7 @@ const initialState: ProductState = {
     fruitType: "",
     sizeType: 1,
     mixedFruitId: [],
+    inStock: false,
   },
 };
 
@@ -69,6 +70,9 @@ export const productSlice = createSlice({
     },
     setProductItem: (state, action) => {
       state.item = action.payload;
+    },
+    setProductItems: (state, action) => {
+      state.productItems = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -105,4 +109,5 @@ export const {
   setMaxPrice,
   sethoneyType,
   setSubcategoryType,
+  setProductItems,
 } = productSlice.actions;

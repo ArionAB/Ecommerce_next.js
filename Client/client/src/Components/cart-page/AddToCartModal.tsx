@@ -19,6 +19,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import { setCartItems } from "../../Store/Slices/cartSlice";
 import { FruitItems } from "../selectItems/FruitItems";
 import { FruitType } from "../../Store/Enums/Product/FruitType";
+import { TotalPrice } from "../../Utils/Functions/TotalPrice";
 
 const Transition: any = forwardRef(function Transition(
   props: TransitionProps & {
@@ -41,7 +42,7 @@ export const AddToCartModal: FC<{
   const handleRemoveItem = (
     cartProductId: string,
     sizeType: SizeType,
-    selectedFruits: FruitType[],
+    mixedFruitId: FruitType[],
     productId?: string
   ) => {
     if (currentUser) {
@@ -68,8 +69,7 @@ export const AddToCartModal: FC<{
           ? true
           : item.sizeType !== sizeType
           ? true
-          : JSON.stringify(item.selectedFruits) !==
-            JSON.stringify(selectedFruits)
+          : JSON.stringify(item.mixedFruitId) !== JSON.stringify(mixedFruitId)
           ? true
           : false
       );
@@ -78,11 +78,6 @@ export const AddToCartModal: FC<{
       dispatch(setCartItems(newCartItems));
     }
   };
-
-  const TotalPrice = cartItems?.reduce(
-    (acc, item) => acc + Number(item.priceKg) * Number(item.quantity),
-    0
-  );
 
   const handleConvertFruitTypeToLabel = (selectedFruits: FruitType[]) => {
     const labels = selectedFruits?.map((fruit) => {
@@ -112,7 +107,12 @@ export const AddToCartModal: FC<{
             return (
               <Box
                 className={styles.cartItem}
-                key={item.productId + item.sizeType + item.fruitType}
+                key={
+                  item.productId +
+                  item.sizeType +
+                  item.fruitType +
+                  item.mixedFruitId
+                }
               >
                 <Box className={styles.productDetails}>
                   <img
@@ -164,7 +164,7 @@ export const AddToCartModal: FC<{
               Suma totală <span className={styles.tva}>TVA incl.</span>
             </Typography>
             <Typography className={styles.totalPrice}>
-              {TotalPrice} lei
+              {TotalPrice(cartItems)} lei
             </Typography>
           </Box>
           <Link href="/checkout">

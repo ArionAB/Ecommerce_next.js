@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, Grid } from "@mui/material";
 import { ProductItemModel } from "../../Store/Models/Product/ProductItem";
 import Image from "next/image";
 import { resourceUrl } from "../../Utils";
@@ -19,14 +19,15 @@ import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors
 import { UserType } from "../../Store/Enums/UserType";
 import { setProductItem } from "../../Store/Slices/productSlice";
 import { HoneyType } from "../../Store/Enums/Product/HoneyType";
+import { usePageWidth } from "../../Utils/Hooks/usePageWidth";
 
 const Card: FC<{
   card: ProductItemModel;
-  expand: boolean;
-  containerIndex: number;
+  // expand: boolean;
+  // containerIndex: number;
   index: number;
   carousel: boolean;
-}> = ({ card, expand, containerIndex, index, carousel }) => {
+}> = ({ card, index, carousel }) => {
   const [editDialog, setEditDialog] = useState<boolean>(false);
   const [imageSource, setImageSource] = useState<string>(
     card.productPictures[0].filePath
@@ -37,9 +38,12 @@ const Card: FC<{
     useState<boolean>(false);
   const [currentTarget, setCurrentTarget] = useState<any>(null);
   const [openShop, setOpenShop] = useState<boolean>(false);
+  const [expand, setExpand] = useState<boolean>(true);
+  const [containerIndex, setContainerIndex] = useState<number>(0);
 
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
+  const pageWidth = usePageWidth();
 
   const imageLoader = () => {
     return `${resourceUrl}${imageSource}`;
@@ -76,13 +80,30 @@ const Card: FC<{
   }, []);
 
   return (
-    <Box
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={4}
+      lg={3}
       className={styles.cardContainer}
-      component="div"
       sx={{
-        height: carousel ? "430px" : "auto",
+        // height: carousel ? "430px" : "auto",
+        borderRadius:
+          (expand && containerIndex === index) || pageWidth < 900
+            ? "0px"
+            : "40px",
+      }}
+      onMouseEnter={() => {
+        setExpand(true);
+        setContainerIndex(index);
+      }}
+      onMouseLeave={() => {
+        setExpand(false);
       }}
     >
+      {!card.inStock && <div className={styles.ribbon}>Out of Stock</div>}
+
       {currentUser?.userType === UserType.Admin && (
         <>
           <EditIcon
@@ -115,7 +136,10 @@ const Card: FC<{
         close={setOpenConfirmationMessage}
         deleteProduct={handleDeleteProduct}
       />
-      <Link href={`/miere/${card.productId}`} onClick={handleSetItem}>
+      <Link
+        href={`/miere/${card.title.replaceAll(" ", "_")}`}
+        onClick={handleSetItem}
+      >
         <Image
           src={baseImage ? baseImage : resourceUrl + imageSource}
           onMouseEnter={() => {
@@ -135,23 +159,23 @@ const Card: FC<{
         ></Image>
       </Link>
       <Typography variant="h6" className={styles.price}>
-        {card.priceKg} lei{" "}
-        <span>
-          1 <span>kg</span>
-        </span>
+        {card.priceKg} lei
+        <span> 1 kg</span>
       </Typography>
       <Typography className={styles.title}>{card.title}</Typography>
-      {expand && containerIndex === index && (
-        <Box className={styles.twoButtons}>
-          <Button className={styles.shop} onClick={() => setOpenShop(true)}>
-            Detalii
-          </Button>
-          <Button
-            className={styles.options}
-            onClick={() => setOpenOptions(true)}
-          >
-            Opțiuni
-          </Button>
+      {(pageWidth < 900 || (expand && containerIndex === index)) && (
+        <Box className={styles.bottom}>
+          <Box className={styles.twoButtons}>
+            <Button className={styles.shop} onClick={() => setOpenShop(true)}>
+              Detalii
+            </Button>
+            <Button
+              className={styles.options}
+              onClick={() => setOpenOptions(true)}
+            >
+              Opțiuni
+            </Button>
+          </Box>
         </Box>
       )}
       <Dialog open={openOptions} onClose={handleCloseOptions}>
@@ -164,7 +188,7 @@ const Card: FC<{
           card={card}
         />
       </Dialog>
-    </Box>
+    </Grid>
   );
 };
 

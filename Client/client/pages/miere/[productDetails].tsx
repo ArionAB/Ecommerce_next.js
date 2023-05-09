@@ -1,7 +1,6 @@
 import React, { useEffect, useState, FC } from "react";
 import { useRouter } from "next/router";
 import { getProduct } from "../../src/Store/Thunks/productThunks";
-
 import { useAppDispatch, useAppSelector } from "../../src/Store";
 import { selectProductItem } from "../../src/Store/Selectors/productSelectors";
 import { guidRegex } from "../../src/Utils/Functions/guidRegex";
@@ -16,21 +15,15 @@ import {
 import Image from "next/image";
 import { resourceUrl } from "../../src/Utils";
 import { SizeType } from "../../src/Store/Enums/SizeType";
-
 import Button from "@mui/material/Button/Button";
-
 import Close from "@mui/icons-material/Close";
-
 import { AddToCartModal } from "../../src/Components/cart-page/AddToCartModal";
-
 import Head from "next/head";
 import useAddItemToCart from "../../src/Utils/Hooks/useAddItemToCart";
 import styles from "../../styles/productDetails.module.scss";
 import { ProductItemModel } from "../../src/Store/Models/Product/ProductItem";
 import { setProductItem } from "../../src/Store/Slices/productSlice";
-
 import { Recommended } from "../../src/Components/product-details-page/Recommended";
-
 import { Add, Remove } from "@mui/icons-material";
 import { FruitType } from "../../src/Store/Enums/Product/FruitType";
 import { FruitItems } from "../../src/Components/selectItems/FruitItems";
@@ -46,6 +39,7 @@ const ProductDetails: FC<{
   const [sizeValue, setSizeValue] = useState<SizeType>(SizeType.Big);
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
   const [error, setError] = useState<string>("");
+
   const [openCart, setOpenCart] = useState<boolean>(false);
   const [mixedFruitId, setMixedFruitId] = useState<FruitType[]>([]);
   const [localStorageitems, setLocalStorageItems] = useState<
@@ -58,6 +52,7 @@ const ProductDetails: FC<{
   const dispatch = useAppDispatch();
 
   const { productDetails } = router.query;
+
   const { addToCart }: any = useAddItemToCart({
     item,
     size: Number(sizeValue),
@@ -79,9 +74,12 @@ const ProductDetails: FC<{
   }, [card]);
 
   useEffect(() => {
-    if (!item.productId && guidRegex(productDetails as string)) {
+    if (!item.productId && productDetails) {
       dispatch(getProduct(productDetails as string));
     } else return;
+    // if (item.productId) {
+    //   dispatch(getProduct(item.productId));
+    // } else return;
 
     //eslint-disable-next-line
   }, [productDetails]);
@@ -106,6 +104,9 @@ const ProductDetails: FC<{
     if (selectedQuantity === 0) {
       setError("Selectează cantitatea");
       return;
+    }
+    if (mixedFruitId.length < 1 && Number(item.fruitType) === FruitType.mixed) {
+      setError("Selectează cel puțin un tip de fructe");
     } else {
       addToCart();
       setOpenCart(true);
@@ -140,6 +141,7 @@ const ProductDetails: FC<{
   };
 
   const handlePickFruits = (id: number) => {
+    setError("");
     if (mixedFruitId.length === 3 && !mixedFruitId.includes(id)) return;
     if (mixedFruitId.includes(id)) {
       setMixedFruitId((prev) => prev.filter((fruit) => fruit !== id));
@@ -258,8 +260,12 @@ const ProductDetails: FC<{
             />
             <Add onClick={() => handleQuantity("add")} />
 
-            <Button className={styles.addCart} onClick={handleAddToCart}>
-              Adaugă în coș
+            <Button
+              className={styles.addCart}
+              onClick={handleAddToCart}
+              disabled={!item.inStock}
+            >
+              {card?.inStock ? "Adaugă în coș" : "Stoc epuizat"}
             </Button>
           </Box>
 

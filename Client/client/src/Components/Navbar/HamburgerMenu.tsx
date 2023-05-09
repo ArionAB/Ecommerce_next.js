@@ -36,6 +36,7 @@ const HamburgerMenu = () => {
     (acc, item) => acc + Number(item.quantity),
     0
   );
+
   return (
     <Box className={styles.ham_menu}>
       <IconButton
@@ -51,23 +52,45 @@ const HamburgerMenu = () => {
         <div className={styles.drawer}>
           <List>
             <ListItem button>
-              <ListItemText primary="Item 1" />
+              <Link href="/miere" onClick={toggleDrawer}>
+                <ListItemText primary="Miere" sx={{ width: "230px" }} />
+              </Link>
               <ListItemText
-                onClick={() => setOpen(false)}
+                onClick={toggleDrawer}
                 sx={{
                   display: "flex",
                   justifyContent: "flex-end",
                   width: "50px",
+                  padding: " 0 10px",
                 }}
               >
                 <Close />
               </ListItemText>
             </ListItem>
             <ListItem button>
-              <ListItemText primary="Item 2" />
+              <Link href="/cart" onClick={toggleDrawer}>
+                <ListItemText primary="Coș" />
+              </Link>
             </ListItem>
             <ListItem button>
-              <ListItemText primary="Item 3" />
+              <Link href="/retete" onClick={toggleDrawer}>
+                <ListItemText primary="Retete" />
+              </Link>
+            </ListItem>
+            <ListItem button>
+              <Link href="/articole" onClick={toggleDrawer}>
+                <ListItemText primary="Articole" />
+              </Link>
+            </ListItem>
+            <ListItem button>
+              <Link href="/contact" onClick={toggleDrawer}>
+                <ListItemText primary="Contact" />
+              </Link>
+            </ListItem>
+            <ListItem button>
+              <Link href="/about" onClick={toggleDrawer}>
+                <ListItemText primary="Despre noi" />
+              </Link>
             </ListItem>
           </List>
         </div>

@@ -1,8 +1,39 @@
 @import "./_variables";
 
 .ProductsContainer {
-  .parent {
-    // overflow: hidden;
+  .grid_container {
+    justify-content: center;
+    gap: 2rem;
+  }
+  .categoryWrapper {
+    display: flex;
+
+    .drawerBTN {
+      position: fixed;
+      height: 50px;
+      top: 65px;
+      cursor: pointer;
+      z-index: 3;
+      letter-spacing: 2px;
+      font-weight: 600;
+      color: black;
+      border: 1px solid #e8e8e1;
+
+      background-color: white;
+      color: $dark-blue;
+
+      transition: 0.3s ease-in-out;
+      padding: 0 20px;
+
+      &:hover {
+        background-color: $dark-blue;
+        color: white;
+      }
+
+      @media only screen and (min-width: 900px) {
+        display: none;
+      }
+    }
   }
 
   .cardContainer {
@@ -98,5 +129,15 @@
         color: white;
       }
     }
+  }
+}
+.filter_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+
+  h6 {
+    letter-spacing: 3px;
   }
 }

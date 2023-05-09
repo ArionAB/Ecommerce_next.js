@@ -32,6 +32,7 @@
     .price {
       font-size: 1.5rem;
     }
+
     .selectSize {
       display: flex;
       gap: 1rem;
@@ -54,6 +55,7 @@
       }
     }
     .error {
+      text-align: center;
       color: $error-main;
     }
 
@@ -118,6 +120,11 @@
         margin: 1.5rem 0;
         background-color: $dark-blue;
         color: white;
+
+        &[disabled] {
+          background-color: $disabled-bg-color;
+          color: $disabled-color;
+        }
       }
     }
 

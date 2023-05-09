@@ -95,7 +95,7 @@ const UpdateProductModal: FC<{
       setEditDialog(false);
     });
   };
-  console.log(formValues);
+
   return (
     <Container maxWidth="xl">
       <form>

@@ -14,10 +14,12 @@ import {
   getDateLabel,
 } from "../../Utils/Functions/dateTimeFormat";
 import { setOrdersFilters } from "../../Store/Slices/orderSlice";
+import { Close } from "@mui/icons-material";
 
-export const OrdersHistory: FC<{ setSelectedOrder: Function }> = ({
-  setSelectedOrder,
-}) => {
+export const OrdersHistory: FC<{
+  setSelectedOrder: Function;
+  setOpenDrawer: Function;
+}> = ({ setSelectedOrder, setOpenDrawer }) => {
   const [selectedOrderId, setSelectedOrderId] = useState<string>("");
   const orders = useAppSelector(selectGetOrders);
   const filters = useAppSelector(selectOrdersFilters);
@@ -59,9 +61,13 @@ export const OrdersHistory: FC<{ setSelectedOrder: Function }> = ({
   return (
     <>
       <Box className={styles.orders_history}>
-        <Typography variant="h5" className={styles.history}>
-          Istoricul comenzilor
-        </Typography>
+        <Box className={styles.closeDrawer}>
+          <Typography variant="h5" className={styles.history}>
+            Istoricul comenzilor
+          </Typography>
+          <Close onClick={() => setOpenDrawer(false)} />
+        </Box>
+
         {loadingOrders && (
           <Box className={styles.skeletons}>
             <Skeleton variant="rectangular" width="100%" height={70} />
@@ -77,6 +83,7 @@ export const OrdersHistory: FC<{ setSelectedOrder: Function }> = ({
               onClick={() => {
                 setSelectedOrder(order);
                 setSelectedOrderId(order.orderId);
+                setOpenDrawer(false);
               }}
               sx={
                 order.orderId === selectedOrderId

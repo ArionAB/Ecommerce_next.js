@@ -1,5 +1,5 @@
 export const FruitItems = [
-  { value: 1, label: "" },
+  { value: 1, label: "Simplu" },
   { value: 2, label: "Ananas" },
   { value: 3, label: "Aronia" },
   { value: 4, label: "Banane" },

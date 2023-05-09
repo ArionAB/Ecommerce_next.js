@@ -49,7 +49,6 @@ export const updateProductItem = createAsyncThunk<
   AppThunkConfig
 >("/Product/Update", async ({ data, deletedImages }, thunkApi) => {
   try {
-    console.log(data);
     let form = new FormData();
     form.append("priceKg", data.priceKg);
     form.append("priceHalf", data.priceHalf);

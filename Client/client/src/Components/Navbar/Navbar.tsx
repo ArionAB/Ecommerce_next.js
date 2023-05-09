@@ -13,11 +13,14 @@ import styles from "../../../styles/navbar.module.scss";
 import { UserType } from "../../Store/Enums/UserType";
 import Head from "next/head";
 import HamburgerMenu from "./HamburgerMenu";
+import { CartModal } from "../cart-page/CartModal";
 
 export const Navbar = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [currentTarget, setCurrentTarget] = useState<HTMLElement | null>(null);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [cartModal, setCartModal] = useState<boolean>(false);
+  const [cartTarget, setCartTarget] = useState<HTMLElement | null>(null);
 
   const currentUser = useAppSelector(selectCurrentUser);
   const cartItems = useAppSelector(selectCartItems);
@@ -62,13 +65,26 @@ export const Navbar = () => {
           <Link href="/contact" className={styles.link}>
             Contact
           </Link>
-
-          <Link href="/cart" className={styles.cartLink}>
-            <ShoppingCartIcon />
-            {cartItems.length > 0 && (
-              <span className={styles.cartNumber}>{totalItems}</span>
-            )}
-          </Link>
+          <Box
+            aria-owns={cartModal ? "mouse-over-popover" : undefined}
+            onMouseEnter={(e) => {
+              setCartTarget(e.currentTarget);
+              setCartModal(true);
+            }}
+            onMouseLeave={() => setCartModal(false)}
+            sx={{
+              position: "relative",
+              cursor: "pointer",
+            }}
+          >
+            <Link href="/cart" className={styles.cartLink}>
+              <ShoppingCartIcon />
+              {cartItems.length > 0 && (
+                <span className={styles.cartNumber}>{totalItems}</span>
+              )}
+            </Link>
+            {cartModal && <CartModal setOpenDialog={setOpenDialog} />}
+          </Box>
           {currentUser ? (
             <Box
               aria-owns={isLogin ? "mouse-over-popover" : undefined}
@@ -77,7 +93,7 @@ export const Navbar = () => {
                 setIsLogin(true);
               }}
               onMouseLeave={() => setIsLogin(false)}
-              sx={{ position: "relative", cursor: "pointer" }}
+              sx={{ position: "relative" }}
               className={styles.login}
             >
               <PersonPinIcon /> {currentUser?.userName}

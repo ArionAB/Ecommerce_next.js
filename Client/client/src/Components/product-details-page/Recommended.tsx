@@ -1,6 +1,6 @@
 import { Container, Typography } from "@mui/material";
 import React, { useState, FC, useEffect } from "react";
-import { useAppSelector } from "../../Store";
+import { useAppDispatch, useAppSelector } from "../../Store";
 import { selectProductItems } from "../../Store/Selectors/productSelectors";
 
 import styles from "../../../styles/recommended.module.scss";
@@ -8,10 +8,13 @@ import { HoneyType } from "../../Store/Enums/Product/HoneyType";
 
 import { ProductItemModel } from "../../Store/Models/Product/ProductItem";
 import { ReusableCarousel } from "../home-page/ReusableCarousel";
+import { getProductItems } from "../../Store/Thunks/productThunks";
 
 export const Recommended: FC<{ honeyType: HoneyType }> = ({ honeyType }) => {
   const [honey, setHoney] = useState<HoneyType>(honeyType);
+  const [mounted, setMounted] = useState<boolean>(false);
   const productItems = useAppSelector(selectProductItems);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setHoney(honeyType);
@@ -31,8 +34,12 @@ export const Recommended: FC<{ honeyType: HoneyType }> = ({ honeyType }) => {
   };
 
   useEffect(() => {
+    setMounted(true);
     handleFilteredItems();
-  }, [productItems]);
+    if (productItems.length === 0 && mounted) {
+      dispatch(getProductItems(""));
+    }
+  }, [productItems, mounted]);
 
   return (
     <Container maxWidth="xl">

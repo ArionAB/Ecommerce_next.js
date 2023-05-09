@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { Container, Typography, Grid, Box, Button } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Grid,
+  Box,
+  Button,
+  Drawer,
+} from "@mui/material";
 
 import styles from "../styles/orders.module.scss";
 import { OrdersHistory } from "../src/Components/orders-page/OrdersHistory";
@@ -15,9 +22,11 @@ import { OrderModel } from "../src/Store/Models/Order/OrderModel";
 import withAuth from "../src/Utils/ProtectedRoutes/WithAuth";
 import Link from "next/link";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 const Orders = () => {
   const [selectedOrder, setSelectedOrder] = useState<OrderModel | null>(null);
+  const [openDrawer, setOpenDrawer] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
@@ -55,48 +64,70 @@ const Orders = () => {
           </Link>{" "}
         </Box>
       ) : (
-        <Grid container className={styles.container}>
-          <Grid item md={4} className={styles.history_container}>
-            <OrdersHistory setSelectedOrder={setSelectedOrder} />
+        <>
+          <Button
+            className={styles.drawerBTN}
+            onClick={() => setOpenDrawer(true)}
+            endIcon={<KeyboardDoubleArrowRightIcon />}
+          >
+            Instoricul comenzilor
+          </Button>
+          <Drawer
+            anchor="left"
+            open={openDrawer}
+            onClose={() => setOpenDrawer(false)}
+          >
+            <OrdersHistory
+              setSelectedOrder={setSelectedOrder}
+              setOpenDrawer={setOpenDrawer}
+            />
+          </Drawer>
+          <Grid container className={styles.container}>
+            <Grid item md={4} className={styles.history_container}>
+              <OrdersHistory
+                setSelectedOrder={setSelectedOrder}
+                setOpenDrawer={setOpenDrawer}
+              />
+            </Grid>
+            <Grid item md={8} className={styles.orders_container}>
+              <OrderDetails selectedOrder={selectedOrder} />
+              <Box className={styles.order_info}>
+                <Typography variant="h5" className={styles.title}>
+                  Informații despre comanda
+                </Typography>
+                <Box className={styles.between}>
+                  <Typography className={styles.left}>Nume</Typography>
+                  <Typography className={styles.right}>
+                    {selectedOrder?.shippingAddress?.firstName}{" "}
+                    {selectedOrder?.shippingAddress?.lastName}
+                  </Typography>
+                </Box>
+                <Box className={styles.between}>
+                  <Typography className={styles.left}>Număr telefon</Typography>
+                  <Typography className={styles.right}>
+                    {selectedOrder?.shippingAddress?.phone}
+                  </Typography>
+                </Box>
+                <Box className={styles.between}>
+                  <Typography className={styles.left}>
+                    Adresa de livrare
+                  </Typography>
+                  <Typography className={styles.right}>
+                    {selectedOrder?.shippingAddress?.address},{" "}
+                    {selectedOrder?.shippingAddress?.city},{" "}
+                    {selectedOrder?.shippingAddress?.county}
+                  </Typography>
+                </Box>
+                <Box className={styles.total}>
+                  <Typography className={styles.left}>Total</Typography>
+                  <Typography className={styles.right}>
+                    {selectedOrder?.totalPrice} lei
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item md={8} className={styles.orders_container}>
-            <OrderDetails selectedOrder={selectedOrder} />
-            <Box className={styles.order_info}>
-              <Typography variant="h5" className={styles.title}>
-                Informații despre comanda
-              </Typography>
-              <Box className={styles.between}>
-                <Typography className={styles.left}>Nume</Typography>
-                <Typography className={styles.right}>
-                  {selectedOrder?.shippingAddress?.firstName}{" "}
-                  {selectedOrder?.shippingAddress?.lastName}
-                </Typography>
-              </Box>
-              <Box className={styles.between}>
-                <Typography className={styles.left}>Număr telefon</Typography>
-                <Typography className={styles.right}>
-                  {selectedOrder?.shippingAddress?.phone}
-                </Typography>
-              </Box>
-              <Box className={styles.between}>
-                <Typography className={styles.left}>
-                  Adresa de livrare
-                </Typography>
-                <Typography className={styles.right}>
-                  {selectedOrder?.shippingAddress?.address},{" "}
-                  {selectedOrder?.shippingAddress?.city},{" "}
-                  {selectedOrder?.shippingAddress?.county}
-                </Typography>
-              </Box>
-              <Box className={styles.total}>
-                <Typography className={styles.left}>Total</Typography>
-                <Typography className={styles.right}>
-                  {selectedOrder?.totalPrice} lei
-                </Typography>
-              </Box>
-            </Box>
-          </Grid>
-        </Grid>
+        </>
       )}
     </Container>
   );

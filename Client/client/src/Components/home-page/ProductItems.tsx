@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Container, Box, Typography, Grid, Skeleton } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  Grid,
+  Skeleton,
+  Button,
+  Drawer,
+} from "@mui/material";
 
 import styles from "../../../styles/productItems.module.scss";
 import { useAppDispatch, useAppSelector } from "../../Store";
@@ -10,16 +18,20 @@ import {
 import { HoneyType } from "../../Store/Enums/Product/HoneyType";
 import Card from "../card/Card";
 import { getProductItems } from "../../Store/Thunks/productThunks";
+import { ProductFilters } from "./ProductFilters";
+import TuneIcon from "@mui/icons-material/Tune";
+import { Close } from "@mui/icons-material";
 
 export const ProductItems = () => {
   const boxRef = useRef<any>(null);
   const containerRef = useRef(null);
-  const [expand, setExpand] = useState<boolean>(true);
-  const [containerIndex, setContainerIndex] = useState<number>(0);
+
   const [honeyType, setHoneyType] = useState<HoneyType>(HoneyType.All);
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [isInViewport, setIsInViewport] = useState(true);
   const [endOfContainer, setEndOfContainer] = useState<boolean>(false);
+  const [filteredProducts, setFilteredProducts] = useState<number[]>([]);
+  const [openDrawer, setOpenDrawer] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const productItems = useAppSelector(selectProductItems);
@@ -193,7 +205,17 @@ export const ProductItems = () => {
       </>
       <Box className={styles.categoryWrapper}>
         {loadingItems && (
-          <Grid container flexWrap="wrap" justifyContent="center">
+          <Grid container className={styles.grid_container}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Skeleton variant="rectangular" width={300} height={280} />
+              <Skeleton variant="text" width={300} height={50} />
+              <Skeleton variant="text" width={300} height={50} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Skeleton variant="rectangular" width={300} height={280} />
+              <Skeleton variant="text" width={300} height={50} />
+              <Skeleton variant="text" width={300} height={50} />
+            </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <Skeleton variant="rectangular" width={300} height={280} />
               <Skeleton variant="text" width={300} height={50} />
@@ -216,84 +238,62 @@ export const ProductItems = () => {
             </Grid>
           </Grid>
         )}
+        {!loadingItems && (
+          <ProductFilters
+            filteredProducts={filteredProducts}
+            setFilteredProducts={setFilteredProducts}
+            mobile={false}
+          />
+        )}
+        {(isInViewport || (!isInViewport && !endOfContainer)) && (
+          <Button
+            className={styles.drawerBTN}
+            onClick={() => setOpenDrawer(true)}
+            startIcon={<TuneIcon />}
+          >
+            Filtre
+          </Button>
+        )}
 
-        <Grid container rowSpacing={5}>
+        <Drawer
+          anchor="left"
+          open={openDrawer}
+          onClose={() => setOpenDrawer(false)}
+        >
+          <Box className={styles.filter_title}>
+            <Typography variant="h6">Filtre</Typography>
+            <Close onClick={() => setOpenDrawer(false)} />
+          </Box>
+
+          <ProductFilters
+            filteredProducts={filteredProducts}
+            setFilteredProducts={setFilteredProducts}
+            mobile={true}
+          />
+        </Drawer>
+
+        <Grid container className={styles.grid_container}>
           {productItems?.map((card, index) => {
-            if (card.productCategory === honeyType) {
-              return (
-                <Grid
-                  key={card.productId}
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  className={styles.parent}
-                >
-                  <Box
-                    sx={{
-                      width: 300,
-                      // position:
-                      //   index === containerIndex ? "relative" : "absolute",
-                      padding: 1,
-                      // transition: "all 0.5s ease",
-                    }}
-                    className={styles.cardContainer}
-                    onMouseEnter={() => {
-                      setExpand(true);
-                      setContainerIndex(index);
-                    }}
-                    onMouseLeave={() => {
-                      setExpand(false);
-                    }}
-                  >
-                    <Card
-                      card={card}
-                      expand={expand}
-                      containerIndex={containerIndex}
-                      index={index}
-                      carousel={false}
-                    />
-                  </Box>
-                </Grid>
-              );
-            } else if (honeyType === HoneyType.All) {
-              return (
-                <Grid
-                  key={card.productId}
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  className={styles.parent}
-                >
-                  <Box
-                    sx={{
-                      width: 300,
-
-                      padding: 1,
-                      // transition: "all 0.5s ease",
-                    }}
-                    className={styles.cardContainer}
-                    onMouseEnter={() => {
-                      setExpand(true);
-                      setContainerIndex(index);
-                    }}
-                    onMouseLeave={() => {
-                      setExpand(false);
-                    }}
-                  >
-                    <Card
-                      card={card}
-                      expand={expand}
-                      containerIndex={containerIndex}
-                      index={index}
-                      carousel={false}
-                    />
-                  </Box>
-                </Grid>
-              );
+            if (
+              card.productCategory === honeyType &&
+              filteredProducts?.includes(Number(card.fruitType))
+            ) {
+              return <Card card={card} index={index} carousel={false} />;
+            } else if (
+              card.productCategory === honeyType &&
+              !filteredProducts.length
+            ) {
+              return <Card card={card} index={index} carousel={false} />;
+            } else if (
+              honeyType === HoneyType.All &&
+              filteredProducts?.includes(Number(card.fruitType))
+            ) {
+              return <Card card={card} index={index} carousel={false} />;
+            } else if (
+              honeyType === HoneyType.All &&
+              !filteredProducts.length
+            ) {
+              return <Card card={card} index={index} carousel={false} />;
             }
           })}
         </Grid>

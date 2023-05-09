@@ -6,6 +6,14 @@
   gap: 2rem;
   align-items: center;
 
+  @media only screen and (max-width: 768px) {
+    padding: 1rem;
+  }
+  @media only screen and (max-width: 500px) {
+    padding: 1rem 5px;
+    gap: 5px;
+  }
+
   .card_container {
     justify-content: center;
   }
@@ -46,13 +54,17 @@
   height: 30px;
   width: 30px;
   cursor: pointer;
+  margin-bottom: 4rem;
 }
 
 .image_track {
   display: flex;
   overflow: hidden;
+  height: 535px;
 
   .slider {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
     height: 460px;
     display: flex;
     justify-content: center;

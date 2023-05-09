@@ -21,6 +21,7 @@
   width: 100%;
 
   .link {
+    position: relative;
     color: $secondary-color;
   }
 }
@@ -28,6 +29,7 @@
 .cartLink {
   position: relative;
   color: $secondary-color;
+  padding: 5px;
 }
 
 .cartNumber {

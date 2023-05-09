@@ -1,5 +1,5 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
-import { useState, useRef, FC } from "react";
+import { useState, useRef, FC, useEffect } from "react";
 import { getSortedRecipesData } from "../../lib/posts";
 import { useRouter } from "next/router";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -14,10 +14,16 @@ const Articole: FC<{ allPostsData: any }> = ({ allPostsData }) => {
   const [clientX, setClientX] = useState<number>(0);
   const [percentage, setPercentage] = useState<number>(0);
   const [prevPercentage, setPrevPercentage] = useState<number>(0);
+  const [cardWidth, setWidth] = useState<number>(0);
+  //mobile
+  const [startX, setStartX] = useState<number>(0);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const router = useRouter();
+
   const sliderRef = useRef<any>(null);
   const trackRef = useRef<any>(null);
+  const trackWidth = trackRef.current?.clientWidth;
 
   const getCorrectImage = (id: string) => {
     switch (id) {
@@ -36,49 +42,46 @@ const Articole: FC<{ allPostsData: any }> = ({ allPostsData }) => {
     setClientX(e.clientX);
   };
 
+  useEffect(() => {
+    setWidth(boxWidth / allPostsData?.length);
+  }, [boxWidth]);
+
   const handleOnMouseMove = (e: any) => {
     e.preventDefault();
     if (clientX === 0) return;
+    const diff = window?.innerWidth - trackWidth;
+    const maxWidth = boxWidth - window?.innerWidth + diff + cardWidth - 100;
     const mouseDelta = clientX - e.clientX;
-    const maxDelta = window.innerWidth / 2;
-    const currentPercentage = (mouseDelta / maxDelta) * -100;
+    const maxDelta = window.innerWidth; // Increase maxDelta value for less sensitivity
 
+    const currentPercentage = (mouseDelta / maxDelta) * -100;
     const nextPercentage = prevPercentage + currentPercentage;
 
-    setPercentage(
-      Math.min(
-        0,
-        Math.max(nextPercentage, -boxWidth! / allPostsData.length / 10)
-      )
-    );
+    // Convert currentPercentage to pixel value
+    const totalLengthPixels = trackWidth; // Replace with the total length of the drag area in pixels
+    const currentPixelValue = (currentPercentage / 100) * totalLengthPixels;
+    const nextPixelValue = prevPercentage + currentPixelValue; // Add current pixel value to previous pixel value
+
+    setPercentage(Math.min(0, Math.max(nextPixelValue, -maxWidth))); // Update transform property of sliderRef with pixel value
+    setPrevPercentage(nextPercentage); // Update previous percentage
   };
-  //default value for max is -100
 
   const handleOnMouseUp = () => {
     setClientX(0);
     setPrevPercentage(percentage);
   };
-
   const handleArrowClick = (direction: "left" | "right") => {
+    const diff = window?.innerWidth - trackWidth;
+    const maxWidth = boxWidth - window?.innerWidth + diff + cardWidth - 100;
+
     if (direction === "left") {
-      setPercentage(
-        Math.min(
-          0,
-          Math.max(percentage + 15, -boxWidth! / allPostsData.length / 10)
-        )
-      );
+      setPercentage(Math.min(0, Math.max(percentage + cardWidth, -maxWidth)));
     } else {
-      setPercentage(
-        Math.min(
-          0,
-          Math.max(percentage - 15, -boxWidth! / allPostsData.length / 10)
-        )
-      );
+      setPercentage(Math.min(0, Math.max(percentage - cardWidth, -maxWidth)));
     }
   };
 
   const handleOnTrack = (e: any) => {
-    if (!homepage) return;
     const eleBounds = trackRef.current.getBoundingClientRect();
     const sliderBounds = sliderRef.current.getBoundingClientRect();
 
@@ -114,11 +117,43 @@ const Articole: FC<{ allPostsData: any }> = ({ allPostsData }) => {
             <Box
               className={styles.slider}
               sx={{
-                transform: `translateX(${percentage}%)`,
+                transform: `translateX(${percentage}px)`,
               }}
               onMouseDown={handleOnMouseDown}
               onMouseMove={handleOnMouseMove}
               onMouseUp={handleOnMouseUp}
+              onTouchStart={(e) => {
+                setClientX(e.touches[0].clientX);
+                setStartX(e.touches[0].clientX);
+                setIsDragging(true);
+              }}
+              onTouchMove={(e) => {
+                if (!isDragging) return;
+                const diff = window?.innerWidth - trackWidth;
+                const maxWidth =
+                  boxWidth - window?.innerWidth + diff + cardWidth - 100;
+                const currentX = e.touches[0].clientX;
+                const mouseDelta = startX - currentX;
+                const maxDelta = window.innerWidth;
+                const currentPercentage = (mouseDelta / maxDelta) * -100;
+                const nextPercentage = prevPercentage + currentPercentage;
+                const totalLengthPixels = trackWidth;
+                const currentPixelValue =
+                  (currentPercentage / 100) * totalLengthPixels;
+                const nextPixelValue = prevPercentage + currentPixelValue;
+                setPercentage(Math.min(0, Math.max(nextPixelValue, -maxWidth)));
+                setPrevPercentage(nextPercentage);
+              }}
+              onTouchEnd={() => {
+                setIsDragging(false);
+                setClientX(0);
+                setPrevPercentage(percentage);
+              }}
+              onTouchCancel={() => {
+                setIsDragging(false);
+                setClientX(0);
+                setPrevPercentage(percentage);
+              }}
               ref={sliderRef}
             >
               {allPostsData?.map((data: any) => {

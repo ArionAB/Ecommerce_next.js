@@ -6,13 +6,18 @@ import styles from "../../../styles/reusableCarousel.module.scss";
 
 import Card from "../card/Card";
 
-export const ReusableCarousel: FC<any> = ({ items }) => {
+export const ReusableCarousel: FC<{
+  items: any;
+}> = ({ items }) => {
   const [clientX, setClientX] = useState<number>(0);
   const [percentage, setPercentage] = useState<number>(0);
   const [prevPercentage, setPrevPercentage] = useState<number>(0);
   const sliderRef = useRef<any>(null);
   const boxWidth = sliderRef.current?.clientWidth;
   const [cardWidth, setWidth] = useState<number>(0);
+  //mobile
+  const [startX, setStartX] = useState<number>(0);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const trackRef = useRef<any>(null);
   const trackWidth = trackRef.current?.clientWidth;
@@ -102,18 +107,42 @@ export const ReusableCarousel: FC<any> = ({ items }) => {
             onMouseDown={handleOnMouseDown}
             onMouseMove={handleOnMouseMove}
             onMouseUp={handleOnMouseUp}
+            onTouchStart={(e) => {
+              setClientX(e.touches[0].clientX);
+              setStartX(e.touches[0].clientX);
+              setIsDragging(true);
+            }}
+            onTouchMove={(e) => {
+              if (!isDragging) return;
+              const diff = window?.innerWidth - trackWidth;
+              const maxWidth =
+                boxWidth - window?.innerWidth + diff + cardWidth - 100;
+              const currentX = e.touches[0].clientX;
+              const mouseDelta = startX - currentX;
+              const maxDelta = window.innerWidth;
+              const currentPercentage = (mouseDelta / maxDelta) * -100;
+              const nextPercentage = prevPercentage + currentPercentage;
+              const totalLengthPixels = trackWidth;
+              const currentPixelValue =
+                (currentPercentage / 100) * totalLengthPixels;
+              const nextPixelValue = prevPercentage + currentPixelValue;
+              setPercentage(Math.min(0, Math.max(nextPixelValue, -maxWidth)));
+              setPrevPercentage(nextPercentage);
+            }}
+            onTouchEnd={() => {
+              setIsDragging(false);
+              setClientX(0);
+              setPrevPercentage(percentage);
+            }}
+            onTouchCancel={() => {
+              setIsDragging(false);
+              setClientX(0);
+              setPrevPercentage(percentage);
+            }}
             ref={sliderRef}
           >
             {items?.map((data: any, index: number) => {
-              return (
-                <Card
-                  card={data}
-                  expand={false}
-                  index={index}
-                  containerIndex={0}
-                  carousel={true}
-                />
-              );
+              return <Card card={data} index={index} carousel={true} />;
             })}
           </Box>
         </Box>

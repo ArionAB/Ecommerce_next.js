@@ -10,6 +10,7 @@ import {
 import { resourceUrl } from "../../Utils";
 import { FruitType } from "../../Store/Enums/Product/FruitType";
 import { FruitItems } from "../selectItems/FruitItems";
+import { HoneyType } from "../../Store/Enums/Product/HoneyType";
 
 export const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
   selectedOrder,
@@ -48,7 +49,12 @@ export const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
           <Box className={styles.left}>
             <CardMedia
               component="img"
-              src={resourceUrl + product.filePath}
+              // src={resourceUrl + product.filePath}
+              src={
+                product.productCategory === HoneyType.Poliflora
+                  ? "/poliflora.jpg"
+                  : "/salcam.jpg"
+              }
               className={styles.image}
             />
             <Box className={styles.product}>

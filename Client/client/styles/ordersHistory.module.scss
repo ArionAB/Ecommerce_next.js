@@ -7,6 +7,21 @@
   overflow: hidden;
   overflow-y: auto;
 
+  .closeDrawer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5px;
+
+    svg {
+      cursor: pointer;
+
+      @media only screen and (min-width: 600px) {
+        display: none;
+      }
+    }
+  }
+
   .skeletons {
     display: flex;
     flex-direction: column;

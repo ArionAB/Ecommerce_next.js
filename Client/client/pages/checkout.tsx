@@ -38,6 +38,7 @@ import ShippingAddress from "../src/Components/checkout-page/ShippingAddress";
 import { setCurrentUser } from "../src/Store/Slices/authenticateSlice";
 import { useFormState } from "../src/Utils/Hooks/useReactForm";
 import { addAppNotification } from "../src/Store/Slices/appNotificationSlice";
+import { TotalPrice } from "../src/Utils/Functions/TotalPrice";
 
 export const Checkout = () => {
   const [hasErrors, setHasErrors] = useState(true);
@@ -69,16 +70,11 @@ export const Checkout = () => {
   const currentUser: any = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
 
-  const totalPrice = cartItems?.reduce(
-    (acc, item) => acc + Number(item.priceKg) * Number(item.quantity),
-    0
-  );
-
   const priceWithDelivery = () => {
-    if (totalPrice < 200) {
-      return totalPrice + 15;
+    if (TotalPrice(cartItems) < 200) {
+      return TotalPrice(cartItems) + 15;
     } else {
-      return totalPrice;
+      return TotalPrice(cartItems);
     }
   };
 
@@ -588,11 +584,13 @@ export const Checkout = () => {
         })}
         <Box className={styles.totalBox}>
           <Typography className={styles.title}>Subtotal</Typography>
-          <Typography className={styles.price}>{totalPrice} lei</Typography>
+          <Typography className={styles.price}>
+            {TotalPrice(cartItems)} lei
+          </Typography>
         </Box>
         <Box className={styles.shipping}>
           <Typography className={styles.title}>Cost Livrare</Typography>
-          {totalPrice < 200 ? 15 : 0} lei
+          {TotalPrice(cartItems) < 200 ? 15 : 0} lei
         </Box>
         <Box className={styles.totalPrice}>
           <Typography className={styles.title}>Total</Typography>

@@ -6,6 +6,14 @@
   gap: 2rem;
   align-items: center;
 
+  @media only screen and (max-width: 768px) {
+    padding: 1rem;
+  }
+  @media only screen and (max-width: 500px) {
+    padding: 1rem 5px;
+    gap: 5px;
+  }
+
   .card_container {
     justify-content: center;
   }

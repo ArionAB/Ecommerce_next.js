@@ -3,57 +3,138 @@
 .options {
   background-color: white;
   max-width: 500px;
-  padding: 0.5rem 3rem;
+  padding: 0.5rem 0;
   height: 400px;
   min-width: 500px;
 
-  .title {
-    font-weight: 600;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    color: $brown;
-    font-style: italic;
-    margin-bottom: 3rem;
+  .title_close {
+    position: relative;
+
+    .title {
+      font-weight: 600;
+      margin: 0 auto;
+      padding: 0 65px 0px 20px;
+      text-align: center;
+      color: $main-gradient;
+      font-size: clamp(20px, 3vw, 32px);
+    }
+
+    .closeBTN {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
   }
 
-  .price {
-    margin-bottom: 0.5rem;
-    font-size: 1.5rem;
-  }
-
-  .selectSize {
+  .wrapper {
     display: flex;
-    margin: 1rem 0;
-  }
+    flex-direction: column;
+    padding: 1rem 4rem;
 
-  .qty {
-    display: flex;
-    gap: 1rem;
+    .price {
+      font-size: 1.5rem;
+    }
 
-    .selectQuantity {
+    .info {
+      font-size: 14px;
+      color: $dark-blue;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    .selectSize {
       display: flex;
-      margin: 1.5rem 0;
-      width: 40%;
+      gap: 1rem;
 
-      @include textfield;
+      .sizeBTN {
+        background-color: $secondary-color;
+        color: $main-gradient;
+        font-weight: 600;
+        padding: 0.3rem 1rem;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          color: $secondary-color;
+          background-color: $main-gradient;
+        }
+      }
+      [data-active="true"] {
+        color: $secondary-color;
+        background-color: $main-gradient;
+      }
     }
 
-    .addCart {
-      width: 60%;
-      margin: 1.5rem 0;
-      background-color: $dark-blue;
-      color: white;
+    .error {
+      text-align: center;
+      color: $error-main;
+    }
+
+    .selectFruits {
+      width: 300px;
+
+      li[data-active="true"] {
+        background-color: $main-gradient !important;
+        color: $secondary-color !important;
+      }
+
+      margin: 1rem 0;
+    }
+
+    span {
+      color: $brown;
+      font-weight: 600;
+    }
+
+    .caption {
+      padding-top: 1rem;
+    }
+
+    .qty {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      height: 40px;
+
+      svg {
+        color: $main-gradient;
+        border: 2px solid $secondary-color;
+        border-radius: 50%;
+        padding: 3px;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+      }
+
+      .qtyNumber {
+        width: 20px;
+
+        &:focus-within {
+          .notchedOutline {
+            border-color: $brown !important;
+          }
+        }
+
+        input {
+          padding-left: 5px;
+        }
+      }
+
+      .addCart {
+        width: 60%;
+        margin: 1.5rem 0;
+        background-color: $dark-blue;
+        color: white;
+
+        &[disabled] {
+          color: $disabled-color;
+          background-color: $disabled-bg-color;
+          box-shadow: $disabled-box-shadow;
+        }
+      }
+    }
+
+    .selectWeight {
+      width: 100%;
     }
   }
-
-  .selectWeight {
-    width: 100%;
-  }
-}
-
-.closeBTN {
-  display: flex;
-  justify-content: flex-end;
-  // width: 5%;
 }

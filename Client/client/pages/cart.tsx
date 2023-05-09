@@ -29,6 +29,7 @@ import { selectCurrentUser } from "../src/Store/Selectors/authenticationSelector
 import { setCartItems } from "../src/Store/Slices/cartSlice";
 import { FruitType } from "../src/Store/Enums/Product/FruitType";
 import { FruitItems } from "../src/Components/selectItems/FruitItems";
+import { TotalPrice } from "../src/Utils/Functions/TotalPrice";
 
 const Cart = () => {
   const [selectValues, setSelectValues] = useState([
@@ -135,16 +136,11 @@ const Cart = () => {
     }
   };
 
-  const TotalPrice = cartItems?.reduce(
-    (acc, item) => acc + Number(item.priceKg) * Number(item.quantity),
-    0
-  );
-
   const priceWithDelivery = () => {
-    if (TotalPrice < 200) {
-      return TotalPrice + 15;
+    if (TotalPrice(cartItems) < 200) {
+      return TotalPrice(cartItems) + 15;
     } else {
-      return TotalPrice;
+      return TotalPrice(cartItems);
     }
   };
 
