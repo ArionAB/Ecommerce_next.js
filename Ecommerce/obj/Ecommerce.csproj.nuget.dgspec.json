@@ -66,6 +66,10 @@
               "target": "Package",
               "version": "[5.0.0, )"
             },
+            "MobilpayEncryptDecrypt": {
+              "target": "Package",
+              "version": "[1.0.3, )"
+            },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[5.0.0, )"

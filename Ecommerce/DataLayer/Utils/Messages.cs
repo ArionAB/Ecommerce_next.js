@@ -96,5 +96,8 @@
 
         public static Message Message_GetAbandonedCartsSuccess = new Message { Text = "Lista coșuri abandonate", MessageType = MessageType.Success };
         public static Message Message_GetAbandonedCartsError = new Message { Text = "Eroare coșuri abandonate.", MessageType = MessageType.Error };
+
+        public static Message Message_PaymentServiceNotAvailable = new Message { Text = "Serviciul de plăți nu este disponibil momentan!", MessageType = MessageType.Error };
+
     }
 }

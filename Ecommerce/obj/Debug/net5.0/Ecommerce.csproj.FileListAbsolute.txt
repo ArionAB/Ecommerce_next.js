@@ -158,3 +158,4 @@ C:\Users\Arion\Source\Repos\ArionAB\Ecommerce_learn_net\Ecommerce\obj\Debug\net5
 C:\Users\Arion\source\repos\ArionAB\Ecommerce_learn_net\Ecommerce\bin\Debug\net5.0\MailKit.dll
 C:\Users\Arion\source\repos\ArionAB\Ecommerce_learn_net\Ecommerce\bin\Debug\net5.0\MimeKit.dll
 C:\Users\Arion\source\repos\ArionAB\Ecommerce_learn_net\Ecommerce\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+C:\Users\Arion\source\repos\ArionAB\Ecommerce_learn_net\Ecommerce\bin\Debug\net5.0\MobilpayEncryptDecrypt.dll
