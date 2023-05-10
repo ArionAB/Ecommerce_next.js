@@ -10,8 +10,7 @@
   justify-content: space-between;
 
   .yourCart {
-    color: $brown;
-    font-style: italic;
+    color: $main-gradient;
     font-size: 2.3rem;
     font-weight: 600;
   }
@@ -21,106 +20,229 @@
     letter-spacing: 1px;
     font-size: 1.1rem;
   }
+}
+.items_and_checkout {
+  display: flex;
+  gap: 2rem;
 
-  .priceBox {
+  .emptyCartBox {
+    height: 400px;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 1rem;
 
-    .totalPrice {
+    .continueBTN {
+      padding: 0.75rem 1rem;
+      background-color: $pink;
       color: $brown;
-      font-size: 1.5rem;
-    }
-
-    button {
-      @include pink-btn;
-      padding: 0rem 1rem;
-      border: none;
-      border-radius: 5px;
-      margin-left: 1rem;
-      cursor: pointer;
-      height: 2.5rem;
     }
   }
-}
 
-.emptyCartBox {
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-
-  .continueBTN {
-    padding: 0.75rem 1rem;
-    background-color: $pink;
-    color: $brown;
-  }
-}
-
-.cartBox {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  .cartItemBox {
+  .cartBox {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid $light-gray;
+    flex-direction: column;
+    gap: 1rem;
+    width: 70%;
 
-    .leftSection {
+    .cartItemBox {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      background-color: white;
+      box-shadow: $card-box-shadow;
+      border-radius: 25px;
+
+      .leftSection {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .picture {
+        width: 175px;
+        height: 175px;
+        object-fit: cover;
+        // margin-right: 1rem;
+        margin: 1rem;
+      }
+
+      .title {
+        // font-family: Brothers, sans-serif !important;
+        font-family: DaysOne, sans-serif !important;
+
+        color: $brown;
+        font-style: normal;
+        text-decoration: underline;
+      }
+
+      .price,
+      .size {
+        font-weight: 700;
+        color: #344660cc;
+      }
+    }
+
+    .qty {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
       gap: 1rem;
+      height: 40px;
+      width: 300px;
+
+      .select_qty {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .total_price {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .cost {
+          font-size: 20px;
+          color: $main-gradient;
+          font-weight: 600;
+        }
+      }
+
+      .modify {
+        color: $main-gradient;
+        border: 2px solid $secondary-color;
+        border-radius: 50%;
+        padding: 3px;
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+      }
+
+      .closeIcon {
+        color: #344660;
+        cursor: pointer;
+        background-color: #d7d7d7;
+        border-radius: 50%;
+        transition: 0.3s ease-in-out;
+        padding: 3px;
+
+        &:hover {
+          color: $brown;
+        }
+      }
+
+      .qtyNumber {
+        width: 25px;
+
+        &:focus-within {
+          .notchedOutline {
+            border-color: $brown !important;
+          }
+        }
+
+        input {
+          padding-left: 5px;
+        }
+      }
+
+      .addCart {
+        width: 60%;
+        margin: 1.5rem 0;
+        background-color: $dark-blue;
+        color: white;
+
+        &[disabled] {
+          color: $disabled-color;
+          background-color: $disabled-bg-color;
+          box-shadow: $disabled-box-shadow;
+        }
+      }
     }
 
-    .picture {
-      width: 175px;
-      height: 175px;
-      object-fit: cover;
-      // margin-right: 1rem;
-      margin: 1rem;
-    }
+    .selectSizeBox {
+      width: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
 
-    .title {
-      // font-family: Brothers, sans-serif !important;
-      font-family: DaysOne, sans-serif !important;
-      color: $brown;
-      font-style: normal;
-    }
+      .selectSize {
+        width: 100px;
+      }
 
-    .price,
-    .size {
-      font-weight: 700;
-      color: #344660cc;
+      .cost {
+        font-size: 20px;
+      }
+
+      .closeIcon {
+        color: #344660;
+        cursor: pointer;
+        background-color: #d7d7d7;
+        border-radius: 50%;
+        transition: 0.3s ease-in-out;
+
+        &:hover {
+          color: $brown;
+        }
+      }
     }
   }
 
-  .selectSizeBox {
-    width: 300px;
+  .checkout {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 100px;
+
     display: flex;
-    align-items: center;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 350px;
+    height: 200px;
+    background-color: $main-gradient;
+    border-radius: 20px;
+    padding: 2rem;
 
-    .selectSize {
-      width: 100px;
+    .free_shipping {
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 14px;
     }
 
-    .cost {
-      font-size: 20px;
-    }
+    .priceBox {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid $secondary-color;
 
-    .closeIcon {
-      color: #344660;
-      cursor: pointer;
-      background-color: #d7d7d7;
-      border-radius: 50%;
-      transition: 0.3s ease-in-out;
-
-      &:hover {
-        color: $brown;
+      .total_text {
+        line-height: 1rem;
+        color: $bg-color-2;
+        font-weight: 600;
       }
+
+      .totalPrice {
+        color: $secondary-color;
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+    }
+  }
+  button {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 2.5rem;
+    width: 100%;
+    background-color: $secondary-color;
+    color: $main-gradient;
+    font-weight: 600;
+
+    &:hover {
+      background-color: $secondary-color;
     }
   }
 }
@@ -146,11 +268,12 @@
     }
   }
   .btn {
-    @include pink-btn;
+    background-color: $secondary-color;
+    color: $main-gradient;
     font-weight: 600;
     padding: 0.75rem 1rem;
     font-size: 1.2rem;
-    letter-spacing: 2px;
+    letter-spacing: 5px;
     width: 100%;
   }
 }

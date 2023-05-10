@@ -9,6 +9,7 @@ using Ecommerce.ServiceLayer.FileService;
 using Ecommerce.ServiceLayer.FileService.FileSystemService;
 using Ecommerce.ServiceLayer.LogService;
 using Ecommerce.ServiceLayer.OrderService;
+using Ecommerce.ServiceLayer.StatisticsService;
 using Ecommerce.ServiceLayer.UsersService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -69,6 +70,7 @@ namespace Ecommerce
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IStatisticsService, StatisticsService>();
 
 
 

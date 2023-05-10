@@ -129,5 +129,26 @@ namespace Ecommerce.ServiceLayer.EmailService
                 html: html
             );
         }
+
+        public async void SendAbandonedCartEmail(BaseUser account)
+        {
+            string message;
+            var origin = _appSettings.MailBaseUrl;
+            var cartUrl = $"{origin}/cart";
+            message = $@"<div><h1>ÎNCĂ TE MAI GÂNDEȘTI?<h1>
+                        <p>Se pare că ai uitat câteva produse în coșul de cumpărături. Grăbeşte-te, stocurile se epuizează repede!<p/>
+                     
+                        <p>Şi nu uita, poţi comanda chiar azi produsele de care ai nevoie!</p>
+                        <h6><a href=""{cartUrl}""> Continua cumparaturile </a></h6></div>";
+
+            var html = GetMailTemplate("Coș abandonat", $@"{message}");
+            Send(
+                to: account.Email,
+                subject: "Henig Honig: Coș abandonat!",
+                html: html
+                );
+
+            
+        }
     }
 }

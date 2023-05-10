@@ -12,7 +12,7 @@ namespace Ecommerce.ServiceLayer.BabyService
 
         Task<ServiceResponse<GetAllProductsDTO>> GetProductItems(string SearchText);
         
-        Task<ServiceResponse<ProductDTO>> GetProductItem(Guid id);
+        Task<ServiceResponse<ProductDTO>> GetProductItem(string id);
 
         Task<ServiceResponse<ProductDTO>> UpdateProductItem(UpdateProductItemDTO productDTO);
 

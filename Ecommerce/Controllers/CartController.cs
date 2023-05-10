@@ -1,4 +1,6 @@
 ﻿using Ecommerce.DataLayer.DTOs.Cart;
+using Ecommerce.DataLayer.Utils;
+
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -67,7 +69,27 @@ namespace Ecommerce.Controllers
             else return BadRequest(response);
 
         }
+        //[Authorize(UserType.Admin)]
+        [HttpPost("/Cart/GetAbandonedCarts")]
 
+        public async Task<IActionResult> GetAbandonedCarts([FromForm] AbandonedCartsFiltersDTO filters)
+        {
+            var response = await _cartService.GetAbandonedCarts(filters);
+            if (response.Success) return Ok(response);
+
+            else return BadRequest(response);
+        }
+
+        //[Authorize(UserType.Admin)]
+        [HttpPost("/Cart/SendAbandonedCartEmail")]
+
+        public async Task<IActionResult> SendAbandonedCartEmail([FromForm] string userId)
+        {
+            var response = await _cartService.SendAbandonedCartEmail(userId);
+            if (response.Success) return Ok(response);
+
+            else return BadRequest(response);
+        }
 
 
     }

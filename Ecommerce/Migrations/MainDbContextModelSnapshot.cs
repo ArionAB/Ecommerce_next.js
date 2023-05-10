@@ -29,6 +29,9 @@ namespace Ecommerce.Migrations
                     b.Property<int>("FruitType")
                         .HasColumnType("int");
 
+                    b.Property<bool>("InStock")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("PriceHalf")
                         .HasColumnType("int");
 
@@ -80,8 +83,14 @@ namespace Ecommerce.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<DateTime>("DateEmailSent")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("NumberEmailsSent")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
@@ -344,6 +353,9 @@ namespace Ecommerce.Migrations
 
                     b.Property<DateTime?>("ResetTokenExpires")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Subscribed")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
                         .HasColumnType("longtext");

@@ -90,5 +90,11 @@
 
         public static Message Message_ValidateResetTokenSuccess = new Message { Text = "S-a validat token-ul cu succes.", MessageType = MessageType.Success };
         public static Message Message_ValidateResetTokenError = new Message { Text = "Token-ul nu a putut fi validat.", MessageType = MessageType.Error };
+
+        public static Message Message_GetStatisticsSuccess = new Message { Text = "Statistice actualizate cu success!.", MessageType = MessageType.Success };
+        public static Message Message_GetStatisticsError = new Message { Text = "Eroare statistici.", MessageType = MessageType.Error };
+
+        public static Message Message_GetAbandonedCartsSuccess = new Message { Text = "Lista coșuri abandonate", MessageType = MessageType.Success };
+        public static Message Message_GetAbandonedCartsError = new Message { Text = "Eroare coșuri abandonate.", MessageType = MessageType.Error };
     }
 }

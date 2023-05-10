@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Arion\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Arion\\.nuget\\packages"
+    ]
+  }
+}

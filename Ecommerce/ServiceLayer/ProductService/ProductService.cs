@@ -112,18 +112,26 @@ namespace Ecommerce.ServiceLayer.BabyService
             }
         }
 
-        public async Task<ServiceResponse<ProductDTO>> GetProductItem(Guid id)
+        public async Task<ServiceResponse<ProductDTO>> GetProductItem(string id)
         {
             try
             {
-                if (GenericFunctions.GuidIsNullOrEmpty(id))
-                {
-                    return new ServiceResponse<ProductDTO> { Response = null, Success = false, Message = Messages.Message_GetBabyItemIdError };
-                }
-                
-                var babyItem = _mapper.ProjectTo<ProductDTO>(_context.Product).FirstOrDefault(b => b.ProductId == id);
+                Guid idAsGuid;
 
-                return new ServiceResponse<ProductDTO> { Response = babyItem, Success = true, Message = Messages.Message_GetBabyItemSuccess };
+                if (Guid.TryParse(id, out idAsGuid))
+                {
+                    var item = _mapper.ProjectTo<ProductDTO>(_context.Product).FirstOrDefault(b => b.ProductId == idAsGuid);
+
+                    return new ServiceResponse<ProductDTO> { Response = item, Success = true, Message = Messages.Message_GetBabyItemSuccess };
+                }
+                else
+                {
+                    var item = _mapper.ProjectTo<ProductDTO>(_context.Product).FirstOrDefault(b => b.Title == id.Replace("_", " "));
+
+                    return new ServiceResponse<ProductDTO> { Response = item, Success = true, Message = Messages.Message_GetBabyItemSuccess };
+                }
+
+           
             }
             catch (Exception e)
             {

@@ -5,7 +5,7 @@
   position: relative;
   // background: $main-gradient;
   background: $main-gradient-linear;
-  height: 400px;
+  height: 600px;
   padding: 2rem;
 
   .wrapper {
@@ -66,5 +66,9 @@
   .social {
     font-size: 1rem;
     color: $secondary-color;
+  }
+
+  .netopia {
+    width: 200px;
   }
 }

@@ -33,6 +33,9 @@
         merisor = 11,
         papaya = 12,
         mixed = 13,
+        walnut = 14,
+        almond = 15,
+        caju = 16
     }
 
     public enum ProductCategoryType

@@ -21,6 +21,10 @@ namespace Ecommerce.DataLayer.Models.Cart
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
 
+        public int NumberEmailsSent { get; set; }
+
+        public DateTime DateEmailSent { get; set; }
+
     }
 
 }

@@ -109,8 +109,9 @@
   }
 
   .free_shipping {
-    background-color: rgb(106, 189, 225);
-    color: white;
+    background-color: $bg-color-2;
+    color: $main-gradient;
+
     font-weight: 600;
     text-align: center;
     padding: 5px 0;

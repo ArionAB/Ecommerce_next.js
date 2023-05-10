@@ -1,6 +1,9 @@
 @import "./_variables.scss";
 
 .container {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 80px;
   display: flex;
   background-color: white;
   padding-left: 1rem;

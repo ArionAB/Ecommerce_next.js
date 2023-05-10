@@ -1,6 +1,8 @@
 @import "./_variables.scss";
 
 .container {
+  border-radius: 25px;
+  box-shadow: $card-box-shadow;
   display: flex;
   flex-direction: column;
   padding: 10px;

@@ -39,7 +39,7 @@ namespace Ecommerce.Controllers
 
         [HttpGet("/Product/GetItem")]
 
-        public async Task<IActionResult> GetProductItem([FromQuery] Guid id)
+        public async Task<IActionResult> GetProductItem([FromQuery] string id)
         {
             var result = await _productService.GetProductItem(id);
             if (result.Success) return Ok(result);

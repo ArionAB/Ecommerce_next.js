@@ -263,7 +263,7 @@ const ProductDetails: FC<{
             <Button
               className={styles.addCart}
               onClick={handleAddToCart}
-              disabled={!item.inStock}
+              disabled={!item?.inStock}
             >
               {card?.inStock ? "Adaugă în coș" : "Stoc epuizat"}
             </Button>
@@ -273,12 +273,12 @@ const ProductDetails: FC<{
             sx={{ whiteSpace: "pre-line" }}
             className={styles.description}
           >
-            {item.description.split("<br/>").join("\n")}
+            {item?.description.split("<br/>").join("\n")}
           </Typography>
         </Box>
       </Container>
       <CustomDivider />
-      <Recommended honeyType={item.productCategory} />
+      <Recommended honeyType={item?.productCategory} />
       <CustomDivider />
 
       <Typography className={styles.categoryTitle} variant="h5">

@@ -26,6 +26,8 @@ namespace Ecommerce.DataLayer.DTOs.Baby
 
         public int[] MixedFruitId { get; set; }
 
+        public bool InStock { get; set; }
+
        
      
 

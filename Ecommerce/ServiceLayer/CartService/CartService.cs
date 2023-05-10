@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using static Ecommerce.ServiceLayer.CartService.CartServiceInterface;
 using Ecommerce.DataLayer.Models.User;
+using Ecommerce.ServiceLayer.EmailService;
 
 namespace Ecommerce.ServiceLayer.CartService
 {
@@ -20,12 +21,15 @@ namespace Ecommerce.ServiceLayer.CartService
 
         private readonly MainDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
+
        
 
-        public CartService(MainDbContext context, IMapper mapper)
+        public CartService(MainDbContext context, IMapper mapper, IEmailService emailService)
         {
             _context = context;
             _mapper = mapper;
+            _emailService = emailService;
          
         }
 
@@ -297,6 +301,70 @@ namespace Ecommerce.ServiceLayer.CartService
             }
         
         }
+
+  
+
+        public async Task<ServiceResponse<GetAbandonedCartsDTO>> GetAbandonedCarts(AbandonedCartsFiltersDTO filters)
+        {
+            try
+            {
+                DateTime threshold = DateTime.Now.AddDays(-3);
+
+                var totalCarts =  _context.Cart.Where(x => x.DateModified < threshold).Count();
+                var abandonedCarts = await _context.Cart.Where(x => x.DateModified < threshold).Skip(filters.PageNumber * filters.PageSize).Take(filters.PageSize).ToListAsync();
+                var numberOfPages = totalCarts / filters.PageSize;
+                
+           
+
+                var carts = new GetAbandonedCartsDTO()
+                {
+                    AbandonedCarts = abandonedCarts,
+                     Count = totalCarts,
+                     TotalPages = numberOfPages
+                };
+             
+
+                return new ServiceResponse<GetAbandonedCartsDTO> { Response = carts, Success = true, Message = Messages.Message_GetAbandonedCartsSuccess };
+
+
+            } catch (Exception e)
+            {
+                return new ServiceResponse<GetAbandonedCartsDTO> { Response = null, Success = false, Message = Messages.Message_GetAbandonedCartsError };
+            }
+          
+
+
+        }
+
+        public async Task<ServiceResponse<Object>> SendAbandonedCartEmail(string userId)
+        {
+            try
+           
+            {
+                var account = await _context.Users.SingleOrDefaultAsync(x => x.UserId.ToString() == userId);
+                // always return ok response to prevent email enumeration
+                if (account == null) return new ServiceResponse<Object> { Response = (string)null, Success = false }; ;
+
+                var cart = await _context.Cart.SingleOrDefaultAsync(x => x.UserId.ToString() == userId);
+                cart.NumberEmailsSent += 1;
+                cart.DateEmailSent = DateTime.Now;
+
+                _context.Cart.Update(cart);
+                _context.SaveChanges();
+
+
+                _emailService.SendAbandonedCartEmail(account);
+
+                return new ServiceResponse<Object> { Response = (string)null, Success = true, Message = Messages.Message_ForgottenPasswordEmailSent };
+
+            } catch (Exception e)
+            {
+                return new ServiceResponse<Object> { Response = (string)null, Success = true, Message = Messages.Message_ForgottenPasswordEmailNotSent };
+            }
+           
+        }
+
+       
 
     }
 }

@@ -451,9 +451,12 @@ export const Checkout = () => {
                   }
                   label="Credit card"
                 />
-                <Box className={styles.images}>
-                  <img src="visa.svg" alt="visa" />
-                  <img src="mastercard.svg" alt="mastercard" />
+                <Box className={styles.netopia}>
+                  <img
+                    title="NETOPIA Payments"
+                    src="netopia.svg"
+                    style={{ width: "100%", height: "100%" }}
+                  />
                 </Box>
               </Box>
               <Box className={styles.each_method}>

@@ -197,7 +197,7 @@ export const CartModal: FC<{ setOpenDialog: Function }> = ({
                       />
                       <TextField
                         inputProps={{
-                          min: 0,
+                          min: 1,
                           style: {
                             textAlign: "center",
                             padding: "3px 0 5px",

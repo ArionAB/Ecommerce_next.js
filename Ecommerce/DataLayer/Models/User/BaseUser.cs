@@ -75,6 +75,8 @@ namespace Ecommerce.DataLayer.Models.User
 
         public List<Order> Orders {get; set;}
 
+        public bool Subscribed { get; set; }
+
         
 
     }

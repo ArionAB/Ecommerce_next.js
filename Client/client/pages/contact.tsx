@@ -55,12 +55,12 @@ const Contact = () => {
       <Box>
         <Typography className={styles.contact}>Contact</Typography>
         <Box className={styles.box}>
-          <Typography className={styles.title}>Henig Honig</Typography>
+          <Typography className={styles.title}>Mistral 2</Typography>
           <Typography className={styles.info}>
-            Sediu: Bogdan Petriceicu Hasdeu, ALba Iulia, Alba
+            Sediu: Minicipiul Alba Iulia, Str. Luceafarului, nr. 19, Bloc B7,
+            ap.2, județ Alba
           </Typography>
-          <Typography className={styles.info}>CUI: 214214</Typography>
-          <Typography className={styles.info}>CIF: RO2312534</Typography>
+          <Typography className={styles.info}>CUI: 4973139</Typography>
         </Box>
         <Box className={styles.box}>
           <Typography className={styles.title}>Punct de lucru:</Typography>

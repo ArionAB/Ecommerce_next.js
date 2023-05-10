@@ -1,5 +1,6 @@
 ﻿using Ecommerce.DataLayer.DTOs.Baby;
 using Ecommerce.DataLayer.DTOs.Cart;
+using Ecommerce.DataLayer.Models.Cart;
 using Ecommerce.DataLayer.Utils;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,10 @@ namespace Ecommerce.ServiceLayer.CartService
             Task<ServiceResponse<Object>> RemoveItem(RemoveItemDTO removeItemDTO, Guid loggedInUserId, Guid CartId);
 
             Task<ServiceResponse<Object>> RemoveAllItems(Guid loggedInUserId, Guid CartId);
+
+            Task<ServiceResponse<GetAbandonedCartsDTO>> GetAbandonedCarts(AbandonedCartsFiltersDTO filters);
+
+            Task<ServiceResponse<Object>> SendAbandonedCartEmail(string userId);
         }
     }
 }
