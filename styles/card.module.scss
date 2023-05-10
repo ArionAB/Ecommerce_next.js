@@ -1,0 +1,154 @@
+@import "./_variables.scss";
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  background-color: white;
+  box-shadow: $card-box-shadow;
+  min-height: 400px;
+  max-height: 468px;
+  width: 330px;
+  max-width: 330px;
+  min-width: 300px;
+  padding-top: 2rem;
+  border-top-right-radius: 40px;
+  border-top-left-radius: 40px;
+
+  @media only screen and (max-width: 900px) {
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    img {
+      height: 200px;
+      width: 100%;
+    }
+  }
+
+  img {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  /*   .ribbon_box {
+    position: relative; */
+
+  .ribbon {
+    --f: 10px; /* control the folded part*/
+    --r: 15px; /* control the ribbon shape */
+    --t: 10px; /* the top offset */
+
+    position: absolute;
+    inset: var(--t) calc(-1 * var(--f)) auto auto;
+    padding: 0 10px var(--f) calc(10px + var(--r));
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - var(--f)),
+      calc(100% - var(--f)) 100%,
+      calc(100% - var(--f)) calc(100% - var(--f)),
+      0 calc(100% - var(--f)),
+      var(--r) calc(50% - var(--f) / 2)
+    );
+    background: #bd1550;
+    box-shadow: 0 calc(-1 * var(--f)) 0 inset #0005;
+    color: white;
+  }
+  // }
+
+  .edit {
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    color: $warning-light;
+    cursor: pointer;
+  }
+
+  .delete {
+    position: absolute;
+    right: -10px;
+    top: -20px;
+    cursor: pointer;
+    color: $error-main;
+  }
+
+  .price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 30px;
+    color: $main-gradient;
+    width: 80%;
+    margin: 0 auto;
+    border-bottom: 2px solid #f3b300;
+
+    span {
+      font-size: 20px;
+      font-weight: 600;
+      color: #f3b300;
+    }
+  }
+
+  .title {
+    margin-top: 0.5rem;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    color: $main-gradient;
+    padding-left: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  @keyframes opacityDelay {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  .bottom {
+    width: 100%;
+    background-color: white;
+    z-index: 2;
+    position: absolute;
+    bottom: -40px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    box-shadow: $card-box-shadow;
+
+    @media only screen and (max-width: 900px) {
+      bottom: -10px;
+    }
+  }
+
+  .twoButtons {
+    animation: opacityDelay 0.5s;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
+
+    .shop {
+      background-color: $dark-blue;
+      color: white;
+      text-transform: capitalize;
+      width: 40%;
+      border-radius: 15px;
+    }
+
+    .options {
+      background-color: $pink;
+      color: $brown;
+      text-transform: capitalize;
+      border-radius: 15px;
+      width: 50%;
+    }
+  }
+}

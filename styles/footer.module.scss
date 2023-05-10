@@ -1,0 +1,74 @@
+@import "./_variables.scss";
+
+.container {
+  display: flex;
+  position: relative;
+  // background: $main-gradient;
+  background: $main-gradient-linear;
+  height: 600px;
+  padding: 2rem;
+
+  .wrapper {
+    display: flex;
+    justify-content: space-around;
+
+    .box {
+      display: flex;
+      flex-direction: column;
+
+      justify-content: flex-start;
+
+      .title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: $secondary-gradient;
+        margin-bottom: 20px;
+      }
+
+      a {
+        font-size: 1rem;
+        color: $secondary-color;
+        margin-bottom: 10px;
+        text-decoration: none;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .flower_honey {
+    position: absolute;
+    top: -142px;
+  }
+
+  .iconBox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+
+    a {
+      margin-bottom: 0 !important;
+    }
+
+    svg {
+      color: $secondary-color;
+    }
+  }
+  .orar {
+    font-size: 1rem;
+    color: $secondary-color;
+    margin-bottom: 10px;
+  }
+
+  .social {
+    font-size: 1rem;
+    color: $secondary-color;
+  }
+
+  .netopia {
+    width: 200px;
+  }
+}
