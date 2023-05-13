@@ -272,31 +272,33 @@ export const ProductItems = () => {
           />
         </Drawer>
 
-        <Grid container className={styles.grid_container}>
-          {productItems?.map((card, index) => {
-            if (
-              card.productCategory === honeyType &&
-              filteredProducts?.includes(Number(card.fruitType))
-            ) {
-              return <Card card={card} index={index} carousel={false} />;
-            } else if (
-              card.productCategory === honeyType &&
-              !filteredProducts.length
-            ) {
-              return <Card card={card} index={index} carousel={false} />;
-            } else if (
-              honeyType === HoneyType.All &&
-              filteredProducts?.includes(Number(card.fruitType))
-            ) {
-              return <Card card={card} index={index} carousel={false} />;
-            } else if (
-              honeyType === HoneyType.All &&
-              !filteredProducts.length
-            ) {
-              return <Card card={card} index={index} carousel={false} />;
-            }
-          })}
-        </Grid>
+        {!loadingItems && (
+          <Grid container className={styles.grid_container}>
+            {productItems?.map((card, index) => {
+              if (
+                card.productCategory === honeyType &&
+                filteredProducts?.includes(Number(card.fruitType))
+              ) {
+                return <Card card={card} index={index} carousel={false} />;
+              } else if (
+                card.productCategory === honeyType &&
+                !filteredProducts.length
+              ) {
+                return <Card card={card} index={index} carousel={false} />;
+              } else if (
+                honeyType === HoneyType.All &&
+                filteredProducts?.includes(Number(card.fruitType))
+              ) {
+                return <Card card={card} index={index} carousel={false} />;
+              } else if (
+                honeyType === HoneyType.All &&
+                !filteredProducts.length
+              ) {
+                return <Card card={card} index={index} carousel={false} />;
+              }
+            })}
+          </Grid>
+        )}
       </Box>
     </Container>
   );

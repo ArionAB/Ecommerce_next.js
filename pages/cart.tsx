@@ -184,94 +184,98 @@ const Cart = () => {
                   className={styles.cartItemBox}
                   key={item.productId + item.sizeType + item.fruitType}
                 >
-                  <Box className={styles.leftSection}>
+                  <Box className={styles.sections}>
                     <img
                       src={resourceUrl + item.productPictures[0]?.filePath}
                       alt={item.title}
                       className={styles.picture}
                     />
-                    <Box className={styles.titlePriceSize}>
-                      <Link href={`/miere/${item.title.replaceAll(" ", "_")}`}>
-                        <Typography variant="h5" className={styles.title}>
-                          {item.title}
+                    <Box className={styles.rightSection}>
+                      <Box className={styles.titlePriceSize}>
+                        <Link
+                          href={`/miere/${item.title.replaceAll(" ", "_")}`}
+                        >
+                          <Typography variant="h5" className={styles.title}>
+                            {item.title}
+                          </Typography>
+                        </Link>
+
+                        <Typography className={styles.price}>
+                          {handleConvertFruitTypeToLabel(item.mixedFruitId)}
                         </Typography>
-                      </Link>
 
-                      <Typography className={styles.price}>
-                        {handleConvertFruitTypeToLabel(item.mixedFruitId)}
-                      </Typography>
-
-                      <Typography className={styles.price}>
-                        Pret: {item.priceKg} lei
-                      </Typography>
-                      <Typography className={styles.size}>
-                        Marime: {ConvertSizeToLabel(item.sizeType)}
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Box className={styles.qty}>
-                    <Box className={styles.select_qty}>
-                      <Remove
-                        className={styles.modify}
-                        onClick={() => {
-                          {
-                            if (item.quantity === 1) return;
-                            handleChangeCartItemsQty(
-                              "remove",
-                              item.productId,
-                              item.sizeType,
-                              item.cartProductId,
-                              Number(item.quantity)
-                            );
-                          }
-                        }}
-                      />
-                      <TextField
-                        defaultValue={1}
-                        value={item.quantity}
-                        className={styles.qtyNumber}
-                        inputProps={{
-                          min: 1,
-                        }}
-                        onChange={(e) =>
-                          handleChangeCartItemsQty(
-                            "select",
-                            item.productId,
-                            item.sizeType,
-                            item.cartProductId,
-                            Number(item.quantity),
-                            Number(e.target.value)
-                          )
-                        }
-                        variant="standard"
-                      />
-                      <Add
-                        className={styles.modify}
-                        onClick={() =>
-                          handleChangeCartItemsQty(
-                            "add",
-                            item.productId,
-                            item.sizeType,
-                            item.cartProductId,
-                            Number(item.quantity)
-                          )
-                        }
-                      />
-                    </Box>
-                    <Box className={styles.total_price}>
-                      <Typography className={styles.cost}>{`${
-                        Number(item.priceKg) * Number(item.quantity)
-                      } lei`}</Typography>
-                      <Close
-                        className={styles.closeIcon}
-                        onClick={() =>
-                          handleRemoveItem(
-                            item.cartProductId,
-                            item.sizeType,
-                            item.productId
-                          )
-                        }
-                      />
+                        <Typography className={styles.price}>
+                          Pret: {item.priceKg} lei
+                        </Typography>
+                        <Typography className={styles.size}>
+                          Marime: {ConvertSizeToLabel(item.sizeType)}
+                        </Typography>
+                      </Box>
+                      <Box className={styles.qty}>
+                        <Box className={styles.select_qty}>
+                          <Remove
+                            className={styles.modify}
+                            onClick={() => {
+                              {
+                                if (item.quantity === 1) return;
+                                handleChangeCartItemsQty(
+                                  "remove",
+                                  item.productId,
+                                  item.sizeType,
+                                  item.cartProductId,
+                                  Number(item.quantity)
+                                );
+                              }
+                            }}
+                          />
+                          <TextField
+                            defaultValue={1}
+                            value={item.quantity}
+                            className={styles.qtyNumber}
+                            inputProps={{
+                              min: 1,
+                            }}
+                            onChange={(e) =>
+                              handleChangeCartItemsQty(
+                                "select",
+                                item.productId,
+                                item.sizeType,
+                                item.cartProductId,
+                                Number(item.quantity),
+                                Number(e.target.value)
+                              )
+                            }
+                            variant="standard"
+                          />
+                          <Add
+                            className={styles.modify}
+                            onClick={() =>
+                              handleChangeCartItemsQty(
+                                "add",
+                                item.productId,
+                                item.sizeType,
+                                item.cartProductId,
+                                Number(item.quantity)
+                              )
+                            }
+                          />
+                        </Box>
+                        <Box className={styles.total_price}>
+                          <Typography className={styles.cost}>{`${
+                            Number(item.priceKg) * Number(item.quantity)
+                          } lei`}</Typography>
+                          <Close
+                            className={styles.closeIcon}
+                            onClick={() =>
+                              handleRemoveItem(
+                                item.cartProductId,
+                                item.sizeType,
+                                item.productId
+                              )
+                            }
+                          />
+                        </Box>
+                      </Box>
                     </Box>
                   </Box>
                 </Box>
@@ -291,24 +295,28 @@ const Cart = () => {
             </>
           )}
         </Box>
-        <Box className={styles.checkout}>
-          <Box className={styles.priceBox}>
-            <Typography className={styles.total_text}>Prețul total</Typography>
-            <Typography className={styles.totalPrice}>
-              {priceWithDelivery()} lei
+        {isNotEmpty() && (
+          <Box className={styles.checkout}>
+            <Box className={styles.priceBox}>
+              <Typography className={styles.total_text}>
+                Prețul total
+              </Typography>
+              <Typography className={styles.totalPrice}>
+                {priceWithDelivery()} lei
+              </Typography>
+            </Box>
+            <Typography className={styles.free_shipping}>
+              {Number(TotalPrice(cartItems)) >= 200
+                ? "Aveți transport gratuit!"
+                : `Până la transport grauit lipsesc ${
+                    200 - Number(TotalPrice(cartItems))
+                  } lei`}
             </Typography>
+            <Link href="/checkout">
+              <Button variant="contained">Finzalizează comandă</Button>
+            </Link>
           </Box>
-          <Typography className={styles.free_shipping}>
-            {Number(TotalPrice(cartItems)) >= 200
-              ? "Aveți transport gratuit!"
-              : `Până la transport grauit lipsesc ${
-                  200 - Number(TotalPrice(cartItems))
-                } lei`}
-          </Typography>
-          <Link href="/checkout">
-            <Button variant="contained">Finzalizează comandă</Button>
-          </Link>
-        </Box>
+        )}
       </Box>
       <Box className={styles.bottom}>
         <Typography variant="subtitle2">

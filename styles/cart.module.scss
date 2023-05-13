@@ -1,7 +1,7 @@
 @import "_variables.scss";
 
 .page_container {
-  padding: 3rem 0;
+  padding: 3rem 1rem;
 }
 
 .yourCartBox {
@@ -11,7 +11,7 @@
 
   .yourCart {
     color: $main-gradient;
-    font-size: 2.3rem;
+    font-size: clamp(1.5rem, 2vw, 2.3rem);
     font-weight: 600;
   }
 
@@ -25,8 +25,13 @@
   display: flex;
   gap: 2rem;
 
+  @media only screen and (max-width: 1000px) {
+    flex-direction: column;
+  }
+
   .emptyCartBox {
     height: 400px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,6 +42,8 @@
       padding: 0.75rem 1rem;
       background-color: $pink;
       color: $brown;
+      background-color: $secondary-color;
+      color: $main-gradient;
     }
   }
 
@@ -46,117 +53,167 @@
     gap: 1rem;
     width: 70%;
 
+    @media only screen and (max-width: 1000px) {
+      width: 100%;
+    }
+
     .cartItemBox {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       background-color: white;
       box-shadow: $card-box-shadow;
       border-radius: 25px;
 
-      .leftSection {
+      .sections {
         display: flex;
         align-items: center;
-        gap: 1rem;
-      }
 
-      .picture {
-        width: 175px;
-        height: 175px;
-        object-fit: cover;
-        // margin-right: 1rem;
-        margin: 1rem;
-      }
-
-      .title {
-        // font-family: Brothers, sans-serif !important;
-        font-family: DaysOne, sans-serif !important;
-
-        color: $brown;
-        font-style: normal;
-        text-decoration: underline;
-      }
-
-      .price,
-      .size {
-        font-weight: 700;
-        color: #344660cc;
-      }
-    }
-
-    .qty {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      gap: 1rem;
-      height: 40px;
-      width: 300px;
-
-      .select_qty {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .total_price {
-        display: flex;
-        align-items: center;
         gap: 1rem;
 
-        .cost {
-          font-size: 20px;
-          color: $main-gradient;
-          font-weight: 600;
-        }
-      }
+        .rightSection {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
 
-      .modify {
-        color: $main-gradient;
-        border: 2px solid $secondary-color;
-        border-radius: 50%;
-        padding: 3px;
-        width: 28px;
-        height: 28px;
-        cursor: pointer;
-      }
+          @media only screen and (max-width: 700px) {
+            flex-direction: column;
+            align-items: flex-start;
 
-      .closeIcon {
-        color: #344660;
-        cursor: pointer;
-        background-color: #d7d7d7;
-        border-radius: 50%;
-        transition: 0.3s ease-in-out;
-        padding: 3px;
-
-        &:hover {
-          color: $brown;
-        }
-      }
-
-      .qtyNumber {
-        width: 25px;
-
-        &:focus-within {
-          .notchedOutline {
-            border-color: $brown !important;
+            gap: 1rem;
           }
         }
 
-        input {
-          padding-left: 5px;
+        .picture {
+          width: 175px;
+          height: 175px;
+          object-fit: cover;
+          margin: 1rem;
+
+          @media only screen and (max-width: 800px) {
+            width: 125px;
+            height: 125px;
+          }
+          @media only screen and (max-width: 450px) {
+            width: 100px;
+            height: 100px;
+          }
+        }
+
+        .title {
+          // font-family: Brothers, sans-serif !important;
+          font-family: DaysOne, sans-serif !important;
+          color: $brown;
+          font-style: normal;
+          text-decoration: underline;
+          font-size: clamp(1.1rem, 2vw, 1.5rem);
+        }
+
+        .price,
+        .size {
+          font-weight: 700;
+          color: #344660cc;
+          font-size: clamp(0.9rem, 2vw, 1.1rem);
         }
       }
 
-      .addCart {
-        width: 60%;
-        margin: 1.5rem 0;
-        background-color: $dark-blue;
-        color: white;
+      .qty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        height: 40px;
+        width: 300px;
 
-        &[disabled] {
-          color: $disabled-color;
-          background-color: $disabled-bg-color;
-          box-shadow: $disabled-box-shadow;
+        @media only screen and (max-width: 700px) {
+          width: 100%;
+          justify-content: flex-end;
+          padding-right: 1rem;
+        }
+        @media only screen and (max-width: 450px) {
+          gap: 0.5rem;
+          padding-right: 0;
+          justify-content: flex-start;
+        }
+
+        .select_qty {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .total_price {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          .cost {
+            font-size: 20px;
+            color: $main-gradient;
+            font-weight: 600;
+
+            @media only screen and (max-width: 450px) {
+              font-size: 16px;
+            }
+          }
+        }
+
+        .modify {
+          color: $main-gradient;
+          border: 2px solid $secondary-color;
+          border-radius: 50%;
+          padding: 3px;
+          width: 28px;
+          height: 28px;
+          cursor: pointer;
+
+          @media only screen and (max-width: 450px) {
+            width: 22px;
+            height: 22px;
+          }
+        }
+
+        .closeIcon {
+          color: #344660;
+          cursor: pointer;
+          background-color: #d7d7d7;
+          border-radius: 50%;
+          transition: 0.3s ease-in-out;
+          padding: 3px;
+
+          &:hover {
+            color: $brown;
+          }
+
+          @media only screen and (max-width: 450px) {
+            width: 22px;
+            height: 22px;
+          }
+        }
+
+        .qtyNumber {
+          width: 25px;
+
+          &:focus-within {
+            .notchedOutline {
+              border-color: $brown !important;
+            }
+          }
+
+          input {
+            padding-left: 5px;
+          }
+        }
+
+        .addCart {
+          width: 60%;
+          margin: 1.5rem 0;
+          background-color: $dark-blue;
+          color: white;
+
+          &[disabled] {
+            color: $disabled-color;
+            background-color: $disabled-bg-color;
+            box-shadow: $disabled-box-shadow;
+          }
         }
       }
     }
@@ -193,6 +250,10 @@
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 100px;
+
+    @media only screen and (max-width: 1000px) {
+      width: 100%;
+    }
 
     display: flex;
     flex-direction: column;
