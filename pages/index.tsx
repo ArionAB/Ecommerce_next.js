@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, CardMedia, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../src/Store";
 import { selectProductItems } from "../src/Store/Selectors/productSelectors";
-import { getProductItems } from "../src/Store/Thunks/productThunks";
+import {
+  getCloudFront,
+  getProductItems,
+} from "../src/Store/Thunks/productThunks";
 import { ProductItems } from "../src/Components/home-page/ProductItems";
 import styles from "../styles/index.module.scss";
 import Info from "../src/Components/home-page/Info";
@@ -92,6 +95,9 @@ const Home = ({ allPostsData, articlePostsData }: any) => {
   return (
     <>
       <Box className={styles.heroContainer}>
+        <Button onClick={() => dispatch(getCloudFront(""))}>
+          GET CLOUDFRONT
+        </Button>
         <div className={styles.container}>
           <CardMedia
             component="video"

@@ -9,6 +9,21 @@ import { UpdateProductItemModel } from "../Models/Product/UpdateProductItemModel
 
 const axios = require("axios").default;
 
+export const getCloudFront = createAsyncThunk<any, any, AppThunkConfig>(
+  "cloudfront",
+  async (thunkApi) => {
+    console.log("hit");
+    try {
+      let data = await axios.get(
+        "https://d2n84fo8g9l9m.cloudfront.net/IMG_2980+(1).JPG"
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const addProductItem = createAsyncThunk<
   any,
   { data: AddProductItemModel; token: string | undefined | null },
