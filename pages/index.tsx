@@ -95,9 +95,6 @@ const Home = ({ allPostsData, articlePostsData }: any) => {
   return (
     <>
       <Box className={styles.heroContainer}>
-        <Button onClick={() => dispatch(getCloudFront(""))}>
-          GET CLOUDFRONT
-        </Button>
         <div className={styles.container}>
           <CardMedia
             component="video"
