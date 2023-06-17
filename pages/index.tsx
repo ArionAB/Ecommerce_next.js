@@ -9,17 +9,16 @@ import {
 import { ProductItems } from "../src/Components/home-page/ProductItems";
 import styles from "../styles/index.module.scss";
 import Info from "../src/Components/home-page/Info";
-import Retete from "./retete";
-import { getSortedRecipesData } from "../lib/posts";
+
 import Image from "next/image";
 import { BlogType } from "../src/Store/Enums/BlogType";
 import { ReusableCarousel } from "../src/Components/home-page/ReusableCarousel";
 import { ProductItemModel } from "../src/Store/Models/Product/ProductItem";
 import { CustomDivider } from "../src/Components/divider/CustomDivider";
-import Articole from "./articole";
+
 import Link from "next/link";
 
-const Home = ({ allPostsData, articlePostsData }: any) => {
+const Home = () => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
   const [visible, setVisible] = useState<boolean>(false);
@@ -148,25 +147,15 @@ const Home = ({ allPostsData, articlePostsData }: any) => {
 
       <Typography className={styles.title}>Retete</Typography>
 
-      <Retete allPostsData={allPostsData} />
+  
       <CustomDivider />
       <Typography className={styles.title}>Articole</Typography>
 
-      <Articole allPostsData={articlePostsData} />
       <Info />
     </>
   );
 };
 
-export async function getStaticProps() {
-  const allPostsData = getSortedRecipesData(BlogType.RECIPES);
-  const articlePostsData = getSortedRecipesData(BlogType.ARTICOLE);
-  return {
-    props: {
-      allPostsData,
-      articlePostsData,
-    },
-  };
-}
+
 
 export default Home;

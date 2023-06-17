@@ -141,14 +141,15 @@ const Card: FC<{
         onClick={handleSetItem}
       >
         <Image
-          src={baseImage ? baseImage : resourceUrl + imageSource}
-          onMouseEnter={() => {
-            setBaseImage("");
-          }}
-          onMouseLeave={() => {
-            setImageByHoneyType();
-          }}
-          loader={baseImage ? undefined : imageLoader}
+        //   src={baseImage ? baseImage : resourceUrl + imageSource}
+          src={baseImage}
+        //   onMouseEnter={() => {
+        //     setBaseImage("");
+        //   }}
+        //   onMouseLeave={() => {
+        //     setImageByHoneyType();
+        //   }}
+        //   loader={baseImage ? undefined : imageLoader}
           alt={card.title}
           width={280}
           height={300}
