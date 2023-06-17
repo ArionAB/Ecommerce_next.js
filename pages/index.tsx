@@ -96,13 +96,13 @@ const Home = ({ allPostsData, articlePostsData }: any) => {
     <>
       <Box className={styles.heroContainer}>
         <div className={styles.container}>
-         {/*  <CardMedia
+          <CardMedia
             component="video"
             autoPlay
             loop
             muted
             src="/hero_video.mp4"
-          /> */}
+          />
         </div>
         <div className={styles.secondContainer}>
           <Box className={styles.hero_wrapper}>
@@ -119,7 +119,7 @@ const Home = ({ allPostsData, articlePostsData }: any) => {
         </div>
       </Box>
 
-     {/*  <img
+       <img
         // src="/dropplets.webp"
         // src="/dropplets_v2.png"
         src="/dropplets_v3.webp"
@@ -130,7 +130,7 @@ const Home = ({ allPostsData, articlePostsData }: any) => {
             : `${styles.dropplets} ${styles.fadeIn}`
         }
       />
- */}
+ 
       <ProductItems />
 
       {localStorageitems.length > 0 && (

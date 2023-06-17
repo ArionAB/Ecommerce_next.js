@@ -18,13 +18,13 @@ const About = () => {
       <Box
         className={`${styles.wildflowers_container} ${styles.container_right}`}
       >
-      {/*   <Image
+        <Image
           src="/wildflowers1.jpg"
           alt="miere din flori de câmp"
           width={1920}
           height={768}
           layout="responsive"
-        /> */}
+        />
         <Box className={`${styles.wildflower_text} ${styles.text_right}`}>
           <Typography variant="h5" className={styles.wildflower_title}>
             Diversitate Florală
@@ -41,13 +41,13 @@ const About = () => {
       <Box
         className={`${styles.wildflowers_container} ${styles.container_left}`}
       >
-  {/*       <Image
+        <Image
           src="/wildflowers3.jpg"
           alt="miere din flori de câmp"
           width={1920}
           height={768}
           layout="responsive"
-        /> */}
+        />
         <Box className={`${styles.wildflower_text} ${styles.text_left}`}>
           <Typography variant="h5" className={styles.wildflower_title}>
             Sol bogat
@@ -87,13 +87,13 @@ const About = () => {
       <Box
         className={`${styles.wildflowers_container} ${styles.container_left}`}
       >
-      {/*   <Image
+      <Image
           src="/healthy_bees.jpg"
           alt="miere din flori de câmp"
           width={1920}
           height={768}
           layout="responsive"
-        /> */}
+        /> 
         <Box className={`${styles.wildflower_text} ${styles.text_left}`}>
           <Typography variant="h5" className={styles.wildflower_title}>
             #SaveTheBees

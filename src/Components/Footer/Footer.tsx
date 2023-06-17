@@ -11,7 +11,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 export const Footer = () => {
   return (
     <div className={styles.container}>
-      {/* <img src="/flower_honey.png" className={styles.flower_honey}></img> */}
+  
       <Container className={styles.wrapper} maxWidth="xl">
         <Box className={styles.box}>
           <Typography variant="h6" className={styles.title}>

@@ -45,10 +45,10 @@ const Card: FC<{
   const currentUser = useAppSelector(selectCurrentUser);
   const pageWidth = usePageWidth();
 
-  /* const imageLoader = () => {
+  const imageLoader = () => {
     return `${resourceUrl}${imageSource}`;
   };
- */
+
   const handleCloseOptions = () => {
     setOpenOptions(false);
   };
@@ -64,7 +64,7 @@ const Card: FC<{
     dispatch(setProductItem(card));
   };
 
- /*  const setImageByHoneyType = () => {
+  const setImageByHoneyType = () => {
     switch (card.productCategory) {
       case HoneyType.Poliflora:
         setBaseImage("/poliflora.jpg");
@@ -73,11 +73,11 @@ const Card: FC<{
         setBaseImage("/salcam.jpg");
         break;
     }
-  }; */
+  };
 
-  /* useEffect(() => {
+  useEffect(() => {
     setImageByHoneyType();
-  }, []); */
+  }, []);
 
   return (
     <Grid
@@ -140,7 +140,7 @@ const Card: FC<{
         href={`/miere/${card.title.replaceAll(" ", "_")}`}
         onClick={handleSetItem}
       >
-       {/*  <Image
+        <Image
           src={baseImage ? baseImage : resourceUrl + imageSource}
           onMouseEnter={() => {
             setBaseImage("");
@@ -156,7 +156,7 @@ const Card: FC<{
           // layout="responsive"
           unoptimized={true}
           draggable={false}
-        ></Image> */}
+        ></Image>
       </Link>
       <Typography variant="h6" className={styles.price}>
         {card.priceKg} lei

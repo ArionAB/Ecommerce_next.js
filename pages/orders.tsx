@@ -9,7 +9,7 @@ import {
   Box,
   Button,
   Drawer,
-  CircularProgress,
+
 } from "@mui/material";
 
 import styles from "../styles/orders.module.scss";

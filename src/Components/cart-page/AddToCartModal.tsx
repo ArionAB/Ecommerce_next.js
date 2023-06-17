@@ -115,11 +115,11 @@ export const AddToCartModal: FC<{
                 }
               >
                 <Box className={styles.productDetails}>
-                 {/*  <img
+                  <img
                     src={resourceUrl + item.productPictures[0]?.filePath}
                     alt={item.title}
                     className={styles.cartItemImage}
-                  /> */}
+                  />
                   <Box className={styles.info}>
                     <Typography className={styles.title}>
                       {ConvertHoneyType(item.productCategory)?.toUpperCase()}

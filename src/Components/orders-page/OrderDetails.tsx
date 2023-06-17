@@ -49,7 +49,7 @@ const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
           key={product.productId + product.fruitType + product.sizeType}
         >
           <Box className={styles.left}>
-           {/*  <CardMedia
+            <CardMedia
               component="img"
               // src={resourceUrl + product.filePath}
               src={
@@ -58,7 +58,7 @@ const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
                   : "/salcam.jpg"
               }
               className={styles.image}
-            /> */}
+            />
             <Box className={styles.product}>
               <Typography variant="h6" className={styles.title}>
                 {product.title}
