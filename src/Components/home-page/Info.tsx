@@ -13,24 +13,24 @@ const Info = () => {
         gap={2}
       >
         <Grid item xs={12} sm={6} md={3} display="flex" alignItems="center">
-          <Image
+         {/*  <Image
             src="/delivery.svg"
             alt="miere naturală"
             width={150}
             height={100}
-          />
+          /> */}
           <Box paddingLeft={1}>
             <Typography fontWeight={600}>Transport Gratuit</Typography>
             <Typography fontSize={14}>La comenzile peste 200 de lei</Typography>
           </Box>
         </Grid>
         <Grid item xs={12} sm={6} md={3} display="flex" alignItems="center">
-          <Image
+         {/*  <Image
             src="/payment.svg"
             alt="miere naturală"
             width={150}
             height={100}
-          />
+          /> */}
           <Box paddingLeft={1}>
             <Typography fontWeight={600}>Plăți securizate</Typography>
             <Typography fontSize={14}>
@@ -39,12 +39,12 @@ const Info = () => {
           </Box>
         </Grid>
         <Grid item xs={12} sm={6} md={3} display="flex" alignItems="center">
-          <Image
+      {/*     <Image
             src="/natural.svg"
             alt="miere naturală"
             width={150}
             height={100}
-          />
+          /> */}
           <Box paddingLeft={1}>
             <Typography fontWeight={600}>Miere naturală</Typography>
             <Typography fontSize={14}>

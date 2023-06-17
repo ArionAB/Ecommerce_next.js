@@ -61,9 +61,9 @@ const ProductDetails: FC<{
     setOpenCart,
   });
 
-  const imageLoader = () => {
+  /* const imageLoader = () => {
     return `${resourceUrl}${item?.productPictures[imageIndex]?.filePath}`;
-  };
+  }; */
 
   useEffect(() => {
     if (card) {
@@ -164,15 +164,15 @@ const ProductDetails: FC<{
 
       <Container maxWidth="xl" className={styles.container}>
         <Box className={styles.images}>
-          <Image
+         {/*  <Image
             src={resourceUrl + item?.productPictures[imageIndex]?.filePath}
             alt={item?.title}
             width={700}
             height={700}
             loader={imageLoader}
-          />
+          /> */}
           <Box>
-            {item?.productPictures.map((picture, index) => (
+            {/* {item?.productPictures.map((picture, index) => (
               <img
                 key={index}
                 src={resourceUrl + picture.filePath}
@@ -182,7 +182,7 @@ const ProductDetails: FC<{
                 onClick={() => setImageIndex(index)}
                 className={styles.thumbImage}
               />
-            ))}
+            ))} */}
           </Box>
         </Box>
         <Box className={styles.details}>

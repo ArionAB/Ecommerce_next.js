@@ -185,11 +185,11 @@ const Cart = () => {
                   key={item.productId + item.sizeType + item.fruitType}
                 >
                   <Box className={styles.sections}>
-                    <img
+                   {/*  <img
                       src={resourceUrl + item.productPictures[0]?.filePath}
                       alt={item.title}
                       className={styles.picture}
-                    />
+                    /> */}
                     <Box className={styles.rightSection}>
                       <Box className={styles.titlePriceSize}>
                         <Link

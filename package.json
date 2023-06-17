@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.16",
     "@mui/x-data-grid": "^5.17.25",
+    "@next/bundle-analyzer": "^13.4.6",
     "@reduxjs/toolkit": "^1.9.1",
     "@types/node": "18.11.10",
     "@types/react": "18.0.25",

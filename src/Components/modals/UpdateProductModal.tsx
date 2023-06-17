@@ -205,11 +205,11 @@ const UpdateProductModal: FC<{
                   }}
                   mb={2}
                 >
-                  <img
+                {/*   <img
                     src={resourceUrl + item.filePath}
                     alt={item.fileNmae}
                     width={150}
-                  />
+                  /> */}
                   <FormControlLabel
                     control={
                       <Switch

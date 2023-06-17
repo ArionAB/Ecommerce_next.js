@@ -24,7 +24,7 @@ const Retete: FC<{ allPostsData: any }> = ({ allPostsData }) => {
   const trackRef = useRef<any>(null);
   const trackWidth = trackRef.current?.clientWidth;
 
-  const getCorrectImage = (id: string) => {
+  /* const getCorrectImage = (id: string) => {
     switch (id) {
       case "smores":
         return "/smores.webp";
@@ -37,7 +37,7 @@ const Retete: FC<{ allPostsData: any }> = ({ allPostsData }) => {
       case "cheese_cake":
         return "/cheese_cake.webp";
     }
-  };
+  }; */
 
   const homepage = router.pathname === "/";
   const boxWidth = sliderRef.current?.clientWidth;
@@ -166,7 +166,7 @@ const Retete: FC<{ allPostsData: any }> = ({ allPostsData }) => {
                 return (
                   <Box key={data.id} className={styles.card}>
                     <Link href={`retete/${data.id}`}>
-                      <Image
+                      {/* <Image
                         className={styles.image}
                         //@ts-ignore
                         src={getCorrectImage(data.id)}
@@ -174,7 +174,7 @@ const Retete: FC<{ allPostsData: any }> = ({ allPostsData }) => {
                         width={300}
                         height={450}
                         draggable={false}
-                      />
+                      /> */}
                       <Typography variant="h6" className={styles.title}>
                         {data.title}
                       </Typography>
@@ -201,14 +201,14 @@ const Retete: FC<{ allPostsData: any }> = ({ allPostsData }) => {
               className={styles.card}
             >
               <Link href={`retete/${data.id}`}>
-                <Image
+               {/*  <Image
                   className={styles.image}
                   //@ts-ignore
                   src={getCorrectImage(data.id)}
                   alt={data.title}
                   width={300}
                   height={450}
-                />
+                /> */}
                 <Typography variant="h6" className={styles.title}>
                   {data.title}
                 </Typography>

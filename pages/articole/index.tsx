@@ -25,14 +25,14 @@ const Articole: FC<{ allPostsData: any }> = ({ allPostsData }) => {
   const trackRef = useRef<any>(null);
   const trackWidth = trackRef.current?.clientWidth;
 
-  const getCorrectImage = (id: string) => {
+/*   const getCorrectImage = (id: string) => {
     switch (id) {
       case "vaccine_save":
         return "/vaccine_save.webp";
       case "propolis":
         return "/propolis.webp";
     }
-  };
+  }; */
 
   const homepage = router.pathname === "/";
   const boxWidth = sliderRef.current?.clientWidth;
@@ -160,7 +160,7 @@ const Articole: FC<{ allPostsData: any }> = ({ allPostsData }) => {
                 return (
                   <Box key={data.id} className={styles.card}>
                     <Link href={`articole/${data.id}`}>
-                      <Image
+                    {/*   <Image
                         className={styles.image}
                         //@ts-ignore
                         src={getCorrectImage(data.id)}
@@ -168,7 +168,7 @@ const Articole: FC<{ allPostsData: any }> = ({ allPostsData }) => {
                         width={300}
                         height={450}
                         draggable={false}
-                      />
+                      /> */}
                       <Typography variant="h6" className={styles.title}>
                         {data.title}
                       </Typography>
@@ -195,14 +195,14 @@ const Articole: FC<{ allPostsData: any }> = ({ allPostsData }) => {
               className={styles.card}
             >
               <Link href={`articole/${data.id}`}>
-                <Image
+             {/*    <Image
                   className={styles.image}
                   //@ts-ignore
                   src={getCorrectImage(data.id)}
                   alt={data.title}
                   width={300}
                   height={450}
-                />
+                /> */}
                 <Typography variant="h6" className={styles.title}>
                   {data.title}
                 </Typography>

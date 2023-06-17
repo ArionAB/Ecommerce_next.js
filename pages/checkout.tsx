@@ -452,11 +452,11 @@ export const Checkout = () => {
                   label="Credit card"
                 />
                 <Box className={styles.netopia}>
-                  <img
+                {/*   <img
                     title="NETOPIA Payments"
                     src="netopia.svg"
                     style={{ width: "100%", height: "100%" }}
-                  />
+                  /> */}
                 </Box>
               </Box>
               <Box className={styles.each_method}>
@@ -565,11 +565,11 @@ export const Checkout = () => {
             <Box className={styles.item} key={item.cartProductId}>
               <Box className={styles.details}>
                 <Box className={styles.imgBox}>
-                  <img
+                 {/*  <img
                     src={resourceUrl + item.productPictures[0].filePath}
                     alt={item.title}
                     className={styles.picture}
-                  />
+                  /> */}
                   <span className={styles.qty}>{item.quantity}</span>
                 </Box>
                 <Box className={styles.titleBox}>

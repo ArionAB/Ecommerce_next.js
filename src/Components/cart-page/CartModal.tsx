@@ -125,13 +125,13 @@ export const CartModal: FC<{ setOpenDialog: Function }> = ({
     <Paper className={styles.container}>
       {cartItems.length < 1 ? (
         <>
-          <Image
+          {/* <Image
             src="/empty_cart.svg"
             alt="cos gol"
             width={75}
             height={75}
             className={styles.empty_svg}
-          />
+          /> */}
           <Typography className={styles.empty_title}>
             Coșul de cumpărături este gol
           </Typography>
