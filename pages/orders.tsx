@@ -29,9 +29,9 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 //@ts-ignore
-const OrderDetails = dynamic (()=> import("../src/Components/orders-page/OrderDetails"), {ssr: false}, {loading: <CircularProgress />} )
+const OrderDetails = dynamic (()=> import("../src/Components/orders-page/OrderDetails"), {ssr: false},  )
 //@ts-ignore
-const OrdersHistory = dynamic (()=> import("../src/Components/orders-page/OrdersHistory"), {ssr: false}, {loading: <CircularProgress />} )
+const OrdersHistory = dynamic (()=> import("../src/Components/orders-page/OrdersHistory"), {ssr: false},  )
 
 
 const Orders = () => {

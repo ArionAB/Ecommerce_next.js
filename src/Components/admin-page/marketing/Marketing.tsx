@@ -1,3 +1,5 @@
+'use client'
+
 import { Button, Container } from "@mui/material";
 import { useEffect } from "react";
 import Table from "@mui/material/Table";
@@ -25,7 +27,7 @@ import {
 import styled from "@emotion/styled";
 import TablePaginationDemo from "./TablePagination";
 
-export const Marketing = () => {
+ const Marketing = () => {
   const dispatch = useAppDispatch();
   const carts = useAppSelector(selectAbandonedCarts);
   const currentUser = useAppSelector(selectCurrentUser);
@@ -158,3 +160,5 @@ export const Marketing = () => {
     </Container>
   );
 };
+
+export default Marketing

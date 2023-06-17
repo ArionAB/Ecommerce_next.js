@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Box,
   TextField,
@@ -19,7 +21,7 @@ import FileUploadComponent from "../fileUpload/FileUploadComponent";
 import { CategoryItems } from "../selectItems/CategoryItems";
 import { FruitItems } from "../selectItems/FruitItems";
 
-export const AddItemForm = () => {
+const AddItemForm = () => {
   const [formValues, setFormValues] = useState<AddProductItemModel>({
     title: "",
     description: "",
@@ -141,3 +143,5 @@ export const AddItemForm = () => {
     </Container>
   );
 };
+
+export default AddItemForm

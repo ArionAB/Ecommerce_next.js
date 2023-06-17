@@ -1,3 +1,5 @@
+'use client'
+
 import { Container, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../Store";
@@ -15,7 +17,7 @@ import styles from "../../../../styles/pieChart.module.scss";
 import { BarChart } from "./BarChart";
 import { SalesTable } from "./salesTable";
 
-export const Statistics = () => {
+ const Statistics = () => {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
   const statistics = useAppSelector(selectStatistics);
@@ -78,3 +80,5 @@ export const Statistics = () => {
     </Container>
   );
 };
+
+export default Statistics

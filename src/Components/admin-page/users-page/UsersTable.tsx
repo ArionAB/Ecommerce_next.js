@@ -1,3 +1,5 @@
+'use client'
+
 import { Button, Container } from "@mui/material";
 /* import {
   DataGrid,
@@ -21,7 +23,7 @@ import {
   onlyDateFormat,
 } from "../../../Utils/Functions/dateTimeFormat";
 
-export const UsersTable = () => {
+ const UsersTable = () => {
   const filters = useAppSelector(selectUsersFilters);
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectAllUsers);
@@ -187,3 +189,5 @@ export const UsersTable = () => {
     </Container>
   );
 };
+
+export default UsersTable

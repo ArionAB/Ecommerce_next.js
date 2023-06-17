@@ -10,15 +10,15 @@ import withAuth from "../src/Utils/ProtectedRoutes/WithAuth";
 
 
 //@ts-ignore
-const AddItemForm = dynamic(()=> import("../src/Components/admin-page/AddItemForm"), { ssr: false })
+const AddItemForm = dynamic(()=> import("../src/Components/admin-page/AddItemForm"))
 //@ts-ignore
-const AdminOrdersTable = dynamic(()=> import("../src/Components/admin-page/AdminOrdersTable"), { ssr: false })
+const AdminOrdersTable = dynamic(()=> import("../src/Components/admin-page/admin-orders/AdminOrdersTable"))
 //@ts-ignore
-const UsersTable = dynamic(()=> import("../src/Components/admin-page/UsersTable"), { ssr: false })
+const UsersTable = dynamic(()=> import("../src/Components/admin-page/users-page/UsersTable"))
 //@ts-ignore
-const Statistics = dynamic(()=> import("../src/Components/admin-page/Statistics"),{ ssr: false })
+const Statistics = dynamic(()=> import("../src/Components/admin-page/statistics/Statistics"))
 //@ts-ignore
-const Marketing = dynamic(()=> import("../src/Components/admin-page/Marketing"), { ssr: false })
+const Marketing = dynamic(()=> import("../src/Components/admin-page/marketing/Marketing"))
 
 const Admin = () => {
   const [value, setValue] = useState(0);
