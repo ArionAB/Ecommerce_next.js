@@ -1,3 +1,5 @@
+'use client'
+
 import { FC, useState, useEffect } from "react";
 import { OrderModel } from "../../Store/Models/Order/OrderModel";
 import { Box, Typography, CardMedia } from "@mui/material";
@@ -12,7 +14,7 @@ import { FruitType } from "../../Store/Enums/Product/FruitType";
 import { FruitItems } from "../selectItems/FruitItems";
 import { HoneyType } from "../../Store/Enums/Product/HoneyType";
 
-export const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
+const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
   selectedOrder,
 }) => {
   const [order, setOrder] = useState<OrderModel | null>(selectedOrder);
@@ -89,3 +91,6 @@ export const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
     </Box>
   );
 };
+
+
+export default OrderDetails

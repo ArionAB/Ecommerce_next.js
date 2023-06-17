@@ -1,3 +1,5 @@
+'use client'
+
 import { FC, useState, useEffect } from "react";
 import { Typography, Box, Stack, Pagination, Skeleton } from "@mui/material";
 import styles from "../../../styles/ordersHistory.module.scss";
@@ -16,7 +18,7 @@ import {
 import { setOrdersFilters } from "../../Store/Slices/orderSlice";
 import { Close } from "@mui/icons-material";
 
-export const OrdersHistory: FC<{
+const OrdersHistory: FC<{
   setSelectedOrder: Function;
   setOpenDrawer: Function;
 }> = ({ setSelectedOrder, setOpenDrawer }) => {
@@ -128,3 +130,5 @@ export const OrdersHistory: FC<{
     </>
   );
 };
+
+export default OrdersHistory;
