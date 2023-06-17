@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from "../src/Store";
 import { selectCartItems } from "../src/Store/Selectors/cartSelectors";
 import { resourceUrl } from "../src/Utils";
 import { ConvertSizeToLabel } from "../src/Utils/Functions/ConvertEnum";
+import Image from "next/image";
 import Link from "next/link";
 
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -454,8 +455,8 @@ export const Checkout = () => {
                   label="Credit card"
                 />
                 <Box className={styles.netopia}>
-                  <img
-                    title="NETOPIA Payments"
+                  <Image
+                    alt="NETOPIA Payments"
                     src="netopia.svg"
                     style={{ width: "100%", height: "100%" }}
                   />
@@ -567,7 +568,7 @@ export const Checkout = () => {
             <Box className={styles.item} key={item.cartProductId}>
               <Box className={styles.details}>
                 <Box className={styles.imgBox}>
-                  <img
+                  <Image 
                     src={resourceUrl + item.productPictures[0].filePath}
                     alt={item.title}
                     className={styles.picture}

@@ -22,6 +22,7 @@ import { FruitItems } from "../src/Components/selectItems/FruitItems";
 import { TotalPrice } from "../src/Utils/Functions/TotalPrice";
 import { Add, Remove } from "@mui/icons-material";
 import { ProductItemModel } from "../src/Store/Models/Product/ProductItem";
+import Image from "next/image";
 
 const Cart = () => {
   const [selectValues, setSelectValues] = useState([
@@ -185,8 +186,9 @@ const Cart = () => {
                   key={item.productId + item.sizeType + item.fruitType}
                 >
                   <Box className={styles.sections}>
-                    <img
-                      src={resourceUrl + item.productPictures[0]?.filePath}
+                    <Image
+                    //   src={resourceUrl + item.productPictures[0]?.filePath}
+                    src="/poliflora.jpg"
                       alt={item.title}
                       className={styles.picture}
                     />

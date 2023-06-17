@@ -7,6 +7,7 @@ import Link from "next/link";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "../../../styles/addToCartModal.module.scss";
 import { resourceUrl } from "../../Utils";
+import Image from "next/image";
 import {
   ConvertFruitTypeToLabel,
   ConvertHoneyType,
@@ -115,11 +116,12 @@ export const AddToCartModal: FC<{
                 }
               >
                 <Box className={styles.productDetails}>
-                  <img
+                    <Image src="/poliflora.jpg" alt={item.title}/>
+               {/*    <img
                     src={resourceUrl + item.productPictures[0]?.filePath}
                     alt={item.title}
                     className={styles.cartItemImage}
-                  />
+                  /> */}
                   <Box className={styles.info}>
                     <Typography className={styles.title}>
                       {ConvertHoneyType(item.productCategory)?.toUpperCase()}

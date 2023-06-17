@@ -7,6 +7,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { FruitItems } from "../selectItems/FruitItems";
 import { ProductItemModel } from "../../Store/Models/Product/ProductItem";
 import { resourceUrl } from "../../Utils";
+import Image from "next/image";
 import Switch from "@mui/material/Switch";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
@@ -205,11 +206,14 @@ const UpdateProductModal: FC<{
                   }}
                   mb={2}
                 >
-                  <img
+                 {/*  <img
                     src={resourceUrl + item.filePath}
                     alt={item.fileNmae}
                     width={150}
-                  />
+                  /> */}
+                  <Image src="poliflora.jpg"
+                    alt={item.fileNmae}
+                    width={150} />
                   <FormControlLabel
                     control={
                       <Switch
