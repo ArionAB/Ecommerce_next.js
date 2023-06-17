@@ -1,3 +1,6 @@
+'use client'
+import dynamic from "next/dynamic"
+
 import { useEffect, useState } from "react";
 import {
   Container,
@@ -6,10 +9,11 @@ import {
   Box,
   Button,
   Drawer,
+  CircularProgress,
 } from "@mui/material";
 
 import styles from "../styles/orders.module.scss";
-import { OrdersHistory } from "../src/Components/orders-page/OrdersHistory";
+
 import { useAppDispatch, useAppSelector } from "../src/Store";
 import { getOrders } from "../src/Store/Thunks/orderThunks";
 import { selectCurrentUser } from "../src/Store/Selectors/authenticationSelectors";
@@ -17,12 +21,18 @@ import {
   selectGetOrders,
   selectOrdersFilters,
 } from "../src/Store/Selectors/orderSelectors";
-import { OrderDetails } from "../src/Components/orders-page/OrderDetails";
+
 import { OrderModel } from "../src/Store/Models/Order/OrderModel";
 import withAuth from "../src/Utils/ProtectedRoutes/WithAuth";
 import Link from "next/link";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+
+//@ts-ignore
+const OrderDetails = dynamic (()=> import("../src/Components/orders-page/OrderDetails"), {ssr: false}, {loading: <CircularProgress />} )
+//@ts-ignore
+const OrdersHistory = dynamic (()=> import("../src/Components/orders-page/OrdersHistory"), {ssr: false}, {loading: <CircularProgress />} )
+
 
 const Orders = () => {
   const [selectedOrder, setSelectedOrder] = useState<OrderModel | null>(null);

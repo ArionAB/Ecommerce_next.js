@@ -1,12 +1,24 @@
-import React, { useState } from "react";
-import { AddItemForm } from "../src/Components/admin-page/AddItemForm";
-import AdminOrdersTable from "../src/Components/admin-page/admin-orders/AdminOrdersTable";
-import { Statistics } from "../src/Components/admin-page/statistics/Statistics";
+'use client'
 
+import dynamic  from "next/dynamic"
+import React, { useState } from "react";
 import { TabsPanel } from "../src/Components/admin-page/Tabs";
-import { UsersTable } from "../src/Components/admin-page/users-page/UsersTable";
 import withAuth from "../src/Utils/ProtectedRoutes/WithAuth";
-import { Marketing } from "../src/Components/admin-page/marketing/Marketing";
+
+
+
+
+
+//@ts-ignore
+const AddItemForm = dynamic(()=> import("../src/Components/admin-page/AddItemForm"), { ssr: false })
+//@ts-ignore
+const AdminOrdersTable = dynamic(()=> import("../src/Components/admin-page/AdminOrdersTable"), { ssr: false })
+//@ts-ignore
+const UsersTable = dynamic(()=> import("../src/Components/admin-page/UsersTable"), { ssr: false })
+//@ts-ignore
+const Statistics = dynamic(()=> import("../src/Components/admin-page/Statistics"),{ ssr: false })
+//@ts-ignore
+const Marketing = dynamic(()=> import("../src/Components/admin-page/Marketing"), { ssr: false })
 
 const Admin = () => {
   const [value, setValue] = useState(0);

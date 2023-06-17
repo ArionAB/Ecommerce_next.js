@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Layout>
         <RefreshToken />
         <AppSnackbar />
-        <Script
+        {/* <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-YLJM30LNM2"
         />
@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
             gtag('js', new Date());
           
             gtag('config', 'G-YLJM30LNM2');`}
-        </Script>
+        </Script> */}
 
         <Component {...pageProps} />
       </Layout>
