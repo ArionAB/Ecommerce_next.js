@@ -4,14 +4,14 @@ import {
   getDateLabel,
 } from "../../../Utils/Functions/dateTimeFormat";
 import { useAppDispatch, useAppSelector } from "../../../Store";
-import {
-  DataGrid,
+/* import {
+//   DataGrid,
   GridColDef,
   GridRenderCellParams,
   GridSortModel,
   GridValueFormatterParams,
   GridValueGetterParams,
-} from "@mui/x-data-grid";
+} from "@mui/x-data-grid"; */
 import {
   Button,
   Container,
@@ -75,7 +75,7 @@ const AdminOrdersTable = () => {
     //eslint-disable-next-line
   }, [filters]);
 
-  const columns: GridColDef[] = [
+  /* const columns: GridColDef[] = [
     {
       field: "lastName",
       headerName: "Nume",
@@ -208,7 +208,7 @@ const AdminOrdersTable = () => {
         );
       },
     },
-  ];
+  ]; */
 
   const handlePageChange = (page: number) => {
     dispatch(
@@ -219,7 +219,7 @@ const AdminOrdersTable = () => {
     );
   };
 
-  const handleSortModelChange = (newModel: GridSortModel) => {
+ /*  const handleSortModelChange = (newModel: GridSortModel) => {
     if (newModel.length === 0) {
       dispatch(
         setOrdersFilters({
@@ -241,7 +241,7 @@ const AdminOrdersTable = () => {
         })
       );
     }
-  };
+  }; */
 
   const handleClose = () => {
     setOpen(false);
@@ -330,7 +330,7 @@ const AdminOrdersTable = () => {
           </Button>
         </List>
       )}
-      <DataGrid
+      {/* <DataGrid
         className="allocations-data-grid"
         //   components={{
         //     LoadingOverlay: DataLoadingComponent,
@@ -366,7 +366,7 @@ const AdminOrdersTable = () => {
         disableColumnMenu={true}
         sortingMode="server"
         onSortModelChange={handleSortModelChange}
-      ></DataGrid>
+      ></DataGrid> */}
       <AdminOrderDetails
         open={open}
         selectedOrder={selectedOrder}

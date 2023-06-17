@@ -1,12 +1,12 @@
 import { Button, Container } from "@mui/material";
-import {
+/* import {
   DataGrid,
   GridColDef,
   GridRenderCellParams,
   GridSortModel,
   GridValueFormatterParams,
   GridValueGetterParams,
-} from "@mui/x-data-grid";
+} from "@mui/x-data-grid"; */
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../Store";
 import {
@@ -40,7 +40,7 @@ export const UsersTable = () => {
     //eslint-disable-next-line
   }, [filters]);
 
-  const columns: GridColDef[] = [
+/*   const columns: GridColDef[] = [
     {
       field: "userName",
       headerName: "Userame",
@@ -92,7 +92,7 @@ export const UsersTable = () => {
       headerName: "Total cheltuit",
       flex: 1,
       minWidth: 150,
-    },
+    }, */
     /*     {
       field: "",
       headerName: "Optiuni",
@@ -116,7 +116,7 @@ export const UsersTable = () => {
         );
       },
     }, */
-  ];
+//   ];
 
   const handlePageChange = (page: number) => {
     dispatch(
@@ -127,7 +127,7 @@ export const UsersTable = () => {
     );
   };
 
-  const handleSortModelChange = (newModel: GridSortModel) => {
+ /*  const handleSortModelChange = (newModel: GridSortModel) => {
     if (newModel.length === 0) {
       dispatch(
         setUsersFilters({
@@ -149,11 +149,11 @@ export const UsersTable = () => {
         })
       );
     }
-  };
+  }; */
 
   return (
     <Container sx={{ maxWidth: "1800px !important" }}>
-      <DataGrid
+      {/* <DataGrid
         className="allocations-data-grid"
         // components={{
         //   LoadingOverlay: DataLoadingComponent,
@@ -183,7 +183,7 @@ export const UsersTable = () => {
         disableColumnMenu={true}
         sortingMode="server"
         onSortModelChange={handleSortModelChange}
-      ></DataGrid>
+      ></DataGrid> */}
     </Container>
   );
 };
