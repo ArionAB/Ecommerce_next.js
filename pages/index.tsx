@@ -149,7 +149,7 @@ const Home = () => {
             <CustomDivider />
             <Typography className={styles.title}>Articole</Typography>
 
-            <Info />
+            {/* <Info /> */}
         </>
     );
 };
