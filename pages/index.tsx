@@ -13,11 +13,23 @@ import Info from "../src/Components/home-page/Info";
 import { ReusableCarousel } from "../src/Components/home-page/ReusableCarousel";
 import { ProductItemModel } from "../src/Store/Models/Product/ProductItem";
 import { CustomDivider } from "../src/Components/divider/CustomDivider";
-
+const axios = require("axios").default;
 import Link from "next/link";
+import { baseUrl } from "../src/Utils";
+
+const getProduct = async (SearchText: string) => {
+  let form = new FormData();
+  form.append("SearchText", SearchText);
+  let { data } = await axios.post(baseUrl + "Product/GetItems", form, {
+    withCredentials: true,
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+    },
+  });
+  return data.response
+}
 
 const Home = () => {
-  const [isMounted, setIsMounted] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
   const [visible, setVisible] = useState<boolean>(false);
   const [localStorageitems, setLocalStorageItems] = useState<
@@ -32,6 +44,7 @@ const Home = () => {
 
   const productItems = useAppSelector(selectProductItems);
 
+
   useEffect(() => {
     const localStorageItems = JSON.parse(
       localStorage?.getItem("recentlyViewed") || "[]"
@@ -44,22 +57,24 @@ const Home = () => {
       window.addEventListener("scroll", logit);
     }
     watchScroll();
-
     return () => {
       window.removeEventListener("scroll", logit);
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  // 
 
   useEffect(() => {
-    setIsMounted(true);
-    if (isMounted && !productItems.length) {
-      dispatch(getProductItems(""));
+
+    if (productItems.length < 1 && productItems.length !== 0) {
+      getProduct("")
     }
 
+    // }
+
     //eslint-disable-next-line
-  }, [isMounted]);
+  }, []);
 
   useEffect(() => {
     observer();
