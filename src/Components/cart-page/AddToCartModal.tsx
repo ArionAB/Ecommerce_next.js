@@ -21,6 +21,7 @@ import { setCartItems } from "../../Store/Slices/cartSlice";
 import { FruitItems } from "../selectItems/FruitItems";
 import { FruitType } from "../../Store/Enums/Product/FruitType";
 import { TotalPrice } from "../../Utils/Functions/TotalPrice";
+import { imageKitLoader } from "../../Utils/Functions/ImageKitLoader";
 
 const Transition: any = forwardRef(function Transition(
   props: TransitionProps & {
@@ -69,10 +70,10 @@ export const AddToCartModal: FC<{
         item.productId !== productId
           ? true
           : item.sizeType !== sizeType
-          ? true
-          : JSON.stringify(item.mixedFruitId) !== JSON.stringify(mixedFruitId)
-          ? true
-          : false
+            ? true
+            : JSON.stringify(item.mixedFruitId) !== JSON.stringify(mixedFruitId)
+              ? true
+              : false
       );
 
       localStorage.setItem("cart", JSON.stringify(newCartItems));
@@ -116,12 +117,14 @@ export const AddToCartModal: FC<{
                 }
               >
                 <Box className={styles.productDetails}>
-                    <Image src="/poliflora.jpg" alt={item.title}/>
-               {/*    <img
-                    src={resourceUrl + item.productPictures[0]?.filePath}
-                    alt={item.title}
-                    className={styles.cartItemImage}
-                  /> */}
+                  <Box className={styles.image_container}>
+                    <Image src="/poliflora.jpg"
+                      alt={item.title}
+                      loader={imageKitLoader}
+                      className={styles.cartItemImage}
+                      fill
+                    />
+                  </Box>
                   <Box className={styles.info}>
                     <Typography className={styles.title}>
                       {ConvertHoneyType(item.productCategory)?.toUpperCase()}

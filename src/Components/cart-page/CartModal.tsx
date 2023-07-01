@@ -1,10 +1,10 @@
-import { FC } from "react";
+'use client'
+import { FC, useState } from "react";
 
 import styles from "../../../styles/cartModal.module.scss";
 import {
   Box,
   Button,
-  CardMedia,
   Paper,
   TextField,
   Typography,
@@ -27,10 +27,12 @@ import {
 } from "../../Store/Thunks/cartThunks";
 import { setCartItems } from "../../Store/Slices/cartSlice";
 import { TotalPrice } from "../../Utils/Functions/TotalPrice";
+import { imageKitLoader } from "../../Utils/Functions/ImageKitLoader";
 
-export const CartModal: FC<{ setOpenDialog: Function }> = ({
+const CartModal: FC<{ setOpenDialog: Function }> = ({
   setOpenDialog,
 }) => {
+  const [baseImage, setBaseImage] = useState<string>("")
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
   const cartItems = useAppSelector(selectCartItems);
@@ -52,8 +54,8 @@ export const CartModal: FC<{ setOpenDialog: Function }> = ({
               action === "add"
                 ? quantity + 1
                 : action === "select"
-                ? (quantity = selectedValue!)
-                : quantity - 1,
+                  ? (quantity = selectedValue!)
+                  : quantity - 1,
           },
           token: currentUser?.jwtToken,
         })
@@ -74,8 +76,8 @@ export const CartModal: FC<{ setOpenDialog: Function }> = ({
               action === "add"
                 ? Number(item.quantity) + 1
                 : action === "select"
-                ? selectedValue
-                : Number(item.quantity) - 1,
+                  ? selectedValue
+                  : Number(item.quantity) - 1,
           };
         }
         return item;
@@ -112,8 +114,8 @@ export const CartModal: FC<{ setOpenDialog: Function }> = ({
         item.productId !== productId
           ? true
           : Number(item.sizeType) !== sizeType
-          ? true
-          : false
+            ? true
+            : false
       );
 
       localStorage.setItem("cart", JSON.stringify(newCartItems));
@@ -147,15 +149,17 @@ export const CartModal: FC<{ setOpenDialog: Function }> = ({
           <Box className={styles.cart}>
             {cartItems?.map((item: ProductItemModel) => (
               <Box key={item.cartProductId} className={styles.item}>
-                <CardMedia
-                  component="img"
+                <Image
                   src={
                     item.productCategory === HoneyType.Poliflora
                       ? "/poliflora.jpg"
                       : "/salcam.jpg"
                   }
+                  width={150}
+                  height={90}
                   className={styles.image}
                   alt={item.title}
+                  loader={imageKitLoader}
                 />
                 <Box className={styles.details}>
                   <Typography className={styles.title}>{item.title}</Typography>
@@ -250,9 +254,8 @@ export const CartModal: FC<{ setOpenDialog: Function }> = ({
           <Typography className={styles.free_shipping}>
             {Number(TotalPrice(cartItems)) >= 200
               ? "Aveți transport gratuit!"
-              : `Până la transport grauit lipsesc ${
-                  200 - Number(TotalPrice(cartItems))
-                } lei`}
+              : `Până la transport grauit lipsesc ${200 - Number(TotalPrice(cartItems))
+              } lei`}
           </Typography>
           <Box className={styles.totalSum}>
             <Typography>
@@ -277,3 +280,5 @@ export const CartModal: FC<{ setOpenDialog: Function }> = ({
     </Paper>
   );
 };
+
+export default CartModal

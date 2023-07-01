@@ -13,6 +13,8 @@ import { resourceUrl } from "../../Utils";
 import { FruitType } from "../../Store/Enums/Product/FruitType";
 import { FruitItems } from "../selectItems/FruitItems";
 import { HoneyType } from "../../Store/Enums/Product/HoneyType";
+import Image from "next/image";
+import { imageKitLoader } from "../../Utils/Functions/ImageKitLoader";
 
 const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
   selectedOrder,
@@ -49,15 +51,17 @@ const OrderDetails: FC<{ selectedOrder: OrderModel | null }> = ({
           key={product.productId + product.fruitType + product.sizeType}
         >
           <Box className={styles.left}>
-            <CardMedia
-              component="img"
-              // src={resourceUrl + product.filePath}
+            <Image
               src={
                 product.productCategory === HoneyType.Poliflora
                   ? "/poliflora.jpg"
                   : "/salcam.jpg"
               }
+              alt={product.title}
               className={styles.image}
+              loader={imageKitLoader}
+              width={125}
+              height={93}
             />
             <Box className={styles.product}>
               <Typography variant="h6" className={styles.title}>

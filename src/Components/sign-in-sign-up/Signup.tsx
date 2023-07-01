@@ -1,3 +1,4 @@
+'use client'
 import Close from "@mui/icons-material/Close";
 import {
   Box,
@@ -198,10 +199,10 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
             {tabValue === 0
               ? "Înregistrează-te"
               : tabValue === 1
-              ? "Logare"
-              : tabValue === 2
-              ? "Ai uitat parola?"
-              : ""}
+                ? "Logare"
+                : tabValue === 2
+                  ? "Ai uitat parola?"
+                  : ""}
           </Typography>
           <Close
             sx={{ float: "right", cursor: "pointer" }}
@@ -328,7 +329,7 @@ const Signup: FC<{ setOpenDialog: any }> = ({ setOpenDialog }) => {
                   }
                 />
               </InputLabel>
-              {}
+              { }
             </Box>
             {registerError.errorMessage && (
               <Typography className={styles.errorMessage}>

@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import { Paper, Typography, Button } from "@mui/material";
 import styles from "../../../styles/login.module.scss";

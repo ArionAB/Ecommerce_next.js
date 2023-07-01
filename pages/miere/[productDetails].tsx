@@ -13,7 +13,6 @@ import {
   MenuItem,
 } from "@mui/material";
 import Image from "next/image";
-import { resourceUrl } from "../../src/Utils";
 import { SizeType } from "../../src/Store/Enums/SizeType";
 import Button from "@mui/material/Button/Button";
 import Close from "@mui/icons-material/Close";
@@ -29,6 +28,9 @@ import { FruitType } from "../../src/Store/Enums/Product/FruitType";
 import { FruitItems } from "../../src/Components/selectItems/FruitItems";
 import { ReusableCarousel } from "../../src/Components/home-page/ReusableCarousel";
 import { CustomDivider } from "../../src/Components/divider/CustomDivider";
+import { imageKitLoader } from "../../src/Utils/Functions/ImageKitLoader";
+import { setImageByHoneyType } from "../../src/Utils/Functions/setImageByHoneyType";
+import { HoneyType } from "../../src/Store/Enums/Product/HoneyType";
 
 const ProductDetails: FC<{
   handleClose: Function;
@@ -39,6 +41,7 @@ const ProductDetails: FC<{
   const [sizeValue, setSizeValue] = useState<SizeType>(SizeType.Big);
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
   const [error, setError] = useState<string>("");
+  const [baseImage, setBaseImage] = useState<string>("")
 
   const [openCart, setOpenCart] = useState<boolean>(false);
   const [mixedFruitId, setMixedFruitId] = useState<FruitType[]>([]);
@@ -61,14 +64,13 @@ const ProductDetails: FC<{
     setOpenCart,
   });
 
-   const imageLoader = () => {
-    return `${resourceUrl}${item?.productPictures[imageIndex]?.filePath}`;
-  }; 
+
 
   useEffect(() => {
     if (card) {
+      setImageByHoneyType(card, setBaseImage)
       dispatch(setProductItem(card));
-    }
+    } else setImageByHoneyType(item, setBaseImage)
 
     //eslnt disable-next-line
   }, [card]);
@@ -165,25 +167,28 @@ const ProductDetails: FC<{
       <Container maxWidth="xl" className={styles.container}>
         <Box className={styles.images}>
           <Image
-            src={resourceUrl + item?.productPictures[imageIndex]?.filePath}
+            src={item.productCategory === HoneyType.Poliflora
+              ? "/poliflora.jpg"
+              : "/salcam.jpg"}
             alt={item?.title}
             width={700}
             height={700}
-            loader={imageLoader}
+            loader={imageKitLoader}
           />
-          <Box>
-             {item?.productPictures.map((picture, index) => (
+          {/*   <Box>
+            {item?.productPictures.map((picture, index) => (
               <img
                 key={index}
-                src={resourceUrl + picture.filePath}
+                // src={resourceUrl + picture.filePath}
+                src={baseImage}
                 alt={item?.title}
                 width={100}
                 height={100}
                 onClick={() => setImageIndex(index)}
                 className={styles.thumbImage}
               />
-            ))} 
-          </Box>
+            ))}
+          </Box> */}
         </Box>
         <Box className={styles.details}>
           <Typography variant="h4" className={styles.title}>

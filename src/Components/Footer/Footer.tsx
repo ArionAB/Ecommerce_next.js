@@ -8,10 +8,11 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
+
 export const Footer = () => {
   return (
     <div className={styles.container}>
-  
+
       <Container className={styles.wrapper} maxWidth="xl">
         <Box className={styles.box}>
           <Typography variant="h6" className={styles.title}>
@@ -135,13 +136,13 @@ export const Footer = () => {
             <FacebookIcon />
             <InstagramIcon />
           </Box>
-          <Box className={styles.netopia}>
+          {/* <Box className={styles.netopia}>
             <img
               title="NETOPIA Payments"
               src="netopia.svg"
               style={{ width: "100%", height: "100%" }}
             />
-          </Box>
+          </Box> */}
         </Box>
       </Container>
     </div>

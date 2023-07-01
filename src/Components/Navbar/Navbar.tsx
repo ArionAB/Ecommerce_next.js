@@ -1,8 +1,9 @@
+'use client'
+
 import { Container, Typography, Dialog, Box } from "@mui/material";
+import dynamic from 'next/dynamic';
 import React, { useState } from "react";
 import Link from "next/link";
-import Login from "../sign-in-sign-up/Login";
-import Signup from "../sign-in-sign-up/Signup";
 import { useAppSelector } from "../../Store";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
@@ -13,7 +14,20 @@ import styles from "../../../styles/navbar.module.scss";
 import { UserType } from "../../Store/Enums/UserType";
 import Head from "next/head";
 import HamburgerMenu from "./HamburgerMenu";
-import { CartModal } from "../cart-page/CartModal";
+
+
+
+const Login = dynamic(() => import('../sign-in-sign-up/Login'), {
+  ssr: false
+});
+
+const Signup = dynamic(() => import('../sign-in-sign-up/Signup'), {
+  ssr: false
+});
+const CartModal = dynamic(() => import('../cart-page/CartModal'), {
+  ssr: false
+});
+
 
 export const Navbar = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -28,6 +42,12 @@ export const Navbar = () => {
     (acc, item) => acc + Number(item.quantity),
     0
   );
+
+  const loginComponent = () => <Login />;
+  const signupComponent = () => <Signup setOpenDialog={setOpenDialog} />;
+  const cartModalComponent = () => <CartModal setOpenDialog={setOpenDialog} />;
+
+
 
   return (
     <>
@@ -46,7 +66,6 @@ export const Navbar = () => {
               Admin
             </Link>
           )}
-
           <Link href="/" className={styles.link}>
             Acasă
           </Link>
@@ -83,7 +102,10 @@ export const Navbar = () => {
                 <span className={styles.cartNumber}>{totalItems}</span>
               )}
             </Link>
+
             {cartModal && <CartModal setOpenDialog={setOpenDialog} />}
+            {cartModal && <>{cartModalComponent()}</>}
+
           </Box>
           {currentUser ? (
             <Box
@@ -112,12 +134,13 @@ export const Navbar = () => {
               className={styles.link}
             >
               Log in
-              {isLogin && !currentUser && <Login />}
+              {isLogin && !currentUser && <>{loginComponent()}</>}
             </Typography>
           )}
 
           <Dialog open={openDialog} maxWidth="md">
-            <Signup setOpenDialog={setOpenDialog} />
+            {/* <Signup setOpenDialog={setOpenDialog} /> */}
+            {signupComponent()}
           </Dialog>
         </Container>
       </Box>
