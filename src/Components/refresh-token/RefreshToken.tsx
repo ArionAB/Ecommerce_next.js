@@ -1,3 +1,5 @@
+'use client'
+
 import { FC, useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store";
 import { UserType } from "../../Store/Enums/UserType";
@@ -54,26 +56,26 @@ const RefreshToken: FC = () => {
 
       newCart.length > 0
         ? dispatch(
-            addItemToCart({
-              data: {
-                cartItems: newCart,
-              },
+          addItemToCart({
+            data: {
+              cartItems: newCart,
+            },
 
-              token: currentUser?.jwtToken,
-            })
-          ).then(() => {
-            localStorage.removeItem("cart");
-            dispatch(
-              getCartItems({
-                token: currentUser?.jwtToken,
-              })
-            );
+            token: currentUser?.jwtToken,
           })
-        : dispatch(
+        ).then(() => {
+          localStorage.removeItem("cart");
+          dispatch(
             getCartItems({
               token: currentUser?.jwtToken,
             })
           );
+        })
+        : dispatch(
+          getCartItems({
+            token: currentUser?.jwtToken,
+          })
+        );
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

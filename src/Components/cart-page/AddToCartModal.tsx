@@ -1,3 +1,5 @@
+'use client'
+
 import React, { FC, forwardRef, ReactElement, Ref } from "react";
 import { Box, Button, Typography, Slide, Dialog } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../Store";

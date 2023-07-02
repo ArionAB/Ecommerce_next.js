@@ -1,3 +1,5 @@
+'use client'
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BaseState } from "../Models/BaseState";
 

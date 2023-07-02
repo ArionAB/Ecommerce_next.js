@@ -1,3 +1,5 @@
+'use client'
+
 import { Alert, Slide, Snackbar, SnackbarCloseReason } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import React, { FC, useState } from "react";

@@ -1,3 +1,5 @@
+'use client'
+
 import { FC } from "react";
 import { FruitItems } from "../selectItems/FruitItems";
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
@@ -27,8 +29,8 @@ export const ProductFilters: FC<{
         mobile
           ? { display: "block" }
           : !mobile && width > 900
-          ? { display: "block" }
-          : { display: "none !important" }
+            ? { display: "block" }
+            : { display: "none !important" }
       }
     >
       {FruitItems.sort((a, b) => {

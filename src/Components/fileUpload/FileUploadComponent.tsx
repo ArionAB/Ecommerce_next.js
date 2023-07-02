@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Box,
   Button,
@@ -165,9 +167,9 @@ const FileUploadComponent: FC<FileUploadProps> = ({
                   label={
                     showSize
                       ? file.name +
-                        "  " +
-                        (file.size / 1024 / 1024).toFixed(2) +
-                        "MB"
+                      "  " +
+                      (file.size / 1024 / 1024).toFixed(2) +
+                      "MB"
                       : file.name
                   }
                   variant="outlined"

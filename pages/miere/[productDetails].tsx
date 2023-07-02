@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState, FC } from "react";
 import { useRouter } from "next/router";
 import { getProduct } from "../../src/Store/Thunks/productThunks";

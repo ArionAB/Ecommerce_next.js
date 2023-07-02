@@ -1,3 +1,5 @@
+'use client'
+
 import { FC } from "react";
 
 import Table from "@mui/material/Table";

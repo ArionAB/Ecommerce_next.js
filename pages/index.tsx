@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from "react";
 import { Box, Button, CardMedia, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../src/Store";
@@ -17,7 +19,9 @@ const axios = require("axios").default;
 import Link from "next/link";
 import { baseUrl } from "../src/Utils";
 
-const getProduct = async (SearchText: string) => {
+
+
+const getServerSideProps = async (SearchText: string) => {
   let form = new FormData();
   form.append("SearchText", SearchText);
   let { data } = await axios.post(baseUrl + "Product/GetItems", form, {
@@ -65,21 +69,22 @@ const Home = () => {
   }, []);
   // 
 
-  useEffect(() => {
-
-    if (productItems.length < 1 && productItems.length !== 0) {
-      getProduct("")
-    }
-
-    // }
-
-    //eslint-disable-next-line
-  }, []);
+  /*   useEffect(() => {
+  
+      if (productItems.length < 1) {
+        getProduct("")
+      }
+  
+      // }
+  
+      //eslint-disable-next-line
+    }, []); */
 
   useEffect(() => {
     observer();
     if (visible) return;
     if (scrollY > 100) {
+      dispatch(getProductItems(''))
       setVisible(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

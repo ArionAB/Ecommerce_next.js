@@ -1,3 +1,5 @@
+'use client'
+
 import { appNotificationSlice } from "./appNotificationSlice";
 import { authenticationSlice } from "./authenticateSlice";
 import { baseSlice } from "./baseSlice";

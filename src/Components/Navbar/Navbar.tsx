@@ -62,26 +62,26 @@ export const Navbar = () => {
         </Head>
         <Container className={styles.navContainer}>
           {currentUser?.userType === UserType.Admin && (
-            <Link href="/admin" className={styles.link}>
+            <Link href="/admin" className={styles.link} prefetch={false}>
               Admin
             </Link>
           )}
-          <Link href="/" className={styles.link}>
+          <Link href="/" className={styles.link} prefetch={false}>
             Acasă
           </Link>
-          <Link href="/miere" className={styles.link}>
+          <Link href="/miere" className={styles.link} prefetch={false}>
             Miere
           </Link>
-          <Link href="/about" className={styles.link}>
+          <Link href="/about" className={styles.link} prefetch={false}>
             Despre noi
           </Link>
-          <Link href="/retete/" className={styles.link}>
+          <Link href="/retete/" className={styles.link} prefetch={false}>
             Rețete
           </Link>
-          <Link href="/articole/" className={styles.link}>
+          <Link href="/articole/" className={styles.link} prefetch={false}>
             Articole
           </Link>
-          <Link href="/contact" className={styles.link}>
+          <Link href="/contact" className={styles.link} prefetch={false}>
             Contact
           </Link>
           <Box
@@ -96,7 +96,7 @@ export const Navbar = () => {
               cursor: "pointer",
             }}
           >
-            <Link href="/cart" className={styles.cartLink}>
+            <Link href="/cart" className={styles.cartLink} prefetch={false}>
               <ShoppingCartIcon />
               {cartItems.length > 0 && (
                 <span className={styles.cartNumber}>{totalItems}</span>

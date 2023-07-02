@@ -1,3 +1,5 @@
+'use client'
+
 export const dateTimeFormatOptions: any = {
   year: "numeric",
   month: "numeric",

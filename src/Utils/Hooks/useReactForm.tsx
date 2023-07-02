@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useRef, useCallback, RefObject } from "react";
 
 // Define a type for the state setter function
@@ -8,11 +10,11 @@ export const useFormState = <T extends { [stateProp: string]: any }>(
   initialState: T | (() => T), // The initial state of the form
   onChange?: (newFormState: T, prevChangeField: keyof T | null) => void // Optional callback function to be called when the form state changes
 ): [
-  formState: T,
-  setFormProp: <FN extends keyof T>(fieldName: FN) => StateSetterFunc<T[FN]>,
-  setFormState: (newState: T) => void,
-  formStateRef: RefObject<T>
-] => {
+    formState: T,
+    setFormProp: <FN extends keyof T>(fieldName: FN) => StateSetterFunc<T[FN]>,
+    setFormState: (newState: T) => void,
+    formStateRef: RefObject<T>
+  ] => {
   // Create a ref object to store the memoized setters for each form field
   const memoizedSetters = useRef<
     Map<keyof T, <FN extends keyof T>(newVal: T[FN]) => void>

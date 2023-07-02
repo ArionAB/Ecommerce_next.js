@@ -1,3 +1,5 @@
+'use client'
+
 import { Facebook, Instagram } from "@mui/icons-material";
 import {
   Box,
@@ -47,7 +49,7 @@ const Contact = () => {
     } else
       try {
         await sendContactForm({ data: { email, comment } });
-      } catch (error: any) {}
+      } catch (error: any) { }
   };
 
   return (

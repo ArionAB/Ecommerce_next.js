@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Container } from "@mui/material";
 import { useState, useRef, FC, useEffect } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";

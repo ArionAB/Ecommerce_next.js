@@ -1,3 +1,5 @@
+'use client'
+
 import { ChangeEvent, MouseEvent, useState, useEffect } from "react";
 import TablePagination from "@mui/material/TablePagination";
 import { useAppDispatch, useAppSelector } from "../../../Store";

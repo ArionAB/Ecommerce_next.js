@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../Store";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";

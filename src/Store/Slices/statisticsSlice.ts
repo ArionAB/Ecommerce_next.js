@@ -1,3 +1,5 @@
+'use client'
+
 import { createSlice } from "@reduxjs/toolkit";
 import { FruitType } from "../Enums/Product/FruitType";
 import { HoneyType } from "../Enums/Product/HoneyType";

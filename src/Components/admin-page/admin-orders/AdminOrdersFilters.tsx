@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../Store";
 import { selectOrdersFilters } from "../../../Store/Selectors/orderSelectors";
@@ -81,7 +83,7 @@ const AdminOrdersFilters = () => {
         xs={12}
         container
         columnSpacing={4}
-        // rowSpacing={4}
+      // rowSpacing={4}
       >
         <Tooltip title="Filtru doar dupa comenzile de la userii care au cont">
           <Grid item xs={12} md={2.4}>

@@ -1,3 +1,5 @@
+'use client'
+
 import { Container, Typography } from "@mui/material";
 import React, { useState, FC, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store";

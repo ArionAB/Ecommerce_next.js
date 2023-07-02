@@ -1,3 +1,5 @@
+'use client'
+
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store";
 import { FruitType } from "../../Store/Enums/Product/FruitType";
@@ -35,7 +37,7 @@ const useAddItemToCart: FC<{
             cart[key].sizeType === Number(size) &&
             cart[key].fruitType === item.fruitType &&
             JSON.stringify(cart[key].mixedFruitId) ===
-              JSON.stringify(mixedFruitId)
+            JSON.stringify(mixedFruitId)
           ) {
             cart[key].quantity += Number(qty);
           }

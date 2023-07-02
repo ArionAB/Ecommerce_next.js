@@ -1,3 +1,5 @@
+'use client'
+
 import React, { FC, useState, useEffect } from "react";
 import { Box, Typography, Button, Grid } from "@mui/material";
 import { ProductItemModel } from "../../Store/Models/Product/ProductItem";

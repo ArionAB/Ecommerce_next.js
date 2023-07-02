@@ -1,5 +1,7 @@
+'use client'
+
 import { useRouter } from "next/router";
-import { useLayoutEffect, useEffect } from "react";
+import { useEffect } from "react";
 import { useAppSelector } from "../../Store";
 import { UserType } from "../../Store/Enums/UserType";
 import { selectCurrentUser } from "../../Store/Selectors/authenticationSelectors";

@@ -1,3 +1,5 @@
+'use client'
+
 import { createSlice } from "@reduxjs/toolkit";
 import { DataGridColumnNames } from "../Enums/DataGridColumnNames";
 import { OrderState } from "../Models/Order/OrderState";

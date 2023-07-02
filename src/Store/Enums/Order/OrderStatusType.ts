@@ -1,3 +1,5 @@
+'use client'
+
 export enum OrderStatusType {
   All = 0,
   Pending = 1,

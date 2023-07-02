@@ -1,3 +1,5 @@
+'use client'
+
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductItemModel } from "../Models/Product/ProductItem";
 import { ProductState } from "../Models/Product/ProductState";

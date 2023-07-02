@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect, useRef } from "react";
 import {
   Container,
@@ -37,14 +39,14 @@ export const ProductItems = () => {
   const productItems = useAppSelector(selectProductItems);
   const loadingItems = useAppSelector(selectLoadingItems);
 
-  useEffect(() => {
-    setIsMounted(true);
-    if (isMounted && !productItems.length) {
-      dispatch(getProductItems(""));
-    }
-
-    //eslint-disable-next-line
-  }, [isMounted]);
+  /*  useEffect(() => {
+     setIsMounted(true);
+     if (isMounted && !productItems.length) {
+       dispatch(getProductItems(""));
+     }
+ 
+     //eslint-disable-next-line
+   }, [isMounted]); */
 
   useEffect(() => {
     const containerElement = containerRef.current;
