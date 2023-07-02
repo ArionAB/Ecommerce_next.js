@@ -1,0 +1,124 @@
+@import "./_variables.scss";
+
+.orders_history {
+  display: flex;
+  flex-direction: column;
+  max-height: 92%;
+  overflow: hidden;
+  overflow-y: auto;
+
+  .closeDrawer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5px;
+
+    svg {
+      cursor: pointer;
+
+      @media only screen and (min-width: 600px) {
+        display: none;
+      }
+    }
+  }
+
+  .skeletons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .history {
+    padding: 10px;
+    font-weight: 600;
+    font-size: 20px;
+    color: $dark-blue;
+  }
+
+  .order {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid $light-gray;
+    justify-content: space-between;
+    padding: 10px;
+
+    &:hover {
+      background-color: $light-gray;
+      cursor: pointer;
+    }
+
+    .order_id {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 27px;
+      color: black;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+
+      .left_box {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+
+        .total_price {
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 20px;
+          color: $dark-blue;
+        }
+
+        .total_items {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          color: $gray-subtitle;
+        }
+      }
+
+      .right_box {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 30%;
+
+        .date {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          color: $gray-subtitle;
+        }
+      }
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.pending {
+  color: $pending;
+  font-size: 14px;
+}
+
+.shipped {
+  color: $shipped;
+  font-size: 14px;
+}
+
+.delivered {
+  color: $delivered;
+  font-size: 14px;
+}
+
+.cancelled {
+  color: $cancelled;
+  font-size: 14px;
+}

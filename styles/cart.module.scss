@@ -1,0 +1,340 @@
+@import "_variables.scss";
+
+.page_container {
+  padding: 3rem 1rem;
+}
+
+.yourCartBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .yourCart {
+    color: $main-gradient;
+    font-size: clamp(1.5rem, 2vw, 2.3rem);
+    font-weight: 600;
+  }
+
+  .continueLink {
+    color: $brown;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+  }
+}
+.items_and_checkout {
+  display: flex;
+  gap: 2rem;
+
+  @media only screen and (max-width: 1000px) {
+    flex-direction: column;
+  }
+
+  .emptyCartBox {
+    height: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    .continueBTN {
+      padding: 0.75rem 1rem;
+      background-color: $pink;
+      color: $brown;
+      background-color: $secondary-color;
+      color: $main-gradient;
+    }
+  }
+
+  .cartBox {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 70%;
+
+    @media only screen and (max-width: 1000px) {
+      width: 100%;
+    }
+
+    .cartItemBox {
+      background-color: white;
+      box-shadow: $card-box-shadow;
+      border-radius: 25px;
+
+      .sections {
+        display: flex;
+        align-items: center;
+
+        gap: 1rem;
+
+        .rightSection {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          @media only screen and (max-width: 700px) {
+            flex-direction: column;
+            align-items: flex-start;
+
+            gap: 1rem;
+          }
+        }
+
+        .picture {
+          width: 175px;
+          height: 175px;
+          object-fit: cover;
+          margin: 1rem;
+
+          @media only screen and (max-width: 800px) {
+            width: 125px;
+            height: 125px;
+          }
+          @media only screen and (max-width: 450px) {
+            width: 100px;
+            height: 100px;
+          }
+        }
+
+        .title {
+          // font-family: Brothers, sans-serif !important;
+          font-family: DaysOne, sans-serif !important;
+          color: $brown;
+          font-style: normal;
+          text-decoration: underline;
+          font-size: clamp(1.1rem, 2vw, 1.5rem);
+        }
+
+        .price,
+        .size {
+          font-weight: 700;
+          color: #344660cc;
+          font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+      }
+
+      .qty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        height: 40px;
+        width: 300px;
+
+        @media only screen and (max-width: 700px) {
+          width: 100%;
+          justify-content: flex-end;
+          padding-right: 1rem;
+        }
+        @media only screen and (max-width: 450px) {
+          gap: 0.5rem;
+          padding-right: 0;
+          justify-content: flex-start;
+        }
+
+        .select_qty {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .total_price {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          .cost {
+            font-size: 20px;
+            color: $main-gradient;
+            font-weight: 600;
+
+            @media only screen and (max-width: 450px) {
+              font-size: 16px;
+            }
+          }
+        }
+
+        .modify {
+          color: $main-gradient;
+          border: 2px solid $secondary-color;
+          border-radius: 50%;
+          padding: 3px;
+          width: 28px;
+          height: 28px;
+          cursor: pointer;
+
+          @media only screen and (max-width: 450px) {
+            width: 22px;
+            height: 22px;
+          }
+        }
+
+        .closeIcon {
+          color: #344660;
+          cursor: pointer;
+          background-color: #d7d7d7;
+          border-radius: 50%;
+          transition: 0.3s ease-in-out;
+          padding: 3px;
+
+          &:hover {
+            color: $brown;
+          }
+
+          @media only screen and (max-width: 450px) {
+            width: 22px;
+            height: 22px;
+          }
+        }
+
+        .qtyNumber {
+          width: 25px;
+
+          &:focus-within {
+            .notchedOutline {
+              border-color: $brown !important;
+            }
+          }
+
+          input {
+            padding-left: 5px;
+          }
+        }
+
+        .addCart {
+          width: 60%;
+          margin: 1.5rem 0;
+          background-color: $dark-blue;
+          color: white;
+
+          &[disabled] {
+            color: $disabled-color;
+            background-color: $disabled-bg-color;
+            box-shadow: $disabled-box-shadow;
+          }
+        }
+      }
+    }
+
+    .selectSizeBox {
+      width: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      .selectSize {
+        width: 100px;
+      }
+
+      .cost {
+        font-size: 20px;
+      }
+
+      .closeIcon {
+        color: #344660;
+        cursor: pointer;
+        background-color: #d7d7d7;
+        border-radius: 50%;
+        transition: 0.3s ease-in-out;
+
+        &:hover {
+          color: $brown;
+        }
+      }
+    }
+  }
+
+  .checkout {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 100px;
+
+    @media only screen and (max-width: 1000px) {
+      width: 100%;
+    }
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 350px;
+    height: 200px;
+    background-color: $main-gradient;
+    border-radius: 20px;
+    padding: 2rem;
+
+    .free_shipping {
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .priceBox {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid $secondary-color;
+
+      .total_text {
+        line-height: 1rem;
+        color: $bg-color-2;
+        font-weight: 600;
+      }
+
+      .totalPrice {
+        color: $secondary-color;
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+    }
+  }
+  button {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 2.5rem;
+    width: 100%;
+    background-color: $secondary-color;
+    color: $main-gradient;
+    font-weight: 600;
+
+    &:hover {
+      background-color: $secondary-color;
+    }
+  }
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  .totalBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .total {
+      color: $brown;
+    }
+    .totalPrice {
+      color: $brown;
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+  }
+  .btn {
+    background-color: $secondary-color;
+    color: $main-gradient;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+    width: 100%;
+  }
+}

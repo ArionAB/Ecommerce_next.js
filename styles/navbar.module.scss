@@ -1,0 +1,65 @@
+@import "./_variables.scss";
+
+.container {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  width: 100vw;
+  height: 55px;
+  background: $main-gradient;
+  background: $main-gradient-linear;
+
+  @media only screen and (max-width: 599px) {
+    display: none;
+  }
+}
+
+.navContainer {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  .link {
+    position: relative;
+    color: $secondary-color;
+  }
+}
+
+.cartLink {
+  position: relative;
+  color: $secondary-color;
+  padding: 5px;
+}
+
+.cartNumber {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -15px;
+  left: 15px;
+  background-color: $pink;
+  color: $brown;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.login {
+  display: flex;
+  // align-items: center;
+  color: $secondary-color;
+  gap: 0.5rem;
+
+  .loginBTN {
+    &:hover {
+      background-color: $pink !important;
+      color: $brown;
+    }
+  }
+}

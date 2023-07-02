@@ -1,0 +1,135 @@
+@import "_variables.scss";
+@include disabled;
+.MuiTabs-indicator {
+  background-color: $brown !important;
+}
+.signup {
+  width: 620px;
+
+  @media only screen and (max-width: 760px) {
+    width: 100%;
+  }
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    min-width: 400px;
+  }
+  @media only screen and (max-width: 460px) {
+    width: 100%;
+    min-width: 360px;
+  }
+
+  .loginBox {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid $light-gray;
+    padding: 1em;
+
+    .title {
+      color: $brown;
+
+      font-size: clamp(20px, 3vw, 36px);
+      font-style: italic;
+      font-weight: 600;
+    }
+  }
+
+  .tabs {
+    border-bottom: 1px solid $light-gray;
+    margin-bottom: 2rem;
+
+    .activeTab {
+      color: $dark-blue;
+      font-weight: 600;
+    }
+  }
+
+  .formBox {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+    column-gap: 2rem;
+    @include textfield;
+
+    @media only screen and (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+
+    .textfield {
+      width: 100%;
+      // min-height: 102px;
+
+      &:focus-within {
+        .notchedOutline {
+          border-color: $brown !important;
+        }
+      }
+    }
+  }
+  .errorMessage {
+    @include error-message(center);
+  }
+
+  .registerBox {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    justify-self: center;
+    margin: 1rem 0;
+    padding: 0 2rem;
+
+    .registerBTN {
+      background-color: $pink;
+      color: $brown;
+      width: 100%;
+      max-width: 300px;
+    }
+    .registerBTN[disabled] {
+      color: $disabled-color;
+      background-color: $disabled-bg-color;
+      box-shadow: $disabled-box-shadow;
+    }
+  }
+}
+
+.resetPassword {
+  padding: 0rem 2rem 2rem 2rem;
+  @include textfield;
+  border-bottom: 1px solid $light-gray;
+
+  .textfield {
+    width: 100%;
+    // min-height: 102px;
+
+    &:focus-within {
+      .notchedOutline {
+        border-color: $brown !important;
+      }
+    }
+  }
+
+  .resetPasswordBTN {
+    background-color: $dark-blue;
+    color: #fff;
+    width: 100%;
+    // max-width: 150px;
+  }
+}
+
+.noAccount {
+  text-align: center;
+  padding: 3rem 0;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 18px;
+  color: rgb(155, 155, 155);
+}
+
+.forgotPassword {
+  text-align: right;
+  font-size: 14px;
+  line-height: 18px;
+  color: rgb(155, 155, 155);
+  cursor: pointer;
+  padding-right: 2rem;
+}
